@@ -162,7 +162,7 @@
             <p><strong>Terima kasih atas partisipasi Anda dalam pengembangan pendidikan!</strong></p>
             <p>Salam,<br>
             <strong>Tim Tracer Study</strong><br>
-            Politeknik Harapan Bersama</p>
+            Universitas Harkat Negeri</p>
 
             <div style="margin-top: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 5px;">
                 <small>

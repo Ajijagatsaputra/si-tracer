@@ -113,7 +113,7 @@
     <div class="email-container">
         <div class="header">
             <div class="logo">🎓</div>
-            <h1 class="title">Politeknik Harapan Bersama</h1>
+            <h1 class="title">Universitas Harkat Negeri</h1>
             <p class="subtitle">Tracer Study Alumni</p>
         </div>
 
@@ -123,7 +123,7 @@
             </div>
 
             <div class="message">
-                Terima kasih telah meluangkan waktu untuk mengisi kuesioner <strong>Tracer Study Politeknik Harapan Bersama</strong>.
+                Terima kasih telah meluangkan waktu untuk mengisi kuesioner <strong>Tracer Study Universitas Harkat Negeri</strong>.
                 Data yang Anda berikan sangat berharga untuk pengembangan kualitas pendidikan di kampus kami.
             </div>
 

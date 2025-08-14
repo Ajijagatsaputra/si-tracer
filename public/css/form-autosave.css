@@ -1,0 +1,192 @@
+/* Form Auto-Save Styling */
+
+/* Data Management Section */
+#data-management-section {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-top: 16px;
+}
+
+#data-management-section .btn-group .btn {
+    font-size: 0.875rem;
+    padding: 4px 12px;
+    border-radius: 6px;
+}
+
+#data-management-section .btn-outline-success:hover {
+    background-color: #198754;
+    border-color: #198754;
+    color: white;
+}
+
+#data-management-section .btn-outline-danger:hover {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+}
+
+/* Auto-Save Banner */
+#autosave-banner {
+    background: linear-gradient(135deg, #d1ecf1, #bee5eb);
+    border: 1px solid #bee5eb;
+    border-left: 4px solid #17a2b8;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+#autosave-banner .alert-dismissible .btn-close {
+    padding: 0.75rem 1rem;
+}
+
+/* Last Save Indicator */
+#last-save-indicator {
+    color: #6c757d;
+    font-size: 0.875rem;
+    margin-top: 8px;
+    padding: 4px 8px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+/* Progress Bar Enhancement */
+.progress {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.progress-bar-custom {
+    background: linear-gradient(90deg, #007bff, #0056b3);
+    transition: width 0.6s ease;
+}
+
+/* Form Auto-Save Status */
+.form-autosave-status {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050;
+    max-width: 300px;
+}
+
+/* Save Button Enhancement */
+.btn-save-now {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    border: none;
+    color: white;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-save-now:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+    color: white;
+}
+
+/* Data Restored Animation */
+@keyframes dataRestored {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.data-restored {
+    animation: dataRestored 0.6s ease-in-out;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #data-management-section {
+        padding: 10px 12px;
+    }
+
+    #data-management-section .btn-group {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    #data-management-section .btn-group .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    #autosave-banner {
+        margin-bottom: 16px;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    #data-management-section {
+        background: linear-gradient(135deg, #2d3748, #4a5568);
+        border-color: #4a5568;
+        color: #e2e8f0;
+    }
+
+    #last-save-indicator {
+        background-color: #2d3748;
+        color: #a0aec0;
+    }
+}
+
+/* Loading States */
+.autosave-loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.autosave-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    margin: -8px 0 0 -8px;
+    border: 2px solid #007bff;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Success States */
+.autosave-success {
+    background-color: #d4edda !important;
+    border-color: #c3e6cb !important;
+    color: #155724 !important;
+}
+
+.autosave-success::before {
+    content: '✓ ';
+    font-weight: bold;
+}
+
+/* Error States */
+.autosave-error {
+    background-color: #f8d7da !important;
+    border-color: #f5c6cb !important;
+    color: #721c24 !important;
+}
+
+.autosave-error::before {
+    content: '✗ ';
+    font-weight: bold;
+}

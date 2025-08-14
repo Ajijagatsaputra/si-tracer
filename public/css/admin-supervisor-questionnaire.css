@@ -1,0 +1,257 @@
+/* Admin Supervisor Questionnaire Styles */
+
+/* Table styling */
+.table-responsive {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+#questionnaireTable {
+    margin-bottom: 0;
+}
+
+#questionnaireTable thead th {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    color: white;
+    border: none;
+    padding: var(--space-lg);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: var(--font-sm);
+    letter-spacing: 0.05em;
+}
+
+#questionnaireTable tbody td {
+    padding: var(--space-lg);
+    vertical-align: middle;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+#questionnaireTable tbody tr:hover {
+    background-color: rgba(23, 27, 243, 0.05);
+}
+
+/* Badge styling */
+.badge {
+    font-size: var(--font-xs);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.badge.bg-success {
+    background: linear-gradient(135deg, var(--success-color), #059669) !important;
+}
+
+.badge.bg-warning {
+    background: linear-gradient(135deg, var(--warning-color), #d97706) !important;
+    color: white !important;
+}
+
+.badge.bg-danger {
+    background: linear-gradient(135deg, var(--danger-color), #dc2626) !important;
+}
+
+.badge.bg-secondary {
+    background: linear-gradient(135deg, var(--gray-500), var(--gray-600)) !important;
+}
+
+.badge.bg-info {
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-dark)) !important;
+}
+
+.badge.bg-primary {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)) !important;
+}
+
+/* Button styling */
+.btn-group .btn {
+    border-radius: var(--radius-md);
+    margin: 0 2px;
+    transition: all var(--transition-base);
+}
+
+.btn-group .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-info {
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-dark));
+    border: none;
+    color: white;
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, var(--warning-color), #d97706);
+    border: none;
+    color: white;
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, var(--gray-500), var(--gray-600));
+    border: none;
+    color: white;
+}
+
+/* Card styling */
+.card {
+    border: none;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    margin-bottom: var(--space-xl);
+}
+
+.card-header {
+    background: linear-gradient(135deg, var(--gray-50), var(--gray-100));
+    border-bottom: 1px solid var(--gray-200);
+    padding: var(--space-xl);
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+.card-header h5 {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.card-header i {
+    color: var(--primary-color);
+    font-size: var(--font-lg);
+}
+
+.card-body {
+    padding: var(--space-xl);
+}
+
+/* Table styling within cards */
+.table-borderless td {
+    border: none;
+    padding: var(--space-md) 0;
+}
+
+.table-borderless td:first-child {
+    font-weight: 600;
+    color: var(--gray-700);
+}
+
+/* Status indicators */
+.status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    font-size: var(--font-sm);
+}
+
+/* Link section styling */
+.input-group {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.input-group .form-control {
+    border: 1px solid var(--gray-300);
+    border-right: none;
+    padding: var(--space-lg);
+    font-family: 'Courier New', monospace;
+    font-size: var(--font-sm);
+}
+
+.input-group .btn {
+    border: 1px solid var(--gray-300);
+    background: var(--gray-50);
+    color: var(--gray-700);
+    padding: var(--space-lg) var(--space-xl);
+    transition: all var(--transition-base);
+}
+
+.input-group .btn:hover {
+    background: var(--gray-100);
+    color: var(--gray-900);
+}
+
+/* Empty state styling */
+.text-muted {
+    color: var(--gray-500) !important;
+}
+
+.text-muted i {
+    color: var(--gray-400);
+    margin-bottom: var(--space-md);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .btn-group {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-sm);
+    }
+
+    .btn-group .btn {
+        margin: 0;
+        border-radius: var(--radius-md);
+    }
+
+    .table-responsive {
+        font-size: var(--font-sm);
+    }
+
+    #questionnaireTable thead th,
+    #questionnaireTable tbody td {
+        padding: var(--space-md);
+    }
+}
+
+/* DataTable customization */
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter,
+.dataTables_wrapper .dataTables_info,
+.dataTables_wrapper .dataTables_paginate {
+    margin: var(--space-lg) 0;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius-md);
+    padding: var(--space-sm) var(--space-md);
+    margin-left: var(--space-sm);
+}
+
+.dataTables_wrapper .dataTables_length select {
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius-md);
+    padding: var(--space-sm);
+    margin: 0 var(--space-sm);
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius-md);
+    padding: var(--space-sm) var(--space-md);
+    margin: 0 2px;
+    background: white;
+    color: var(--gray-700);
+    transition: all var(--transition-base);
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}

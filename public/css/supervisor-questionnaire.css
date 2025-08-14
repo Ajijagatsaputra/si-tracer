@@ -1,0 +1,108 @@
+/* Supervisor Questionnaire Specific Styles */
+/* Extends kuesioner-tracer-pengguna.css */
+
+/* Custom styling for supervisor questionnaire */
+.supervisor-questionnaire {
+    /* Inherit all styles from kuesioner-tracer-pengguna.css */
+}
+
+/* Specific adjustments for supervisor form */
+.supervisor-questionnaire .header-section {
+    background: linear-gradient(135deg, #059669 0%, #047857 50%, #065f46 100%);
+}
+
+.supervisor-questionnaire .header-section i {
+    color: #fbbf24;
+}
+
+/* Evaluation fields styling */
+.evaluation-scale {
+    background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    margin-bottom: var(--space-xl);
+    border: 1px solid var(--gray-200);
+}
+
+.evaluation-scale .row {
+    margin: 0;
+}
+
+.evaluation-scale small {
+    font-weight: 600;
+    color: var(--gray-600);
+}
+
+/* Form validation styling */
+.form-control.is-invalid,
+.form-select.is-invalid {
+    border-color: var(--danger-color);
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.invalid-feedback {
+    display: block;
+    width: 100%;
+    margin-top: var(--space-sm);
+    font-size: var(--font-sm);
+    color: var(--danger-color);
+}
+
+/* Readonly field styling */
+.form-control[readonly] {
+    background-color: var(--gray-50);
+    color: var(--gray-700);
+    cursor: not-allowed;
+}
+
+/* Badge styling for evaluation scores */
+.badge.bg-primary {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)) !important;
+    font-size: var(--font-sm);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-lg);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .evaluation-scale .row > div {
+        margin-bottom: var(--space-md);
+    }
+
+    .evaluation-scale small {
+        display: block;
+        margin-bottom: var(--space-sm);
+    }
+}
+
+/* Loading spinner animation */
+.fa-spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Success message styling */
+.alert-success {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05));
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    color: var(--success-color);
+}
+
+.alert-success::before {
+    background: var(--success-color);
+}
+
+/* Error message styling */
+.alert-danger {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.05));
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    color: var(--danger-color);
+}
+
+.alert-danger::before {
+    background: var(--danger-color);
+}

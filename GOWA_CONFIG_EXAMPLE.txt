@@ -1,0 +1,41 @@
+# ========================================
+# KONFIGURASI GOWA API UNTUK WHATSAPP
+# ========================================
+# Copy konfigurasi ini ke file .env Anda
+
+# Driver WhatsApp yang digunakan
+WHATSAPP_DRIVER=gowa
+
+# GOWA API Configuration
+GOWA_API_URL=https://blast.withmangg.web.id/send/message
+GOWA_USERNAME=user1
+GOWA_PASSWORD=pass1
+
+# ========================================
+# KONFIGURASI EMAIL (SMTP)
+# ========================================
+
+# Mail Configuration
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=your-email@gmail.com
+MAIL_PASSWORD=your-app-password
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS="noreply@poltek-hb.ac.id"
+MAIL_FROM_NAME="Politeknik Harapan Bersama"
+
+# ========================================
+# KONFIGURASI QUEUE (Opsional)
+# ========================================
+
+# Queue Driver (sync, database, redis)
+QUEUE_CONNECTION=database
+
+# ========================================
+# CATATAN PENGGUNAAN
+# ========================================
+# 1. Pastikan GOWA API sudah aktif dan berfungsi
+# 2. Test pengiriman dengan command: php artisan notification:test
+# 3. Cek log di storage/logs/laravel.log untuk debugging
+# 4. Jika menggunakan queue, jalankan: php artisan queue:work

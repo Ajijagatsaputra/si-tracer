@@ -95,7 +95,7 @@ class NotificationService
                 'subject' => 'Konfirmasi Pengisian Kuesioner Tracer Study'
             ], function ($message) use ($email, $nama) {
                 $message->to($email, $nama)
-                        ->subject('Konfirmasi Pengisian Kuesioner Tracer Study - Politeknik Harapan Bersama');
+                        ->subject('Konfirmasi Pengisian Kuesioner Tracer Study - Universitas Harapan Bersama');
             });
 
             Log::info('Email notification sent successfully', [
@@ -117,7 +117,7 @@ class NotificationService
     private function getWhatsAppMessage($nama, $namaPerusahaan)
     {
         return "Halo {$nama}! 👋\n\n" .
-               "Terima kasih telah mengisi kuesioner Tracer Study Politeknik Harapan Bersama. 📋\n\n" .
+               "Terima kasih telah mengisi kuesioner Tracer Study Universitas Harapan Bersama. 📋\n\n" .
                "Data Anda telah berhasil disimpan dan akan digunakan untuk pengembangan kampus.\n\n" .
                "Detail pengisian:\n" .
                "• Nama: {$nama}\n" .
@@ -126,7 +126,7 @@ class NotificationService
                "Jika ada pertanyaan, silakan hubungi kami.\n\n" .
                "Salam,\n" .
                "Tim Tracer Study\n" .
-               "Politeknik Harapan Bersama 📚";
+               "Universitas Harapan Bersama 📚";
     }
 
     /**
@@ -137,7 +137,7 @@ class NotificationService
         return [
             'subject' => 'Konfirmasi Pengisian Kuesioner Tracer Study',
             'body' => "Halo {$nama}!\n\n" .
-                     "Terima kasih telah mengisi kuesioner Tracer Study Politeknik Harapan Bersama.\n\n" .
+                     "Terima kasih telah mengisi kuesioner Tracer Study Universitas Harapan Bersama.\n\n" .
                      "Data Anda telah berhasil disimpan dan akan digunakan untuk pengembangan kampus.\n\n" .
                      "Detail pengisian:\n" .
                      "• Nama: {$nama}\n" .
@@ -146,7 +146,7 @@ class NotificationService
                      "Jika ada pertanyaan, silakan hubungi kami.\n\n" .
                      "Salam,\n" .
                      "Tim Tracer Study\n" .
-                     "Politeknik Harapan Bersama"
+                     "Universitas Harapan Bersama"
         ];
     }
 
@@ -300,6 +300,6 @@ class NotificationService
                "Terima kasih atas partisipasi Anda dalam pengembangan pendidikan.\n\n" .
                "Salam,\n" .
                "Tim Tracer Study\n" .
-               "Politeknik Harapan Bersama 📚";
+               "Universitas Harapan Bersama 📚";
     }
 }

@@ -103,7 +103,7 @@
     <div class="container">
         <div class="header">
             <div class="logo">🎓</div>
-            <h1 class="title">Politeknik Harapan Bersama</h1>
+            <h1 class="title">Universitas Harkat Negeri</h1>
             <p class="subtitle">Tracer Study - Evaluasi Kinerja Alumni</p>
         </div>
 

@@ -186,9 +186,12 @@ class AdminSupervisorQuestionnaireController extends Controller
                 'expires_at' => 'required|date',
             ]);
 
-            if ($request->input('status_pengisian') === 'completed') {
+            $inputStatus = $request->input('status_pengisian');
+            $currentStatus = $questionnaire->status_pengisian;
+
+            if ($currentStatus !== 'completed' && $inputStatus === 'completed') {
                 return redirect()->route('admin.supervisor-questionnaire.edit', $id)
-                    ->withErrors(['error' => 'Status pengisian hanya dapat diubah menjadi completed oleh supervisor, bukan oleh admin.']);
+                    ->with('error', 'Status pengisian hanya dapat diubah menjadi completed oleh supervisor, bukan oleh admin.');
             }
 
             $questionnaire->update($request->all());
@@ -263,7 +266,6 @@ class AdminSupervisorQuestionnaireController extends Controller
 
             return redirect()->route('admin.supervisor-questionnaire.show', $id)
                 ->with('success', 'Notifikasi berhasil dikirim ulang ke supervisor.');
-
         } catch (\Exception $e) {
             \Log::error('Error resending notification: ' . $e->getMessage(), [
                 'id' => $id,

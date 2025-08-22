@@ -8,7 +8,7 @@
     <meta name="user-role" content="{{ $role }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <div class="bg-primary bg-gradient py-4 mb-4 text-white">
+    <div class="py-4 mb-4 text-white bg-primary bg-gradient">
         <div class="content d-flex flex-column flex-sm-row justify-content-between align-items-center">
             <div>
                 <h1 class="h3 fw-bold"><i class="fa fa-clipboard-list me-2"></i> Data Salinan Tracer Alumni</h1>
@@ -20,44 +20,44 @@
     <div class="content">
         <div class="row g-4">
             <div class="col-md-4">
-                <div class="card border-0 shadow-sm text-white bg-primary">
+                <div class="text-white border-0 shadow-sm card bg-primary">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
                             <div class="fs-3 fw-bold">{{ $totalAlumni }}</div>
                             <div>Total Alumni</div>
                         </div>
-                        <i class="fa fa-users fa-2x opacity-75"></i>
+                        <i class="opacity-75 fa fa-users fa-2x"></i>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card border-0 shadow-sm text-white bg-success">
+                <div class="text-white border-0 shadow-sm card bg-success">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
                             <div class="fs-3 fw-bold">{{ $sudahMengisi }}</div>
                             <div>Sudah Mengisi</div>
                         </div>
-                        <i class="fa fa-check-circle fa-2x opacity-75"></i>
+                        <i class="opacity-75 fa fa-check-circle fa-2x"></i>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card border-0 shadow-sm text-white bg-warning">
+                <div class="text-white border-0 shadow-sm card bg-warning">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
                             <div class="fs-3 fw-bold">{{ $belumMengisi }}</div>
                             <div>Belum Mengisi</div>
                         </div>
-                        <i class="fa fa-times-circle fa-2x opacity-75"></i>
+                        <i class="opacity-75 fa fa-times-circle fa-2x"></i>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="d-flex flex-wrap justify-content-between align-items-center mt-4 mb-3 gap-2">
-            <div class="d-flex align-items-center gap-2">
-                <label class="fw-semibold mb-0" for="filter-status">Filter Status Pekerjaan:</label>
-                <select class="form-select form-select-sm w-auto" id="filter-status">
+        <div class="flex-wrap gap-2 mt-4 mb-3 d-flex justify-content-between align-items-center">
+            <div class="gap-2 d-flex align-items-center">
+                <label class="mb-0 fw-semibold" for="filter-status">Filter Status Pekerjaan:</label>
+                <select class="w-auto form-select form-select-sm" id="filter-status">
                     <option value="">Semua Status</option>
                     <option value="bekerja_full">Bekerja</option>
                     <option value="wirausaha">Wiraswasta</option>
@@ -76,10 +76,10 @@
             </div>
         </div>
 
-        <div class="card border-0 shadow-sm mb-4">
+        <div class="mb-4 border-0 shadow-sm card">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover text-center small align-middle" id="datatable">
+                    <table class="table text-center align-middle table-bordered table-hover small" id="datatable">
                         <thead class="table-light sticky-top">
                             <tr>
                                 <th>#</th>
@@ -167,9 +167,9 @@
                     {
                         data: 'nama',
                         render: function(data, type, row) {
-                            return row.alumni && row.alumni.nama_lengkap
-                                ? row.alumni.nama_lengkap
-                                : (data || '-');
+                            return row.alumni && row.alumni.nama_lengkap ?
+                                row.alumni.nama_lengkap :
+                                (data || '-');
                         }
                     },
                     {
@@ -182,7 +182,8 @@
                                 'belum_bekerja': '<span class="badge bg-warning">Belum Memungkinkan Bekerja</span>',
                                 'tidak': '<span class="badge bg-secondary">Tidak Kerja</span>'
                             };
-                            return statusMap[data] || '<span class="badge bg-light text-dark">' + (data || '-') + '</span>';
+                            return statusMap[data] || '<span class="badge bg-light text-dark">' + (
+                                data || '-') + '</span>';
                         }
                     },
                     {
@@ -192,7 +193,7 @@
                         render: function(data) {
                             let actions = `
                                 <div class="dropdown">
-                                    <button class="btn btn-sm btn-outline-primary shadow-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <button class="shadow-sm btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         <i class="fa fa-cog"></i>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end">
@@ -310,98 +311,94 @@
 
     {{-- STYLE --}}
     <style>
-        .dataTables_wrapper .dataTables_filter input {
+        /* ================================
+       Datatable Modern Styling
+    ================================= */
+        .dataTables_wrapper .dataTables_filter {
             float: right;
+            text-align: right;
             margin-bottom: 1rem;
         }
 
-        #datatable th {
-            background: #f1f9ff;
-            color: #1577c2;
-            font-weight: 700;
-            font-size: 14px;
+        .dataTables_wrapper .dataTables_filter label {
+            font-weight: 500;
+            margin-right: 0.5rem;
+            color: #495057;
         }
 
+        .dataTables_wrapper .dataTables_filter input {
+            border: 1px solid #ced4da;
+            border-radius: 0.5rem;
+            padding: 0.45rem 0.75rem;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .dataTables_wrapper .dataTables_filter input:focus {
+            border-color: #1577c2;
+            box-shadow: 0 0 0 0.2rem rgba(21, 119, 194, 0.15);
+        }
+
+        /* Table header modern */
+        #datatable th {
+            background: #f9fbfd;
+            color: #1577c2;
+            font-weight: 600;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        /* Table rows */
         #datatable td {
             vertical-align: middle;
-        }
-
-        /* Fix dropdown z-index issues */
-        .dropdown-menu {
             font-size: 0.95rem;
-            z-index: 1050 !important;
-            position: absolute !important;
-            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
-            border: 1px solid rgba(0, 0, 0, 0.15);
-            border-radius: 0.375rem;
-            background-color: #fff;
-            min-width: 10rem;
         }
 
-        .dropdown {
-            position: relative;
+        /* Status badge */
+        .badge {
+            border-radius: 50rem !important;
+            font-size: 0.8rem;
+            padding: 0.4em 0.75em;
         }
 
-        /* Ensure table doesn't overflow dropdown */
-        .table-responsive {
-            overflow: visible !important;
+        /* Dropdown menu */
+        .dropdown-menu {
+            border-radius: 0.5rem;
+            border: none;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
         }
 
-        /* Fix container overflow issues */
-        .content {
-            overflow: visible !important;
+        .dropdown-menu .dropdown-item {
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
         }
 
-        /* DataTables specific fixes */
-        .dataTables_scroll {
-            overflow: visible !important;
+        .dropdown-menu .dropdown-item i {
+            width: 18px;
         }
 
-        .dataTables_scrollBody {
-            overflow: visible !important;
-        }
-
-        /* Dropdown menu end alignment */
-        .dropdown-menu-end {
-            right: 0;
-            left: auto;
-        }
-
-        /* Specific fix for DataTable cell overflow */
-        #datatable td {
-            overflow: visible !important;
-            position: relative;
+        /* Buttons */
+        .btn-sm {
+            border-radius: 0.5rem;
+            font-size: 0.85rem;
+            padding: 0.35rem 0.75rem;
         }
 
         .btn-outline-primary {
-            border-color: #0d6efd;
-            color: #0d6efd;
+            border-color: #1577c2;
+            color: #1577c2;
         }
 
         .btn-outline-primary:hover {
-            background-color: #0d6efd;
+            background: #1577c2;
             color: #fff;
         }
 
-        /* Fix sticky header z-index */
-        .sticky-top {
-            z-index: 1020 !important;
-        }
-
-        /* Fix DataTable wrapper overflow */
-        .dataTables_wrapper {
-            overflow: visible !important;
-        }
-
-        /* Fix card overflow */
-        .card {
-            overflow: visible !important;
-        }
-
-        .card-body {
-            overflow: visible !important;
-        }
-
+        /* Responsive */
         @media (max-width: 768px) {
             .dataTables_wrapper .dataTables_filter {
                 float: none;
@@ -409,9 +406,14 @@
                 margin-top: 1rem;
             }
 
-            .dropdown-menu {
-                right: 0;
-                left: auto;
+            .flex-wrap.gap-2 {
+                flex-direction: column;
+                align-items: stretch !important;
+            }
+
+            .btn-group {
+                width: 100%;
+                justify-content: space-between;
             }
         }
     </style>

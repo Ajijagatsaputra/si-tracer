@@ -24,47 +24,47 @@
         <div class="block shadow-sm block-rounded">
             <!-- Rekapan Data -->
             <div class="px-4 py-3 row g-3 align-items-center">
-                <div class="col-md-3">
-                    <div class="text-white border-0 shadow-sm card card-body bg-gradient-primary gradient-card">
+                <div class="col-6 col-md-3">
+                    <div class="text-white card card-body gradient-card bg-gradient-primary">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <div class="fs-2 fw-bold">{{ $totalQuestionnaires }}</div>
                                 <div class="fs-sm">Total Kuesioner</div>
                             </div>
-                            <div><i class="opacity-50 fa fa-clipboard-list fa-2x"></i></div>
+                            <i class="opacity-75 fa fa-clipboard-list fa-2x"></i>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="border-0 shadow-sm card card-body bg-gradient-warning text-dark gradient-card">
+                <div class="col-6 col-md-3">
+                    <div class="card card-body gradient-card bg-gradient-warning text-dark">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <div class="fs-2 fw-bold">{{ $pendingQuestionnaires }}</div>
                                 <div class="fs-sm">Menunggu</div>
                             </div>
-                            <div><i class="opacity-50 fa fa-clock fa-2x"></i></div>
+                            <i class="opacity-75 fa fa-clock fa-2x"></i>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="text-white border-0 shadow-sm card card-body bg-gradient-success gradient-card">
+                <div class="col-6 col-md-3">
+                    <div class="text-white card card-body gradient-card bg-gradient-success">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <div class="fs-2 fw-bold">{{ $completedQuestionnaires }}</div>
                                 <div class="fs-sm">Selesai</div>
                             </div>
-                            <div><i class="opacity-50 fa fa-check-circle fa-2x"></i></div>
+                            <i class="opacity-75 fa fa-check-circle fa-2x"></i>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="text-white border-0 shadow-sm card card-body bg-gradient-danger gradient-card">
+                <div class="col-6 col-md-3">
+                    <div class="text-white card card-body gradient-card bg-gradient-danger">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <div class="fs-2 fw-bold">{{ $expiredQuestionnaires }}</div>
                                 <div class="fs-sm">Kadaluarsa</div>
                             </div>
-                            <div><i class="opacity-50 fa fa-exclamation-triangle fa-2x"></i></div>
+                            <i class="opacity-75 fa fa-exclamation-triangle fa-2x"></i>
                         </div>
                     </div>
                 </div>
@@ -77,10 +77,10 @@
                     <i class="fa fa-table me-2"></i> Tabel Data Tracer Study Pengguna
                 </h3>
             </div>
+
             <div class="block-content block-content-full">
                 <div class="table-responsive">
-                    <!-- Table dengan 9 kolom: #, Nama Alumni, Nama Atasan, Jabatan Atasan, Perusahaan, Status, Tanggal Dibuat, Kadaluarsa, Aksi -->
-                    <table class="table mb-0 align-middle table-bordered table-striped table-hover js-dataTable-full w-100">
+                    <table class="table align-middle table-striped table-hover table-bordered js-dataTable-full w-100">
                         <thead class="table-light">
                             <tr>
                                 <th class="text-center" style="width: 50px;">#</th>
@@ -104,21 +104,20 @@
                                     </td>
                                     <td>
                                         <div class="fw-semibold">{{ $item->nama_atasan }}</div>
-                                        <div class="text-muted small">
-                                            @if ($item->email_atasan)
+                                        @if ($item->email_atasan)
+                                            <div class="text-muted small">
                                                 <i class="fa fa-envelope me-1"></i>{{ $item->email_atasan }}
-                                            @endif
-                                        </div>
-                                        <div class="text-muted small">
-                                            @if ($item->wa_atasan)
+                                            </div>
+                                        @endif
+                                        @if ($item->wa_atasan)
+                                            <div class="text-muted small">
                                                 <i class="fa fa-whatsapp me-1"></i>{{ $item->wa_atasan }}
-                                            @endif
-                                        </div>
+                                            </div>
+                                        @endif
                                     </td>
                                     <td>{{ $item->jabatan_atasan }}</td>
                                     <td>{{ $item->nama_perusahaan }}</td>
                                     <td>
-
                                         @if ($item->status_pengisian == 'completed')
                                             <span class="badge bg-success">Selesai</span>
                                         @elseif($item->status_pengisian == 'sent')
@@ -133,7 +132,6 @@
                                             <span class="badge bg-secondary">{{ ucfirst($item->status_pengisian) }}</span>
                                         @endif
                                     </td>
-
                                     <td class="d-none d-sm-table-cell">
                                         {{ $item->created_at ? $item->created_at->format('d-m-Y H:i') : '-' }}
                                     </td>
@@ -149,9 +147,8 @@
                                             -
                                         @endif
                                     </td>
-
                                     <td class="text-center">
-                                        <div class="gap-1 btn-group" role="group">
+                                        <div class="gap-1 btn-group">
                                             <a href="{{ route('admin.supervisor-questionnaire.show', $item->id) }}"
                                                 class="btn btn-sm btn-info rounded-pill" title="Detail">
                                                 <i class="fa fa-eye"></i>
@@ -195,28 +192,9 @@
 
     <script>
         jQuery(document).ready(function() {
-            // Validasi bahwa table ada dan memiliki struktur yang benar
             var tableElement = jQuery('.js-dataTable-full');
-            if (tableElement.length === 0) {
-                console.error('Table dengan class js-dataTable-full tidak ditemukan');
-                return;
-            }
+            if (tableElement.length === 0) return;
 
-            // Hitung jumlah kolom di header
-            var headerColumns = tableElement.find('thead th').length;
-            console.log('Jumlah kolom di header:', headerColumns);
-
-            // Hitung jumlah kolom di body (baris pertama)
-            var firstRowColumns = tableElement.find('tbody tr:first td').length;
-            console.log('Jumlah kolom di body (baris pertama):', firstRowColumns);
-
-            // Validasi konsistensi kolom
-            if (headerColumns !== firstRowColumns) {
-                console.error('Ketidakcocokan jumlah kolom: Header =', headerColumns, ', Body =', firstRowColumns);
-                return;
-            }
-
-            // DataTable dengan konfigurasi yang lebih spesifik
             var table = tableElement.DataTable({
                 paging: true,
                 searching: true,
@@ -229,76 +207,131 @@
                 columnDefs: [{
                         orderable: false,
                         targets: [0, 8]
-                    }, // Kolom # dan Aksi tidak bisa di-sort
+                    },
                     {
                         className: 'text-center',
                         targets: [0, 8]
-                    } // Kolom # dan Aksi center-aligned
+                    }
                 ],
                 order: [
                     [1, 'asc']
-                ], // Sort berdasarkan nama alumni
-                drawCallback: function(settings) {
-                    // Debug info
-                    console.log('DataTables initialized successfully');
-                    console.log('Columns:', settings.aoColumns.length);
-                    console.log('Data rows:', settings.aiDisplay.length);
-                }
+                ]
             });
 
-            // Error handling
-            table.on('error.dt', function(e, settings, techNote, message) {
-                console.error('DataTables error:', message);
-            });
-
-            // Success callback
-            table.on('init.dt', function() {
-                console.log('DataTables berhasil diinisialisasi');
-            });
+            // Resend notification
+            window.resendNotification = function(id) {
+                Swal.fire({
+                    title: 'Kirim Ulang Notifikasi?',
+                    text: 'Apakah Anda yakin ingin mengirim ulang notifikasi ke supervisor?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya, kirim!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var url =
+                            "{{ route('admin.supervisor-questionnaire.resend-notification', ':id') }}";
+                        url = url.replace(':id', id);
+                        window.location.href = url;
+                    }
+                });
+            }
         });
-
-        // Function untuk resend notification
-        function resendNotification(id) {
-            Swal.fire({
-                title: 'Kirim Ulang Notifikasi?',
-                text: 'Apakah Anda yakin ingin mengirim ulang notifikasi ke supervisor?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Ya, kirim!',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    var url = "{{ route('admin.supervisor-questionnaire.resend-notification', ':id') }}";
-                    url = url.replace(':id', id);
-                    window.location.href = url;
-                }
-            });
-        }
     </script>
+
     <style>
+        /* ====== Gradient Backgrounds (Soft Modern) ====== */
         .bg-gradient-primary {
-            background: linear-gradient(92deg, #31c7ef 40%, #38d9c3 100%) !important;
+            background: linear-gradient(135deg, #3acfd5 0%, #3a4ed5 100%) !important;
         }
 
         .bg-gradient-success {
-            background: linear-gradient(92deg, #32d484 30%, #75e095 100%) !important;
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%) !important;
         }
 
         .bg-gradient-warning {
-            background: linear-gradient(92deg, #ffed85 30%, #ffc371 100%) !important;
+            background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%) !important;
         }
 
         .bg-gradient-danger {
-            background: linear-gradient(92deg, #ff6b6b 30%, #ee5a52 100%) !important;
+            background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%) !important;
         }
 
+        /* ====== Card Modern ====== */
         .card {
-            min-height: 85px;
-            border-radius: 1.3rem;
+            border-radius: 1rem;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+        }
+
+        /* ====== Button ====== */
+        .btn {
+            border-radius: 0.65rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
         }
 
         .btn-warning {
+            color: #212529 !important;
+        }
+
+        .btn-warning:hover {
+            background-color: #e0a800 !important;
+            border-color: #d39e00 !important;
             color: #fff !important;
+        }
+
+        /* ====== Responsive ====== */
+        @media (max-width: 768px) {
+            .card {
+                margin-bottom: 1rem;
+            }
+
+            .btn {
+                font-size: 0.875rem;
+                padding: 0.4rem 0.75rem;
+            }
+
+            .table thead {
+                display: none;
+            }
+
+            .table,
+            .table tbody,
+            .table tr,
+            .table td {
+                display: block;
+                width: 100%;
+            }
+
+            .table tr {
+                margin-bottom: 1rem;
+                border: 1px solid #ddd;
+                border-radius: 0.75rem;
+                padding: 0.75rem;
+                background: #fff;
+            }
+
+            .table td {
+                text-align: right;
+                padding-left: 50%;
+                position: relative;
+            }
+
+            .table td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 0.75rem;
+                font-weight: 600;
+                color: #6c757d;
+                text-transform: uppercase;
+            }
         }
     </style>
 @endsection

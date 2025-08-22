@@ -246,6 +246,11 @@ class AdminSupervisorQuestionnaireController extends Controller
         try {
             $questionnaire = TracerPengguna::with(['tracerStudy.pekerjaan'])->findOrFail($id);
 
+            if ($questionnaire->status_pengisian === 'completed') {
+                return redirect()->route('admin.supervisor-questionnaire.show', $id)
+                    ->with('error', 'Status pengisian tidak dapat diubah, karena sudah diisi.');
+            }
+
             // Generate new token if expired
             if ($questionnaire->expires_at < now()) {
                 $questionnaire->update([

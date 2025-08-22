@@ -25,16 +25,14 @@
     <!-- Page Content -->
     <div class="content">
         <div class="row">
-            @if (isset(session('success')))
-                <div class="mt-3 alert alert-success alert-dismissible fade show" role="alert">
-                    {{ $session->get('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
                 </div>
             @endif
-           @if (isset(session('error')))
-                <div class="mt-3 alert alert-danger alert-dismissible fade show" role="alert">
-                    {{ $session->get('error') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
                 </div>
             @endif
             <!-- Informasi Utama -->

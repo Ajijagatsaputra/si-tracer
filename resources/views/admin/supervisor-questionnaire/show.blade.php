@@ -25,6 +25,19 @@
     <!-- Page Content -->
     <div class="content">
         <div class="row">
+            @if ($session->has('success'))
+                <div class="mt-3 alert alert-success alert-dismissible fade show" role="alert">
+                    {{ $session->get('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+            @if ($session->has('error'))
+                <div class="mt-3 alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ $session->get('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+            @endif
             <!-- Informasi Utama -->
             <div class="col-lg-8">
                 <div class="block shadow-sm block-rounded">

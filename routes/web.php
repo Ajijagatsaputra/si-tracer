@@ -8,7 +8,7 @@ use App\Http\Controllers\DosenController;
 use App\Http\Controllers\HasilTracerController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KuesionerAlumni;
-//use App\Http\Controllers\KuesionerAlumniController;
+use App\Http\Controllers\KuesionerAlumniController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminTracerStudyAlumniController;
@@ -121,31 +121,32 @@ Route::middleware(['auth', 'cekrole:admin,superadmin'])->group(function () {
         Route::put('/{id}', [App\Http\Controllers\AdminSupervisorQuestionnaireController::class, 'update'])->name('admin.supervisor-questionnaire.update');
         Route::delete('/{id}', [App\Http\Controllers\AdminSupervisorQuestionnaireController::class, 'destroy'])->name('admin.supervisor-questionnaire.destroy');
         Route::get('/{id}/resend-notification', [App\Http\Controllers\AdminSupervisorQuestionnaireController::class, 'resendNotification'])->name('admin.supervisor-questionnaire.resend-notification');
+        Route::post('/{id}/extend-expiry', [App\Http\Controllers\AdminSupervisorQuestionnaireController::class, 'extendExpiry'])->name('admin.supervisor-questionnaire.extend-expiry');
     });
 });
 
 // Authenticated routes
 Route::middleware('auth')->group(function () {
     // Route::post('/kuesioner/store', [KuesionerAlumni::class, 'create'])->name('tracer.create');
-    Route::get('/tracer/user-data', [KuesionerAlumniController::class, 'getUserData'])->name('tracer.user-data');
+    // Route::get('/tracer/user-data', [KuesionerAlumniController::class, 'getUserData'])->name('tracer.user-data');
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
 });
 
 // Admin routes
-Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
-    Route::get('/tracer/results', [KuesionerAlumniController::class, 'results'])->name('admin.tracer.results');
-    Route::get('/tracer/export', [KuesionerAlumniController::class, 'export'])->name('admin.tracer.export');
-    Route::delete('/tracer/{id}', [KuesionerAlumniController::class, 'destroy'])->name('admin.tracer.destroy');
-});
+// Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+//     Route::get('/tracer/results', [KuesionerAlumniController::class, 'results'])->name('admin.tracer.results');
+//     Route::get('/tracer/export', [KuesionerAlumniController::class, 'export'])->name('admin.tracer.export');
+//     Route::delete('/tracer/{id}', [KuesionerAlumniController::class, 'destroy'])->name('admin.tracer.destroy');
+// });
 
 // Alternative routes if you don't use admin middleware
-Route::middleware('auth')->group(function () {
-    Route::get('/tracer/results', [KuesionerAlumniController::class, 'results'])->name('tracer.results');
-    Route::get('/tracer/export', [KuesionerAlumniController::class, 'export'])->name('tracer.export');
-    Route::delete('/tracer/{id}', [KuesionerAlumniController::class, 'destroy'])->name('tracer.destroy');
-});
+// Route::middleware('auth')->group(function () {
+//     Route::get('/tracer/results', [KuesionerAlumniController::class, 'results'])->name('tracer.results');
+//     Route::get('/tracer/export', [KuesionerAlumniController::class, 'export'])->name('tracer.export');
+//     Route::delete('/tracer/{id}', [KuesionerAlumniController::class, 'destroy'])->name('tracer.destroy');
+// });
 
 // API untuk wilayah
 Route::get('/api/provinsi', [WilayahController::class, 'getProvinsi']);

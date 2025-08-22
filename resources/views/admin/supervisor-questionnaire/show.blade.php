@@ -2,13 +2,13 @@
 
 @section('content')
     <!-- Hero -->
-    <div class="bg-body-light border-bottom py-3">
+    <div class="py-3 bg-body-light border-bottom">
         <div class="content d-flex flex-column flex-sm-row justify-content-between align-items-center">
             <div>
-                <h1 class="h3 fw-bold mb-0 text-primary">
+                <h1 class="mb-0 h3 fw-bold text-primary">
                     <i class="fa fa-eye me-2"></i> Detail Supervisor Questionnaire
                 </h1>
-                <p class="text-muted fs-sm mb-0">Lihat detail lengkap kuesioner supervisor.</p>
+                <p class="mb-0 text-muted fs-sm">Lihat detail lengkap kuesioner supervisor.</p>
             </div>
             <div>
                 <a href="{{ route('admin.supervisor-questionnaire.index') }}" class="btn btn-secondary">
@@ -27,9 +27,9 @@
         <div class="row">
             <!-- Informasi Utama -->
             <div class="col-lg-8">
-                <div class="block block-rounded shadow-sm">
+                <div class="block shadow-sm block-rounded">
                     <div class="block-header block-header-default bg-light">
-                        <h3 class="block-title fw-semibold text-primary mb-0">
+                        <h3 class="mb-0 block-title fw-semibold text-primary">
                             <i class="fa fa-info-circle me-2"></i> Informasi Utama
                         </h3>
                     </div>
@@ -66,9 +66,9 @@
                 </div>
 
                 <!-- Informasi Kontak -->
-                <div class="block block-rounded shadow-sm">
+                <div class="block shadow-sm block-rounded">
                     <div class="block-header block-header-default bg-light">
-                        <h3 class="block-title fw-semibold text-primary mb-0">
+                        <h3 class="mb-0 block-title fw-semibold text-primary">
                             <i class="fa fa-address-book me-2"></i> Informasi Kontak
                         </h3>
                     </div>
@@ -99,9 +99,9 @@
                 </div>
 
                 <!-- Status dan Token -->
-                <div class="block block-rounded shadow-sm">
+                <div class="block shadow-sm block-rounded">
                     <div class="block-header block-header-default bg-light">
-                        <h3 class="block-title fw-semibold text-primary mb-0">
+                        <h3 class="mb-0 block-title fw-semibold text-primary">
                             <i class="fa fa-key me-2"></i> Status dan Akses
                         </h3>
                     </div>
@@ -112,6 +112,8 @@
                                 <div>
                                     @if ($questionnaire->status_pengisian == 'completed')
                                         <span class="badge bg-success fs-6">Selesai</span>
+                                    @elseif($questionnaire->status_pengisian == 'sent')
+                                        <span class="badge bg-info fs-6">Terkirim</span>
                                     @elseif($questionnaire->status_pengisian == 'pending')
                                         @if ($questionnaire->expires_at < now())
                                             <span class="badge bg-danger fs-6">Kadaluarsa</span>
@@ -130,7 +132,7 @@
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label fw-semibold">Link Kuesioner</label>
-                                <div class="d-flex gap-2">
+                                <div class="gap-2 d-flex">
                                     <input type="text" class="form-control form-control-sm"
                                         value="{{ $questionnaire->getQuestionnaireUrl() }}" readonly>
                                     <button class="btn btn-sm btn-outline-primary" onclick="copyToClipboard(this)">
@@ -166,16 +168,16 @@
 
                 <!-- Data Evaluasi Kuesioner -->
                 @if ($questionnaire->status_pengisian == 'completed')
-                    <div class="block block-rounded shadow-sm">
+                    <div class="block shadow-sm block-rounded">
                         <div class="block-header block-header-default bg-light">
-                            <h3 class="block-title fw-semibold text-primary mb-0">
+                            <h3 class="mb-0 block-title fw-semibold text-primary">
                                 <i class="fa fa-star me-2"></i> Data Evaluasi Kuesioner
                             </h3>
                         </div>
                         <div class="block-content block-content-full">
                             <!-- Evaluasi Kinerja (Point A) -->
                             <div class="mb-4">
-                                <h5 class="fw-semibold text-dark mb-3">
+                                <h5 class="mb-3 fw-semibold text-dark">
                                     <i class="fa fa-chart-line me-2"></i> Evaluasi Kinerja Alumni
                                 </h5>
                                 <div class="row g-3">
@@ -275,7 +277,7 @@
 
                             <!-- Evaluasi Kesesuaian Pendidikan -->
                             <div class="mb-4">
-                                <h5 class="fw-semibold text-dark mb-3">
+                                <h5 class="mb-3 fw-semibold text-dark">
                                     <i class="fa fa-graduation-cap me-2"></i> Evaluasi Kesesuaian Pendidikan
                                 </h5>
                                 <div class="row g-3">
@@ -344,10 +346,10 @@
                             <!-- Saran Perbaikan -->
                             @if ($questionnaire->saran_perbaikan)
                                 <div class="mb-4">
-                                    <h5 class="fw-semibold text-dark mb-3">
+                                    <h5 class="mb-3 fw-semibold text-dark">
                                         <i class="fa fa-comment me-2"></i> Saran Perbaikan
                                     </h5>
-                                    <div class="p-3 bg-light rounded">
+                                    <div class="p-3 rounded bg-light">
                                         <p class="mb-0">{{ $questionnaire->saran_perbaikan }}</p>
                                     </div>
                                 </div>
@@ -362,7 +364,7 @@
 
                             <!-- Chart Evaluasi -->
                             <div class="mt-4">
-                                <h5 class="fw-semibold text-dark mb-3">
+                                <h5 class="mb-3 fw-semibold text-dark">
                                     <i class="fa fa-chart-bar me-2"></i> Grafik Evaluasi Kinerja
                                 </h5>
                                 <div class="row">
@@ -370,8 +372,8 @@
                                         <canvas id="evaluationChart" width="400" height="200"></canvas>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="p-3 bg-light rounded">
-                                            <h6 class="fw-semibold mb-2">Ringkasan Skor</h6>
+                                        <div class="p-3 rounded bg-light">
+                                            <h6 class="mb-2 fw-semibold">Ringkasan Skor</h6>
                                             <div class="mb-2">
                                                 <small class="text-muted">Skor Tertinggi:</small><br>
                                                 <span class="badge bg-success fs-6">
@@ -447,15 +449,15 @@
                     </div>
                 @else
                     <!-- Pesan jika belum diisi -->
-                    <div class="block block-rounded shadow-sm">
+                    <div class="block shadow-sm block-rounded">
                         <div class="block-header block-header-default bg-light">
-                            <h3 class="block-title fw-semibold text-muted mb-0">
+                            <h3 class="mb-0 block-title fw-semibold text-muted">
                                 <i class="fa fa-info-circle me-2"></i> Status Kuesioner
                             </h3>
                         </div>
-                        <div class="block-content block-content-full text-center py-4">
-                            <i class="fa fa-file-alt fa-3x text-muted mb-3"></i>
-                            <p class="text-muted mb-0">
+                        <div class="py-4 text-center block-content block-content-full">
+                            <i class="mb-3 fa fa-file-alt fa-3x text-muted"></i>
+                            <p class="mb-0 text-muted">
                                 @if ($questionnaire->status_pengisian == 'pending')
                                     Kuesioner belum diisi oleh supervisor.
                                 @elseif($questionnaire->status_pengisian == 'expired')
@@ -472,14 +474,14 @@
             <!-- Sidebar -->
             <div class="col-lg-4">
                 <!-- Aksi -->
-                <div class="block block-rounded shadow-sm">
+                <div class="block shadow-sm block-rounded">
                     <div class="block-header block-header-default bg-light">
-                        <h3 class="block-title fw-semibold text-primary mb-0">
+                        <h3 class="mb-0 block-title fw-semibold text-primary">
                             <i class="fa fa-cogs me-2"></i> Aksi
                         </h3>
                     </div>
                     <div class="block-content block-content-full">
-                        <div class="d-grid gap-2">
+                        <div class="gap-2 d-grid">
                             @if (Auth::user() && Auth::user()->role === 'admin')
                                 <a href="{{ route('admin.supervisor-questionnaire.edit', $questionnaire->id) }}"
                                     class="btn btn-warning">
@@ -511,16 +513,16 @@
                 </div>
 
                 <!-- Statistik -->
-                <div class="block block-rounded shadow-sm">
+                <div class="block shadow-sm block-rounded">
                     <div class="block-header block-header-default bg-light">
-                        <h3 class="block-title fw-semibold text-primary mb-0">
+                        <h3 class="mb-0 block-title fw-semibold text-primary">
                             <i class="fa fa-chart-bar me-2"></i> Statistik
                         </h3>
                     </div>
                     <div class="block-content block-content-full">
-                        <div class="row g-2 text-center">
+                        <div class="text-center row g-2">
                             <div class="col-6">
-                                <div class="p-3 bg-light rounded">
+                                <div class="p-3 rounded bg-light">
                                     <div class="fs-4 fw-bold text-primary">
                                         {{ $questionnaire->created_at ? $questionnaire->created_at->diffForHumans() : '-' }}
                                     </div>
@@ -528,7 +530,7 @@
                                 </div>
                             </div>
                             <div class="col-6">
-                                <div class="p-3 bg-light rounded">
+                                <div class="p-3 rounded bg-light">
                                     <div class="fs-4 fw-bold text-warning">
                                         @if ($questionnaire->expires_at)
                                             {{ \Carbon\Carbon::parse($questionnaire->expires_at)->diffForHumans() }}
@@ -670,8 +672,52 @@
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Implement extend expiry functionality
-                    Swal.fire('Berhasil!', 'Masa berlaku berhasil diperpanjang.', 'success');
+                    // Show loading state
+                    Swal.fire({
+                        title: 'Memproses...',
+                        text: 'Sedang memperpanjang masa berlaku',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
+                    // Make AJAX call to extend expiry
+                    fetch(`/admin/supervisor-questionnaire/${id}/extend-expiry`, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                    'content'),
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                Swal.fire({
+                                    title: 'Berhasil!',
+                                    text: data.message,
+                                    icon: 'success'
+                                }).then(() => {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: 'Gagal!',
+                                    text: data.message,
+                                    icon: 'error'
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            Swal.fire({
+                                title: 'Error!',
+                                text: 'Terjadi kesalahan saat memperpanjang masa berlaku.',
+                                icon: 'error'
+                            });
+                        });
                 }
             });
         }

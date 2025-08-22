@@ -189,6 +189,13 @@ class AdminSupervisorQuestionnaireController extends Controller
             $inputStatus = $request->input('status_pengisian');
             $currentStatus = $questionnaire->status_pengisian;
 
+            // Jika status saat ini sudah completed, tidak boleh diubah ke selain completed
+            if ($currentStatus === 'completed' && $inputStatus !== 'completed') {
+                return redirect()->route('admin.supervisor-questionnaire.edit', $id)
+                    ->with('error', 'Status pengisian yang sudah completed tidak dapat diubah ke status lain.');
+            }
+
+            // Jika status saat ini belum completed, tidak boleh diubah ke completed oleh admin
             if ($currentStatus !== 'completed' && $inputStatus === 'completed') {
                 return redirect()->route('admin.supervisor-questionnaire.edit', $id)
                     ->with('error', 'Status pengisian hanya dapat diubah menjadi completed oleh supervisor, bukan oleh admin.');
@@ -333,5 +340,37 @@ class AdminSupervisorQuestionnaireController extends Controller
             'by_status' => $byStatus,
             'by_company' => $byCompany
         ];
+    }
+
+    public function extendExpiry($id)
+    {
+        try {
+            $questionnaire = TracerPengguna::findOrFail($id);
+
+            $questionnaire->update([
+                'expires_at' => now()->addDays(7),
+                'status_pengisian' => 'pending'
+            ]);
+
+            if (method_exists($questionnaire, 'generateToken')) {
+                $questionnaire->generateToken();
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Masa berlaku berhasil diperpanjang 7 hari.',
+                'new_expiry' => $questionnaire->expires_at->format('d/m/Y H:i')
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Error extending expiry: ' . $e->getMessage(), [
+                'id' => $id,
+                'error' => $e->getMessage()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal memperpanjang masa berlaku: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }

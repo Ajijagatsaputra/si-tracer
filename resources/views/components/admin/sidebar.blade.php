@@ -6,7 +6,7 @@
             <span class="smini-visible">
                 <i class="fa fa-circle-notch text-primary"></i>
             </span>
-            <span class="smini-hide fs-5 tracking-wider">SIKEMA<span class="fw-normal">TI</span></span>
+            <span class="tracking-wider smini-hide fs-5">SIKEMA<span class="fw-normal">TI</span></span>
         </a>
         <!-- END Logo -->
 
@@ -90,6 +90,7 @@
                                 <span class="nav-main-link-name">Hasil</span>
                             </a>
                         </li>
+                        
                     </ul>
                 </li>
             </ul>

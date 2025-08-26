@@ -71,7 +71,7 @@
             </div>
 
             <!-- Informasi Atasan -->
-            <div class="alert alert-info mt-3">
+            <div class="mt-3 alert alert-info">
                 <i class="fas fa-info-circle me-2"></i>
                 <strong>Informasi Atasan:</strong> Mohon isi data atasan/pimpinan Anda untuk keperluan evaluasi kinerja. Data ini akan digunakan untuk mengirim kuesioner evaluasi kepada atasan Anda.
             </div>
@@ -88,8 +88,17 @@
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">
+                        <i class="fas fa-user-tie text-primary"></i>
+                        NIP/NIPY/NIK
+                    </label>
+                    <input type="text" name="nama_atasan" class="form-control"
+                        placeholder="Masukkan NIP/NIPY/NIK atasan/pimpinan"
+                        value="{{ old('nama_atasan', $tracer->pengguna->nama_atasan ?? '') }}">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">
                         <i class="fas fa-briefcase text-primary"></i>
-                        Jabatan Atasan
+                        Posisi/Jabatan Atasan
                     </label>
                     <input type="text" name="jabatan_atasan" class="form-control"
                         placeholder="Manager, Supervisor, dll"

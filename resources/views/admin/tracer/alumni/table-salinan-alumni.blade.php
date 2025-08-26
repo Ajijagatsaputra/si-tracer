@@ -309,112 +309,197 @@
         });
     </script>
 
-    {{-- STYLE --}}
-    <style>
-        /* ================================
+   {{-- STYLE --}}
+<style>
+    /* ================================
        Datatable Modern Styling
     ================================= */
+    .dataTables_wrapper .dataTables_filter {
+        float: right;
+        text-align: right;
+        margin-bottom: 1rem;
+    }
+
+    .dataTables_wrapper .dataTables_filter label {
+        font-weight: 600;
+        margin-right: 0.5rem;
+        color: #495057;
+    }
+
+    .dataTables_wrapper .dataTables_filter input {
+        border: 1px solid #ced4da;
+        border-radius: 0.75rem;
+        padding: 0.5rem 0.9rem;
+        font-size: 0.9rem;
+        outline: none;
+        transition: all 0.25s ease;
+        background: #fff;
+    }
+
+    .dataTables_wrapper .dataTables_filter input:focus {
+        border-color: #1577c2;
+        box-shadow: 0 0 0 0.25rem rgba(21, 119, 194, 0.15);
+    }
+
+    /* Table header */
+    #datatable thead th {
+        background: linear-gradient(135deg, #1577c2, #1e90ff);
+        color: #fff;
+        font-weight: 600;
+        font-size: 14px;
+        text-align: center;
+        border: none;
+    }
+
+    /* Table rows */
+    #datatable tbody tr {
+        transition: background 0.2s ease;
+    }
+
+    #datatable tbody tr:hover {
+        background: #f1f7ff;
+    }
+
+    #datatable td {
+        vertical-align: middle;
+        font-size: 0.95rem;
+        padding: 0.75rem;
+    }
+
+    /* Status badge */
+    .badge {
+        border-radius: 50rem !important;
+        font-size: 0.8rem;
+        padding: 0.4em 0.8em;
+        font-weight: 500;
+    }
+
+    .badge-success {
+        background: linear-gradient(135deg, #28a745, #45c86d);
+        color: #fff;
+    }
+
+    .badge-warning {
+        background: linear-gradient(135deg, #ffc107, #ffda6a);
+        color: #000;
+    }
+
+    .badge-danger {
+        background: linear-gradient(135deg, #dc3545, #f35b6b);
+        color: #fff;
+    }
+
+    /* Dropdown menu */
+    .dropdown-menu {
+        border-radius: 0.75rem;
+        border: none;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        padding: 0.5rem 0;
+        font-size: 0.9rem;
+    }
+
+    .dropdown-menu .dropdown-item {
+        padding: 0.6rem 1.1rem;
+        display: flex;
+        align-items: center;
+        transition: background 0.2s ease;
+    }
+
+    .dropdown-menu .dropdown-item:hover {
+        background: #f1f7ff;
+        color: #1577c2;
+    }
+
+    .dropdown-menu .dropdown-item i {
+        width: 18px;
+        margin-right: 8px;
+    }
+
+    /* Buttons */
+    .btn-sm {
+        border-radius: 0.6rem;
+        font-size: 0.85rem;
+        padding: 0.4rem 0.8rem;
+        transition: all 0.2s ease;
+    }
+
+    .btn-outline-primary {
+        border-color: #1577c2;
+        color: #1577c2;
+    }
+
+    .btn-outline-primary:hover {
+        background: #1577c2;
+        color: #fff;
+        box-shadow: 0 4px 10px rgba(21, 119, 194, 0.25);
+    }
+
+    /* Pagination */
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        border-radius: 0.5rem;
+        padding: 0.4rem 0.8rem;
+        margin: 0 2px;
+        border: 1px solid #dee2e6;
+        color: #1577c2 !important;
+        transition: all 0.2s ease;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+        background: #1577c2 !important;
+        color: #fff !important;
+        border: 1px solid #1577c2;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        background: #1e90ff !important;
+        color: #fff !important;
+        border: 1px solid #1e90ff;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
         .dataTables_wrapper .dataTables_filter {
-            float: right;
-            text-align: right;
-            margin-bottom: 1rem;
+            float: none;
+            text-align: left;
+            margin-top: 1rem;
         }
 
-        .dataTables_wrapper .dataTables_filter label {
-            font-weight: 500;
-            margin-right: 0.5rem;
+        .flex-wrap.gap-2 {
+            flex-direction: column;
+            align-items: stretch !important;
+        }
+
+        .btn-group {
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        #datatable thead {
+            display: none; /* hide header di mobile */
+        }
+
+        #datatable tbody tr {
+            display: block;
+            margin-bottom: 1rem;
+            border: 1px solid #e9ecef;
+            border-radius: 0.75rem;
+            padding: 0.75rem;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        #datatable tbody td {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem;
+            border: none;
+        }
+
+        #datatable tbody td::before {
+            content: attr(data-label);
+            font-weight: 600;
             color: #495057;
         }
+    }
+</style>
 
-        .dataTables_wrapper .dataTables_filter input {
-            border: 1px solid #ced4da;
-            border-radius: 0.5rem;
-            padding: 0.45rem 0.75rem;
-            font-size: 0.9rem;
-            outline: none;
-            transition: all 0.2s ease;
-        }
-
-        .dataTables_wrapper .dataTables_filter input:focus {
-            border-color: #1577c2;
-            box-shadow: 0 0 0 0.2rem rgba(21, 119, 194, 0.15);
-        }
-
-        /* Table header modern */
-        #datatable th {
-            background: #f9fbfd;
-            color: #1577c2;
-            font-weight: 600;
-            font-size: 14px;
-            text-align: center;
-        }
-
-        /* Table rows */
-        #datatable td {
-            vertical-align: middle;
-            font-size: 0.95rem;
-        }
-
-        /* Status badge */
-        .badge {
-            border-radius: 50rem !important;
-            font-size: 0.8rem;
-            padding: 0.4em 0.75em;
-        }
-
-        /* Dropdown menu */
-        .dropdown-menu {
-            border-radius: 0.5rem;
-            border: none;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-            padding: 0.5rem 0;
-            font-size: 0.9rem;
-        }
-
-        .dropdown-menu .dropdown-item {
-            padding: 0.5rem 1rem;
-            display: flex;
-            align-items: center;
-        }
-
-        .dropdown-menu .dropdown-item i {
-            width: 18px;
-        }
-
-        /* Buttons */
-        .btn-sm {
-            border-radius: 0.5rem;
-            font-size: 0.85rem;
-            padding: 0.35rem 0.75rem;
-        }
-
-        .btn-outline-primary {
-            border-color: #1577c2;
-            color: #1577c2;
-        }
-
-        .btn-outline-primary:hover {
-            background: #1577c2;
-            color: #fff;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .dataTables_wrapper .dataTables_filter {
-                float: none;
-                text-align: left;
-                margin-top: 1rem;
-            }
-
-            .flex-wrap.gap-2 {
-                flex-direction: column;
-                align-items: stretch !important;
-            }
-
-            .btn-group {
-                width: 100%;
-                justify-content: space-between;
-            }
-        }
-    </style>
 @endsection

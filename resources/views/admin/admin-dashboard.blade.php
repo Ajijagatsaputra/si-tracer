@@ -19,13 +19,13 @@
 
         {{-- Main Content --}}
         <main id="main-container" class="flex-grow-1">
-            <div class="content py-4">
+            <div class="py-4 content">
 
                 {{-- Header Section --}}
-                <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
+                <div class="mb-4 d-flex flex-column flex-md-row justify-content-between align-items-center">
                     <div>
-                        <h1 class="h3 fw-bold mb-1">Dashboard Admin</h1>
-                        <p class="text-muted mb-0">
+                        <h1 class="mb-1 h3 fw-bold">Dashboard Admin</h1>
+                        <p class="mb-0 text-muted">
                             Selamat datang kembali, <span
                                 class="fw-semibold text-primary">{{ Auth::user()->username }}</span>
                             {{-- <span class="badge bg-success ms-2">{{ ucfirst($userRole) }}</span> --}}
@@ -40,14 +40,14 @@
                 </div>
 
                 {{-- Info Boxes --}}
-                <div class="row g-4 mb-4">
+                <div class="mb-4 row g-4">
                     {{-- Mahasiswa --}}
                     <div class="col-md-6 col-xl-3">
-                        <div class="card shadow-sm border-0 h-100 dashboard-card">
+                        <div class="border-0 shadow-sm card h-100 dashboard-card">
                             <div class="card-body d-flex justify-content-between align-items-center">
                                 <div>
-                                    <h4 class="fw-bold mb-1 text-primary">{{ number_format($countMahasiswa) }}</h4>
-                                    <p class="text-muted mb-0">Total Mahasiswa</p>
+                                    <h4 class="mb-1 fw-bold text-primary">{{ number_format($countMahasiswa) }}</h4>
+                                    <p class="mb-0 text-muted">Total Mahasiswa</p>
                                     <small class="text-success">
                                         <i class="fas fa-arrow-up me-1"></i>Active
                                     </small>
@@ -56,7 +56,7 @@
                                     <i class="fas fa-chalkboard-teacher fa-2x text-primary"></i>
                                 </div>
                             </div>
-                            <div class="card-footer bg-light py-2">
+                            <div class="py-2 card-footer bg-light">
                                 <a href="/listmahasiswa"
                                     class="text-decoration-none text-primary fw-medium d-flex align-items-center justify-content-between">
                                     <span>Lihat semua mahasiswa</span>
@@ -70,11 +70,11 @@
 
                     {{-- Alumni --}}
                     <div class="col-md-6 col-xl-3">
-                        <div class="card shadow-sm border-0 h-100 dashboard-card">
+                        <div class="border-0 shadow-sm card h-100 dashboard-card">
                             <div class="card-body d-flex justify-content-between align-items-center">
                                 <div>
-                                    <h4 class="fw-bold mb-1 text-success">{{ number_format($countAlumni) }}</h4>
-                                    <p class="text-muted mb-0">Total Alumni</p>
+                                    <h4 class="mb-1 fw-bold text-success">{{ number_format($countAlumni) }}</h4>
+                                    <p class="mb-0 text-muted">Total Alumni</p>
                                     <small class="text-success">
                                         <i class="fas fa-graduation-cap me-1"></i>Graduated
                                     </small>
@@ -83,7 +83,7 @@
                                     <i class="fas fa-user-graduate fa-2x text-success"></i>
                                 </div>
                             </div>
-                            <div class="card-footer bg-light py-2">
+                            <div class="py-2 card-footer bg-light">
                                 <a href="/listalumni"
                                     class="text-decoration-none text-success fw-medium d-flex align-items-center justify-content-between">
                                     <span>Lihat semua alumni</span>
@@ -95,7 +95,7 @@
 
                     {{-- Tracer Study Completion --}}
                     <div class="col-md-6 col-xl-3">
-                        <div class="card shadow-sm border-0 h-100 dashboard-card">
+                        <div class="border-0 shadow-sm card h-100 dashboard-card">
                             <div class="card-body d-flex justify-content-between align-items-center">
                                 <div>
                                     @php
@@ -103,8 +103,8 @@
                                         $completionRate =
                                             $countAlumni > 0 ? round(($totalTracer / $countAlumni) * 100, 1) : 0;
                                     @endphp
-                                    <h4 class="fw-bold mb-1 text-warning">{{ $completionRate }}%</h4>
-                                    <p class="text-muted mb-0">Persentase Pengisian Tracer</p>
+                                    <h4 class="mb-1 fw-bold text-warning">{{ $completionRate }}%</h4>
+                                    <p class="mb-0 text-muted">Persentase Pengisian Tracer</p>
                                     <small class="text-warning">
                                         <i class="fas fa-chart-line me-1"></i>{{ $totalTracer }}/{{ $countAlumni }} Alumni
                                     </small>
@@ -113,7 +113,7 @@
                                     <i class="fas fa-chart-pie fa-2x text-warning"></i>
                                 </div>
                             </div>
-                            <div class="card-footer bg-light py-2">
+                            <div class="py-2 card-footer bg-light">
                                 <a href="/listtraceralumni"
                                     class="text-decoration-none text-warning fw-medium d-flex align-items-center justify-content-between">
                                     <span>Lihat tracer study</span>
@@ -124,11 +124,11 @@
                     </div>
 
                     <div class="col-md-6 col-xl-3">
-                        <div class="card shadow-sm border-0 h-100 dashboard-card">
+                        <div class="border-0 shadow-sm card h-100 dashboard-card">
                             <div class="card-body d-flex justify-content-between align-items-center">
                                 <div>
-                                    <h4 class="fw-bold mb-1 text-info">{{ number_format($countQuestionerCompleted) }} / {{ number_format($countQuestioner) }}</h4>
-                                    <p class="text-muted mb-0">Quesioner Pengguna</p>
+                                    <h4 class="mb-1 fw-bold text-info">{{ number_format($countQuestionerCompleted) }} / {{ number_format($countQuestioner) }}</h4>
+                                    <p class="mb-0 text-muted">Quesioner Pengguna</p>
                                     <small class="text-info">
                                         <i class="fas fa-question-circle me-1"></i>Questioner
                                     </small>
@@ -137,7 +137,7 @@
                                     <i class="fas fa-user-graduate fa-2x text-info"></i>
                                 </div>
                             </div>
-                            <div class="card-footer bg-light py-2">
+                            <div class="py-2 card-footer bg-light">
                                 <a href="{{ route('admin.supervisor-questionnaire.index') }}"
                                     class="text-decoration-none text-info fw-medium d-flex align-items-center justify-content-between">
                                     <span>Lihat semua questioner</span>
@@ -151,12 +151,12 @@
                 </div>
 
                 {{-- Charts Row --}}
-                <div class="row g-4 mb-4">
+                <div class="mb-4 row g-4">
                     {{-- Statistik Alumni Chart --}}
                     <div class="col-lg-8">
-                        <div class="card shadow-sm border-0 h-100">
+                        <div class="border-0 shadow-sm card h-100">
                             <div
-                                class="card-header bg-white border-bottom d-flex justify-content-between align-items-center">
+                                class="bg-white card-header border-bottom d-flex justify-content-between align-items-center">
                                 <h5 class="mb-0">
                                     <i class="fas fa-chart-bar text-primary me-2"></i>
                                     Statistik Status Alumni
@@ -172,7 +172,7 @@
                                 <div class="row g-3 justify-content-between">
                                     @foreach ([['label' => 'Bekerja', 'data' => $statistikAlumni['Bekerja'], 'icon' => 'fa-briefcase', 'color' => 'success'], ['label' => 'Belum Bekerja', 'data' => $statistikAlumni['Belum Bekerja'], 'icon' => 'fa-user-times', 'color' => 'danger'], ['label' => 'Wirausaha', 'data' => $statistikAlumni['Wirausaha'], 'icon' => 'fa-store', 'color' => 'warning'], ['label' => 'Melanjutkan Studi', 'data' => $statistikAlumni['Lanjut Studi'] ?? ['jumlah' => 0, 'persen' => '0%'], 'icon' => 'fa-graduation-cap', 'color' => 'primary'], ['label' => 'Tidak Bekerja', 'data' => $statistikAlumni['Tidak Bekerja'] ?? ['jumlah' => 0, 'persen' => '0%'], 'icon' => 'fa-search', 'color' => 'secondary']] as $stat)
                                         <div class="col-6 col-md-4 col-lg-2 d-flex">
-                                            <div class="stat-card p-3 border rounded bg-white flex-fill w-100 text-center">
+                                            <div class="p-3 text-center bg-white border rounded stat-card flex-fill w-100">
                                                 <div class="fw-bold text-{{ $stat['color'] }} mb-1">
                                                     <i class="fa {{ $stat['icon'] }} me-1"></i>
                                                     {{ $stat['data']['jumlah'] }}
@@ -191,15 +191,15 @@
 
                     {{-- Quick Stats --}}
                     <div class="col-lg-4">
-                        <div class="card shadow-sm border-0 h-100">
-                            <div class="card-header bg-white border-bottom">
+                        <div class="border-0 shadow-sm card h-100">
+                            <div class="bg-white card-header border-bottom">
                                 <h5 class="mb-0">
                                     <i class="fas fa-tachometer-alt text-info me-2"></i>
                                     Quick Statistics
                                 </h5>
                             </div>
                             <div class="card-body">
-                                <div class="d-flex flex-column gap-3">
+                                <div class="gap-3 d-flex flex-column">
                                     <!-- Alumni Growth -->
                                     <div class="stat-item">
                                         <div class="d-flex justify-content-between align-items-center">
@@ -207,7 +207,7 @@
                                                 <h6 class="mb-1">Alumni</h6>
                                             </div>
                                             <div class="text-end">
-                                                <div class="h5 mb-0 text-success">{{ array_sum($alumniData) }}</div>
+                                                <div class="mb-0 h5 text-success">{{ array_sum($alumniData) }}</div>
                                                 <small class="text-success">
                                                     <i
                                                         class="fas fa-arrow-up me-1"></i>+{{ round(((end($alumniData) - reset($alumniData)) / max(reset($alumniData), 1)) * 100, 1) }}%
@@ -221,10 +221,10 @@
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div>
                                                 <h6 class="mb-1">Respon Tracer</h6>
-                                                <p class="text-muted small mb-0">Tingkat penyelesaian</p>
+                                                <p class="mb-0 text-muted small">Tingkat penyelesaian</p>
                                             </div>
                                             <div class="text-end">
-                                                <div class="h5 mb-0 text-warning">{{ $completionRate ?? 0 }}%</div>
+                                                <div class="mb-0 h5 text-warning">{{ $completionRate ?? 0 }}%</div>
                                                 <small class="text-warning">
                                                     <i class="fas fa-chart-line me-1"></i>{{ $totalTracer ?? 0 }}
                                                     responses
@@ -244,8 +244,8 @@
                 {{-- <div class="row g-4">
 
                     <div class="col-lg-6">
-                        <div class="card shadow-sm border-0">
-                            <div class="card-header bg-white border-bottom">
+                        <div class="border-0 shadow-sm card">
+                            <div class="bg-white card-header border-bottom">
                                 <h5 class="mb-0">
                                     <i class="fas fa-chart-line text-success me-2"></i>
                                     Alumni Growth Trend
@@ -261,8 +261,8 @@
 
 
                     <div class="col-lg-6">
-                        <div class="card shadow-sm border-0">
-                            <div class="card-header bg-white border-bottom">
+                        <div class="border-0 shadow-sm card">
+                            <div class="bg-white card-header border-bottom">
                                 <h5 class="mb-0">
                                     <i class="fas fa-chart-area text-info me-2"></i>
                                     Tracer Study Response Rate
@@ -281,12 +281,12 @@
 
         {{-- Sticky Footer --}}
         <footer id="page-footer" class="footer-sticky bg-body-extra-light">
-            <div class="content py-3">
+            <div class="py-3 content">
                 <div class="row fs-sm">
-                    <div class="col-sm-6 order-sm-2 py-1 text-center text-sm-end">
+                    <div class="py-1 text-center col-sm-6 order-sm-2 text-sm-end">
                         Politeknik Harapan Bersama
                     </div>
-                    <div class="col-sm-6 order-sm-1 py-1 text-center text-sm-start">
+                    <div class="py-1 text-center col-sm-6 order-sm-1 text-sm-start">
                         <a class="fw-semibold" href="https://1.envato.market/AVD6j" target="_blank">Copyright</a>
                         &copy; SikemaTI<span data-toggle="year-copy">2025</span>
                     </div>

@@ -6,9 +6,9 @@
         <div class="content d-flex flex-column flex-sm-row justify-content-between align-items-center">
             <div>
                 <h1 class="mb-0 h3 fw-bold text-primary">
-                    <i class="fa fa-eye me-2"></i> Detail Supervisor Questionnaire
+                    <i class="fa fa-eye me-2"></i> Detail Atasan (Pengguna Alumni)
                 </h1>
-                <p class="mb-0 text-muted fs-sm">Lihat detail lengkap kuesioner supervisor.</p>
+                <p class="mb-0 text-muted fs-sm">Lihat detail lengkap kuesioner pengguna alumni (atasan).</p>
             </div>
             <div>
                 <a href="{{ route('admin.supervisor-questionnaire.index') }}" class="btn btn-secondary">

@@ -123,7 +123,7 @@
         <div class="alert"
             style="background: linear-gradient(135deg, rgba(255, 193, 7, 0.1), rgba(255, 193, 7, 0.05)); border-left: 4px solid #ffc107; color: #f57c00;">
             <i class="fas fa-info-circle me-2"></i>
-            Berikan penilaian pada kompetensi anda <strong>SAAT INI</strong>
+            Berikan penilaian pada kompetensi anda pada<strong>SAAT INI</strong>
         </div>
         <div class="row g-4">
             <div class="col-md-6">
@@ -238,7 +238,7 @@
         <div class="alert"
             style="background: linear-gradient(135deg, rgba(103, 58, 183, 0.1), rgba(103, 58, 183, 0.05)); border-left: 4px solid #673ab7; color: #673ab7;">
             <i class="fas fa-info-circle me-2"></i>
-            Berikan penilaian terhadap metode pembelajaran yang pernah Anda alami
+            Menurut anda seberapa besar penekanan pada metode pembelajaran yang dilaksanakan Program Studi anda?
         </div>
         <div class="row g-4">
             <div class="col-md-6">

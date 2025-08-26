@@ -45,7 +45,6 @@ class TracerStudyService
                         'alamat' => $data['alamat'] ?? $alumni->alamat,
                         'tahun_lulus' => $data['tahun_lulus'] ?? $alumni->tahun_lulus,
                     ]);
-
                 }
             }
 
@@ -135,10 +134,10 @@ class TracerStudyService
 
             // Jika status bekerja_full, buat kuesioner atasan
             if (($data['bekerja'] ?? '') === 'bekerja_full' &&
-                (!empty($data['wa_atasan']) || !empty($data['email_atasan']))) {
+                (!empty($data['wa_atasan']) || !empty($data['email_atasan']))
+            ) {
                 $this->createAndSendSupervisorQuestionnaire($data);
             }
-
         } catch (\Exception $e) {
             // Log error tapi jangan hentikan proses
             Log::error('Gagal dispatch job notifikasi: ' . $e->getMessage(), [
@@ -173,20 +172,25 @@ class TracerStudyService
             );
 
             // Buat record kuesioner atasan
-            $supervisorQuestionnaire = \App\Models\TracerPengguna::create([
-                'tracer_study_id' => $tracerStudy->id,
-                'nama_atasan' => $data['nama_atasan'] ?? 'Atasan',
-                'jabatan_atasan' => $data['jabatan_atasan'] ?? 'Jabatan',
-                'nama_perusahaan' => $data['nama_perusahaan'] ?? 'Perusahaan',
-                'nama_alumni' => $data['nama'] ?? 'Alumni',
-                'jabatan_alumni' => $data['jabatan'] ?? 'Staff',
-                'tanggal_mulai_kerja' => $data['tanggal_mulai_kerja'] ?? now(),
-                'email_atasan' => $data['email_atasan'] ?? null,
-                'wa_atasan' => $data['wa_atasan'] ?? null,
-                'encrypted_link' => $encryptedLink,
-                'expires_at' => now()->addDays(7), // Link kadaluarsa dalam 7 hari
-                'status_pengisian' => 'pending',
-            ]);
+            $supervisorQuestionnaire = \App\Models\TracerPengguna::updateOrCreate(
+                [
+                    'tracer_study_id' => $tracerStudy->id,
+                    'nama_alumni' => $data['nama'] ?? 'Alumni',
+                ],
+                [
+                    'nama_atasan' => $data['nama_atasan'] ?? 'Atasan',
+                    'jabatan_atasan' => $data['jabatan_atasan'] ?? 'Jabatan',
+                    'nipy' => $data['nipy'] ?? null,
+                    'nama_perusahaan' => $data['nama_perusahaan'] ?? 'Perusahaan',
+                    'jabatan_alumni' => $data['jabatan'] ?? 'Staff',
+                    'tanggal_mulai_kerja' => $data['tanggal_mulai_kerja'] ?? now(),
+                    'email_atasan' => $data['email_atasan'] ?? null,
+                    'wa_atasan' => $data['wa_atasan'] ?? null,
+                    'encrypted_link' => $encryptedLink,
+                    'expires_at' => now()->addDays(7), // Link kadaluarsa dalam 7 hari
+                    'status_pengisian' => 'pending',
+                ]
+            );
 
             // Generate token akses
             $supervisorQuestionnaire->generateToken();
@@ -199,7 +203,6 @@ class TracerStudyService
                 'nama_atasan' => $data['nama_atasan'] ?? 'Atasan',
                 'encrypted_link' => $encryptedLink
             ]);
-
         } catch (\Exception $e) {
             Log::error('Gagal membuat kuesioner atasan: ' . $e->getMessage(), [
                 'data' => $data,
@@ -237,6 +240,7 @@ class TracerStudyService
                 'tracer_study_id' => $tracerStudy->id,
                 'nama_atasan' => $pekerjaan->nama_atasan ?? 'Atasan',
                 'jabatan_atasan' => $pekerjaan->jabatan_atasan ?? 'Jabatan',
+                'nipy' => $pekerjaan->nipy ?? null,
                 'nama_perusahaan' => $pekerjaan->nama_perusahaan ?? 'Perusahaan',
                 'nama_alumni' => $tracerStudy->nama ?? 'Alumni',
                 'jabatan_alumni' => $pekerjaan->jabatan ?? 'Staff',
@@ -268,7 +272,6 @@ class TracerStudyService
             ]);
 
             return $supervisorQuestionnaire;
-
         } catch (\Exception $e) {
             Log::error('Gagal membuat kuesioner atasan dari data existing: ' . $e->getMessage(), [
                 'tracer_study_id' => $tracerStudyId,
@@ -299,7 +302,6 @@ class TracerStudyService
 
             // Mark sebagai sent
             $supervisorQuestionnaire->markAsSent();
-
         } catch (\Exception $e) {
             Log::error('Gagal mengirim notifikasi ke atasan: ' . $e->getMessage(), [
                 'supervisor_questionnaire_id' => $supervisorQuestionnaire->id,
@@ -390,8 +392,15 @@ class TracerStudyService
     public function getTracerStudyWithDetails($id)
     {
         return TracerStudy::with([
-            'alumni', 'user', 'kompetensi', 'evaluasiPendidikan',
-            'pekerjaan', 'wirausaha', 'pendidikan', 'pencarianKerja'
+            'alumni',
+            'user',
+            'pengguna',
+            'kompetensi',
+            'evaluasiPendidikan',
+            'pekerjaan',
+            'wirausaha',
+            'pendidikan',
+            'pencarianKerja'
         ])->findOrFail($id);
     }
 
@@ -605,7 +614,6 @@ class TracerStudyService
             ['tracer_study_id' => $tracerStudyId],
             $pekerjaanData
         );
-
     }
 
     private function updateWirausahaDetail($tracerStudyId, array $data)
@@ -619,7 +627,7 @@ class TracerStudyService
                 'alamat_usaha' => $data['alamat_usaha'] ?? null,
                 'pendapatan_usaha' => $data['pendapatan_usaha'] ?? null,
                 'hubungan_studi_pekerjaan' => $data['hubungan_studi_pekerjaan'] ?? null,
-            'pendidikan_sesuai_pekerjaan' => $data['pendidikan_sesuai_pekerjaan'] ?? null,
+                'pendidikan_sesuai_pekerjaan' => $data['pendidikan_sesuai_pekerjaan'] ?? null,
             ]
         );
     }
@@ -698,8 +706,14 @@ class TracerStudyService
     public function getDataForExport($filters = [])
     {
         $query = TracerStudy::with([
-            'alumni', 'user', 'kompetensi', 'evaluasiPendidikan',
-            'pekerjaan', 'wirausaha', 'pendidikan', 'pencarianKerja'
+            'alumni',
+            'user',
+            'kompetensi',
+            'evaluasiPendidikan',
+            'pekerjaan',
+            'wirausaha',
+            'pendidikan',
+            'pencarianKerja'
         ]);
 
         if (isset($filters['status_pekerjaan'])) {

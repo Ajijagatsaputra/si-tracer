@@ -16,6 +16,7 @@ class TracerPengguna extends Model
         'tracer_study_id',
         'nama_atasan',
         'jabatan_atasan',
+        'nipy',
         'nama_perusahaan',
         'nama_alumni',
         'jabatan_alumni',

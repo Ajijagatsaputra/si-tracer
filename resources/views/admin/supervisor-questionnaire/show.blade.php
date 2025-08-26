@@ -61,6 +61,10 @@
                                 <label class="form-label fw-semibold">Jabatan Atasan</label>
                                 <p class="form-control-plaintext">{{ $questionnaire->jabatan_atasan }}</p>
                             </div>
+                             <div class="col-md-6">
+                                <label class="form-label fw-semibold">NIPY</label>
+                                <p class="form-control-plaintext">{{ $questionnaire->nipy }}</p>
+                            </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-semibold">Nama Perusahaan</label>
                                 <p class="form-control-plaintext">{{ $questionnaire->nama_perusahaan }}</p>

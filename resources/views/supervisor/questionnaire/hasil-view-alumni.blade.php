@@ -5,11 +5,11 @@
 
 <div class="container py-4">
     <!-- Header -->
-    <div class="row mb-4">
+    <div class="mb-4 row">
         <div class="col-12">
-            <div class="d-flex align-items-center justify-content-between p-3 rounded shadow-sm bg-secondary">
+            <div class="p-3 rounded shadow-sm d-flex align-items-center justify-content-between bg-secondary">
                 <div>
-                    <h2 class="fw-bold text-white mb-1">
+                    <h2 class="mb-1 text-white fw-bold">
                         <i class="fas fa-chart-bar me-2"></i>Hasil Kuesioner Supervisor
                     </h2>
                     <div class="text-white-50">Evaluasi kinerja alumni berdasarkan penilaian atasan</div>
@@ -24,12 +24,12 @@
 <div class="row g-4">
         <!-- Informasi Alumni -->
         <div class="col-lg-12">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-header bg-secondary text-white rounded-top">
+            <div class="border-0 shadow-sm card h-100">
+                <div class="text-white card-header bg-secondary rounded-top">
                     <i class="fas fa-user me-2"></i>Informasi Alumni
                 </div>
                 <div class="card-body">
-                    <dl class="row mb-0">
+                    <dl class="mb-0 row">
                         <dt class="col-5 col-md-4">Nama Alumni</dt>
                         <dd class="col-7 col-md-8">{{ $tracerPengguna->nama_alumni }}</dd>
                         <dt class="col-5 col-md-4">Jabatan Alumni</dt>
@@ -46,16 +46,18 @@
         </div>
         <!-- Informasi Atasan -->
         <div class="col-lg-12">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-header bg-secondary text-white rounded-top">
+            <div class="border-0 shadow-sm card h-100">
+                <div class="text-white card-header bg-secondary rounded-top">
                     <i class="fas fa-user-tie me-2"></i>Informasi Atasan
                 </div>
                 <div class="card-body">
-                    <dl class="row mb-0">
+                    <dl class="mb-0 row">
                         <dt class="col-5 col-md-4">Nama Atasan</dt>
                         <dd class="col-7 col-md-8">{{ $tracerPengguna->nama_atasan }}</dd>
                         <dt class="col-5 col-md-4">Jabatan Atasan</dt>
                         <dd class="col-7 col-md-8">{{ $tracerPengguna->jabatan_atasan }}</dd>
+                        <dt class="col-5 col-md-4">NIPY Atasan</dt>
+                        <dd class="col-7 col-md-8">{{ $tracerPengguna->nipy}}</dd>
                         <dt class="col-5 col-md-4">Email Atasan</dt>
                         <dd class="col-7 col-md-8">
                             @if($tracerPengguna->email_atasan)
@@ -79,14 +81,14 @@
     </div>
 
     <!-- Status Kuesioner -->
-    <div class="row mt-4">
+    <div class="mt-4 row">
         <div class="col-lg-12">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-header bg-secondary text-white rounded-top">
+            <div class="border-0 shadow-sm card h-100">
+                <div class="text-white card-header bg-secondary rounded-top">
                     <i class="fas fa-check-circle me-2"></i>Status Pengisian
                 </div>
                 <div class="card-body">
-                    <dl class="row mb-0">
+                    <dl class="mb-0 row">
                         <dt class="col-5 col-md-4">Status</dt>
                         <dd class="col-7 col-md-8">
                             @if($tracerPengguna->status_pengisian == 'completed')
@@ -106,11 +108,11 @@
     </div>
 
     <!-- Hasil Evaluasi -->
-    <div class="row mt-4">
+    <div class="mt-4 row">
         <div class="col-12">
             @if($tracerPengguna->status_pengisian == 'completed')
-            <div class="card border-0 shadow-sm">
-                <div class="card-header bg-secondary text-white rounded-top">
+            <div class="border-0 shadow-sm card">
+                <div class="text-white card-header bg-secondary rounded-top">
                     <i class="fas fa-star me-2"></i>Hasil Evaluasi Kinerja
                 </div>
                 <div class="card-body">
@@ -118,10 +120,10 @@
                         <!-- Evaluasi Kinerja -->
                         <div class="col-lg-6">
                             <div class="mb-4">
-                                <h6 class="fw-semibold text-dark mb-3">
+                                <h6 class="mb-3 fw-semibold text-dark">
                                     <i class="fas fa-chart-line me-2"></i>Evaluasi Kinerja Alumni
                                 </h6>
-                                <table class="table table-borderless mb-0">
+                                <table class="table mb-0 table-borderless">
                                     <tbody>
                                         @php
                                             $aspek = [
@@ -154,10 +156,10 @@
                         <!-- Evaluasi Kesesuaian Pendidikan & Kualitas Lulusan -->
                         <div class="col-lg-6">
                             <div class="mb-4">
-                                <h6 class="fw-semibold text-dark mb-3">
+                                <h6 class="mb-3 fw-semibold text-dark">
                                     <i class="fas fa-graduation-cap me-2"></i>Evaluasi Kesesuaian Pendidikan
                                 </h6>
-                                <table class="table table-borderless mb-0">
+                                <table class="table mb-0 table-borderless">
                                     <tbody>
                                         <tr>
                                             <td style="width: 60%;">Kesesuaian Pendidikan dengan Pekerjaan</td>
@@ -210,10 +212,10 @@
 
                     <!-- Saran Perbaikan -->
                     @if($tracerPengguna->saran_perbaikan)
-                    <div class="row mb-4">
+                    <div class="mb-4 row">
                         <div class="col-12">
-                            <div class="alert alert-light shadow-sm">
-                                <div class="fw-semibold mb-1">
+                            <div class="shadow-sm alert alert-light">
+                                <div class="mb-1 fw-semibold">
                                     <i class="fas fa-comment me-2"></i>Saran Perbaikan
                                 </div>
                                 <div>{{ $tracerPengguna->saran_perbaikan }}</div>
@@ -224,9 +226,9 @@
 
                     <!-- Chart Evaluasi & Ringkasan -->
                     <div class="row align-items-stretch">
-                        <div class="col-lg-8 mb-3 mb-lg-0">
-                            <div class="bg-light rounded p-3 h-100 d-flex flex-column justify-content-center">
-                                <h6 class="fw-semibold text-dark mb-3">
+                        <div class="mb-3 col-lg-8 mb-lg-0">
+                            <div class="p-3 rounded bg-light h-100 d-flex flex-column justify-content-center">
+                                <h6 class="mb-3 fw-semibold text-dark">
                                     <i class="fas fa-chart-bar me-2"></i>Grafik Evaluasi Kinerja
                                 </h6>
                                 <div style="height: 320px;">
@@ -235,8 +237,8 @@
                             </div>
                         </div>
                         <div class="col-lg-4">
-                            <div class="bg-light rounded p-3 h-100">
-                                <h6 class="fw-semibold mb-2">Ringkasan Skor</h6>
+                            <div class="p-3 rounded bg-light h-100">
+                                <h6 class="mb-2 fw-semibold">Ringkasan Skor</h6>
                                 @php
                                     $scores = [
                                         'integritas' => $tracerPengguna->integritas,
@@ -305,13 +307,13 @@
             </div>
             @else
             <!-- Pesan jika belum diisi -->
-            <div class="card border-0 shadow-sm">
-                <div class="card-header bg-secondary text-white rounded-top">
+            <div class="border-0 shadow-sm card">
+                <div class="text-white card-header bg-secondary rounded-top">
                     <i class="fas fa-info-circle me-2"></i>Status Kuesioner
                 </div>
-                <div class="card-body text-center py-4">
-                    <i class="fa fa-file-alt fa-3x text-muted mb-3"></i>
-                    <p class="text-muted mb-0">
+                <div class="py-4 text-center card-body">
+                    <i class="mb-3 fa fa-file-alt fa-3x text-muted"></i>
+                    <p class="mb-0 text-muted">
                         @if($tracerPengguna->status_pengisian == 'pending')
                             Kuesioner belum diisi oleh supervisor.
                         @elseif($tracerPengguna->status_pengisian == 'expired')

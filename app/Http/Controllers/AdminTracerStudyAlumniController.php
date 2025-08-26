@@ -157,6 +157,7 @@ class AdminTracerStudyAlumniController extends Controller
             // Detail pekerjaan
             'nama_perusahaan' => ['nullable', 'string', 'max:255'],
             'jabatan' => ['nullable', 'string', 'max:255'],
+            'nipy' => ['nullable', 'max:255'],
             'alamat_pekerjaan' => ['nullable', 'string', 'max:255'],
             'pendapatan' => ['nullable', 'string', 'max:255'],
 

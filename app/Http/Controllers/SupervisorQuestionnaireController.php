@@ -42,6 +42,12 @@ class SupervisorQuestionnaireController extends Controller
                 ]);
             }
 
+            if ($tracerPengguna->status_pengisian == 'expired') {
+                return view('supervisor.questionnaire.invalid-link', [
+                    'message' => 'Link kuesioner sudah kadaluarsa.'
+                ]);
+            }
+
             // Ambil data tracer study
             $tracerStudy = TracerStudy::find($tracerPengguna->tracer_study_id);
 

@@ -4,13 +4,13 @@
     @include('components.navbar')
 
     <main id="main-container" class="mt-3">
-        <div class="content py-4">
+        <div class="py-4 content">
 
             <!-- HEADER DETAIL STUDY -->
             <div class="mb-4">
-                <h1 class="h3 fw-bold text-dark mb-1">Detail Tracer Study</h1>
-                <p class="text-muted mb-3">Menampilkan informasi lengkap data tracer study alumni</p>
-                <div class="d-flex gap-2">
+                <h1 class="mb-1 h3 fw-bold text-dark">Detail Tracer Study</h1>
+                <p class="mb-3 text-muted">Menampilkan informasi lengkap data tracer study alumni</p>
+                <div class="gap-2 d-flex">
                     <a href="{{ route('home') }}" class="btn btn-outline-secondary">
                         <i class="fas fa-arrow-left me-2"></i>Kembali
                     </a>
@@ -24,9 +24,9 @@
 
                 <!-- INFORMASI PRIBADI -->
                 <div class="col-12">
-                    <div class="card border-0 shadow-sm">
+                    <div class="border-0 shadow-sm card">
                         <div class="card-body">
-                            <h5 class="fw-bold mb-3">
+                            <h5 class="mb-3 fw-bold">
                                 <i class="fas fa-user text-primary me-2"></i>Informasi Pribadi
                             </h5>
                             <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -87,9 +87,9 @@
                 <!-- DETAIL BERDASARKAN STATUS PEKERJAAN -->
                 @if ($tracer->status_pekerjaan === 'bekerja_full' && $tracer->pekerjaan)
                     <div class="col-12">
-                        <div class="card border-0 shadow-sm">
+                        <div class="border-0 shadow-sm card">
                             <div class="card-body">
-                                <h5 class="fw-bold mb-3">
+                                <h5 class="mb-3 fw-bold">
                                     <i class="fas fa-briefcase text-success me-2"></i>Detail Pekerjaan
                                 </h5>
                                 <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -116,6 +116,10 @@
                                     <div class="col">
                                         <div class="small text-muted">Jabatan</div>
                                         <div class="fw-medium">{{ $tracer->pekerjaan->jabatan ?? '-' }}</div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="small text-muted">NIPY</div>
+                                        <div class="fw-medium">{{ $tracer->pengguna->nipy ?? '-' }}</div>
                                     </div>
                                     <div class="col">
                                         <div class="small text-muted">Provinsi</div>
@@ -180,9 +184,9 @@
                     </div>
                 @elseif ($tracer->status_pekerjaan === 'wirausaha' && $tracer->wirausaha)
                     <div class="col-12">
-                        <div class="card border-0 shadow-sm">
+                        <div class="border-0 shadow-sm card">
                             <div class="card-body">
-                                <h5 class="fw-bold mb-3">
+                                <h5 class="mb-3 fw-bold">
                                     <i class="fas fa-store text-warning me-2"></i>Detail Wirausaha
                                 </h5>
                                 <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -251,9 +255,9 @@
                     </div>
                 @elseif ($tracer->status_pekerjaan === 'lanjutstudy' && $tracer->pendidikan)
                     <div class="col-12">
-                        <div class="card border-0 shadow-sm">
+                        <div class="border-0 shadow-sm card">
                             <div class="card-body">
-                                <h5 class="fw-bold mb-3">
+                                <h5 class="mb-3 fw-bold">
                                     <i class="fas fa-graduation-cap text-info me-2"></i>Detail Pendidikan Lanjut
                                 </h5>
                                 <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -286,9 +290,9 @@
                 <!-- CARA MENCARI PEKERJAAN (untuk tidak) -->
                 @if ($tracer->status_pekerjaan === 'asd' && $tracer->pencarianKerja)
                     <div class="col-12">
-                        <div class="card border-0 shadow-sm">
+                        <div class="border-0 shadow-sm card">
                             <div class="card-body">
-                                <h5 class="fw-bold mb-3">
+                                <h5 class="mb-3 fw-bold">
                                     <i class="fas fa-file-alt text-info me-2"></i>Cara Mencari Pekerjaan
                                 </h5>
                                 <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -325,9 +329,9 @@
                 <!-- PENCARIAN KERJA / AKTIVITAS (untuk bekerja_full, belum_bekerja, tidak) -->
                 @if (in_array($tracer->status_pekerjaan, ['bekerja_full', 'wirausaha', 'tidak']) && $tracer->pencarianKerja)
                     <div class="col-12">
-                        <div class="card border-0 shadow-sm">
+                        <div class="border-0 shadow-sm card">
                             <div class="card-body">
-                                <h5 class="fw-bold mb-3">
+                                <h5 class="mb-3 fw-bold">
                                     <i class="fas fa-search text-secondary me-2"></i>Detail Pencarian Kerja
                                 </h5>
                                 <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -418,9 +422,9 @@
                 <!-- AKTIVITAS SAAT INI (untuk belum_bekerja) -->
                 @if (in_array($tracer->status_pekerjaan, ['belum_bekerja', 'tidak', 'wirausaha', 'bekerja_full']) && $tracer->pencarianKerja)
                     <div class="col-12">
-                        <div class="card border-0 shadow-sm">
+                        <div class="border-0 shadow-sm card">
                             <div class="card-body">
-                                <h5 class="fw-bold mb-3">
+                                <h5 class="mb-3 fw-bold">
                                     <i class="fas fa-tasks text-primary me-2"></i>Aktivitas Saat Ini
                                 </h5>
                                 <div class="row row-cols-1 row-cols-md-12 g-4">
@@ -472,9 +476,9 @@
                 <!-- KOMPETENSI ALUMNI -->
                 @if ($tracer->kompetensi)
                     <div class="col-12">
-                        <div class="card border-0 shadow-sm">
+                        <div class="border-0 shadow-sm card">
                             <div class="card-body">
-                                <h5 class="fw-bold mb-3">
+                                <h5 class="mb-3 fw-bold">
                                     <i class="fas fa-star text-warning me-2"></i>Kompetensi Alumni
                                 </h5>
                                 @php
@@ -488,8 +492,8 @@
                                 @endphp
 
                                 <!-- Kompetensi Awal -->
-                                <h6 class="fw-semibold text-muted mb-3">Kompetensi Saat Awal Lulus</h6>
-                                <div class="row row-cols-1 row-cols-md-4 g-3 mb-4">
+                                <h6 class="mb-3 fw-semibold text-muted">Kompetensi Saat Awal Lulus</h6>
+                                <div class="mb-4 row row-cols-1 row-cols-md-4 g-3">
                                     <div class="col">
                                         <div class="small text-muted">Etika</div>
                                         <div class="fw-medium">{{ $opsi_kompetensi[$tracer->kompetensi->etika_awal] ?? '-' }}</div>
@@ -521,7 +525,7 @@
                                 </div>
 
                                 <!-- Kompetensi Sekarang -->
-                                <h6 class="fw-semibold text-muted mb-3">Kompetensi Saat Ini</h6>
+                                <h6 class="mb-3 fw-semibold text-muted">Kompetensi Saat Ini</h6>
                                 <div class="row row-cols-1 row-cols-md-4 g-3">
                                     <div class="col">
                                         <div class="small text-muted">Etika</div>
@@ -560,9 +564,9 @@
                 <!-- EVALUASI PENDIDIKAN -->
                 @if ($tracer->evaluasiPendidikan)
                     <div class="col-12">
-                        <div class="card border-0 shadow-sm">
+                        <div class="border-0 shadow-sm card">
                             <div class="card-body">
-                                <h5 class="fw-bold mb-3">
+                                <h5 class="mb-3 fw-bold">
                                     <i class="fas fa-graduation-cap text-info me-2"></i>Evaluasi Pendidikan
                                 </h5>
                                 <div class="row row-cols-1 row-cols-md-4 g-3">
@@ -605,12 +609,12 @@
                 <!-- SARAN DAN MASUKAN -->
                 @if ($tracer->saran)
                     <div class="col-12">
-                        <div class="card border-0 shadow-sm">
+                        <div class="border-0 shadow-sm card">
                             <div class="card-body">
-                                <h5 class="fw-bold mb-3">
+                                <h5 class="mb-3 fw-bold">
                                     <i class="fas fa-comment-dots text-info me-2"></i>Saran dan Masukan
                                 </h5>
-                                <div class="bg-light p-3 rounded">
+                                <div class="p-3 rounded bg-light">
                                     <p class="mb-0">{{ $tracer->saran }}</p>
                                 </div>
                             </div>
@@ -620,8 +624,8 @@
 
                 <!-- INFO TIMESTAMP -->
                 <div class="col-12">
-                    <div class="card border-0 bg-light">
-                        <div class="card-body py-3">
+                    <div class="border-0 card bg-light">
+                        <div class="py-3 card-body">
                             <div class="d-flex justify-content-between align-items-center">
                                 <small class="text-muted">
                                     <i class="fas fa-calendar-plus me-1"></i>

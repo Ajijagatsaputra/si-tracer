@@ -19,6 +19,7 @@ class TracerPekerjaan extends Model
         'pendapatan',
         'nama_perusahaan',
         'jabatan',
+        'nipy',
         'alamat_pekerjaan',
         'provinsi',
         'kota',

@@ -40,7 +40,7 @@
                 <!-- Left Section -->
                 <div class="d-flex align-items-center">
                     <!-- Logo -->
-                    <a class="fw-semibold fs-5 tracking-wider text-dual me-3" href="/">SIKEMA<span
+                    <a class="tracking-wider fw-semibold fs-5 text-dual me-3" href="/">SIKEMA<span
                             class="fw-normal">TI</span></a>
 
                     <!-- Notifications -->
@@ -51,14 +51,14 @@
                             <i class="fa fa-fw fa-bell"></i>
                             <span class="text-primary">•</span>
                         </button>
-                        <div class="dropdown-menu dropdown-menu-lg p-0 border-0 fs-sm"
+                        <div class="p-0 border-0 dropdown-menu dropdown-menu-lg fs-sm"
                             aria-labelledby="page-header-notifications-dropdown">
-                            <div class="p-2 bg-body-light border-bottom text-center rounded-top">
+                            <div class="p-2 text-center bg-body-light border-bottom rounded-top">
                                 <h5 class="dropdown-header text-uppercase">Pemberitahuan</h5>
                             </div>
-                            <ul class="nav-items mb-0">
+                            <ul class="mb-0 nav-items">
                                 <li>
-                                    <a class="text-dark d-flex py-2" href="javascript:void(0)">
+                                    <a class="py-2 text-dark d-flex" href="javascript:void(0)">
                                         <div class="flex-shrink-0 me-2 ms-3">
                                             <i class="fa fa-fw fa-check-circle text-success"></i>
                                         </div>
@@ -69,7 +69,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="text-dark d-flex py-2" href="javascript:void(0)">
+                                    <a class="py-2 text-dark d-flex" href="javascript:void(0)">
                                         <div class="flex-shrink-0 me-2 ms-3">
                                             <i class="fa fa-fw fa-plus-circle text-primary"></i>
                                         </div>
@@ -97,7 +97,7 @@
             <!-- Header Loader -->
             <div id="page-header-loader" class="overlay-header bg-primary-lighter">
                 <div class="content-header">
-                    <div class="w-100 text-center">
+                    <div class="text-center w-100">
                         <i class="fa fa-fw fa-circle-notch fa-spin text-primary"></i>
                     </div>
                 </div>
@@ -109,7 +109,7 @@
         <!-- Main Content -->
         <!-- Navigation Bar-->
         <div class="bg-primary-darker sticky-top" style="z-index : 1030;">
-            <div class="content py-3 container">
+            <div class="container py-3 content">
                 <!-- Toggle Main Navigation -->
                 <div class="d-lg-none">
                     <!-- Class Toggle, functionality initialized in Helpers.oneToggleClass() -->
@@ -123,7 +123,7 @@
                 <!-- END Toggle Main Navigation -->
 
                 <!-- Main Navigation -->
-                <div id="main-navigation" class="d-none d-lg-block mt-2 mt-lg-0">
+                <div id="main-navigation" class="mt-2 d-none d-lg-block mt-lg-0">
                     <ul class="nav-main nav-main-dark nav-main-horizontal nav-main-hover">
 
                     </ul>
@@ -136,11 +136,11 @@
 
         <div class="container py-4">
             <!-- Header -->
-            <div class="row mb-4">
+            <div class="mb-4 row">
                 <div class="col-12">
-                    <div class="d-flex align-items-center justify-content-between p-3 rounded shadow-sm bg-secondary">
+                    <div class="p-3 rounded shadow-sm d-flex align-items-center justify-content-between bg-secondary">
                         <div>
-                            <h2 class="fw-bold text-white mb-1">
+                            <h2 class="mb-1 text-white fw-bold">
                                 <i class="fas fa-chart-bar me-2"></i>Hasil Kuesioner Supervisor
                             </h2>
                             <div class="text-white-50">Evaluasi kinerja alumni berdasarkan penilaian atasan</div>
@@ -152,12 +152,12 @@
             <div class="row g-4">
                 <!-- Informasi Alumni -->
                 <div class="col-lg-12">
-                    <div class="card border-0 shadow-sm h-100">
-                        <div class="card-header bg-secondary text-white rounded-top">
+                    <div class="border-0 shadow-sm card h-100">
+                        <div class="text-white card-header bg-secondary rounded-top">
                             <i class="fas fa-user me-2"></i>Informasi Alumni
                         </div>
                         <div class="card-body">
-                            <dl class="row mb-0">
+                            <dl class="mb-0 row">
                                 <dt class="col-5 col-md-4">Nama Alumni</dt>
                                 <dd class="col-7 col-md-8">{{ $tracerPengguna->nama_alumni }}</dd>
                                 <dt class="col-5 col-md-4">Jabatan Alumni</dt>
@@ -174,16 +174,18 @@
                 </div>
                 <!-- Informasi Atasan -->
                 <div class="col-lg-12">
-                    <div class="card border-0 shadow-sm h-100">
-                        <div class="card-header bg-secondary text-white rounded-top">
+                    <div class="border-0 shadow-sm card h-100">
+                        <div class="text-white card-header bg-secondary rounded-top">
                             <i class="fas fa-user-tie me-2"></i>Informasi Atasan
                         </div>
                         <div class="card-body">
-                            <dl class="row mb-0">
+                            <dl class="mb-0 row">
                                 <dt class="col-5 col-md-4">Nama Atasan</dt>
                                 <dd class="col-7 col-md-8">{{ $tracerPengguna->nama_atasan }}</dd>
                                 <dt class="col-5 col-md-4">Jabatan Atasan</dt>
                                 <dd class="col-7 col-md-8">{{ $tracerPengguna->jabatan_atasan }}</dd>
+                                <dt class="col-5 col-md-4">NIPY Atasan</dt>
+                                <dd class="col-7 col-md-8">{{ $tracerPengguna->nipy}}</dd>
                                 <dt class="col-5 col-md-4">Email Atasan</dt>
                                 <dd class="col-7 col-md-8">
                                     @if ($tracerPengguna->email_atasan)
@@ -207,14 +209,14 @@
             </div>
 
             <!-- Status Kuesioner -->
-            <div class="row mt-4">
+            <div class="mt-4 row">
                 <div class="col-lg-12">
-                    <div class="card border-0 shadow-sm h-100">
-                        <div class="card-header bg-secondary text-white rounded-top">
+                    <div class="border-0 shadow-sm card h-100">
+                        <div class="text-white card-header bg-secondary rounded-top">
                             <i class="fas fa-check-circle me-2"></i>Status Pengisian
                         </div>
                         <div class="card-body">
-                            <dl class="row mb-0">
+                            <dl class="mb-0 row">
                                 <dt class="col-5 col-md-4">Status</dt>
                                 <dd class="col-7 col-md-8">
                                     @if ($tracerPengguna->status_pengisian == 'completed')
@@ -235,11 +237,11 @@
             </div>
 
             <!-- Hasil Evaluasi -->
-            <div class="row mt-4">
+            <div class="mt-4 row">
                 <div class="col-12">
                     @if ($tracerPengguna->status_pengisian == 'completed')
-                        <div class="card border-0 shadow-sm">
-                            <div class="card-header bg-secondary text-white rounded-top">
+                        <div class="border-0 shadow-sm card">
+                            <div class="text-white card-header bg-secondary rounded-top">
                                 <i class="fas fa-star me-2"></i>Hasil Evaluasi Kinerja
                             </div>
                             <div class="card-body">
@@ -247,10 +249,10 @@
                                     <!-- Evaluasi Kinerja -->
                                     <div class="col-lg-6">
                                         <div class="mb-4">
-                                            <h6 class="fw-semibold text-dark mb-3">
+                                            <h6 class="mb-3 fw-semibold text-dark">
                                                 <i class="fas fa-chart-line me-2"></i>Evaluasi Kinerja Alumni
                                             </h6>
-                                            <table class="table table-borderless mb-0">
+                                            <table class="table mb-0 table-borderless">
                                                 <tbody>
                                                     @php
                                                         $aspek = [
@@ -286,11 +288,11 @@
                                     <!-- Evaluasi Kesesuaian Pendidikan & Kualitas Lulusan -->
                                     <div class="col-lg-6">
                                         <div class="mb-4">
-                                            <h6 class="fw-semibold text-dark mb-3">
+                                            <h6 class="mb-3 fw-semibold text-dark">
                                                 <i class="fas fa-graduation-cap me-2"></i>Evaluasi Kesesuaian
                                                 Pendidikan
                                             </h6>
-                                            <table class="table table-borderless mb-0">
+                                            <table class="table mb-0 table-borderless">
                                                 <tbody>
                                                     <tr>
                                                         <td style="width: 60%;">Kesesuaian Pendidikan dengan Pekerjaan
@@ -344,10 +346,10 @@
 
                                 <!-- Saran Perbaikan -->
                                 @if ($tracerPengguna->saran_perbaikan)
-                                    <div class="row mb-4">
+                                    <div class="mb-4 row">
                                         <div class="col-12">
-                                            <div class="alert alert-light shadow-sm">
-                                                <div class="fw-semibold mb-1">
+                                            <div class="shadow-sm alert alert-light">
+                                                <div class="mb-1 fw-semibold">
                                                     <i class="fas fa-comment me-2"></i>Saran Perbaikan
                                                 </div>
                                                 <div>{{ $tracerPengguna->saran_perbaikan }}</div>
@@ -358,10 +360,10 @@
 
                                 <!-- Chart Evaluasi & Ringkasan -->
                                 <div class="row align-items-stretch">
-                                    <div class="col-lg-8 mb-3 mb-lg-0">
+                                    <div class="mb-3 col-lg-8 mb-lg-0">
                                         <div
-                                            class="bg-light rounded p-3 h-100 d-flex flex-column justify-content-center">
-                                            <h6 class="fw-semibold text-dark mb-3">
+                                            class="p-3 rounded bg-light h-100 d-flex flex-column justify-content-center">
+                                            <h6 class="mb-3 fw-semibold text-dark">
                                                 <i class="fas fa-chart-bar me-2"></i>Grafik Evaluasi Kinerja
                                             </h6>
                                             <div style="height: 320px;">
@@ -370,8 +372,8 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
-                                        <div class="bg-light rounded p-3 h-100">
-                                            <h6 class="fw-semibold mb-2">Ringkasan Skor</h6>
+                                        <div class="p-3 rounded bg-light h-100">
+                                            <h6 class="mb-2 fw-semibold">Ringkasan Skor</h6>
                                             @php
                                                 $scores = [
                                                     'integritas' => $tracerPengguna->integritas,
@@ -440,13 +442,13 @@
                         </div>
                     @else
                         <!-- Pesan jika belum diisi -->
-                        <div class="card border-0 shadow-sm">
-                            <div class="card-header bg-secondary text-white rounded-top">
+                        <div class="border-0 shadow-sm card">
+                            <div class="text-white card-header bg-secondary rounded-top">
                                 <i class="fas fa-info-circle me-2"></i>Status Kuesioner
                             </div>
-                            <div class="card-body text-center py-4">
-                                <i class="fa fa-file-alt fa-3x text-muted mb-3"></i>
-                                <p class="text-muted mb-0">
+                            <div class="py-4 text-center card-body">
+                                <i class="mb-3 fa fa-file-alt fa-3x text-muted"></i>
+                                <p class="mb-0 text-muted">
                                     @if ($tracerPengguna->status_pengisian == 'pending')
                                         Kuesioner belum diisi oleh supervisor.
                                     @elseif($tracerPengguna->status_pengisian == 'expired')
@@ -586,13 +588,13 @@
 
         <!-- Footer -->
         <div class="mt-5">
-            <footer id="page-footer" class="footer-sticky bg-body-extra-light fixed-bottom mt-5">
-                <div class="content py-3">
+            <footer id="page-footer" class="mt-5 footer-sticky bg-body-extra-light fixed-bottom">
+                <div class="py-3 content">
                     <div class="row fs-sm">
-                        <div class="col-sm-6 order-sm-2 py-1 text-center text-sm-end">
+                        <div class="py-1 text-center col-sm-6 order-sm-2 text-sm-end">
                             Politeknik Harapan Bersama
                         </div>
-                        <div class="col-sm-6 order-sm-1 py-1 text-center text-sm-start">
+                        <div class="py-1 text-center col-sm-6 order-sm-1 text-sm-start">
                             <a class="fw-semibold" href="https://1.envato.market/AVD6j" target="_blank">Copyright</a>
                             &copy; SikemaTI<span data-toggle="year-copy">2025</span>
                         </div>

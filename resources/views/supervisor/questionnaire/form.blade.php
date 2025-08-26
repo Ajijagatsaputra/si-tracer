@@ -41,7 +41,7 @@
                 <!-- Left Section -->
                 <div class="d-flex align-items-center">
                     <!-- Logo -->
-                    <a class="fw-semibold fs-5 tracking-wider text-dual me-3" href="/">SIKEMA<span class="fw-normal">TI</span></a>
+                    <a class="tracking-wider fw-semibold fs-5 text-dual me-3" href="/">SIKEMA<span class="fw-normal">TI</span></a>
 
                     <!-- Notifications -->
                     <div class="dropdown d-inline-block me-2" style="z-index: 1040;">
@@ -50,13 +50,13 @@
                             <i class="fa fa-fw fa-bell"></i>
                             <span class="text-primary">•</span>
                         </button>
-                        <div class="dropdown-menu dropdown-menu-lg p-0 border-0 fs-sm" aria-labelledby="page-header-notifications-dropdown">
-                            <div class="p-2 bg-body-light border-bottom text-center rounded-top">
+                        <div class="p-0 border-0 dropdown-menu dropdown-menu-lg fs-sm" aria-labelledby="page-header-notifications-dropdown">
+                            <div class="p-2 text-center bg-body-light border-bottom rounded-top">
                                 <h5 class="dropdown-header text-uppercase">Pemberitahuan</h5>
                             </div>
-                            <ul class="nav-items mb-0">
+                            <ul class="mb-0 nav-items">
                                 <li>
-                                    <a class="text-dark d-flex py-2" href="javascript:void(0)">
+                                    <a class="py-2 text-dark d-flex" href="javascript:void(0)">
                                         <div class="flex-shrink-0 me-2 ms-3">
                                             <i class="fa fa-fw fa-check-circle text-success"></i>
                                         </div>
@@ -67,7 +67,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="text-dark d-flex py-2" href="javascript:void(0)">
+                                    <a class="py-2 text-dark d-flex" href="javascript:void(0)">
                                         <div class="flex-shrink-0 me-2 ms-3">
                                             <i class="fa fa-fw fa-plus-circle text-primary"></i>
                                         </div>
@@ -86,7 +86,7 @@
                 <!-- Right Section -->
                 <div class="d-flex align-items-center">
 
-                    
+
                 </div>
                 <!-- END Right Section -->
             </div>
@@ -94,7 +94,7 @@
             <!-- Header Loader -->
             <div id="page-header-loader" class="overlay-header bg-primary-lighter">
                 <div class="content-header">
-                    <div class="w-100 text-center">
+                    <div class="text-center w-100">
                         <i class="fa fa-fw fa-circle-notch fa-spin text-primary"></i>
                     </div>
                 </div>
@@ -107,23 +107,23 @@
          <!-- Panggil CSS di Folder Public -->
 
 
-    <div class="container-lg mt-5 mb-5">
+    <div class="mt-5 mb-5 container-lg">
         @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show mt-4 mx-4" role="alert">
+            <div class="mx-4 mt-4 alert alert-success alert-dismissible fade show" role="alert">
                 {{ session('success') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
 
         @if (session('error'))
-            <div class="alert alert-danger alert-dismissible fade show mt-4 mx-4" role="alert">
+            <div class="mx-4 mt-4 alert alert-danger alert-dismissible fade show" role="alert">
                 {{ session('error') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
 
         @if ($errors->any())
-            <div class="alert alert-danger alert-dismissible fade show mt-4 mx-4" role="alert">
+            <div class="mx-4 mt-4 alert alert-danger alert-dismissible fade show" role="alert">
                 <ul class="mb-0">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -136,7 +136,7 @@
         <div class="questionnaire-container supervisor-questionnaire">
             <!-- Header -->
             <div class="header-section">
-                <i class="fas fa-user-tie fa-3x mb-3"></i>
+                <i class="mb-3 fas fa-user-tie fa-3x"></i>
                 <h1>Kuesioner Evaluasi Kinerja Alumni</h1>
                 <h2 style="font-size: 1.8rem; font-weight: 600; margin: 0.5rem 0;">Politeknik Harapan Bersama</h2>
                 <p>Kuesioner untuk mengevaluasi kinerja dan kompetensi alumni di tempat kerja</p>
@@ -147,7 +147,7 @@
                     @csrf
 
                     {{-- SECTION: Informasi Alumni --}}
-                    <div class="section-card mb-4">
+                    <div class="mb-4 section-card">
                         <div class="section-header">
                             <i class="fas fa-user me-2"></i>Informasi Alumni
                         </div>
@@ -172,7 +172,7 @@
                     </div>
 
                     {{-- SECTION: Informasi Atasan --}}
-                    <div class="section-card mb-4">
+                    <div class="mb-4 section-card">
                         <div class="section-header">
                             <i class="fas fa-user-tie me-2"></i>Informasi Atasan
                         </div>
@@ -185,18 +185,30 @@
                                 <label class="form-label">Jabatan Atasan</label>
                                 <input type="text" class="form-control" value="{{ $tracerPengguna->jabatan_atasan }}" readonly>
                             </div>
+                            <div class="col-md-6">
+                                <label class="form-label">NIPY</label>
+                                <input type="text" class="form-control" value="{{ $tracerPengguna->nipy }}" readonly>
+                            </div>
+                             <div class="col-md-6">
+                                <label class="form-label">No Whatsapp</label>
+                                <input type="text" class="form-control" value="{{ $tracerPengguna->wa_atasan }}" readonly>
+                            </div>
+                             <div class="col-md-6">
+                                <label class="form-label">Email Atasan</label>
+                                <input type="text" class="form-control" value="{{ $tracerPengguna->email_atasan }}" readonly>
+                            </div>
                         </div>
                     </div>
 
                     {{-- SECTION: Evaluasi Kinerja (Point A) --}}
-                    <div class="section-card mb-4">
+                    <div class="mb-4 section-card">
                         <div class="section-header">
                             <i class="fas fa-star me-2"></i>Evaluasi Kinerja Alumni
                         </div>
                         <div class="p-4">
                             <div class="evaluation-scale">
-                                <p class="text-muted mb-3">Berikan penilaian terhadap kinerja alumni berdasarkan skala berikut:</p>
-                                <div class="row mb-3">
+                                <p class="mb-3 text-muted">Berikan penilaian terhadap kinerja alumni berdasarkan skala berikut:</p>
+                                <div class="mb-3 row">
                                     <div class="col-md-2">
                                         <small class="text-muted">1 = Sangat Kurang</small>
                                     </div>
@@ -249,7 +261,7 @@
                     </div>
 
                     {{-- SECTION: Evaluasi Kesesuaian Pendidikan --}}
-                    <div class="section-card mb-4">
+                    <div class="mb-4 section-card">
                         <div class="section-header">
                             <i class="fas fa-graduation-cap me-2"></i>Evaluasi Kesesuaian Pendidikan
                         </div>
@@ -293,7 +305,7 @@
                     </div>
 
                     {{-- Tombol Submit --}}
-                    <div class="text-center mt-4">
+                    <div class="mt-4 text-center">
                         <button type="submit" class="btn btn-submit">
                             <i class="fas fa-paper-plane me-2"></i>Kirim Evaluasi
                         </button>
@@ -345,13 +357,13 @@
 
         <!-- Footer -->
         <div class="mt-5">
-        <footer id="page-footer" class="footer-sticky bg-body-extra-light fixed-bottom mt-5">
-            <div class="content py-3">
+        <footer id="page-footer" class="mt-5 footer-sticky bg-body-extra-light fixed-bottom">
+            <div class="py-3 content">
                 <div class="row fs-sm">
-                    <div class="col-sm-6 order-sm-2 py-1 text-center text-sm-end">
+                    <div class="py-1 text-center col-sm-6 order-sm-2 text-sm-end">
                         Politeknik Harapan Bersama
                     </div>
-                    <div class="col-sm-6 order-sm-1 py-1 text-center text-sm-start">
+                    <div class="py-1 text-center col-sm-6 order-sm-1 text-sm-start">
                         <a class="fw-semibold" href="https://1.envato.market/AVD6j" target="_blank">Copyright</a>
                         &copy; SikemaTI<span data-toggle="year-copy">2025</span>
                     </div>

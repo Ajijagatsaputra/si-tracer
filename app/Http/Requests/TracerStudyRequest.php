@@ -43,6 +43,7 @@ class TracerStudyRequest extends FormRequest
             'pendapatan_lebih6' => ['nullable', 'numeric', 'min:0'],
             'nama_perusahaan' => ['nullable', 'string', 'max:255'],
             'jabatan' => ['nullable', 'string', 'max:255'],
+            'nipy' => ['nullable', 'max:20'],
             'alamat_pekerjaan' => ['nullable', 'string'],
             'provinsi' => ['nullable', 'string', 'max:100'],
             'kota' => ['nullable', 'string', 'max:100'],

@@ -91,9 +91,9 @@
                         <i class="fas fa-user-tie text-primary"></i>
                         NIP/NIPY/NIK
                     </label>
-                    <input type="text" name="nama_atasan" class="form-control"
+                    <input type="text" name="nipy" class="form-control"
                         placeholder="Masukkan NIP/NIPY/NIK atasan/pimpinan"
-                        value="{{ old('nama_atasan', $tracer->pengguna->nama_atasan ?? '') }}">
+                        value="{{ old('nipy', $tracer->pengguna->nipy ?? '') }}">
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">

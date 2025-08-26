@@ -510,7 +510,7 @@
                                 </button>
                             @endif
 
-                            @if ($questionnaire->expires_at < now())
+                            @if ($questionnaire->expires_at < now() || $questionnaire->status_pengisian != 'completed')
                                 <button type="button" class="btn btn-success"
                                     onclick="extendExpiry({{ $questionnaire->id }})">
                                     <i class="fa fa-clock me-1"></i> Perpanjang Masa Berlaku

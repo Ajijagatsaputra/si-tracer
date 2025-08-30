@@ -124,13 +124,13 @@
             <!-- RIGHT Login Form -->
             <div class="col-12 col-md-6 d-flex align-items-center justify-content-center">
                 <div class="login-box">
-                    <h5 class="fw-bold mb-1">Sistem Informasi Kemahasiswaan</h5>
+                    <h5 class="mb-1 fw-bold">Sistem Informasi Kemahasiswaan</h5>
                     <h6 class="mb-3 fw-bold">Politeknik Harapan Bersama</h6>
-                    <p class="text-muted mb-4">Akses ke seluruh layanan akademik kampus dengan mudah dan cepat.</p>
+                    <p class="mb-4 text-muted">Akses ke seluruh layanan akademik kampus dengan mudah dan cepat.</p>
 
                     <!-- Session Status -->
                     @if (session('status'))
-                        <div class="alert alert-success mb-4" role="alert">
+                        <div class="mb-4 alert alert-success" role="alert">
                             {{ session('status') }}
                         </div>
                     @endif
@@ -149,15 +149,15 @@
                             <div class="invalid-feedback">Password minimal 6 karakter.</div>
                         </div>
 
-                        <div class="form-check mb-3">
+                        <div class="mb-3 form-check">
                             <input class="form-check-input" type="checkbox" id="showPassword">
                             <label class="form-check-label" for="showPassword">Tampilkan Password</label>
                         </div>
                         <button type="submit" class="btn btn-dark w-100">Login</button>
                     </form>
 
-                    <small class="d-block text-muted mt-3">Belum punya akun? <a href="/register">Registrasi Akun</a></small>
-                    <small class="d-block text-muted mt-2">© 2025 | Politeknik Harapan Bersama - Sisofo360</small>
+                    <small class="mt-3 d-block text-muted">Belum punya akun? <a href="/register">Registrasi Akun</a></small>
+                    <small class="mt-2 d-block text-muted">© 2025 | Politeknik Harapan Bersama - Sisofo360</small>
                 </div>
             </div>
         </div>

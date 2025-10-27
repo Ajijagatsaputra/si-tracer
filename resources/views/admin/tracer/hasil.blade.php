@@ -1,47 +1,46 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="container py-5 px-3 px-md-4">
-        <!-- STATISTICS CARDS -->
-        <div class="row g-4 mb-5">
+    <div class="px-4 py-5 container-fluid">
+
+        <!-- === STATISTICS CARDS === -->
+        <div class="mb-5 row g-4">
             @php
                 $stats = [
                     [
                         'label' => 'Total Alumni',
                         'icon' => 'bi-people-fill',
                         'value' => $totalAlumni,
-                        'color' => '#7F7FD5, #86A8E7',
+                        'color' => 'linear-gradient(135deg, #667eea, #764ba2)',
                     ],
                     [
                         'label' => 'Sudah Diisi Supervisor',
-                        'icon' => 'bi-check-circle-fill',
+                        'icon' => 'bi-check2-circle',
                         'value' => $sudahMengisi,
-                        'color' => '#43cea2, #185a9d',
+                        'color' => 'linear-gradient(135deg, #43cea2, #185a9d)',
                     ],
                     [
                         'label' => 'Belum Diisi Supervisor',
-                        'icon' => 'bi-clock-fill',
+                        'icon' => 'bi-hourglass-split',
                         'value' => $belumMengisi,
-                        'color' => '#fceabb, #f8b500',
+                        'color' => 'linear-gradient(135deg, #f7971e, #ffd200)',
                     ],
                 ];
             @endphp
+
             @foreach ($stats as $stat)
                 <div class="col-12 col-md-4">
-                    <div class="card gradient-card text-white border-0 shadow-sm h-100"
-                        style="background: linear-gradient(135deg, {{ $stat['color'] }});">
-                        <div class="card-body p-4 d-flex justify-content-between align-items-center">
+                    <div class="text-white border-0 shadow-lg card stat-card" style="background: {{ $stat['color'] }};">
+                        <div class="p-4 card-body d-flex justify-content-between align-items-center">
                             <div>
-                                <div class="fs-2 mb-2"><i class="bi {{ $stat['icon'] }}"></i></div>
+                                <div class="mb-2 fs-2"><i class="bi {{ $stat['icon'] }}"></i></div>
                                 <p class="mb-1 text-white-50">{{ $stat['label'] }}</p>
-                                <h3 class="fw-bold counter" data-value="{{ $stat['value'] }}">{{ $stat['value'] }}</h3>
+                                <h2 class="fw-bold counter" data-value="{{ $stat['value'] }}">{{ $stat['value'] }}</h2>
                             </div>
                             @if ($stat['label'] !== 'Total Alumni')
-                                <div class="text-end">
-                                    <span class="badge bg-white text-dark shadow-sm fw-semibold fs-6 px-3 py-1">
-                                        {{ $totalAlumni > 0 ? round(($stat['value'] / $totalAlumni) * 100, 1) : 0 }}%
-                                    </span>
-                                </div>
+                                <span class="shadow-sm badge bg-light text-dark fw-semibold fs-6">
+                                    {{ $totalAlumni > 0 ? round(($stat['value'] / $totalAlumni) * 100, 1) : 0 }}%
+                                </span>
                             @endif
                         </div>
                     </div>
@@ -49,76 +48,72 @@
             @endforeach
         </div>
 
-        <!-- SURVEY TABLE -->
-        <div class="card border-0 shadow-sm mb-4">
-            <div class="card-header bg-white border-0 py-3 px-4 d-flex align-items-center">
-                <i class="bi bi-bar-chart-fill text-primary fs-4 me-3"></i>
-                <div>
-                    <h5 class="mb-1 fw-semibold">Hasil Evaluasi Supervisor Terhadap Alumni</h5>
-                    <small class="text-muted">Analisis penilaian berdasarkan indikator kompetensi</small>
+        <!-- === TABLE HASIL SURVEI === -->
+        <div class="mb-4 border-0 shadow-lg card rounded-4">
+            <div class="py-3 text-white border-0 card-header bg-gradient rounded-top-4"
+                style="background: linear-gradient(90deg,#1e3c72 0%,#2a5298 100%)">
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-bar-chart-fill fs-3 me-3"></i>
+                    <div>
+                        <h5 class="mb-1 text-black fw-semibold">Hasil Evaluasi Supervisor Terhadap Alumni</h5>
+                        <small class="text-black opacity-75 text-light">Analisis penilaian berdasarkan indikator kompetensi</small>
+                    </div>
                 </div>
             </div>
-            <div class="card-body p-0">
+            <div class="p-4 card-body">
                 <div class="table-responsive">
-                    <table class="table align-middle table-hover mb-0" id="table-hasil-survei">
-                        <thead class="text-white" style="background: linear-gradient(90deg,#1e3c72 0%,#2a5298 100%)">
+                    <table id="table-hasil-survei" class="table mb-0 align-middle table-hover">
+                        <thead class="text-center text-white"
+                            style="background: linear-gradient(90deg,#283e51 0%,#485563 100%)">
                             <tr>
-                                <th class="p-3">Indikator Kompetensi</th>
-                                @for ($i = 1; $i <= 5; $i++)
-                                    <th class="text-center p-3">
-                                        {{ ['Tidak Baik', 'Kurang Baik', 'Cukup', 'Baik', 'Sangat Baik'][$i - 1] }}<br><small>({{ $i }})</small>
-                                    </th>
-                                @endfor
-                                <th class="text-center p-3">Responden</th>
-                                <th class="text-center p-3">Rata-Rata</th>
-                                <th class="text-center p-3">Nilai Total</th>
+                                <th class="p-3 text-start">Indikator Kompetensi</th>
+                                @foreach (['Tidak Baik', 'Kurang Baik', 'Cukup', 'Baik', 'Sangat Baik'] as $i => $label)
+                                    <th class="p-3">{{ $label }}<br><small>({{ $i + 1 }})</small></th>
+                                @endforeach
+                                <th class="p-3">Responden</th>
+                                <th class="p-3">Rata-Rata</th>
+                                <th class="p-3">Nilai Total</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($hasil as $row)
                                 <tr>
-                                    <td class="px-4 py-3 fw-medium">{{ $row['label'] }}</td>
+                                    <td class="px-4 fw-semibold">{{ $row['label'] }}</td>
                                     @for ($i = 1; $i <= 5; $i++)
-                                        <td class="text-center py-3">
-                                            @if($row['rekap'][$i] > 0)
-                                                <span class="badge bg-light text-dark fs-6 px-3 py-2">
-                                                    {{ $row['rekap'][$i] }} / {{ $row['jumlah_responden'] }}
-                                                    ({{ $row['jumlah_responden'] > 0 ? round(($row['rekap'][$i] / $row['jumlah_responden']) * 100, 1) : 0 }}%)
-                                                </span>
-                                            @else
-                                                <span class="badge bg-light text-muted fs-6 px-3 py-2">
-                                                    0 / {{ $row['jumlah_responden'] }}
-                                                    (0%)
-                                                </span>
-                                            @endif
+                                        <td class="text-center">
+                                            <span
+                                                class="badge rounded-pill {{ $row['rekap'][$i] > 0 ? 'bg-light text-dark' : 'bg-light text-muted' }}">
+                                                {{ $row['rekap'][$i] }} / {{ $row['jumlah_responden'] }}
+                                                ({{ $row['jumlah_responden'] > 0 ? round(($row['rekap'][$i] / $row['jumlah_responden']) * 100, 1) : 0 }}%)
+                                            </span>
                                         </td>
                                     @endfor
-                                    <td class="text-center fw-semibold py-3">{{ $row['jumlah_responden'] }}</td>
-                                    <td class="text-center py-3">
-                                        @if($row['rata_rata'] > 0)
-                                            <span class="badge text-white fw-semibold px-3 py-2"
-                                                style="
-                                        background: {{ $row['rata_rata'] >= 4.5
-                                            ? '#38b000'
-                                            : ($row['rata_rata'] >= 3.5
-                                                ? '#2196f3'
-                                                : ($row['rata_rata'] >= 2.5
-                                                    ? '#6c757d'
-                                                    : ($row['rata_rata'] >= 1.5
-                                                        ? '#ffc107'
-                                                        : '#dc3545'))) }};">
+                                    <td class="text-center fw-bold">{{ $row['jumlah_responden'] }}</td>
+                                    <td class="text-center">
+                                        @if ($row['rata_rata'] > 0)
+                                            <span class="text-white badge fs-6 fw-semibold"
+                                                style="background:
+                                                {{ $row['rata_rata'] >= 4.5
+                                                    ? '#38b000'
+                                                    : ($row['rata_rata'] >= 3.5
+                                                        ? '#2196f3'
+                                                        : ($row['rata_rata'] >= 2.5
+                                                            ? '#6c757d'
+                                                            : ($row['rata_rata'] >= 1.5
+                                                                ? '#ffc107'
+                                                                : '#dc3545'))) }};">
                                                 {{ $row['rata_rata'] }}
                                             </span>
-                                            <div class="small text-muted mt-1">{{ $row['keterangan'] }}</div>
+                                            <div class="mt-1 small text-muted">{{ $row['keterangan'] }}</div>
                                         @else
-                                            <span class="badge bg-secondary text-white px-3 py-2">-</span>
+                                            <span class="badge bg-secondary">-</span>
                                         @endif
                                     </td>
-                                    <td class="text-center py-3">
-                                        @if($row['nilai_total'] > 0)
-                                            <span class="badge bg-info text-white fs-6 px-3 py-2">{{ $row['nilai_total'] }}%</span>
+                                    <td class="text-center">
+                                        @if ($row['nilai_total'] > 0)
+                                            <span class="text-white badge bg-info fs-6">{{ $row['nilai_total'] }}%</span>
                                         @else
-                                            <span class="badge bg-secondary text-white px-3 py-2">-</span>
+                                            <span class="badge bg-secondary">-</span>
                                         @endif
                                     </td>
                                 </tr>
@@ -129,13 +124,14 @@
             </div>
         </div>
 
-        <!-- CONCLUSION -->
-        @if($sudahMengisi > 0)
-            <div class="alert alert-info shadow-sm bg-gradient-conclusion rounded-3 d-flex align-items-center px-4 py-3">
+        <!-- === CONCLUSION BOX === -->
+        @if ($sudahMengisi > 0)
+            <div class="px-4 py-3 border-0 shadow-sm alert bg-gradient rounded-4 d-flex align-items-center"
+                style="background: linear-gradient(90deg,#2193b0 0%,#6dd5ed 100%); color:white;">
                 <i class="bi bi-info-circle-fill fs-2 me-3"></i>
                 <div>
-                    <h6 class="fw-bold mb-1">Kesimpulan Evaluasi</h6>
-                    <p class="mb-0">
+                    <h6 class="mb-1 text-black fw-bold">Kesimpulan Evaluasi</h6>
+                    <p class="mb-0 text-black fw-light">
                         Berdasarkan hasil evaluasi supervisor, alumni tergolong
                         <span class="badge bg-light text-primary fw-semibold">{{ $kesimpulanKategori }}</span>
                         dengan rata-rata skor
@@ -146,20 +142,20 @@
                 </div>
             </div>
         @else
-            <div class="alert alert-warning shadow-sm rounded-3 d-flex align-items-center px-4 py-3">
-                <i class="bi bi-exclamation-triangle-fill fs-2 me-3"></i>
+            <div class="px-4 py-3 shadow-sm alert alert-warning rounded-4 d-flex align-items-center">
+                <i class="bi bi-exclamation-triangle-fill fs-2 me-3 text-warning"></i>
                 <div>
-                    <h6 class="fw-bold mb-1">Belum Ada Data Evaluasi</h6>
-                    <p class="mb-0">
-                        Saat ini belum ada supervisor yang telah mengisi evaluasi kuesioner. Data akan muncul setelah supervisor menyelesaikan penilaian.
+                    <h6 class="mb-1 fw-bold text-dark">Belum Ada Data Evaluasi</h6>
+                    <p class="mb-0 text-muted">
+                        Saat ini belum ada supervisor yang mengisi evaluasi. Data akan muncul setelah penilaian selesai.
                     </p>
                 </div>
             </div>
         @endif
 
-        <!-- LEGEND -->
-        <div class="card mt-3 border-0 bg-light shadow-sm">
-            <div class="card-body py-2">
+        <!-- === LEGEND === -->
+        <div class="mt-3 border-0 shadow-sm card bg-light rounded-4">
+            <div class="px-3 py-2 card-body">
                 <small class="text-muted">
                     <i class="bi bi-info-circle me-1"></i>
                     <strong>Skala Penilaian:</strong> 1 = Tidak Baik, 2 = Kurang Baik, 3 = Cukup, 4 = Baik, 5 = Sangat Baik
@@ -168,19 +164,20 @@
         </div>
     </div>
 
-    <!-- STYLES -->
+    <!-- === STYLES === -->
     @push('styles')
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css">
         <style>
-            .gradient-card {
+            .stat-card {
                 border-radius: 1.4rem;
-                transition: .3s ease;
-                animation: fadeInUp 0.6s forwards;
+                transition: 0.3s ease;
+                animation: fadeInUp 0.5s forwards;
             }
 
-            .gradient-card:hover {
-                transform: translateY(-6px) scale(1.01);
+            .stat-card:hover {
+                transform: translateY(-6px) scale(1.02);
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
             }
 
             @keyframes fadeInUp {
@@ -197,7 +194,7 @@
         </style>
     @endpush
 
-    <!-- SCRIPTS -->
+    <!-- === SCRIPTS === -->
     @push('scripts')
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
         <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
@@ -210,7 +207,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
         <script>
-            $(document).ready(function() {
+            $(function() {
                 $('.counter').each(function() {
                     const $this = $(this),
                         countTo = $this.data('value');
@@ -236,15 +233,8 @@
                     ordering: false,
                     info: false,
                     responsive: true,
-                    dom: "<'row mb-3'<'col-12 d-flex gap-2'B>>" +
-                        "<'row'<'col-12't>>",
-                    buttons: [
-                        'copyHtml5',
-                        'excelHtml5',
-                        'csvHtml5',
-                        'pdfHtml5',
-                        'print'
-                    ]
+                    dom: "<'row mb-3'<'col-12 d-flex gap-2 justify-content-end'B>>" + "<'row'<'col-12't>>",
+                    buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5', 'print']
                 });
             });
         </script>

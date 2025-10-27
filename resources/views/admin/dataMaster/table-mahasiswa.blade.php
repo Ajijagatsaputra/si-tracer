@@ -100,7 +100,6 @@
             </div>
         </div>
     </main>
-
     @include('components.admin.footer')
 </div>
 

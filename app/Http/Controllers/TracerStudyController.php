@@ -78,7 +78,6 @@ class TracerStudyController extends Controller
             ]);
 
             return redirect()->route('home')->with('success', 'Kuesioner tracer study berhasil disimpan!');
-
         } catch (\Exception $e) {
             Log::error('Error saving tracer study: ' . $e->getMessage(), [
                 'user_id' => auth()->id(),
@@ -172,7 +171,6 @@ class TracerStudyController extends Controller
             ]);
 
             return redirect()->route('home')->with('success', 'Data tracer study berhasil diperbarui!');
-
         } catch (\Exception $e) {
             Log::error('Error updating tracer study: ' . $e->getMessage(), [
                 'user_id' => auth()->id(),

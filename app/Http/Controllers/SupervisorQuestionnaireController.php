@@ -58,7 +58,6 @@ class SupervisorQuestionnaireController extends Controller
             }
 
             return view('supervisor.questionnaire.form', compact('tracerPengguna', 'tracerStudy'));
-
         } catch (\Exception $e) {
             Log::error('Error showing supervisor questionnaire: ' . $e->getMessage(), [
                 'token' => $token,
@@ -129,7 +128,6 @@ class SupervisorQuestionnaireController extends Controller
                 'message' => 'Terima kasih telah mengisi kuesioner evaluasi kinerja alumni.',
                 'tracerPengguna' => $tracerPengguna
             ]);
-
         } catch (\Exception $e) {
             Log::error('Error submitting supervisor questionnaire: ' . $e->getMessage(), [
                 'token' => $token,
@@ -169,7 +167,7 @@ class SupervisorQuestionnaireController extends Controller
                 }
             }
 
-            if (auth()->check() ) {
+            if (auth()->check()) {
                 return view('supervisor.questionnaire.hasil-view-alumni', compact('tracerPengguna'));
             } else {
                 return view('supervisor.questionnaire.hasil', compact('tracerPengguna'));
@@ -213,7 +211,6 @@ class SupervisorQuestionnaireController extends Controller
             $tracerPengguna->markAsSent();
 
             return back()->with('success', 'Kuesioner berhasil dikirim ulang ke supervisor.');
-
         } catch (\Exception $e) {
             Log::error('Error resending supervisor questionnaire: ' . $e->getMessage(), [
                 'supervisor_questionnaire_id' => $id,

@@ -66,8 +66,6 @@
                         </div>
                     </div>
 
-
-
                     {{-- Alumni --}}
                     <div class="col-md-6 col-xl-3">
                         <div class="border-0 shadow-sm card h-100 dashboard-card">
@@ -146,8 +144,6 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
 
                 {{-- Charts Row --}}
@@ -232,50 +228,11 @@
                                             </div>
                                         </div>
                                     </div>
-
-
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                {{-- Additional Charts Row --}}
-                {{-- <div class="row g-4">
-
-                    <div class="col-lg-6">
-                        <div class="border-0 shadow-sm card">
-                            <div class="bg-white card-header border-bottom">
-                                <h5 class="mb-0">
-                                    <i class="fas fa-chart-line text-success me-2"></i>
-                                    Alumni Growth Trend
-                                </h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="chart-container">
-                                    <canvas id="lineChartAlumni"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="col-lg-6">
-                        <div class="border-0 shadow-sm card">
-                            <div class="bg-white card-header border-bottom">
-                                <h5 class="mb-0">
-                                    <i class="fas fa-chart-area text-info me-2"></i>
-                                    Tracer Study Response Rate
-                                </h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="chart-container">
-                                    <canvas id="lineChartTracer"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
             </div>
         </main>
 

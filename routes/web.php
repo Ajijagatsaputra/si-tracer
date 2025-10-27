@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileAdminController;
 use App\Http\Controllers\WilayahController;
+use App\Http\Controllers\PrediksiController;
 
 // Route untuk CSRF token (untuk refresh token)
 Route::get('/csrf-token', function () {
@@ -40,20 +41,13 @@ Route::middleware(['auth', 'cekrole:admin,superadmin'])->group(function () {
         $count = count($response->json()['data']);
         return view('admin.admin-dashboard', compact('count'));
     })->name('admin.dashboard');
-
-
     Route::get('/profileadmin/index', [ProfileAdminController::class, 'show'])->name('profileadmin.index');
     Route::put('/profileadmin/update', [ProfileAdminController::class, 'update'])->name('profileadmin.update');
     Route::put('/profileadmin/password', [ProfileAdminController::class, 'updatePassword'])->name('profileadmin.update-password');
-
     Route::get('/listmahasiswa', fn() => view('admin.dataMaster.table-mahasiswa'))->name('listmahasiswa');
     Route::get('/listdosen', fn() => view('admin.dataMaster.table-dosen'))->name('listdosen');
     Route::get('/listalumni', fn() => view('admin.dataMaster.table-alumni'))->name('listalumni');
-
-    // Route::get('/listhasiltracer', fn() => view('tracer.hasil'));
     Route::get('/listhasiltracer', [HasilTracerController::class, 'index'])->name('tracer.rekap');
-
-    // Route::get('/listtraceralumni', [TracerAlumniController::class, 'index'])->name('tracer.index');
     Route::get('/api/mahasiswa', [MahasiswaController::class, 'getData'])->name('api.mahasiswa');
     Route::get('/api/alumni', [AdminTracerStudyAlumniController::class, 'getData'])->name('api.alumni');
     Route::get('/api/dosen', [DosenController::class, 'getDataDosen'])->name('api.dosen');
@@ -62,15 +56,6 @@ Route::middleware(['auth', 'cekrole:admin,superadmin'])->group(function () {
 
 // Alumni-only routes
 Route::middleware(['auth', 'cekrole:alumni'])->group(function () {
-    // Route::get('/kuesioner', [KuesionerAlumniController::class, 'index'])->name('tracer.kuesioner');
-    // Route::post('/kuesioner/store', [KuesionerAlumniController::class, 'store'])->name('tracer.create');
-    // Route::get('/kuesioner/edit', [KuesionerAlumniController::class, 'edit'])->name('kuesioner.edit');
-    // Route::put('/kuesioner/update/{id}', [KuesionerAlumniController::class, 'update'])->name('kuesioner.update');
-
-    // Route::get('/tracer-study/form/{id}', [KuesionerAlumniController::class, 'showStudy'])->name('tracer.showstudy');
-    // Route::get('/tracer-pengguna/form/{id}', [KuesionerPenggunaController::class, 'showPengguna'])->name('tracer.showpengguna');
-    // Route::get('/kuesioner-pengguna/edit/{id}', [KuesionerPenggunaController::class, 'edit'])->name('tracer.kuesioner-pengguna.edit');
-    // Route::put('/kuesioner-pengguna/update/{id}', [KuesionerPenggunaController::class, 'update'])->name('tracer.kuesioner-pengguna.update');
     Route::get('/profil', [ProfileAlumniController::class, 'show'])->name('profile');
     Route::get('/profil/edit', [ProfileAlumniController::class, 'edit'])->name('profile.edit');
     Route::put('/profil/update', [ProfileAlumniController::class, 'update'])->name('profile.update');
@@ -86,15 +71,9 @@ Route::middleware(['auth', 'cekrole:alumni'])->group(function () {
     });
 });
 
-
-
 Route::resource('listtracerpengguna', AdminTracerPenggunaController::class);
 Route::get('listtraceralumni/{id}/detail', [AdminTracerStudyAlumniController::class, 'detail'])->name('listtraceralumni.detail');
 Route::resource('listtraceralumni', AdminTracerStudyAlumniController::class);
-
-// Route::put('/kuesioner-pengguna/update/{id}', [KuesionerPenggunaController::class, 'update'])->name('tracer.kuesioner-pengguna.update');
-//     Route::get('/kuesioner-pengguna', [KuesionerPenggunaController::class, 'index'])->name('tracer.kuesioner-pengguna');
-//     Route::post('/kuesioner-pengguna/store', [KuesionerPenggunaController::class, 'store'])->name('tracer.store');
 
 // Routes untuk Supervisor Questionnaire
 Route::prefix('supervisor')->group(function () {
@@ -121,39 +100,18 @@ Route::middleware(['auth', 'cekrole:admin,superadmin'])->group(function () {
 
 // Authenticated routes
 Route::middleware('auth')->group(function () {
-    // Route::post('/kuesioner/store', [KuesionerAlumni::class, 'create'])->name('tracer.create');
-    // Route::get('/tracer/user-data', [KuesionerAlumniController::class, 'getUserData'])->name('tracer.user-data');
-
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
-
 });
-
-// Admin routes
-// Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
-//     Route::get('/tracer/results', [KuesionerAlumniController::class, 'results'])->name('admin.tracer.results');
-//     Route::get('/tracer/export', [KuesionerAlumniController::class, 'export'])->name('admin.tracer.export');
-//     Route::delete('/tracer/{id}', [KuesionerAlumniController::class, 'destroy'])->name('admin.tracer.destroy');
-// });
-
-// Alternative routes if you don't use admin middleware
-// Route::middleware('auth')->group(function () {
-//     Route::get('/tracer/results', [KuesionerAlumniController::class, 'results'])->name('tracer.results');
-//     Route::get('/tracer/export', [KuesionerAlumniController::class, 'export'])->name('tracer.export');
-//     Route::delete('/tracer/{id}', [KuesionerAlumniController::class, 'destroy'])->name('tracer.destroy');
-// });
 
 // API untuk wilayah
 Route::get('/api/provinsi', [WilayahController::class, 'getProvinsi']);
 Route::get('/api/kota/{provinceCode}', [WilayahController::class, 'getKota']);
 
-// CSRF Token route untuk refresh token
-// Route::get('/csrf-token', function () {
-//     return response()->json(['token' => csrf_token()]);
-// });
 
-
-use App\Http\Controllers\PrediksiController;
-
+//Route untuk Prediksi
 Route::match(['get', 'post'], '/prediksi', [PrediksiController::class, 'predictOutcome'])->name('predictOutcome');
 Route::get('/prediksi', [PrediksiController::class, 'showForm'])->name('predictOutcome');
 Route::post('/prediksi', [PrediksiController::class, 'predictOutcome']);
+
+//Route view hasil prediksi
+Route::view('/data-prediksi', 'admin.prediksi.index')->name('admin.prediksi.index');

@@ -9,29 +9,29 @@
 
         <main id="main-container">
             <!-- Hero -->
-            <div class="bg-white border-bottom shadow-sm py-4">
+            <div class="py-4 bg-white shadow-sm border-bottom">
                 <div class="content d-flex flex-column flex-sm-row justify-content-between align-items-center">
                     <div>
-                        <h1 class="h3 fw-bold text-primary mb-1">
+                        <h1 class="mb-1 h3 fw-bold text-primary">
                             <i class="fa fa-graduation-cap me-2"></i> Data Alumni
                         </h1>
-                        <p class="text-muted fs-sm mb-0">Kelola data alumni aktif, DO, dan cuti dengan lebih mudah.</p>
+                        <p class="mb-0 text-muted fs-sm">Kelola data alumni aktif, DO, dan cuti dengan lebih mudah.</p>
                     </div>
                 </div>
             </div>
 
             <!-- Content -->
             <div class="content">
-                <div class="card shadow-sm border-0 mb-4 rounded-4">
+                <div class="mb-4 border-0 shadow-sm card rounded-4">
                     <div class="card-body">
                         <!-- Filter + Export -->
-                        <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-3">
-                            <div class="d-flex align-items-center gap-2 flex-wrap">
-                                <label for="filter-tahun" class="form-label mb-0 fw-semibold text-dark">
+                        <div class="flex-wrap gap-3 mb-3 d-flex justify-content-between align-items-center">
+                            <div class="flex-wrap gap-2 d-flex align-items-center">
+                                <label for="filter-tahun" class="mb-0 form-label fw-semibold text-dark">
                                     <i class="fa fa-filter me-1 text-primary"></i> Filter Tahun Masuk:
                                 </label>
                                 <select id="filter-tahun" name="tahun_angkatan"
-                                    class="form-select form-select-sm border border-primary text-primary rounded-pill px-3 py-1 w-auto shadow-sm">
+                                    class="w-auto px-3 py-1 border shadow-sm form-select form-select-sm border-primary text-primary rounded-pill">
                                     <option value="">Semua</option>
                                     @php $tahunSekarang = date('Y'); @endphp
                                     @for ($i = $tahunSekarang; $i >= 2019; $i--)
@@ -42,7 +42,7 @@
                                     @endfor
                                 </select>
 
-                                <span class="badge bg-primary bg-opacity-75 px-3 py-2 rounded-pill shadow-sm fs-sm">
+                                <span class="px-3 py-2 bg-opacity-75 shadow-sm badge bg-primary rounded-pill fs-sm">
                                     Total: <span id="jumlah-alumni" class="fw-bold">0</span>
                                 </span>
                             </div>
@@ -50,7 +50,7 @@
                         </div>
 
                         <!-- Custom Search -->
-                        <div class="d-flex justify-content-end mb-3">
+                        <div class="mb-3 d-flex justify-content-end">
                             <div class="input-group" style="max-width: 300px;">
                                 <input type="text" id="customSearch" class="form-control form-control-sm rounded-pill"
                                     placeholder="Cari alumni...">
@@ -61,10 +61,10 @@
                         </div>
 
                         <!-- Table -->
-                        <div class="table-responsive rounded-4 border">
+                        <div class="border table-responsive rounded-4">
                             <table id="tabel-alumni"
-                                class="table table-bordered table-hover table-striped align-middle w-100 shadow-sm">
-                                <thead class="table-light text-center">
+                                class="table align-middle shadow-sm table-bordered table-hover table-striped w-100">
+                                <thead class="text-center table-light">
                                     <tr>
                                         <th>NIM</th>
                                         <th>Nama</th>
@@ -94,14 +94,14 @@
     <div class="modal fade" id="modalViewMahasiswa" tabindex="-1" aria-labelledby="modalViewMahasiswaLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content border-0 shadow rounded-4">
-                <div class="modal-header bg-primary text-white rounded-top">
+            <div class="border-0 shadow modal-content rounded-4">
+                <div class="text-white modal-header bg-primary rounded-top">
                     <h5 class="modal-title"><i class="fa fa-user-graduate me-2"></i>Detail Alumni</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Tutup"></button>
                 </div>
                 <div class="modal-body">
-                    <dl class="row mb-0">
+                    <dl class="mb-0 row">
                         <dt class="col-sm-4">NIM</dt>
                         <dd class="col-sm-8" id="view-nim"></dd>
                         <dt class="col-sm-4">Nama Lengkap</dt>
@@ -221,7 +221,7 @@
                         orderable: false,
                         render: function(data) {
                             return `
-                                <button class="btn btn-sm btn-outline-primary rounded-pill px-3 btn-view"
+                                <button class="px-3 btn btn-sm btn-outline-primary rounded-pill btn-view"
                                     data-bs-toggle="modal" data-bs-target="#modalViewMahasiswa"
                                     data-nim="${data.nim}"
                                     data-nama_lengkap="${data.nama_lengkap}"

@@ -26,7 +26,6 @@ class cekrole
         return response()->json(['error' => 'Anda tidak memiliki akses.'], 403);
         }
 
-
         return $next($request);
     }
 }

@@ -12,13 +12,13 @@
     <div class="row g-4">
         {{-- Aktivitas Alumni --}}
         <div class="col-lg-6 col-md-12">
-            <div class="card shadow-sm h-100">
+            <div class="shadow-sm card h-100">
                 <div class="card-header fw-bold d-flex justify-content-between align-items-center">
                     <span>AKTIVITAS ALUMNI TERKINI</span>
                     <span class="text-muted small">{{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}</span>
                 </div>
                 <div class="card-body">
-                    <table class="table table-bordered mb-0">
+                    <table class="table mb-0 table-bordered">
                         <thead class="table-light">
                             <tr>
                                 <th>FITUR</th>
@@ -46,25 +46,21 @@
 
         {{-- Status Pengisian Tracer Study --}}
         <div class="col-lg-6 col-md-12">
-            <div class="card shadow-sm h-100">
-                <div class="card-header fw-bold text-center">
+            <div class="shadow-sm card h-100">
+                <div class="text-center card-header fw-bold">
                     STATUS PENGISIAN TRACER STUDY
                 </div>
-                <div class="card-body d-flex flex-column justify-content-center align-items-center text-center">
+                <div class="text-center card-body d-flex flex-column justify-content-center align-items-center">
                     @if ($statusTracer === 'sudah')
-                        <i class="fa fa-check-circle fa-3x text-success mb-3"></i>
+                        <i class="mb-3 fa fa-check-circle fa-3x text-success"></i>
                         <h5 class="fw-bold text-success">Sudah Mengisi</h5>
-                        <p class="text-muted mb-0">Terima kasih telah berpartisipasi dalam tracer study.</p>
-                        <div class="dropdown mt-3">
+                        <p class="mb-0 text-muted">Terima kasih telah berpartisipasi dalam tracer study.</p>
+                        <div class="mt-3 dropdown">
                             <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
                                 Lihat Jawaban
                             </button>
                             <ul class="dropdown-menu">
-                                {{-- <li>
-                                    <a class="dropdown-item"
-                                        href="{{ route('tracer.showpengguna', Auth::user()->id) }}?tipe=pengguna">Tracer Pengguna</a>
-                                </li> --}}
                                 <li>
                                     <a class="dropdown-item"
                                         href="{{ route('new-tracer.show', auth()->user()->alumni->id) }}">Tracer Study</a>
@@ -72,9 +68,9 @@
                             </ul>
                         </div>
                     @else
-                        <i class="fa fa-times-circle fa-3x text-danger mb-3"></i>
+                        <i class="mb-3 fa fa-times-circle fa-3x text-danger"></i>
                         <h5 class="fw-bold text-danger">Belum Mengisi</h5>
-                        <p class="text-muted mb-2">Silakan lengkapi kuesioner tracer study Anda.</p>
+                        <p class="mb-2 text-muted">Silakan lengkapi kuesioner tracer study Anda.</p>
                         <a href="{{ route('new-tracer.index') }}" class="btn btn-outline-success btn-sm">Isi Sekarang</a>
                     @endif
                 </div>
@@ -83,7 +79,7 @@
 
         {{-- Data Rekap Alumni (Bar Chart) --}}
         <div class="col-12">
-            <div class="card shadow-sm mt-2">
+            <div class="mt-2 shadow-sm card">
                 <div class="card-header fw-bold">Data Rekap Alumni</div>
                 <div class="card-body">
                     <canvas id="rekapAlumniChart" style="max-height: 420px; width: 100%;"></canvas>

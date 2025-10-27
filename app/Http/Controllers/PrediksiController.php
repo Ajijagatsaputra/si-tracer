@@ -10,7 +10,7 @@ class PrediksiController extends Controller
 
     public function showForm()
     {
-        return view('prediksi'); // pastikan file prediksi.blade.php ada di resources/views
+        return view('prediksi');
     }
 
     public function predictOutcome(Request $request)

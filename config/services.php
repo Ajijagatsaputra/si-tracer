@@ -55,4 +55,15 @@ return [
         ],
     ],
 
+    'gemini' => [
+        'key' => env('GEMINI_API_KEY'),
+        'url' => env('GEMINI_API_URL'),
+    ],
+
+    'openrouter' => [
+        'key' => env('OPENROUTER_API_KEY'),
+        'url' => env('OPENROUTER_API_URL', 'https://openrouter.ai/api/v1/chat/completions'),
+        'model' => env('OPENROUTER_MODEL', 'google/gemini-2.0-flash-exp:free'),
+    ],
+
 ];

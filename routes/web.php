@@ -15,6 +15,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileAdminController;
 use App\Http\Controllers\WilayahController;
 use App\Http\Controllers\PrediksiController;
+use App\Http\Controllers\OcrController;
+use App\Http\Controllers\MataKuliahController;
+use App\Http\Controllers\PrediksiOpenRouterController;
+use App\Http\Controllers\AdminPrediksiController;
+use App\Http\Controllers\GeminiExtractController;
 
 // Route untuk CSRF token (untuk refresh token)
 Route::get('/csrf-token', function () {
@@ -52,6 +57,10 @@ Route::middleware(['auth', 'cekrole:admin,superadmin'])->group(function () {
     Route::get('/api/alumni', [AdminTracerStudyAlumniController::class, 'getData'])->name('api.alumni');
     Route::get('/api/dosen', [DosenController::class, 'getDataDosen'])->name('api.dosen');
     Route::get('/api/tahun-akademik', [DosenController::class, 'getTahunAkademik'])->name('api.tahun-akademik');
+
+    // Admin Prediksi pages
+    Route::get('/admin/prediksi', [AdminPrediksiController::class, 'index'])->name('admin.prediksi.index');
+    Route::get('/admin/prediksi/data', [AdminPrediksiController::class, 'data'])->name('admin.prediksi.data');
 });
 
 // Alumni-only routes
@@ -113,5 +122,19 @@ Route::match(['get', 'post'], '/prediksi', [PrediksiController::class, 'predictO
 Route::get('/prediksi', [PrediksiController::class, 'showForm'])->name('predictOutcome');
 Route::post('/prediksi', [PrediksiController::class, 'predictOutcome']);
 
-//Route view hasil prediksi
-Route::view('/data-prediksi', 'admin.prediksi.index')->name('admin.prediksi.index');
+// (migrated to controller routes above)
+
+// OCR API endpoint
+Route::post('/api/ocr-pdf', [OcrController::class, 'processPdf'])->name('api.ocr-pdf');
+Route::post('/api/ocr-gemini-extract', [GeminiExtractController::class, 'extractFromPdf'])->name('api.ocr-gemini-extract');
+
+// Academic Scores API endpoints
+Route::middleware('auth')->group(function () {
+    Route::post('/api/academic-scores/save', [MataKuliahController::class, 'saveAcademicScores'])->name('api.academic-scores.save');
+    Route::get('/api/academic-scores', [MataKuliahController::class, 'getUserAcademicScores'])->name('api.academic-scores.get');
+    Route::put('/api/academic-scores/update', [MataKuliahController::class, 'updateAcademicScore'])->name('api.academic-scores.update');
+    Route::delete('/api/academic-scores/delete', [MataKuliahController::class, 'deleteAcademicScore'])->name('api.academic-scores.delete');
+});
+
+Route::post('/api/predict-gemini', [\App\Http\Controllers\PrediksiController::class, 'ajaxPredictGemini'])->name('api.predict-gemini');
+Route::post('/api/predict-openrouter', [\App\Http\Controllers\PrediksiOpenRouterController::class, 'ajaxPredictOpenRouter'])->name('api.predict-openrouter');

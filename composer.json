@@ -16,6 +16,9 @@
         "opcodesio/log-viewer": "^3.19",
         "openspout/openspout": "^3.7|^4.0",
         "phpoffice/phpspreadsheet": "^1.29|^2.0|^3.0",
+        "smalot/pdfparser": "^2.12",
+        "spatie/pdf-to-text": "^1.54",
+        "thiagoalessio/tesseract_ocr": "^2.13",
         "yajra/laravel-datatables": "^12.0",
         "yajra/laravel-datatables-oracle": "^12.4"
     },

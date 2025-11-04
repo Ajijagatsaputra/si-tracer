@@ -3,30 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 use App\Models\MataKuliah;
 use Illuminate\Support\Facades\Cache;
 
-class PrediksiController extends Controller
+class PrediksiOpenRouterController extends Controller
 {
-
-    public function showForm()
-    {
-        $MataKuliah = MataKuliah::all();
-
-        if ($MataKuliah->isEmpty()) {
-            return view('prediksi', compact('MataKuliah'))->with('warning', 'Data mata kuliah belum tersedia. Silakan hubungi administrator.');
-        }
-
-        return view('prediksi', compact('MataKuliah'));
-    }
-
-    /**
-     * Constants & job title list
-     */
-    protected static $geminiKey;
-    protected static $geminiUrl;
-
     const JOB_TITLES = [
         'AI ML Specialist',
         'API Specialist',
@@ -46,12 +27,10 @@ class PrediksiController extends Controller
         'Technical Writer'
     ];
 
-    /**
-     * Generate prompt untuk Gemini AI
-     */
-    protected static function gradeToNumber($grade) {
+    protected static function gradeToNumber($grade)
+    {
         $grade = strtoupper($grade);
-        switch($grade) {
+        switch ($grade) {
             case 'A': return 4.0;
             case 'A-': return 3.75;
             case 'B+': return 3.5;
@@ -66,7 +45,9 @@ class PrediksiController extends Controller
         }
     }
 
-    protected static function generatePrompt($mata_kuliah, $sks_data, $grade_data, $deskripsi = '', $mode = 'flash') {
+    protected static function generatePrompt($mata_kuliah, $sks_data, $grade_data, $deskripsi = '', $mode = 'flash')
+    {
+        // Kelompok bidang skill
         $bidang = [
             'Data Science & AI' => [],
             'Software Development' => [],
@@ -140,7 +121,7 @@ class PrediksiController extends Controller
             $prompt .= "Kesimpulan singkat: [1 kalimat motivasi atau arah karier secara umum]\n";
             $prompt .= "Jangan lebih dari 6 kalimat total. Gaya santai, mudah dibaca, dan inspiratif ✨";
 
-        } elseif ($mode === 'pro') {
+        } else { // mode pro
             $prompt = "Kamu adalah career coach profesional tapi tetap berjiwa muda, yang bantu alumni Informatika memahami kekuatannya secara mendalam. "
                     . "Gunakan gaya bahasa santai namun informatif. Bahas secara detail kekuatan akademik, skill dominan, peluang karier, dan tips pengembangan diri.\n\n";
 
@@ -179,11 +160,8 @@ class PrediksiController extends Controller
         return $prompt;
     }
 
-
-    /**
-     * Validasi job title
-     */
-    protected static function isValidJobTitle($job_title) {
+    protected static function isValidJobTitle($job_title)
+    {
         foreach (self::JOB_TITLES as $valid_title) {
             if (strcasecmp(trim($job_title), $valid_title) === 0) {
                 return true;
@@ -192,16 +170,13 @@ class PrediksiController extends Controller
         return false;
     }
 
-    /**
-     * Extract job titles dari respons AI
-     */
-    protected static function extractJobTitles($ai_text) {
+    protected static function extractJobTitles($ai_text)
+    {
         $lines = explode("\n", $ai_text);
         $recommendations = [];
         foreach ($lines as $line) {
             $line = trim($line);
             if (empty($line)) continue;
-            // Deteksi job title format "1. Nama Job Title"
             if (preg_match('/^\d+\.\s*(.+)$/', $line, $matches)) {
                 $title = trim($matches[1]);
                 if (self::isValidJobTitle($title)) {
@@ -212,92 +187,68 @@ class PrediksiController extends Controller
         return array_unique($recommendations);
     }
 
-    /**
-     * Kirim prompt ke Gemini API
-     */
-    protected static function getGeminiRecommendation($prompt) {
-        $api_key = config('services.gemini.key');
-        $api_url = config('services.gemini.url');
+    protected static function sanitizeAiText(string $text): string
+    {
+        $text = preg_replace('/\*\*(.*?)\*\*/s', '$1', $text);
+        $text = preg_replace('/\*(.*?)\*/s', '$1', $text);
+        $text = preg_replace('/_(.*?)_/s', '$1', $text);
+        $text = str_replace('*', '', $text);
+        $text = preg_replace('/[ \t]{2,}/', ' ', $text);
+        return trim($text);
+    }
+
+    protected static function getOpenRouterRecommendation($prompt)
+    {
+        $api_key = config('services.openrouter.key');
+        $api_url = config('services.openrouter.url', 'https://openrouter.ai/api/v1/chat/completions');
+        $model = config('services.openrouter.model', 'google/gemini-2.0-flash-exp:free');
         if (!$api_key) {
-            return [
-                'success' => false,
-                'error' => 'API Key belum dikonfigurasi'
-            ];
+            return [ 'success' => false, 'error' => 'OPENROUTER_API_KEY belum dikonfigurasi' ];
         }
-        if (!$api_url) {
-            return [
-                'success' => false,
-                'error' => 'API URL belum dikonfigurasi'
-            ];
-        }
-        $url = $api_url . '?key=' . $api_key;
-        $data = [
-            'contents' => [
-                [
-                    'parts' => [ [ 'text' => $prompt ] ]
-                ]
+
+        $payload = [
+            'model' => $model,
+            'messages' => [
+                [ 'role' => 'user', 'content' => $prompt ]
             ]
         ];
-        $ch = curl_init($url);
+
+        $ch = curl_init($api_url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+            'Authorization: Bearer ' . $api_key,
+        ]);
         $response = curl_exec($ch);
         $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        if ($http_code === 503 && $attempt < 3) {
-            sleep(3);
-            return callGemini($prompt, $attempt + 1);
+        if ($http_code !== 200) {
+            return [ 'success' => false, 'error' => 'Error API: HTTP ' . $http_code . ' - ' . $response ];
         }
 
-        if ($http_code !== 200) {
-            return [
-                'success' => false,
-                'error' => 'Error API: HTTP ' . $http_code . ' - ' . $response
-            ];
-        }
         $result = json_decode($response, true);
-        if (isset($result['candidates'][0]['content']['parts'][0]['text'])) {
+        $text = $result['choices'][0]['message']['content'] ?? null;
+        if ($text) {
             try {
                 $userId = auth()->id();
                 $alumni = \App\Models\Alumni::where('id_users', $userId)->first();
                 if ($alumni) {
                     \App\Models\HistoryPrediksi::create([
                         'idAlumni' => $alumni->id,
-                        'hasil' => $result['candidates'][0]['content']['parts'][0]['text'],
+                        'hasil' => $text,
                     ]);
                 }
             } catch (\Throwable $e) {
             }
-
-            return [
-                'success' => true,
-                'text' => $result['candidates'][0]['content']['parts'][0]['text']
-            ];
-        } else {
-            return [
-                'success' => false,
-                'error' => 'Tidak dapat mengambil data dari API'
-            ];
+            return [ 'success' => true, 'text' => $text ];
         }
+        return [ 'success' => false, 'error' => 'Tidak dapat mengambil data dari API' ];
     }
 
-    protected static function sanitizeAiText(string $text): string
-    {
-        // Hilangkan markdown emphasis: **bold**, *italic*, _italic_
-        $text = preg_replace('/\*\*(.*?)\*\*/s', '$1', $text);
-        $text = preg_replace('/\*(.*?)\*/s', '$1', $text);
-        $text = preg_replace('/_(.*?)_/s', '$1', $text);
-        // Hilangkan karakter bintang yang tersisa
-        $text = str_replace('*', '', $text);
-        // Rapikan spasi ganda
-        $text = preg_replace('/[ \t]{2,}/', ' ', $text);
-        return trim($text);
-    }
-
-    public function ajaxPredictGemini(Request $request)
+    public function ajaxPredictOpenRouter(Request $request)
     {
         $deskripsi = $request->input('deskripsi', '');
         $mode = $request->input('mode', 'flash');
@@ -311,14 +262,14 @@ class PrediksiController extends Controller
             $retryAfter = $cooldownSeconds - (time() - (int)$lastHit);
             return response()->json([
                 'success' => false,
-                'error' => 'Eitss, kamu terlalu cepat nih! Sabar yaa, Coba lagi dalam ' . $retryAfter . ' detik yaa 🚦',
+                'error' => 'Eitss, kamu terlalu cepat nih! kasihan dong yang lain.. Sabar yaa, Coba lagi dalam ' . $retryAfter . ' detik yaa',
                 'retry_after' => $retryAfter
             ], 429);
         }
         Cache::put($cooldownKey, time(), $cooldownSeconds);
 
         $alumni = \App\Models\Alumni::where('id_users', $userId)->first();
-        if(!$alumni) {
+        if (!$alumni) {
             return response()->json([
                 'success' => false,
                 'error' => 'Data alumni tidak ditemukan. Silakan lengkapi/buat profil Anda.'
@@ -331,18 +282,16 @@ class PrediksiController extends Controller
                 'error' => 'Belum ada nilai akademik yang diinputkan. Silakan isi nilai akademik dulu.'
             ], 422);
         }
+
         $mata_kuliah = $data->pluck('mataKuliah')->all();
         $sks_data = $data->pluck('sks')->all();
-        $grade_data = $data->pluck('grade')->map(function($v){ return $v ?: 'N/A'; })->all();
+        $grade_data = $data->pluck('grade')->map(function ($v) { return $v ?: 'N/A'; })->all();
+
         $prompt = self::generatePrompt($mata_kuliah, $sks_data, $grade_data, $deskripsi, $mode);
-        $result = self::getGeminiRecommendation($prompt);
+        $result = self::getOpenRouterRecommendation($prompt);
         if (!empty($result['success']) && !empty($result['text'])) {
             $result['text'] = self::sanitizeAiText($result['text']);
         }
         return response()->json($result);
     }
-
-
-
-
 }

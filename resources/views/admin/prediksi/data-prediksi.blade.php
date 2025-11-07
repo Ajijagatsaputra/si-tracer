@@ -103,14 +103,16 @@
         <div class="mt-2 row g-4">
             <div class="col-12">
                 <div class="block shadow-sm block-rounded">
-                    <div class="block-header block-header-default bg-light d-flex justify-content-between align-items-center">
+                    <div
+                        class="block-header block-header-default bg-light d-flex justify-content-between align-items-center">
                         <h3 class="mb-0 block-title fw-semibold text-primary">
                             <i class="fa fa-list me-2"></i> Riwayat Prediksi Terbaru
                         </h3>
-                        <span class="text-muted small">Menampilkan {{ isset($histories) ? $histories->count() : 0 }} data</span>
+                        <span class="text-muted small">Menampilkan {{ isset($histories) ? $histories->count() : 0 }}
+                            data</span>
                     </div>
                     <div class="block-content block-content-full">
-                        @if(isset($histories) && $histories->count() > 0)
+                        @if (isset($histories) && $histories->count() > 0)
                             <div class="table-responsive">
                                 <table class="table align-middle table-borderless table-hover">
                                     <thead class="table-light">
@@ -122,23 +124,27 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($histories as $item)
+                                        @foreach ($histories as $item)
                                             <tr>
                                                 <td>
-                                                    <div class="fw-semibold">{{ $item->alumni->nama_lengkap ?? ('Alumni #' . ($item->idAlumni ?? '-')) }}</div>
+                                                    <div class="fw-semibold">
+                                                        {{ $item->alumni->nama_lengkap ?? 'Alumni #' . ($item->idAlumni ?? '-') }}
+                                                    </div>
                                                     <div class="text-muted small">ID: {{ $item->idAlumni ?? '-' }}</div>
                                                 </td>
                                                 <td>
-                                                    <span class="badge bg-primary">{{ optional($item->created_at)->format('d M Y H:i') }}</span>
+                                                    <span
+                                                        class="badge bg-primary">{{ optional($item->created_at)->format('d M Y H:i') }}</span>
                                                 </td>
                                                 <td>
                                                     @php
                                                         $jobTitles = $item->extracted_job_titles ?? [];
                                                     @endphp
-                                                    @if(count($jobTitles) > 0)
+                                                    @if (count($jobTitles) > 0)
                                                         <div class="mb-2">
-                                                            @foreach($jobTitles as $title)
-                                                                <span class="mb-1 badge bg-primary me-1">{{ $title }}</span>
+                                                            @foreach ($jobTitles as $title)
+                                                                <span
+                                                                    class="mb-1 badge bg-primary me-1">{{ $title }}</span>
                                                             @endforeach
                                                         </div>
                                                     @endif
@@ -148,9 +154,32 @@
                                                     @endphp
                                                     <div class="text-muted small">{{ $excerpt }}</div>
                                                 </td>
+
+                                                <!-- Tambahan kolom aksi -->
+                                                <td class="text-center">
+                                                    <a href="{{ route('admin.prediksi.show', $item->id) }}"
+                                                        class="btn btn-sm btn-info me-1" data-bs-toggle="tooltip"
+                                                        title="Lihat Detail">
+                                                        <i class="fa fa-eye"></i>
+                                                    </a>
+
+                                                    <button type="button" class="btn btn-sm btn-danger delete-btn"
+                                                        data-id="{{ $item->id }}" data-bs-toggle="tooltip"
+                                                        title="Hapus Permanen">
+                                                        <i class="fa fa-trash-alt"></i>
+                                                    </button>
+
+                                                    <form id="delete-form-{{ $item->id }}"
+                                                        action="{{ route('admin.prediksi.destroy', $item->id) }}"
+                                                        method="POST" style="display: none;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                    </form>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
+
                                 </table>
                             </div>
                         @else
@@ -170,6 +199,15 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+
+            document.querySelectorAll('.delete-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const itemId = this.getAttribute('data-id');
+            if (confirm('Yakin ingin menghapus riwayat prediksi ini? Tindakan ini tidak bisa dibatalkan.')) {
+                document.getElementById(`delete-form-${itemId}`).submit();
+            }
+        });
+    });
             // Data dari controller (fallback jika tidak ada)
             const labels7 = @json($last7DaysLabels ?? []);
             const data7 = @json($last7DaysCounts ?? []);
@@ -196,7 +234,12 @@
                         responsive: true,
                         maintainAspectRatio: false,
                         scales: {
-                            y: { beginAtZero: true, ticks: { precision: 0 } }
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    precision: 0
+                                }
+                            }
                         }
                     }
                 });
@@ -226,7 +269,10 @@
                         plugins: {
                             legend: {
                                 position: 'bottom',
-                                labels: { padding: 20, usePointStyle: true }
+                                labels: {
+                                    padding: 20,
+                                    usePointStyle: true
+                                }
                             }
                         }
                     }
@@ -236,10 +282,25 @@
     </script>
 
     <style>
-        .bg-gradient-primary { background: linear-gradient(92deg, #31c7ef 40%, #38d9c3 100%)!important; }
-        .bg-gradient-success { background: linear-gradient(92deg, #32d484 30%, #75e095 100%)!important; }
-        .bg-gradient-warning { background: linear-gradient(92deg, #ffed85 30%, #ffc371 100%)!important; }
-        .bg-gradient-danger { background: linear-gradient(92deg, #ff6b6b 30%, #ee5a52 100%)!important; }
-        .card { min-height: 85px; border-radius: 1.3rem; }
+        .bg-gradient-primary {
+            background: linear-gradient(92deg, #31c7ef 40%, #38d9c3 100%) !important;
+        }
+
+        .bg-gradient-success {
+            background: linear-gradient(92deg, #32d484 30%, #75e095 100%) !important;
+        }
+
+        .bg-gradient-warning {
+            background: linear-gradient(92deg, #ffed85 30%, #ffc371 100%) !important;
+        }
+
+        .bg-gradient-danger {
+            background: linear-gradient(92deg, #ff6b6b 30%, #ee5a52 100%) !important;
+        }
+
+        .card {
+            min-height: 85px;
+            border-radius: 1.3rem;
+        }
     </style>
 @endsection

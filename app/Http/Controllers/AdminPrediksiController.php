@@ -81,7 +81,7 @@ class AdminPrediksiController extends Controller
         $jobTitleCounts = array_values($jobTitleCounts);
 
         // Riwayat terbaru dengan extracted job titles
-        $histories = HistoryPrediksi::with('alumni')->latest()->limit(20)->get()->map(function($h) {
+        $histories = HistoryPrediksi::with('alumni')->latest()->limit(20)->get()->map(function ($h) {
             $h->extracted_job_titles = $this->extractJobTitlesFromText($h->hasil ?? '');
             return $h;
         });
@@ -111,5 +111,24 @@ class AdminPrediksiController extends Controller
             }
         }
         return $found;
+    }
+
+    public function show($id)
+    {
+        $history = HistoryPrediksi::with('alumni')->findOrFail($id);
+        $history->extracted_job_titles = $this->extractJobTitlesFromText($history->hasil ?? '');
+
+        return view('admin.prediksi.show', compact('history'));
+    }
+
+    public function destroy($id)
+    {
+        $history = HistoryPrediksi::find($id);
+        if (!$history) {
+            return redirect()->back()->with('error', 'Data tidak ditemukan.');
+        }
+
+        $history->delete();
+        return redirect()->route('admin.prediksi.data')->with('success', 'Data berhasil dihapus.');
     }
 }

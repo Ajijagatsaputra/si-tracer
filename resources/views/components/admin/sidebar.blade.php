@@ -115,12 +115,6 @@
                                 <span class="nav-main-link-name">Data Prediksi</span>
                             </a>
                         </li>
-                        <li class="nav-main-item">
-                            <a class="nav-main-link" href="{{ route('admin.supervisor-questionnaire.index') }}">
-                                <i class="nav-main-link-icon fa fa-user-graduate"></i>
-                                <span class="nav-main-link-name">Outcome Alumni</span>
-                            </a>
-                        </li>
                     </ul>
                 </li>
 

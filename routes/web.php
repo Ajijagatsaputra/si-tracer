@@ -61,6 +61,8 @@ Route::middleware(['auth', 'cekrole:admin,superadmin'])->group(function () {
     // Admin Prediksi pages
     Route::get('/admin/prediksi', [AdminPrediksiController::class, 'index'])->name('admin.prediksi.index');
     Route::get('/admin/prediksi/data', [AdminPrediksiController::class, 'data'])->name('admin.prediksi.data');
+    Route::get('/admin/prediksi/{id}', [AdminPrediksiController::class, 'show'])->name('admin.prediksi.show');
+    Route::delete('/admin/prediksi/{id}', [AdminPrediksiController::class, 'destroy'])->name('admin.prediksi.destroy');
 });
 
 // Alumni-only routes

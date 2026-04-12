@@ -8,85 +8,155 @@
     <meta name="user-role" content="{{ $role }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <div class="py-4 mb-4 text-white bg-primary bg-gradient">
-        <div class="content d-flex flex-column flex-sm-row justify-content-between align-items-center">
-            <div>
-                <h1 class="h3 fw-bold"><i class="fa fa-clipboard-list me-2"></i> Data Salinan Tracer Alumni</h1>
-                <p class="mb-0">Kelola data tracer alumni secara efisien dan profesional.</p>
+    <!-- Modern Hero Section -->
+    <div class="bg-white border-bottom shadow-sm mb-4">
+        <div class="content content-full">
+            <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center py-3">
+                <div class="flex-grow-1">
+                    <h1 class="h3 fw-bold mb-2">
+                        <span class="bg-primary-lighter p-2 rounded-3 me-2">
+                            <i class="fa fa-clipboard-list text-primary"></i>
+                        </span>
+                        Data Salinan Tracer Alumni
+                    </h1>
+                    <p class="fs-sm fw-medium text-muted mb-0">
+                        Kelola data tracer alumni secara efisien dan profesional dengan sistem yang lebih cerdas.
+                    </p>
+                </div>
+                <div class="mt-3 mt-sm-0">
+                    <span class="badge bg-primary-light text-primary px-3 py-2 rounded-pill shadow-sm">
+                        <i class="fas fa-chart-line me-1"></i> Live Data
+                    </span>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="content">
-        <div class="row g-4">
+        <!-- Quick Stats Modern -->
+        <div class="row g-4 mb-4">
             <div class="col-md-4">
-                <div class="text-white border-0 shadow-sm card bg-primary">
-                    <div class="card-body d-flex justify-content-between align-items-center">
-                        <div>
-                            <div class="fs-3 fw-bold">{{ $totalAlumni }}</div>
-                            <div>Total Alumni</div>
+                <div class="card card-modern overflow-hidden">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="stat-icon-modern bg-primary-light text-primary me-3">
+                                <i class="fa fa-users"></i>
+                            </div>
+                            <div class="stat-label-modern fw-bold text-muted text-uppercase fs-xs ls-wider">Total Alumni</div>
                         </div>
-                        <i class="opacity-75 fa fa-users fa-2x"></i>
+                        <div class="d-flex align-items-baseline">
+                            <h2 class="h1 fw-bold mb-0 text-primary-darker stat-number" data-count="{{ $totalAlumni }}">0</h2>
+                        </div>
+                        <div class="progress mt-3" style="height: 6px; background-color: rgba(79, 172, 254, 0.1);">
+                            <div class="progress-bar bg-primary" style="width: 100%"></div>
+                        </div>
+                        <p class="fs-xs text-muted mb-0 mt-2">
+                            <i class="fas fa-info-circle me-1"></i> Seluruh data alumni terdaftar
+                        </p>
                     </div>
                 </div>
             </div>
+
             <div class="col-md-4">
-                <div class="text-white border-0 shadow-sm card bg-success">
-                    <div class="card-body d-flex justify-content-between align-items-center">
-                        <div>
-                            <div class="fs-3 fw-bold">{{ $sudahMengisi }}</div>
-                            <div>Sudah Mengisi</div>
+                <div class="card card-modern overflow-hidden">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="stat-icon-modern bg-success-light text-success me-3">
+                                <i class="fa fa-check-circle"></i>
+                            </div>
+                            <div class="stat-label-modern fw-bold text-muted text-uppercase fs-xs ls-wider">Sudah Mengisi</div>
                         </div>
-                        <i class="opacity-75 fa fa-check-circle fa-2x"></i>
+                        <div class="d-flex align-items-baseline">
+                            <h2 class="h1 fw-bold mb-0 text-success stat-number" data-count="{{ $sudahMengisi }}">0</h2>
+                        </div>
+                        <div class="progress mt-3" style="height: 6px; background-color: rgba(16, 185, 129, 0.1);">
+                            <div class="progress-bar bg-success" style="width: {{ $totalAlumni > 0 ? ($sudahMengisi / $totalAlumni * 100) : 0 }}%"></div>
+                        </div>
+                        <p class="fs-xs text-muted mb-0 mt-2">
+                            <i class="fas fa-check me-1 text-success"></i> {{ $totalAlumni > 0 ? round($sudahMengisi / $totalAlumni * 100, 1) : 0 }}% completion rate
+                        </p>
                     </div>
                 </div>
             </div>
+
             <div class="col-md-4">
-                <div class="text-white border-0 shadow-sm card bg-warning">
-                    <div class="card-body d-flex justify-content-between align-items-center">
-                        <div>
-                            <div class="fs-3 fw-bold">{{ $belumMengisi }}</div>
-                            <div>Belum Mengisi</div>
+                <div class="card card-modern overflow-hidden">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="stat-icon-modern bg-warning-light text-warning me-3">
+                                <i class="fa fa-clock"></i>
+                            </div>
+                            <div class="stat-label-modern fw-bold text-muted text-uppercase fs-xs ls-wider">Belum Mengisi</div>
                         </div>
-                        <i class="opacity-75 fa fa-times-circle fa-2x"></i>
+                        <div class="d-flex align-items-baseline">
+                            <h2 class="h1 fw-bold mb-0 text-warning stat-number" data-count="{{ $belumMengisi }}">0</h2>
+                        </div>
+                        <div class="progress mt-3" style="height: 6px; background-color: rgba(245, 158, 11, 0.1);">
+                            <div class="progress-bar bg-warning" style="width: {{ $totalAlumni > 0 ? ($belumMengisi / $totalAlumni * 100) : 0 }}%"></div>
+                        </div>
+                        <p class="fs-xs text-muted mb-0 mt-2">
+                            <i class="fas fa-exclamation-triangle me-1 text-warning"></i> Menunggu pengisian data
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="flex-wrap gap-2 mt-4 mb-3 d-flex justify-content-between align-items-center">
-            <div class="gap-2 d-flex align-items-center">
-                <label class="mb-0 fw-semibold" for="filter-status">Filter Status Pekerjaan:</label>
-                <select class="w-auto form-select form-select-sm" id="filter-status">
-                    <option value="">Semua Status</option>
-                    <option value="bekerja_full">Bekerja</option>
-                    <option value="wirausaha">Wiraswasta</option>
-                    <option value="lanjutstudy">Melanjutkan Pendidikan</option>
-                    <option value="belum_bekerja">Belum Memungkinkan Bekerja</option>
-                    <option value="tidak">Tidak Kerja</option>
-                </select>
-            </div>
-            <div class="btn-group">
-                <button class="btn btn-outline-success btn-sm" id="btnDownloadExcel"><i
-                        class="fa fa-file-excel me-1"></i>Excel</button>
-                <button class="btn btn-outline-danger btn-sm" id="btnDownloadPdf"><i
-                        class="fa fa-file-pdf me-1"></i>PDF</button>
-                <button class="btn btn-outline-primary btn-sm" id="btnDownloadPrint"><i
-                        class="fa fa-print me-1"></i>Cetak</button>
+        <!-- Modern Table Toolbar -->
+        <div class="table-toolbar">
+            <div class="row g-3 align-items-center">
+                <!-- Filter & Entries Group -->
+                <div class="col-12 col-xl-8">
+                    <div class="d-flex flex-wrap align-items-center gap-3">
+                        <!-- Status Filter -->
+                        <div class="d-flex align-items-center bg-white p-2 px-3 rounded-pill border shadow-sm">
+                            <label for="filter-status" class="mb-0 me-2 fw-bold text-muted fs-xs text-uppercase">
+                                <i class="fa fa-filter text-primary me-1"></i> Status
+                            </label>
+                            <select id="filter-status" class="form-select form-select-sm border-0 bg-transparent fw-bold text-primary p-0 h-auto" style="width: auto; min-width: 120px;">
+                                <option value="">Semua Status</option>
+                                <option value="bekerja_full">Bekerja</option>
+                                <option value="wirausaha">Wiraswasta</option>
+                                <option value="lanjutstudy">Lanjut Study</option>
+                                <option value="belum_bekerja">Belum Bekerja</option>
+                                <option value="tidak">Tidak Kerja</option>
+                            </select>
+                        </div>
+
+                        <!-- Total Records Badge -->
+                        <div class="bg-primary-light text-primary px-3 py-2 rounded-pill shadow-sm fs-sm fw-bold border border-primary-lighter">
+                            <i class="fas fa-database me-1"></i> <span id="totalRecords">0</span> <small class="text-uppercase ms-1 opacity-75">Records</small>
+                        </div>
+
+                        <!-- Entries Selection (placeholder for DT length) -->
+                        <div id="entries-container" class="ms-sm-auto"></div>
+                    </div>
+                </div>
+                
+                <!-- Search Group -->
+                <div class="col-12 col-xl-4 text-xl-end">
+                    <div class="input-group input-group-modern shadow-sm border rounded-pill overflow-hidden">
+                        <span class="input-group-text border-0 bg-white ps-3">
+                            <i class="fa fa-search text-muted"></i>
+                        </span>
+                        <input type="text" id="customSearch" class="form-control border-0 fs-sm" placeholder="Cari data tracer...">
+                        <button class="btn btn-primary px-4 fw-semibold" id="searchBtn">Cari</button>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <div class="mb-4 border-0 shadow-sm card">
+        <!-- Table Card Modern -->
+        <div class="card card-modern overflow-hidden">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table text-center align-middle table-bordered table-hover small" id="datatable">
-                        <thead class="table-light sticky-top">
+                    <table class="table align-middle table-hover w-100" id="datatable">
+                        <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Tanggal Mengisi</th>
                                 <th>Nama Alumni</th>
                                 <th>Status Pekerjaan</th>
-                                <th>Aksi</th>
+                                <th class="text-center">Aksi</th>
                             </tr>
                         </thead>
                     </table>
@@ -95,7 +165,6 @@
         </div>
     </div>
 @endsection
-
 
 @section('scripts')
     {{-- DataTables & Export --}}
@@ -111,395 +180,282 @@
     {{-- SweetAlert2 --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    {{-- AOS Animation --}}
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
     {{-- Script --}}
     <script>
         $(document).ready(function() {
+            // Initialize AOS
+            AOS.init({
+                duration: 800,
+                once: true,
+                offset: 100
+            });
+
+            // Initialize Tooltips
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            });
+
+            // Counter Animation
+            $('.stat-number').each(function() {
+                const $this = $(this);
+                const countTo = parseInt($this.attr('data-count'));
+
+                $({
+                    countNum: 0
+                }).animate({
+                    countNum: countTo
+                }, {
+                    duration: 2000,
+                    easing: 'swing',
+                    step: function() {
+                        $this.text(Math.floor(this.countNum));
+                    },
+                    complete: function() {
+                        $this.text(this.countNum);
+                    }
+                });
+            });
+
             const userRole = $('meta[name="user-role"]').attr('content');
 
             const table = $('#datatable').DataTable({
                 processing: true,
                 serverSide: true,
                 responsive: true,
+                autoWidth: false,
                 ajax: {
                     url: "{{ route('listtraceralumni.index') }}",
                     data: function(d) {
                         d.status = $('#filter-status').val();
                     }
                 },
-                dom: '<"row mb-2"<"col-sm-6"l><"col-sm-6 text-end"B>>frtip',
-                buttons: [{
+                dom: "<'row mt-3 mb-1'<'col-sm-12'B>>" +
+                     "<'row'<'col-sm-12 table-responsive'tr>>" +
+                     "<'row mt-3'<'col-sm-12 col-md-5 fs-sm text-muted'i><'col-sm-12 col-md-7 d-flex justify-content-md-end'p>>",
+                buttons: [
+                    {
                         extend: 'excelHtml5',
-                        className: 'btn btn-sm btn-success shadow-sm me-1 d-none',
-                        exportOptions: {
-                            columns: ':not(:last-child)'
-                        },
+                        className: 'btn btn-success',
+                        text: '<i class="fa fa-file-excel me-1"></i> Excel',
+                        exportOptions: { columns: ':not(:last-child)' },
                         filename: 'Rekap_Tracer_Alumni',
                         title: 'Rekap Data Tracer Alumni'
                     },
                     {
                         extend: 'pdfHtml5',
-                        className: 'btn btn-sm btn-danger shadow-sm me-1 d-none',
+                        className: 'btn btn-danger',
+                        text: '<i class="fa fa-file-pdf me-1"></i> PDF',
                         orientation: 'landscape',
                         pageSize: 'A4',
-                        exportOptions: {
-                            columns: ':not(:last-child)'
-                        },
+                        exportOptions: { columns: ':not(:last-child)' },
                         filename: 'Rekap_Tracer_Alumni',
                         title: 'Rekap Data Tracer Alumni'
                     },
                     {
                         extend: 'print',
-                        className: 'btn btn-sm btn-secondary shadow-sm me-1 d-none',
-                        exportOptions: {
-                            columns: ':not(:last-child)'
-                        },
+                        className: 'btn btn-info',
+                        text: '<i class="fa fa-print me-1"></i> Cetak',
+                        exportOptions: { columns: ':not(:last-child)' },
                         title: 'Rekap Data Tracer Alumni'
                     }
                 ],
-                columns: [{
+                initComplete: function() {
+                    // Move the length menu to our custom container
+                    $('#entries-container').empty();
+                    let lengthMenu = $('.dataTables_length').detach();
+                    $('#entries-container').append(lengthMenu);
+
+                    // Custom search logic
+                    $('#customSearch').on('keyup', function() {
+                        table.search(this.value).draw();
+                    });
+                    $('#searchBtn').on('click', function() {
+                        table.search($('#customSearch').val()).draw();
+                    });
+                },
+                columns: [
+                    {
                         data: 'id',
+                        className: 'fw-bold text-muted',
                         render: (data, type, row, meta) => meta.row + 1
                     },
                     {
                         data: 'created_at',
-                        render: data => data ? new Date(data).toLocaleDateString('id-ID') : '-'
+                        render: data => data ? `<span class="badge bg-light text-dark border"><i class="far fa-calendar-alt me-1 text-primary"></i>${new Date(data).toLocaleDateString('id-ID')}</span>` : '-'
                     },
                     {
                         data: 'nama',
                         render: function(data, type, row) {
-                            return row.alumni && row.alumni.nama_lengkap ?
-                                row.alumni.nama_lengkap :
-                                (data || '-');
+                            const nama = row.alumni && row.alumni.nama_lengkap ? row.alumni.nama_lengkap : (data || '-');
+                            const avatar = row.alumni && row.alumni.avatar_url ? row.alumni.avatar_url : `https://ui-avatars.com/api/?name=${encodeURIComponent(nama)}&background=random`;
+                            return `<div class="d-flex align-items-center">
+                                        <img src="${avatar}" class="rounded-circle me-2" style="width:32px;height:32px;object-fit:cover;">
+                                        <div class="fw-bold">${nama}</div>
+                                    </div>`;
                         }
                     },
                     {
                         data: 'status_pekerjaan',
                         render: function(data) {
                             const statusMap = {
-                                'bekerja_full': '<span class="badge bg-success">Bekerja</span>',
-                                'wirausaha': '<span class="badge bg-info">Wiraswasta</span>',
-                                'lanjutstudy': '<span class="badge bg-primary">Melanjutkan Pendidikan</span>',
-                                'belum_bekerja': '<span class="badge bg-warning">Belum Memungkinkan Bekerja</span>',
-                                'tidak': '<span class="badge bg-secondary">Tidak Kerja</span>'
+                                'bekerja_full': '<span class="badge-status-modern bg-success-light text-success"><i class="fas fa-briefcase me-1"></i>Bekerja</span>',
+                                'wirausaha': '<span class="badge-status-modern bg-info-light text-info"><i class="fas fa-store me-1"></i>Wiraswasta</span>',
+                                'lanjutstudy': '<span class="badge-status-modern bg-primary-light text-primary"><i class="fas fa-graduation-cap me-1"></i>Lanjut Study</span>',
+                                'belum_bekerja': '<span class="badge-status-modern bg-warning-light text-warning"><i class="fas fa-clock me-1"></i>Belum Bekerja</span>',
+                                'tidak': '<span class="badge-status-modern bg-secondary-light text-secondary"><i class="fas fa-times me-1"></i>Tidak Kerja</span>'
                             };
-                            return statusMap[data] || '<span class="badge bg-light text-dark">' + (
-                                data || '-') + '</span>';
+                            return statusMap[data] || `<span class="badge-status-modern bg-light text-muted">${data || '-'}</span>`;
                         }
                     },
                     {
                         data: null,
                         orderable: false,
                         searchable: false,
+                        className: 'text-center',
                         render: function(data) {
-                            let actions = `
-                                <div class="dropdown">
-                                    <button class="shadow-sm btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fa fa-cog"></i>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-end">
-                                        <li><a href="/listtraceralumni/${data.id}" class="dropdown-item">
-                                            <i class="fa fa-eye text-info me-2"></i> Detail</a></li>
-                            `;
-                            if (userRole === 'admin') {
-                                actions += `
-                                        <li><a href="/listtraceralumni/${data.id}/edit" class="dropdown-item">
-                                            <i class="fa fa-edit text-warning me-2"></i> Edit</a></li>
-                                        <li><a href="#" class="dropdown-item btn-delete" data-id="${data.id}">
-                                            <i class="fa fa-trash-alt text-danger me-2"></i> Hapus</a></li>
-                                `;
-                            }
-                            actions += `
-                                    </ul>
-                                </div>
-                            `;
-                            return actions;
+                            return `<div class="btn-group">
+                                        <a href="/listtraceralumni/${data.id}" class="btn btn-action btn-alt-info" title="Detail">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        ${userRole === 'admin' ? `
+                                        <a href="/listtraceralumni/${data.id}/edit" class="btn btn-action btn-alt-warning mx-1" title="Edit">
+                                            <i class="fa fa-pencil-alt"></i>
+                                        </a>
+                                        <button class="btn btn-action btn-alt-danger btn-delete" data-id="${data.id}" title="Hapus">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                        ` : ''}
+                                    </div>`;
                         }
                     }
                 ],
                 order: [
                     [0, 'desc']
-                ]
+                ],
+                language: {
+                    processing: '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>',
+                    search: '<i class="fas fa-search me-2"></i>',
+                    searchPlaceholder: 'Cari data...',
+                    lengthMenu: 'Tampilkan _MENU_ data',
+                    info: 'Menampilkan _START_ - _END_ dari _TOTAL_ data',
+                    infoEmpty: 'Tidak ada data',
+                    infoFiltered: '(difilter dari _MAX_ total data)',
+                    zeroRecords: '<div class="no-data"><i class="mb-3 fas fa-inbox fa-3x"></i><p>Tidak ada data yang ditemukan</p></div>',
+                    emptyTable: '<div class="no-data"><i class="mb-3 fas fa-database fa-3x"></i><p>Belum ada data tersedia</p></div>'
+                },
+                drawCallback: function(settings) {
+                    $('#totalRecords').text(settings._iRecordsTotal);
+                }
             });
 
             $('#filter-status').on('change', function() {
+                $(this).addClass('filter-active');
                 table.ajax.reload();
+
+                setTimeout(() => {
+                    $(this).removeClass('filter-active');
+                }, 300);
             });
 
-            $('#btnDownloadExcel').click(() => table.button('.buttons-excel').trigger());
-            $('#btnDownloadPdf').click(() => table.button('.buttons-pdf').trigger());
-            $('#btnDownloadPrint').click(() => table.button('.buttons-print').trigger());
-
-            // Fix dropdown positioning issues
-            $(document).on('shown.bs.dropdown', '.dropdown', function() {
-                var dropdown = $(this).find('.dropdown-menu');
-                var windowHeight = $(window).height();
-                var dropdownOffset = dropdown.offset();
-                var dropdownHeight = dropdown.outerHeight();
-
-                // Check if dropdown goes beyond viewport
-                if (dropdownOffset && (dropdownOffset.top + dropdownHeight) > windowHeight) {
-                    dropdown.addClass('dropup');
-                }
+            $('#btnDownloadExcel').click(function() {
+                $(this).addClass('btn-loading');
+                table.button('.buttons-excel').trigger();
+                setTimeout(() => $(this).removeClass('btn-loading'), 1000);
             });
 
-            // Close dropdown when clicking outside
-            $(document).on('click', function(e) {
-                if (!$(e.target).closest('.dropdown').length) {
-                    $('.dropdown-menu').removeClass('show');
-                }
+            $('#btnDownloadPdf').click(function() {
+                $(this).addClass('btn-loading');
+                table.button('.buttons-pdf').trigger();
+                setTimeout(() => $(this).removeClass('btn-loading'), 1000);
             });
 
-            // Setup CSRF token untuk semua AJAX request
+            $('#btnDownloadPrint').click(function() {
+                $(this).addClass('btn-loading');
+                table.button('.buttons-print').trigger();
+                setTimeout(() => $(this).removeClass('btn-loading'), 1000);
+            });
+
+            // Setup CSRF token
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
 
-            // Event delete
+            // Event delete with enhanced SweetAlert
             $('#datatable').on('click', '.btn-delete', function() {
                 const id = $(this).data('id');
 
                 Swal.fire({
-                    title: 'Yakin ingin menghapus?',
-                    text: 'Data tidak bisa dikembalikan setelah dihapus!',
+                    title: 'Konfirmasi Hapus',
+                    html: '<p class="mb-0">Data yang dihapus tidak dapat dikembalikan!</p>',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#dc3545',
                     cancelButtonColor: '#6c757d',
-                    confirmButtonText: 'Ya, hapus!',
-                    cancelButtonText: 'Batal'
+                    confirmButtonText: '<i class="fa fa-trash me-2"></i>Ya, Hapus!',
+                    cancelButtonText: '<i class="fa fa-times me-2"></i>Batal',
+                    customClass: {
+                        popup: 'swal-modern',
+                        confirmButton: 'btn-modern btn-modern-danger',
+                        cancelButton: 'btn-modern btn-modern-secondary'
+                    },
+                    buttonsStyling: false
                 }).then((result) => {
                     if (result.isConfirmed) {
+                        Swal.fire({
+                            title: 'Menghapus...',
+                            html: 'Mohon tunggu sebentar',
+                            allowOutsideClick: false,
+                            showConfirmButton: false,
+                            willOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+
                         $.ajax({
-                            url: `/listtraceralumni/${id}`, // pastikan ini sesuai route
+                            url: `/listtraceralumni/${id}`,
                             type: 'DELETE',
                             dataType: 'json',
                             success: function(res) {
-                                // Reload DataTable
-                                $('#datatable').DataTable().ajax.reload();
+                                table.ajax.reload();
 
-                                // Notifikasi sukses
                                 Swal.fire({
                                     icon: 'success',
-                                    title: 'Terhapus!',
-                                    text: res.message,
+                                    title: 'Berhasil!',
+                                    html: '<p class="mb-0">' + res.message + '</p>',
                                     timer: 2000,
-                                    showConfirmButton: false
+                                    showConfirmButton: false,
+                                    customClass: {
+                                        popup: 'swal-modern'
+                                    }
                                 });
                             },
                             error: function(xhr, status, error) {
-                                // Cek respons error
                                 console.error(xhr.responseText);
 
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Gagal!',
-                                    text: 'Tidak dapat menghapus data.',
-                                    footer: xhr.status == 419 ?
-                                        'Session CSRF Expired. Refresh halaman!' :
-                                        ''
+                                    html: '<p class="mb-0">Tidak dapat menghapus data.</p>',
+                                    footer: xhr.status == 419 ? '<i class="fas fa-exclamation-triangle me-2"></i>Session CSRF Expired. Refresh halaman!' : '',
+                                    customClass: {
+                                        popup: 'swal-modern'
+                                    }
                                 });
                             }
                         });
                     }
                 });
             });
-
         });
     </script>
 
-   {{-- STYLE --}}
-<style>
-    /* ================================
-       Datatable Modern Styling
-    ================================= */
-    .dataTables_wrapper .dataTables_filter {
-        float: right;
-        text-align: right;
-        margin-bottom: 1rem;
-    }
-
-    .dataTables_wrapper .dataTables_filter label {
-        font-weight: 600;
-        margin-right: 0.5rem;
-        color: #495057;
-    }
-
-    .dataTables_wrapper .dataTables_filter input {
-        border: 1px solid #ced4da;
-        border-radius: 0.75rem;
-        padding: 0.5rem 0.9rem;
-        font-size: 0.9rem;
-        outline: none;
-        transition: all 0.25s ease;
-        background: #fff;
-    }
-
-    .dataTables_wrapper .dataTables_filter input:focus {
-        border-color: #1577c2;
-        box-shadow: 0 0 0 0.25rem rgba(21, 119, 194, 0.15);
-    }
-
-    /* Table header */
-    #datatable thead th {
-        background: linear-gradient(135deg, #1577c2, #1e90ff);
-        color: #fff;
-        font-weight: 600;
-        font-size: 14px;
-        text-align: center;
-        border: none;
-    }
-
-    /* Table rows */
-    #datatable tbody tr {
-        transition: background 0.2s ease;
-    }
-
-    #datatable tbody tr:hover {
-        background: #f1f7ff;
-    }
-
-    #datatable td {
-        vertical-align: middle;
-        font-size: 0.95rem;
-        padding: 0.75rem;
-    }
-
-    /* Status badge */
-    .badge {
-        border-radius: 50rem !important;
-        font-size: 0.8rem;
-        padding: 0.4em 0.8em;
-        font-weight: 500;
-    }
-
-    .badge-success {
-        background: linear-gradient(135deg, #28a745, #45c86d);
-        color: #fff;
-    }
-
-    .badge-warning {
-        background: linear-gradient(135deg, #ffc107, #ffda6a);
-        color: #000;
-    }
-
-    .badge-danger {
-        background: linear-gradient(135deg, #dc3545, #f35b6b);
-        color: #fff;
-    }
-
-    /* Dropdown menu */
-    .dropdown-menu {
-        border-radius: 0.75rem;
-        border: none;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-        padding: 0.5rem 0;
-        font-size: 0.9rem;
-    }
-
-    .dropdown-menu .dropdown-item {
-        padding: 0.6rem 1.1rem;
-        display: flex;
-        align-items: center;
-        transition: background 0.2s ease;
-    }
-
-    .dropdown-menu .dropdown-item:hover {
-        background: #f1f7ff;
-        color: #1577c2;
-    }
-
-    .dropdown-menu .dropdown-item i {
-        width: 18px;
-        margin-right: 8px;
-    }
-
-    /* Buttons */
-    .btn-sm {
-        border-radius: 0.6rem;
-        font-size: 0.85rem;
-        padding: 0.4rem 0.8rem;
-        transition: all 0.2s ease;
-    }
-
-    .btn-outline-primary {
-        border-color: #1577c2;
-        color: #1577c2;
-    }
-
-    .btn-outline-primary:hover {
-        background: #1577c2;
-        color: #fff;
-        box-shadow: 0 4px 10px rgba(21, 119, 194, 0.25);
-    }
-
-    /* Pagination */
-    .dataTables_wrapper .dataTables_paginate .paginate_button {
-        border-radius: 0.5rem;
-        padding: 0.4rem 0.8rem;
-        margin: 0 2px;
-        border: 1px solid #dee2e6;
-        color: #1577c2 !important;
-        transition: all 0.2s ease;
-    }
-
-    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-        background: #1577c2 !important;
-        color: #fff !important;
-        border: 1px solid #1577c2;
-    }
-
-    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-        background: #1e90ff !important;
-        color: #fff !important;
-        border: 1px solid #1e90ff;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-        .dataTables_wrapper .dataTables_filter {
-            float: none;
-            text-align: left;
-            margin-top: 1rem;
-        }
-
-        .flex-wrap.gap-2 {
-            flex-direction: column;
-            align-items: stretch !important;
-        }
-
-        .btn-group {
-            width: 100%;
-            justify-content: space-between;
-        }
-
-        #datatable thead {
-            display: none; /* hide header di mobile */
-        }
-
-        #datatable tbody tr {
-            display: block;
-            margin-bottom: 1rem;
-            border: 1px solid #e9ecef;
-            border-radius: 0.75rem;
-            padding: 0.75rem;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
-        }
-
-        #datatable tbody td {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.5rem;
-            border: none;
-        }
-
-        #datatable tbody td::before {
-            content: attr(data-label);
-            font-weight: 600;
-            color: #495057;
-        }
-    }
-</style>
-
+    <style>
+    </style>
 @endsection

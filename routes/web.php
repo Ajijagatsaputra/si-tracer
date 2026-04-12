@@ -38,14 +38,7 @@ Route::post('register', [RegisteredUserController::class, 'store']);
 
 // Admin-only routes
 Route::middleware(['auth', 'cekrole:admin,superadmin'])->group(function () {
-    Route::get('/admin', function () {
-        $response = Http::get('https://api.oase.poltektegal.ac.id/api/web/mahasiswa', [
-            'key' => env('OASE_API_KEY'),
-            'tahun_angkatan' => '2021'
-        ]);
-        $count = count($response->json()['data']);
-        return view('admin.admin-dashboard', compact('count'));
-    })->name('admin.dashboard');
+    Route::get('/admin', [HomeController::class, 'index'])->name('admin.dashboard');
     Route::get('/profileadmin/index', [ProfileAdminController::class, 'show'])->name('profileadmin.index');
     Route::put('/profileadmin/update', [ProfileAdminController::class, 'update'])->name('profileadmin.update');
     Route::put('/profileadmin/password', [ProfileAdminController::class, 'updatePassword'])->name('profileadmin.update-password');
@@ -63,6 +56,8 @@ Route::middleware(['auth', 'cekrole:admin,superadmin'])->group(function () {
     Route::get('/admin/prediksi/data', [AdminPrediksiController::class, 'data'])->name('admin.prediksi.data');
     Route::get('/admin/prediksi/{id}', [AdminPrediksiController::class, 'show'])->name('admin.prediksi.show');
     Route::delete('/admin/prediksi/{id}', [AdminPrediksiController::class, 'destroy'])->name('admin.prediksi.destroy');
+    Route::get('/admin/prediksi/detail/{id}', [AdminPrediksiController::class, 'detail'])->name('admin.prediksi.detail');
+
 });
 
 // Alumni-only routes

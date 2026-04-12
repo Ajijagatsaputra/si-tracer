@@ -1,614 +1,264 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="container px-3 py-5 px-md-4">
-        <!-- HEADER -->
-        <div class="mb-4 d-flex justify-content-between align-items-center">
-            <div>
-                <h2 class="mb-1 h3 fw-bold text-primary">
-                    <i class="bi bi-person-badge me-2"></i>Detail Tracer Study Alumni
-                </h2>
-                <nav aria-label="breadcrumb">
-                    <ol class="mb-0 breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('listtraceralumni.index') }}">Tracer Alumni</a></li>
-                        <li class="breadcrumb-item active">Detail</li>
-                    </ol>
-                </nav>
+    <!-- Premium Hero Section -->
+    <div class="card card-modern border-0 shadow-lg mb-4 overflow-hidden" style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);">
+        <div class="card-body p-4 p-md-5 position-relative">
+            <div class="row align-items-center">
+                <div class="col-md-auto mb-4 mb-md-0 position-relative" style="z-index: 2;">
+                    <div class="avatar-container position-relative">
+                        <div class="avatar-placeholder bg-white-20 text-white fw-bold shadow-lg rounded-circle d-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 2.5rem; backdrop-filter: blur(10px); border: 4px solid rgba(255,255,255,0.2);">
+                            {{ strtoupper(substr($tracerStudy->nama, 0, 1)) }}
+                        </div>
+                        <span class="position-absolute bottom-0 end-0 badge rounded-pill bg-success border border-2 border-white p-2 shadow-sm" title="Verified Alumni">
+                            <i class="fa fa-badge-check"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md position-relative" style="z-index: 2;">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-2 fs-xs text-white-50 text-uppercase fw-bold ls-wide">
+                            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-white-50">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('listtraceralumni.index') }}" class="text-white-50">Tracer Alumni</a></li>
+                            <li class="breadcrumb-item active text-white">Detail Profile</li>
+                        </ol>
+                    </nav>
+                    <h1 class="display-6 fw-bold text-white mb-1">{{ $tracerStudy->nama }}</h1>
+                    <div class="d-flex flex-wrap gap-2 mt-2">
+                        <span class="badge bg-white-20 text-white rounded-pill px-3 py-2 border border-white-25 fs-xs">
+                            <i class="fa fa-id-card me-1 opacity-75"></i> {{ $tracerStudy->nim }}
+                        </span>
+                        <span class="badge bg-white-20 text-white rounded-pill px-3 py-2 border border-white-25 fs-xs">
+                            <i class="fa fa-graduation-cap me-1 opacity-75"></i> Angkatan {{ $tracerStudy->tahun_lulus }}
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-auto text-md-end mt-4 mt-md-0 position-relative" style="z-index: 2;">
+                    <div class="d-flex gap-2">
+                        <a href="{{ route('listtraceralumni.index') }}" class="btn btn-white-20 text-white px-4 rounded-pill border border-white-25">
+                            <i class="fa fa-arrow-left me-2"></i>Kembali
+                        </a>
+                        <a href="{{ route('listtraceralumni.edit', $tracerStudy->id) }}" class="btn btn-warning px-4 rounded-pill shadow-sm fw-bold">
+                            <i class="fa fa-edit me-2"></i>Edit Data
+                        </a>
+                    </div>
+                </div>
             </div>
-            <div class="gap-2 d-flex">
-                <a href="{{ route('listtraceralumni.index') }}" class="btn btn-outline-secondary">
-                    <i class="bi bi-arrow-left me-1"></i>Kembali
-                </a>
-                <a href="{{ route('listtraceralumni.edit', $tracerStudy->id) }}" class="btn btn-warning">
-                    <i class="bi bi-pencil me-1"></i>Edit
-                </a>
+            <!-- Decorative Elements -->
+            <div class="position-absolute top-0 end-0 p-5 mt-n4 me-n4 opacity-10">
+                <i class="fa fa-user-graduate fa-10x text-white"></i>
             </div>
         </div>
+    </div>
 
-        <!-- BASIC INFO CARD -->
-        <div class="mb-4 col-12">
-            <div class="border-0 shadow-sm card">
-                <div class="card-body">
-                    <h5 class="mb-3 fw-bold">
-                        <i class="fas fa-user text-primary me-2"></i>Informasi Pribadi
-                    </h5>
-                    <div class="row row-cols-1 row-cols-md-3 g-4">
-                        <div class="col">
-                            <div class="small text-muted">Nama Lengkap</div>
-                            <div class="fw-medium">{{ $tracerStudy->nama ?? '-' }}</div>
-                        </div>
-                        <div class="col">
-                            <div class="small text-muted">Email</div>
-                            <div class="fw-medium">{{ $tracerStudy->email ?? '-' }}</div>
-                        </div>
-                        <div class="col">
-                            <div class="small text-muted">No. HP</div>
-                            <div class="fw-medium">{{ $tracerStudy->no_hp ?? '-' }}</div>
-                        </div>
-                        <div class="col">
-                            <div class="small text-muted">NIM</div>
-                            <div class="fw-medium">{{ $tracerStudy->nim ?? '-' }}</div>
-                        </div>
-                        <div class="col">
-                            <div class="small text-muted">Program Studi</div>
-                            <div class="fw-medium">{{ ucwords(str_replace('_', ' ', $tracerStudy->prodi)) ?? '-' }}</div>
-                        </div>
-                        <div class="col">
-                            <div class="small text-muted">Tahun Lulus</div>
-                            <div class="fw-medium">{{ $tracerStudy->tahun_lulus ?? '-' }}</div>
-                        </div>
-                        <div class="col-12">
-                            <div class="small text-muted">Alamat</div>
-                            <div class="fw-medium">{{ $tracerStudy->alamat ?? '-' }}</div>
-                        </div>
-                        <div class="col">
-                            <div class="small text-muted">Status Pekerjaan</div>
-                            <div class="fw-medium">
-                                @php
-                                    $status_labels = [
-                                        'bekerja_full' => 'Bekerja (Full/Part Time)',
-                                        'belum_bekerja' => 'Belum Memungkinkan Bekerja',
-                                        'wirausaha' => 'Wiraswasta',
-                                        'lanjutstudy' => 'Melanjutkan Pendidikan',
-                                        'tidak' => 'Tidak Kerja, Sedang Mencari Kerja',
-                                    ];
-                                @endphp
-                                <span
-                                    class="badge bg-{{ $tracerStudy->status_pekerjaan === 'bekerja_full' ? 'success' : ($tracerStudy->status_pekerjaan === 'wirausaha' ? 'warning' : ($tracerStudy->status_pekerjaan === 'lanjutstudy' ? 'info' : 'secondary')) }}">
-                                    {{ $status_labels[$tracerStudy->status_pekerjaan] ?? $tracerStudy->status_pekerjaan }}
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="small text-muted">Tanggal Pengisian</div>
-                            <div class="fw-medium">{{ $tracerStudy->tanggal_isi?->format('d F Y') ?? '-' }}</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- DETAIL BASED ON STATUS -->
-        @if ($tracerStudy->status_pekerjaan === 'bekerja_full' && $tracerStudy->pekerjaan)
-            <div class="mb-4 col-12">
-                <div class="border-0 shadow-sm card">
-                    <div class="card-body">
-                        <h5 class="mb-3 fw-bold">
-                            <i class="fas fa-briefcase text-success me-2"></i>Detail Pekerjaan
+    <div class="content content-full">
+        <div class="row g-4">
+            <!-- Left Sidebar Info -->
+            <div class="col-xl-4">
+                <!-- Personal Info Card -->
+                <div class="card card-modern border-0 shadow-sm mb-4">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold text-dark mb-4 pb-2 border-bottom d-flex align-items-center">
+                            <div class="icon-circle-sm bg-primary-light text-primary me-2"><i class="fa fa-user"></i></div>
+                            Kontak & Identitas
                         </h5>
-                        <div class="row row-cols-1 row-cols-md-3 g-4">
-                            <div class="col">
-                                <div class="small text-muted">Mendapatkan Pekerjaan</div>
-                                <div class="fw-medium">
-                                    {{ $tracerStudy->pekerjaan->mendapatkan_pekerjaan === '<=6bulan' ? 'Sebelum 6 bulan sejak lulus' : 'Setelah 6 bulan sejak lulus' }}
+                        <div class="space-y-4">
+                            <div class="info-group">
+                                <label class="text-uppercase text-muted fw-bold ls-wide" style="font-size: 0.65rem;">Email Address</label>
+                                <div class="fw-bold text-dark">{{ $tracerStudy->email ?? '-' }}</div>
+                            </div>
+                            <div class="info-group">
+                                <label class="text-uppercase text-muted fw-bold ls-wide" style="font-size: 0.65rem;">WhatsApp / Phone</label>
+                                <div class="fw-bold text-dark d-flex align-items-center">
+                                    <i class="fab fa-whatsapp text-success me-2"></i> {{ $tracerStudy->no_hp ?? '-' }}
                                 </div>
                             </div>
-                            <div class="col">
-                                <div class="small text-muted">Waktu Mendapat Kerja</div>
-                                <div class="fw-medium">{{ $tracerStudy->pekerjaan->bulan_kerja ?? '-' }} bulan</div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Pendapatan</div>
-                                <div class="fw-medium">
-                                    {{ $tracerStudy->pekerjaan->pendapatan ? 'Rp ' . number_format($tracerStudy->pekerjaan->pendapatan, 0, ',', '.') : '-' }}
+                            <div class="info-group">
+                                <label class="text-uppercase text-muted fw-bold ls-wide" style="font-size: 0.65rem;">Program Studi</label>
+                                <div class="d-inline-block px-3 py-1 rounded-pill bg-primary-light text-primary fw-bold fs-xs border border-primary-10">
+                                    {{ ucwords(str_replace('_', ' ', $tracerStudy->prodi)) }}
                                 </div>
                             </div>
-                            <div class="col">
-                                <div class="small text-muted">Nama Perusahaan</div>
-                                <div class="fw-medium">{{ $tracerStudy->pekerjaan->nama_perusahaan ?? '-' }}</div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Jabatan</div>
-                                <div class="fw-medium">{{ $tracerStudy->pekerjaan->jabatan ?? '-' }}</div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Provinsi</div>
-                                <div class="fw-medium">
-                                    {{ \Laravolt\Indonesia\Models\Province::where('code', $tracerStudy->pekerjaan?->provinsi)->first()?->name ?? '-' }}
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Kota</div>
-                                <div class="fw-medium">
-                                    {{ \Laravolt\Indonesia\Models\City::where('code', $tracerStudy->pekerjaan?->kota)->first()?->name ?? '-' }}
-
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Tingkat Usaha</div>
-                                <div class="fw-medium">
-                                    @php
-                                        $tingkatUsaha = $tracerStudy->pekerjaan->tingkat_usaha_level ?? '-';
-                                        if ($tingkatUsaha !== '-' && $tingkatUsaha !== null) {
-                                            $tingkatUsaha = ucwords(str_replace('_', ' ', $tingkatUsaha));
-                                        }
-                                    @endphp
-                                    {{ $tingkatUsaha }}
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="small text-muted">Alamat Pekerjaan</div>
-                                <div class="fw-medium">{{ $tracerStudy->pekerjaan->alamat_pekerjaan ?? '-' }}</div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Hubungan Studi - Pekerjaan</div>
-                                <div class="fw-medium">
-                                    @php
-                                        $hubungan_labels = [
-                                            'sangat_erat' => 'Sangat Erat',
-                                            'erat' => 'Erat',
-                                            'cukup_erat' => 'Cukup Erat',
-                                            'kurang_erat' => 'Kurang Erat',
-                                            'tidak_erat' => 'Tidak Erat',
-                                        ];
-                                    @endphp
-                                    {{ $hubungan_labels[$tracerStudy->pekerjaan->hubungan_studi_pekerjaan] ?? '-' }}
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Kesesuaian Pendidikan</div>
-                                <div class="fw-medium">
-                                    @php
-                                        $pendidikan_labels = [
-                                            'lebih_tinggi' => 'Setingkat Lebih Tinggi',
-                                            'sama' => 'Tingkat yang Sama',
-                                            'lebih_rendah' => 'Setingkat Lebih Rendah',
-                                            'tidak_perlu_pt' => 'Tidak Perlu Pendidikan Tinggi',
-                                        ];
-                                    @endphp
-                                    {{ $pendidikan_labels[$tracerStudy->pekerjaan->pendidikan_sesuai_pekerjaan] ?? '-' }}
-                                </div>
+                            <div class="info-group">
+                                <label class="text-uppercase text-muted fw-bold ls-wide" style="font-size: 0.65rem;">Home Address</label>
+                                <div class="text-dark small lh-base">{{ $tracerStudy->alamat ?? '-' }}</div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        @elseif ($tracerStudy->status_pekerjaan === 'wirausaha' && $tracerStudy->wirausaha)
-            <div class="mb-4 col-12">
-                <div class="border-0 shadow-sm card">
-                    <div class="card-body">
-                        <h5 class="mb-3 fw-bold">
-                            <i class="fas fa-store text-warning me-2"></i>Detail Wirausaha
-                        </h5>
-                        <div class="row row-cols-1 row-cols-md-3 g-4">
-                            <div class="col">
-                                <div class="small text-muted">Nama Usaha</div>
-                                <div class="fw-medium">{{ $tracerStudy->wirausaha->nama_usaha ?? '-' }}</div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Posisi Usaha</div>
-                                <div class="fw-medium">{{ ucfirst($tracerStudy->wirausaha->posisi_usaha) ?? '-' }}</div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Tingkat Usaha</div>
-                                <div class="fw-medium">
-                                    @php
-                                        $tingkatUsaha = $tracerStudy->wirausaha->tingkat_usaha_level ?? '-';
-                                        if ($tingkatUsaha !== '-' && $tingkatUsaha !== null) {
-                                            $tingkatUsaha = ucwords(str_replace('_', ' ', $tingkatUsaha));
-                                        }
-                                    @endphp
-                                    {{ $tingkatUsaha }}
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Pendapatan Usaha</div>
-                                <div class="fw-medium">
-                                    {{ $tracerStudy->wirausaha->pendapatan_usaha ? 'Rp ' . number_format($tracerStudy->wirausaha->pendapatan_usaha, 0, ',', '.') : '-' }}
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="small text-muted">Alamat Usaha</div>
-                                <div class="fw-medium">{{ $tracerStudy->wirausaha->alamat_usaha ?? '-' }}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @elseif ($tracerStudy->status_pekerjaan === 'lanjutstudy' && $tracerStudy->pendidikan)
-            <div class="mb-4 col-12">
-                <div class="border-0 shadow-sm card">
-                    <div class="card-body">
-                        <h5 class="mb-3 fw-bold">
-                            <i class="fas fa-graduation-cap text-info me-2"></i>Detail Pendidikan Lanjut
-                        </h5>
-                        <div class="row row-cols-1 row-cols-md-3 g-4">
-                            <div class="col">
-                                <div class="small text-muted">Universitas</div>
-                                <div class="fw-medium">{{ $tracerStudy->pendidikan->universitas ?? '-' }}</div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Program Studi</div>
-                                <div class="fw-medium">{{ $tracerStudy->pendidikan->program_studi ?? '-' }}</div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Sumber Biaya</div>
-                                <div class="fw-medium">
-                                    {{ ucwords(str_replace('_', ' ', $tracerStudy->pendidikan->sumber_biaya)) ?? '-' }}
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Tanggal Masuk</div>
-                                <div class="fw-medium">
-                                    {{ $tracerStudy->pendidikan->tanggal_masuk?->format('d F Y') ?? '-' }}</div>
-                            </div>
-                            <div class="col-12">
-                                <div class="small text-muted">Lokasi Universitas</div>
-                                <div class="fw-medium">{{ $tracerStudy->pendidikan->lokasi_universitas ?? '-' }}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endif
-        @if ($tracerStudy->status_pekerjaan === 'bekerja_full' && $tracerStudy->pengguna)
-            <div class="mb-4 col-12">
-                <div class="border-0 shadow-sm card">
-                    <div class="card-body">
-                        <h5 class="mb-3 fw-bold">
-                            <i class="fas fa-briefcase text-success me-2"></i>Detail Data Atasan
-                        </h5>
-                        <div class="row row-cols-1 row-cols-md-3 g-4">
-                            <div class="col">
-                                <div class="small text-muted">Nama Atasan</div>
-                                <div class="fw-medium">{{ $tracerStudy->pengguna->nama_atasan ?? '-' }}</div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">NIPY</div>
-                                <div class="fw-medium">{{ $tracerStudy->pengguna->nipy ?? '-' }}</div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Jabatan Atasan</div>
-                                <div class="fw-medium">{{ $tracerStudy->pengguna->jabatan_atasan ?? '-' }}</div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Nomor Whatsapp Atasan</div>
-                                <div class="fw-medium">{{ $tracerStudy->pengguna->wa_atasan ?? '-' }}</div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Email Atasan</div>
-                                <div class="fw-medium">{{ $tracerStudy->pengguna->email_atasan ?? '-' }}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endif
 
-        <!-- PENCARIAN KERJA & AKTIVITAS -->
-        @if (in_array($tracerStudy->status_pekerjaan, ['bekerja_full', 'wirausaha', 'belum_bekerja', 'tidak']) &&
-                $tracerStudy->pencarianKerja)
-            <div class="mb-4 col-12">
-                <div class="border-0 shadow-sm card">
-                    <div class="card-body">
-                        <h5 class="mb-3 fw-bold">
-                            <i class="fas fa-search text-secondary me-2"></i>Detail Pencarian Kerja
+                <!-- Status Card -->
+                <div class="card card-modern border-0 shadow-sm overflow-hidden">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold text-dark mb-4 pb-2 border-bottom d-flex align-items-center">
+                            <div class="icon-circle-sm bg-success-light text-success me-2"><i class="fa fa-star"></i></div>
+                            Status Tracer
                         </h5>
-                        <div class="row row-cols-1 row-cols-md-3 g-4">
-                            @if ($tracerStudy->pencarianKerja->waktu_cari_kerja)
-                                <div class="col">
-                                    <div class="small text-muted">Waktu Mulai Cari Kerja</div>
-                                    <div class="fw-medium">
-                                        {{ ucwords(str_replace('_', ' ', $tracerStudy->pencarianKerja->waktu_cari_kerja)) }}
-                                    </div>
-                                </div>
-                            @endif
-                            @if ($tracerStudy->pencarianKerja->bulan_sebelum_lulus)
-                                <div class="col">
-                                    <div class="small text-muted">Bulan Sebelum Lulus</div>
-                                    <div class="fw-medium">{{ $tracerStudy->pencarianKerja->bulan_sebelum_lulus }} bulan
-                                    </div>
-                                </div>
-                            @endif
-                            @if ($tracerStudy->pencarianKerja->bulan_setelah_lulus)
-                                <div class="col">
-                                    <div class="small text-muted">Bulan Setelah Lulus</div>
-                                    <div class="fw-medium">{{ $tracerStudy->pencarianKerja->bulan_setelah_lulus }} bulan
-                                    </div>
-                                </div>
-                            @endif
-                            @if ($tracerStudy->pencarianKerja->aktif_cari_kerja_4minggu)
-                                <div class="col">
-                                    <div class="small text-muted">Aktif Cari Kerja 4 Minggu Terakhir</div>
-                                    <div class="fw-medium">
-                                        {{ ucwords(str_replace('_', ' ', $tracerStudy->pencarianKerja->aktif_cari_kerja_4minggu)) }}
-                                    </div>
-                                </div>
-                            @endif
-                            @if ($tracerStudy->pencarianKerja->alasan_pekerjaan_tidak_sesuai)
-                                <div class="col">
-                                    <div class="small text-muted">Alasan Pekerjaan Tidak Sesuai Pendidikan</div>
-                                    <div class="fw-medium">
-                                        {{ $tracerStudy->pencarianKerja->alasan_pekerjaan_tidak_sesuai }}
-                                    </div>
-                                </div>
-                            @endif
-                            @if ($tracerStudy->pencarianKerja->aktif_cari_kerja)
-                                <div class="col">
-                                    <div class="small text-muted">Cara Mencari Pekerjaan</div>
-                                    <div class="fw-medium">
-                                        {{ $tracerStudy->pencarianKerja->aktif_cari_kerja }}
-                                    </div>
-                                </div>
-                            @endif
-                            @if ($tracerStudy->pencarianKerja->jumlah_perusahaan_lamar)
-                                <div class="col">
-                                    <div class="small text-muted">Jumlah Perusahaan Dilamar</div>
-                                    <div class="fw-medium">{{ $tracerStudy->pencarianKerja->jumlah_perusahaan_lamar }}
-                                        perusahaan</div>
-                                </div>
-                            @endif
-                            @if ($tracerStudy->pencarianKerja->jumlah_perusahaan_respon)
-                                <div class="col">
-                                    <div class="small text-muted">Jumlah Perusahaan Merespon</div>
-                                    <div class="fw-medium">{{ $tracerStudy->pencarianKerja->jumlah_perusahaan_respon }}
-                                        perusahaan</div>
-                                </div>
-                            @endif
-                            @if ($tracerStudy->pencarianKerja->jumlah_perusahaan_wawancara)
-                                <div class="col">
-                                    <div class="small text-muted">Jumlah Perusahaan Wawancara</div>
-                                    <div class="fw-medium">{{ $tracerStudy->pencarianKerja->jumlah_perusahaan_wawancara }}
-                                        perusahaan</div>
-                                </div>
-                            @endif
-                            @if ($tracerStudy->pencarianKerja->cara_mencari_kerja)
-                                <div class="col">
-                                    <div class="small text-muted">Cara Mencari Kerja (Lainnya)</div>
-                                    <div class="fw-medium">{{ $tracerStudy->pencarianKerja->cara_mencari_kerja }}</div>
-                                </div>
-                            @endif
-                            @if ($tracerStudy->pencarianKerja->sumber_informasi)
-                                <div class="col">
-                                    <div class="small text-muted">Sumber Informasi</div>
-                                    <div class="fw-medium">{{ $tracerStudy->pencarianKerja->sumber_informasi }}</div>
-                                </div>
-                            @endif
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endif
-
-        <!-- KOMPETENSI -->
-        @if (isset($tracerStudy->kompetensi))
-            <div class="mb-4 col-12">
-                <div class="border-0 shadow-sm card">
-                    <div class="card-body">
-                        <h5 class="mb-3 fw-bold">
-                            <i class="fas fa-star text-secondary me-2"></i>Kompetensi Alumni
-                        </h5>
-
                         @php
-                            $opsi_kompetensi = [
-                                'sangat_baik' => '⭐⭐⭐⭐⭐ Sangat Baik',
-                                'baik' => '⭐⭐⭐⭐ Baik',
-                                'cukup' => '⭐⭐⭐ Cukup',
-                                'kurang_baik' => '⭐⭐ Kurang Baik',
-                                'tidak_baik' => '⭐ Tidak Baik',
+                            $status_labels = [
+                                'bekerja_full' => ['label' => 'Bekerja', 'color' => 'success', 'icon' => 'fa-briefcase'],
+                                'belum_bekerja' => ['label' => 'Belum Bekerja', 'color' => 'danger', 'icon' => 'fa-clock'],
+                                'wirausaha' => ['label' => 'Wirausaha', 'color' => 'warning', 'icon' => 'fa-store'],
+                                'lanjutstudy' => ['label' => 'Studi Lanjut', 'color' => 'info', 'icon' => 'fa-graduation-cap'],
+                                'tidak' => ['label' => 'Mencari Kerja', 'color' => 'secondary', 'icon' => 'fa-search'],
                             ];
+                            $current = $status_labels[$tracerStudy->status_pekerjaan] ?? ['label' => $tracerStudy->status_pekerjaan, 'color' => 'primary', 'icon' => 'fa-circle'];
                         @endphp
+                        <div class="text-center p-4 rounded-4 bg-light border border-white mb-3">
+                            <div class="icon-circle bg-{{ $current['color'] }} text-white mx-auto mb-3 shadow" style="width: 60px; height: 60px;">
+                                <i class="fa {{ $current['icon'] }} fa-lg"></i>
+                            </div>
+                            <div class="h5 fw-bold text-dark mb-1">{{ $current['label'] }}</div>
+                            <div class="text-muted small">Update terakhir: {{ $tracerStudy->updated_at?->format('d M Y') }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                        <!-- Kompetensi Awal -->
-                        <h6 class="mb-3 fw-semibold text-muted">Kompetensi Saat Awal Lulus</h6>
-                        <div class="mb-4 row row-cols-1 row-cols-md-4 g-3">
-                            <div class="col">
-                                <div class="small text-muted">Etika</div>
-                                <div class="fw-medium">{{ $opsi_kompetensi[$tracerStudy->kompetensi->etika_awal] ?? '-' }}
+            <!-- Right Content Area -->
+            <div class="col-xl-8">
+                <!-- Data Detail Berdasarkan Status -->
+                @if ($tracerStudy->status_pekerjaan === 'bekerja_full' && $tracerStudy->pekerjaan)
+                    <div class="card card-modern border-0 shadow-sm border-start border-4 border-success mb-4">
+                        <div class="card-body p-4">
+                            <h5 class="fw-bold text-dark mb-4 pb-2 border-bottom">
+                                <i class="fa fa-briefcase text-success me-2"></i>Profesional Detail
+                            </h5>
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="p-3 rounded-4 bg-light-soft border">
+                                        <label class="text-uppercase text-muted fw-bold ls-wide mb-1" style="font-size: 0.6rem;">Company</label>
+                                        <div class="h5 fw-bold text-dark mb-0">{{ $tracerStudy->pekerjaan->nama_perusahaan ?? '-' }}</div>
+                                        <div class="text-primary fw-semibold small">{{ $tracerStudy->pekerjaan->jabatan ?? '-' }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="p-3 rounded-4 bg-light-soft border">
+                                        <label class="text-uppercase text-muted fw-bold ls-wide mb-1" style="font-size: 0.6rem;">Monthly Income</label>
+                                        <div class="h5 fw-bold text-success mb-0">
+                                            {{ $tracerStudy->pekerjaan->pendapatan ? 'Rp ' . number_format($tracerStudy->pekerjaan->pendapatan, 0, ',', '.') : '-' }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="row g-3">
+                                        <div class="col-md-4">
+                                            <label class="text-uppercase text-muted fw-bold ls-wide mb-1" style="font-size: 0.6rem;">Location</label>
+                                            <div class="fw-semibold text-dark small"><i class="fa fa-map-marker-alt text-danger me-1"></i>{{ $tracerStudy->pekerjaan->alamat_pekerjaan ?? '-' }}</div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="text-uppercase text-muted fw-bold ls-wide mb-1" style="font-size: 0.6rem;">Mulai Bekerja</label>
+                                            <div class="fw-semibold text-dark small">{{ $tracerStudy->pekerjaan->mendapatkan_pekerjaan === '<=6bulan' ? '< 6 Bulan' : '> 6 Bulan' }}</div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="text-uppercase text-muted fw-bold ls-wide mb-1" style="font-size: 0.6rem;">Hubungan Studi</label>
+                                            <span class="badge bg-success-light text-success border border-success-10 rounded-pill">{{ ucwords(str_replace('_', ' ', $tracerStudy->pekerjaan->hubungan_studi_pekerjaan)) }}</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col">
-                                <div class="small text-muted">Keahlian</div>
-                                <div class="fw-medium">
-                                    {{ $opsi_kompetensi[$tracerStudy->kompetensi->keahlian_awal] ?? '-' }}</div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Bahasa Inggris</div>
-                                <div class="fw-medium">
-                                    {{ $opsi_kompetensi[$tracerStudy->kompetensi->bahasa_inggris_awal] ?? '-' }}</div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Teknologi</div>
-                                <div class="fw-medium">
-                                    {{ $opsi_kompetensi[$tracerStudy->kompetensi->teknologi_awal] ?? '-' }}</div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Kerja Sama</div>
-                                <div class="fw-medium">
-                                    {{ $opsi_kompetensi[$tracerStudy->kompetensi->kerjasama_awal] ?? '-' }}</div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Komunikasi</div>
-                                <div class="fw-medium">
-                                    {{ $opsi_kompetensi[$tracerStudy->kompetensi->komunikasi_awal] ?? '-' }}</div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Pengembangan</div>
-                                <div class="fw-medium">
-                                    {{ $opsi_kompetensi[$tracerStudy->kompetensi->pengembangan_awal] ?? '-' }}</div>
-                            </div>
                         </div>
-
-                        <!-- Kompetensi Sekarang -->
-                        <h6 class="mb-3 fw-semibold text-muted">Kompetensi Saat Ini</h6>
-                        <div class="row row-cols-1 row-cols-md-4 g-3">
-                            <div class="col">
-                                <div class="small text-muted">Etika</div>
-                                <div class="fw-medium">
-                                    {{ $opsi_kompetensi[$tracerStudy->kompetensi->etika_sekarang] ?? '-' }}</div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Keahlian</div>
-                                <div class="fw-medium">
-                                    {{ $opsi_kompetensi[$tracerStudy->kompetensi->keahlian_sekarang] ?? '-' }}</div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Bahasa Inggris</div>
-                                <div class="fw-medium">
-                                    {{ $opsi_kompetensi[$tracerStudy->kompetensi->bahasa_inggris_sekarang] ?? '-' }}</div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Teknologi</div>
-                                <div class="fw-medium">
-                                    {{ $opsi_kompetensi[$tracerStudy->kompetensi->teknologi_sekarang] ?? '-' }}</div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Kerja Sama</div>
-                                <div class="fw-medium">
-                                    {{ $opsi_kompetensi[$tracerStudy->kompetensi->kerjasama_sekarang] ?? '-' }}</div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Komunikasi</div>
-                                <div class="fw-medium">
-                                    {{ $opsi_kompetensi[$tracerStudy->kompetensi->komunikasi_sekarang] ?? '-' }}</div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Pengembangan</div>
-                                <div class="fw-medium">
-                                    {{ $opsi_kompetensi[$tracerStudy->kompetensi->pengembangan_sekarang] ?? '-' }}</div>
+                    </div>
+                @elseif ($tracerStudy->status_pekerjaan === 'wirausaha' && $tracerStudy->wirausaha)
+                    <div class="card card-modern border-0 shadow-sm border-start border-4 border-warning mb-4">
+                        <div class="card-body p-4">
+                            <h5 class="fw-bold text-dark mb-4 pb-2 border-bottom">
+                                <i class="fa fa-store text-warning me-2"></i>Business Detail
+                            </h5>
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="p-3 rounded-4 bg-light-soft border">
+                                        <label class="text-uppercase text-muted fw-bold ls-wide mb-1" style="font-size: 0.6rem;">Business Name</label>
+                                        <div class="h5 fw-bold text-dark mb-0 text-warning">{{ $tracerStudy->wirausaha->nama_usaha ?? '-' }}</div>
+                                        <div class="text-muted fw-semibold small">{{ ucfirst($tracerStudy->wirausaha->posisi_usaha) }}</div>
+                                    </div>
+                                </div>
+                                @if($tracerStudy->wirausaha->pendapatan_usaha)
+                                <div class="col-md-6">
+                                    <div class="p-3 rounded-4 bg-light-soft border">
+                                        <label class="text-uppercase text-muted fw-bold ls-wide mb-1" style="font-size: 0.6rem;">Income</label>
+                                        <div class="h5 fw-bold text-warning mb-0">Rp {{ number_format($tracerStudy->wirausaha->pendapatan_usaha, 0, ',', '.') }}</div>
+                                    </div>
+                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        @endif
+                @endif
 
-        @if ($tracerStudy->evaluasiPendidikan)
-            <div class="mb-4 col-12">
-                <div class="border-0 shadow-sm card">
-                    <div class="card-body">
-                        <h5 class="mb-3 fw-bold">
-                            <i class="fas fa-graduation-cap text-info me-2"></i>Evaluasi Pendidikan
-                        </h5>
-                        <div class="row row-cols-1 row-cols-md-4 g-3">
-                            <div class="col">
-                                <div class="small text-muted">Perkuliahan</div>
-                                <div class="fw-medium">
-                                    {{ $opsi_kompetensi[$tracerStudy->evaluasiPendidikan->perkuliahan] ?? '-' }}</div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Praktikum</div>
-                                <div class="fw-medium">
-                                    {{ $opsi_kompetensi[$tracerStudy->evaluasiPendidikan->praktikum] ?? '-' }}</div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Demonstrasi</div>
-                                <div class="fw-medium">
-                                    {{ $opsi_kompetensi[$tracerStudy->evaluasiPendidikan->demonstrasi] ?? '-' }}</div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Riset</div>
-                                <div class="fw-medium">
-                                    {{ $opsi_kompetensi[$tracerStudy->evaluasiPendidikan->riset] ?? '-' }}</div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Magang</div>
-                                <div class="fw-medium">
-                                    {{ $opsi_kompetensi[$tracerStudy->evaluasiPendidikan->magang] ?? '-' }}</div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Kerja Lapangan</div>
-                                <div class="fw-medium">
-                                    {{ $opsi_kompetensi[$tracerStudy->evaluasiPendidikan->kerja_lapangan] ?? '-' }}</div>
-                            </div>
-                            <div class="col">
-                                <div class="small text-muted">Diskusi</div>
-                                <div class="fw-medium">
-                                    {{ $opsi_kompetensi[$tracerStudy->evaluasiPendidikan->diskusi] ?? '-' }}</div>
+                <!-- Kompetensi Sections -->
+                @if (isset($tracerStudy->kompetensi))
+                    <div class="card card-modern border-0 shadow-sm mb-4">
+                        <div class="card-body p-4">
+                            <h5 class="fw-bold text-dark mb-4 pb-2 border-bottom">
+                                <i class="fa fa-chart-line text-info me-2"></i>Analysis Kompetensi Alumni
+                            </h5>
+                            <div class="row g-4">
+                                @php
+                                    $fields = ['etika', 'keahlian', 'bahasa_inggris', 'teknologi', 'kerjasama', 'komunikasi'];
+                                    $renderStars = function($val) {
+                                        $map = ['sangat_baik' => 5, 'baik' => 4, 'cukup' => 3, 'kurang_baik' => 2, 'tidak_baik' => 1];
+                                        $n = $map[$val] ?? 0;
+                                        $html = '';
+                                        for($i=1; $i<=5; $i++) $html .= '<i class="fa fa-star '.($i <= $n ? 'text-warning' : 'text-muted opacity-25').' fs-xs"></i>';
+                                        return $html;
+                                    };
+                                @endphp
+                                @foreach($fields as $f)
+                                    <div class="col-md-6">
+                                        <div class="p-3 rounded-4 bg-light border-0 shadow-sm">
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <span class="fw-bold text-muted small text-uppercase">{{ str_replace('_', ' ', $f) }}</span>
+                                            </div>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div class="small text-muted">Awal: {!! $renderStars($tracerStudy->kompetensi->{$f.'_awal'}) !!}</div>
+                                                <div class="small text-muted">Skrg: {!! $renderStars($tracerStudy->kompetensi->{$f.'_sekarang'}) !!}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
+                @endif
+                
+                <div class="text-center mt-5 mb-4 d-print-none">
+                    <button onclick="window.print()" class="btn btn-outline-primary px-5 rounded-pill shadow-sm">
+                        <i class="fa fa-print me-2"></i>Cetak Laporan Lengkap
+                    </button>
                 </div>
             </div>
-        @endif
+        </div>
     </div>
-    </div>
+@endsection
 
-
-
-
-
-    <!-- SARAN -->
-    {{-- <div class="mb-4 border-0 shadow-sm card">
-            <div class="py-3 card-header bg-warning text-dark">
-                <h5 class="mb-0 fw-semibold">
-                    <i class="bi bi-chat-dots me-2"></i>Saran & Masukan
-                </h5>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-12">
-                        <label class="form-label fw-semibold">Saran</label>
-                        <div class="p-3 rounded bg-light">
-                            {{ $tracerStudy->saran ?? 'Tidak ada saran yang diberikan.' }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
-    </div>
-
-    @push('styles')
-        <style>
-            .card {
-                border-radius: 0.75rem;
-                transition: all 0.3s ease;
-            }
-
-            .card:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
-            }
-
-            .card-header {
-                border-radius: 0.75rem 0.75rem 0 0 !important;
-            }
-
-            .badge {
-                font-size: 0.875rem;
-                padding: 0.5rem 0.75rem;
-            }
-
-            .form-label {
-                color: #6c757d;
-                font-size: 0.875rem;
-                margin-bottom: 0.25rem;
-            }
-
-            .bg-light.rounded-circle {
-                width: 40px;
-                height: 40px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .breadcrumb-item+.breadcrumb-item::before {
-                content: ">";
-                color: #6c757d;
-            }
-        </style>
-    @endpush
+@section('styles')
+    <style>
+        .ls-wide { letter-spacing: 0.05em; }
+        .bg-white-20 { background: rgba(255,255,255,0.2); }
+        .bg-white-10 { background: rgba(255,255,255,0.1); }
+        .border-white-25 { border-color: rgba(255,255,255,0.25) !important; }
+        .bg-primary-light { background-color: rgba(59, 130, 246, 0.08); }
+        .bg-success-light { background-color: rgba(16, 185, 129, 0.08); }
+        .bg-light-soft { background-color: #fcfcfd; }
+        .icon-circle-sm { width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
+        .avatar-placeholder { text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        
+        .space-y-4 > * + * { margin-top: 1.25rem; }
+        
+        @media print {
+            .btn, footer, .sidebar, .header, .d-print-none { display: none !important; }
+            .content { padding: 0 !important; }
+            .card { box-shadow: none !important; border: 1px solid #eee !important; }
+        }
+        
+        .btn-white-20 { 
+            background: rgba(255,255,255,0.15); 
+            transition: all 0.3s ease;
+        }
+        .btn-white-20:hover { 
+            background: rgba(255,255,255,0.25);
+            color: #fff;
+        }
+    </style>
 @endsection

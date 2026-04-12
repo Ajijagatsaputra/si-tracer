@@ -2,77 +2,72 @@
 
 @section('content')
     <!-- Hero -->
-    <div class="py-3 bg-body-light border-bottom">
-        <div class="content d-flex flex-column flex-sm-row justify-content-between align-items-center">
-            <div>
-                <h1 class="mb-0 h3 fw-bold text-primary">
-                    <i class="fa fa-eye me-2"></i> Detail Atasan (Pengguna Alumni)
-                </h1>
-                <p class="mb-0 text-muted fs-sm">Lihat detail lengkap kuesioner pengguna alumni (atasan).</p>
-            </div>
-            <div>
-                <a href="{{ route('admin.supervisor-questionnaire.index') }}" class="btn btn-secondary">
-                    <i class="fa fa-arrow-left me-1"></i> Kembali
-                </a>
-                <a href="{{ route('admin.supervisor-questionnaire.dashboard') }}" class="btn btn-primary ms-2">
-                    <i class="fa fa-chart-pie me-1"></i> Dashboard
-                </a>
+    <div class="bg-white border-bottom">
+        <div class="content content-full py-4">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                <div class="hero-content">
+                    <h1 class="h2 fw-bold text-dark mb-2">
+                        <i class="fa fa-user-tie text-primary me-2"></i>Detail Evaluasi Atasan
+                    </h1>
+                    <p class="text-muted mb-0 fs-sm">
+                        Laporan lengkap hasil kuesioner yang diisi oleh atasan/supervisor alumni.
+                    </p>
+                </div>
+                <div class="hero-actions d-flex gap-2">
+                    <a href="{{ route('admin.supervisor-questionnaire.index') }}" class="btn btn-outline-secondary px-4 rounded-pill shadow-sm">
+                        <i class="fa fa-arrow-left me-2"></i>Kembali
+                    </a>
+                    <a href="{{ route('admin.supervisor-questionnaire.dashboard') }}" class="btn btn-primary px-4 rounded-pill shadow-sm">
+                        <i class="fa fa-chart-pie me-2"></i>Dashboard
+                    </a>
+                </div>
             </div>
         </div>
     </div>
     <!-- END Hero -->
 
-    <!-- Page Content -->
-    <div class="content">
-        <div class="row">
-            @if (session('error'))
-                <div class="alert alert-danger">
-                    {{ session('error') }}
-                </div>
-            @endif
-            @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
-            <!-- Informasi Utama -->
+    <div class="content content-full">
+        <div class="row g-4">
             <div class="col-lg-8">
-                <div class="block shadow-sm block-rounded">
-                    <div class="block-header block-header-default bg-light">
-                        <h3 class="mb-0 block-title fw-semibold text-primary">
-                            <i class="fa fa-info-circle me-2"></i> Informasi Utama
-                        </h3>
-                    </div>
-                    <div class="block-content block-content-full">
-                        <div class="row g-3">
+                <!-- Data Profil Atasan & Alumni -->
+                <div class="card card-modern border-0 shadow-sm mb-4">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-4 pb-2 border-bottom">
+                            <div class="icon-circle bg-primary-light text-primary me-3">
+                                <i class="fa fa-info-circle fa-lg"></i>
+                            </div>
+                            <h5 class="fw-bold text-dark mb-0">Informasi Utama</h5>
+                        </div>
+                        
+                        <div class="row g-4">
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Nama Alumni</label>
-                                <p class="form-control-plaintext">{{ $questionnaire->nama_alumni }}</p>
+                                <label class="text-uppercase fs-xs fw-bold text-muted ls-wider d-block mb-1">Nama Alumni</label>
+                                <p class="text-dark fw-bold mb-0">{{ $questionnaire->nama_alumni }}</p>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Jabatan Alumni</label>
-                                <p class="form-control-plaintext">{{ $questionnaire->jabatan_alumni }}</p>
+                                <label class="text-uppercase fs-xs fw-bold text-muted ls-wider d-block mb-1">Jabatan Alumni</label>
+                                <p class="text-dark fw-bold mb-0">{{ $questionnaire->jabatan_alumni }}</p>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Nama Atasan</label>
-                                <p class="form-control-plaintext">{{ $questionnaire->nama_atasan }}</p>
+                                <label class="text-uppercase fs-xs fw-bold text-muted ls-wider d-block mb-1">Nama Atasan</label>
+                                <p class="text-dark fw-bold mb-0">{{ $questionnaire->nama_atasan }}</p>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Jabatan Atasan</label>
-                                <p class="form-control-plaintext">{{ $questionnaire->jabatan_atasan }}</p>
-                            </div>
-                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">NIPY</label>
-                                <p class="form-control-plaintext">{{ $questionnaire->nipy }}</p>
+                                <label class="text-uppercase fs-xs fw-bold text-muted ls-wider d-block mb-1">Jabatan Atasan</label>
+                                <p class="text-dark fw-bold mb-0">{{ $questionnaire->jabatan_atasan }}</p>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Nama Perusahaan</label>
-                                <p class="form-control-plaintext">{{ $questionnaire->nama_perusahaan }}</p>
+                                <label class="text-uppercase fs-xs fw-bold text-muted ls-wider d-block mb-1">NIPY / ID Atasan</label>
+                                <p class="text-dark fw-bold mb-0">{{ $questionnaire->nipy ?? '-' }}</p>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Tanggal Mulai Kerja</label>
-                                <p class="form-control-plaintext">
-                                    {{ $questionnaire->tanggal_mulai_kerja ? $questionnaire->tanggal_mulai_kerja->format('d-m-Y') : '-' }}
+                                <label class="text-uppercase fs-xs fw-bold text-muted ls-wider d-block mb-1">Nama Perusahaan</label>
+                                <p class="text-dark fw-bold mb-0">{{ $questionnaire->nama_perusahaan }}</p>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="text-uppercase fs-xs fw-bold text-muted ls-wider d-block mb-1">Tanggal Mulai Kerja</label>
+                                <p class="badge bg-light text-dark px-3 py-2 mb-0">
+                                    <i class="fa fa-calendar-alt text-primary me-2"></i>{{ $questionnaire->tanggal_mulai_kerja ? $questionnaire->tanggal_mulai_kerja->format('d F Y') : '-' }}
                                 </p>
                             </div>
                         </div>
@@ -80,101 +75,101 @@
                 </div>
 
                 <!-- Informasi Kontak -->
-                <div class="block shadow-sm block-rounded">
-                    <div class="block-header block-header-default bg-light">
-                        <h3 class="mb-0 block-title fw-semibold text-primary">
-                            <i class="fa fa-address-book me-2"></i> Informasi Kontak
-                        </h3>
-                    </div>
-                    <div class="block-content block-content-full">
-                        <div class="row g-3">
+                <div class="card card-modern border-0 shadow-sm mb-4">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-4 pb-2 border-bottom">
+                            <div class="icon-circle bg-success-light text-success me-3">
+                                <i class="fa fa-address-book fa-lg"></i>
+                            </div>
+                            <h5 class="fw-bold text-dark mb-0">Informasi Kontak Atasan</h5>
+                        </div>
+                        
+                        <div class="row g-4">
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Email Atasan</label>
-                                <p class="form-control-plaintext">
-                                    @if ($questionnaire->email_atasan)
-                                        <i class="fa fa-envelope me-2"></i>{{ $questionnaire->email_atasan }}
-                                    @else
-                                        <span class="text-muted">Tidak ada email</span>
-                                    @endif
-                                </p>
+                                <div class="d-flex align-items-center p-3 rounded-4 bg-light">
+                                    <div class="icon-circle bg-white text-primary me-3 shadow-sm">
+                                        <i class="fa fa-envelope"></i>
+                                    </div>
+                                    <div>
+                                        <label class="text-uppercase fs-xs fw-bold text-muted ls-wider d-block mb-0">Email</label>
+                                        <p class="text-dark fw-bold mb-0 fs-sm">{{ $questionnaire->email_atasan ?: 'Tidak ada email' }}</p>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">WhatsApp Atasan</label>
-                                <p class="form-control-plaintext">
-                                    @if ($questionnaire->wa_atasan)
-                                        <i class="fa fa-whatsapp me-2"></i>{{ $questionnaire->wa_atasan }}
-                                    @else
-                                        <span class="text-muted">Tidak ada WhatsApp</span>
-                                    @endif
-                                </p>
+                                <div class="d-flex align-items-center p-3 rounded-4 bg-light">
+                                    <div class="icon-circle bg-white text-success me-3 shadow-sm">
+                                        <i class="fab fa-whatsapp"></i>
+                                    </div>
+                                    <div>
+                                        <label class="text-uppercase fs-xs fw-bold text-muted ls-wider d-block mb-0">WhatsApp</label>
+                                        <p class="text-dark fw-bold mb-0 fs-sm">{{ $questionnaire->wa_atasan ?: 'Tidak ada WhatsApp' }}</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Status dan Token -->
-                <div class="block shadow-sm block-rounded">
-                    <div class="block-header block-header-default bg-light">
-                        <h3 class="mb-0 block-title fw-semibold text-primary">
-                            <i class="fa fa-key me-2"></i> Status dan Akses
-                        </h3>
-                    </div>
-                    <div class="block-content block-content-full">
-                        <div class="row g-3">
+                <!-- Status dan Akses -->
+                <div class="card card-modern border-0 shadow-sm mb-4">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-4 pb-2 border-bottom">
+                            <div class="icon-circle bg-warning-light text-warning me-3">
+                                <i class="fa fa-key fa-lg"></i>
+                            </div>
+                            <h5 class="fw-bold text-dark mb-0">Status & Akses Kuesioner</h5>
+                        </div>
+                        
+                        <div class="row g-4 text-center">
                             <div class="col-md-4">
-                                <label class="form-label fw-semibold">Status Pengisian</label>
-                                <div>
-                                    @if ($questionnaire->status_pengisian == 'completed')
-                                        <span class="badge bg-success fs-6">Selesai</span>
-                                    @elseif($questionnaire->status_pengisian == 'sent')
-                                        <span class="badge bg-info fs-6">Terkirim</span>
-                                    @elseif($questionnaire->status_pengisian == 'pending')
-                                        @if ($questionnaire->expires_at < now())
-                                            <span class="badge bg-danger fs-6">Kadaluarsa</span>
-                                        @else
-                                            <span class="badge bg-warning text-dark fs-6">Menunggu</span>
-                                        @endif
-                                    @else
-                                        <span
-                                            class="badge bg-secondary fs-6">{{ ucfirst($questionnaire->status_pengisian) }}</span>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-semibold">Token Akses</label>
-                                <p class="form-control-plaintext font-monospace">{{ $questionnaire->token_akses }}</p>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-semibold">Link Kuesioner</label>
-                                <div class="gap-2 d-flex">
-                                    <input type="text" class="form-control form-control-sm"
-                                        value="{{ $questionnaire->getQuestionnaireUrl() }}" readonly>
-                                    <button class="btn btn-sm btn-outline-primary" onclick="copyToClipboard(this)">
-                                        <i class="fa fa-copy"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold">Tanggal Dibuat</label>
-                                <p class="form-control-plaintext">
-                                    {{ $questionnaire->created_at ? $questionnaire->created_at->format('d-m-Y H:i:s') : '-' }}
-                                </p>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold">Kadaluarsa</label>
-                                <p class="form-control-plaintext">
-                                    @if ($questionnaire->expires_at)
-                                        <span
-                                            class="{{ $questionnaire->expires_at < now() ? 'text-danger' : 'text-muted' }}">
-                                            {{ \Carbon\Carbon::parse($questionnaire->expires_at)->format('d-m-Y H:i:s') }}
+                                <label class="text-uppercase fs-xs fw-bold text-muted ls-wider d-block mb-2">Status</label>
+                                @if ($questionnaire->status_pengisian == 'completed')
+                                    <span class="badge bg-success-light text-success px-3 py-2 rounded-pill border border-success">
+                                        <i class="fa fa-check-circle me-1"></i>Selesai
+                                    </span>
+                                @elseif($questionnaire->status_pengisian == 'sent')
+                                    <span class="badge bg-info-light text-info px-3 py-2 rounded-pill border border-info">
+                                        <i class="fa fa-paper-plane me-1"></i>Terkirim
+                                    </span>
+                                @elseif($questionnaire->status_pengisian == 'pending')
+                                    @if ($questionnaire->expires_at < now())
+                                        <span class="badge bg-danger-light text-danger px-3 py-2 rounded-pill border border-danger">
+                                            <i class="fa fa-times-circle me-1"></i>Kadaluarsa
                                         </span>
-                                        @if ($questionnaire->expires_at < now())
-                                            <br><small class="text-danger">Link sudah kadaluarsa</small>
-                                        @endif
                                     @else
-                                        -
+                                        <span class="badge bg-warning-light text-warning px-3 py-2 rounded-pill border border-warning">
+                                            <i class="fa fa-clock me-1"></i>Menunggu
+                                        </span>
                                     @endif
-                                </p>
+                                @endif
+                            </div>
+                            <div class="col-md-4 border-start border-end">
+                                <label class="text-uppercase fs-xs fw-bold text-muted ls-wider d-block mb-2">Token Akses</label>
+                                <span class="badge bg-light text-dark font-monospace px-3 py-2 border">{{ $questionnaire->token_akses }}</span>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="text-uppercase fs-xs fw-bold text-muted ls-wider d-block mb-2">Kadaluarsa</label>
+                                @if ($questionnaire->expires_at)
+                                    <span class="fw-bold fs-sm {{ $questionnaire->expires_at < now() ? 'text-danger' : 'text-dark' }}">
+                                        {{ \Carbon\Carbon::parse($questionnaire->expires_at)->format('d/m/Y') }}
+                                        <div class="fs-xs font-normal text-muted">{{ \Carbon\Carbon::parse($questionnaire->expires_at)->format('H:i') }}</div>
+                                    </span>
+                                @else
+                                    <span class="text-muted">-</span>
+                                @endif
+                            </div>
+                            <div class="col-12 text-start">
+                                <div class="p-3 rounded-4 bg-light border-start border-4 border-primary">
+                                    <label class="text-uppercase fs-xs fw-bold text-muted ls-wider d-block mb-2">Link Kuesioner (Salin & Kirim ke Atasan)</label>
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" class="form-control border-0 bg-transparent fw-bold"
+                                            value="{{ $questionnaire->getQuestionnaireUrl() }}" readonly id="copyUrlInput">
+                                        <button class="btn btn-primary px-3 rounded-pill shadow-sm ms-2" onclick="copyToClipboard(this)">
+                                            <i class="fa fa-copy me-1"></i> Salin
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -182,304 +177,117 @@
 
                 <!-- Data Evaluasi Kuesioner -->
                 @if ($questionnaire->status_pengisian == 'completed')
-                    <div class="block shadow-sm block-rounded">
-                        <div class="block-header block-header-default bg-light">
-                            <h3 class="mb-0 block-title fw-semibold text-primary">
-                                <i class="fa fa-star me-2"></i> Data Evaluasi Kuesioner
-                            </h3>
-                        </div>
-                        <div class="block-content block-content-full">
-                            <!-- Evaluasi Kinerja (Point A) -->
-                            <div class="mb-4">
-                                <h5 class="mb-3 fw-semibold text-dark">
-                                    <i class="fa fa-chart-line me-2"></i> Evaluasi Kinerja Alumni
-                                </h5>
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-semibold">Integritas</label>
-                                        <div class="d-flex align-items-center">
-                                            <div class="me-2">
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    <i
-                                                        class="fa fa-star {{ $i <= ($questionnaire->integritas ?? 0) ? 'text-warning' : 'text-muted' }}"></i>
-                                                @endfor
-                                            </div>
-                                            <span
-                                                class="badge bg-primary ms-2">{{ $questionnaire->integritas ?? '-' }}/5</span>
-                                        </div>
+                    <div class="card card-modern border-0 shadow-sm mb-4">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-4 pb-2 border-bottom">
+                                <div class="icon-circle bg-primary-light text-primary me-3">
+                                    <i class="fa fa-star fa-lg"></i>
+                                </div>
+                                <h5 class="fw-bold text-dark mb-0">Hasil Evaluasi Kinerja Alumni</h5>
+                            </div>
+
+                            <!-- Dashboard Stats Mini -->
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-4">
+                                    <div class="p-3 rounded-4 bg-light border-bottom border-3 border-success text-center h-100">
+                                        <label class="text-uppercase fs-xs fw-bold text-muted d-block mb-1">Rata-Rata Skor</label>
+                                        <h3 class="fw-bold text-dark mb-0">
+                                            @php
+                                                $scores = array_filter([$questionnaire->integritas, $questionnaire->keahlian, $questionnaire->kemampuan, $questionnaire->penguasaan, $questionnaire->komunikasi, $questionnaire->kerja_tim, $questionnaire->pengembangan]);
+                                                echo count($scores) > 0 ? number_format(array_sum($scores) / count($scores), 2) : '0';
+                                            @endphp
+                                        </h3>
+                                        <small class="text-muted">Skala 1 - 5</small>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-semibold">Keahlian</label>
-                                        <div class="d-flex align-items-center">
-                                            <div class="me-2">
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    <i
-                                                        class="fa fa-star {{ $i <= ($questionnaire->keahlian ?? 0) ? 'text-warning' : 'text-muted' }}"></i>
-                                                @endfor
-                                            </div>
-                                            <span
-                                                class="badge bg-primary ms-2">{{ $questionnaire->keahlian ?? '-' }}/5</span>
-                                        </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="p-3 rounded-4 bg-light border-bottom border-3 border-primary text-center h-100">
+                                        <label class="text-uppercase fs-xs fw-bold text-muted d-block mb-1">Kualitas Lulusan</label>
+                                        <h5 class="fw-bold text-dark mb-0">
+                                            {{ [
+                                                'sangat_baik' => 'Sangat Baik',
+                                                'baik' => 'Baik',
+                                                'cukup' => 'Cukup',
+                                                'kurang' => 'Kurang',
+                                                'sangat_kurang' => 'Sangat Kurang'
+                                            ][$questionnaire->kualitas_lulusan] ?? 'N/A' }}
+                                        </h5>
+                                        <small class="text-muted">Penilaian Atasan</small>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-semibold">Kemampuan</label>
-                                        <div class="d-flex align-items-center">
-                                            <div class="me-2">
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    <i
-                                                        class="fa fa-star {{ $i <= ($questionnaire->kemampuan ?? 0) ? 'text-warning' : 'text-muted' }}"></i>
-                                                @endfor
-                                            </div>
-                                            <span
-                                                class="badge bg-primary ms-2">{{ $questionnaire->kemampuan ?? '-' }}/5</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-semibold">Penguasaan</label>
-                                        <div class="d-flex align-items-center">
-                                            <div class="me-2">
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    <i
-                                                        class="fa fa-star {{ $i <= ($questionnaire->penguasaan ?? 0) ? 'text-warning' : 'text-muted' }}"></i>
-                                                @endfor
-                                            </div>
-                                            <span
-                                                class="badge bg-primary ms-2">{{ $questionnaire->penguasaan ?? '-' }}/5</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-semibold">Komunikasi</label>
-                                        <div class="d-flex align-items-center">
-                                            <div class="me-2">
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    <i
-                                                        class="fa fa-star {{ $i <= ($questionnaire->komunikasi ?? 0) ? 'text-warning' : 'text-muted' }}"></i>
-                                                @endfor
-                                            </div>
-                                            <span
-                                                class="badge bg-primary ms-2">{{ $questionnaire->komunikasi ?? '-' }}/5</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-semibold">Kerja Tim</label>
-                                        <div class="d-flex align-items-center">
-                                            <div class="me-2">
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    <i
-                                                        class="fa fa-star {{ $i <= ($questionnaire->kerja_tim ?? 0) ? 'text-warning' : 'text-muted' }}"></i>
-                                                @endfor
-                                            </div>
-                                            <span
-                                                class="badge bg-primary ms-2">{{ $questionnaire->kerja_tim ?? '-' }}/5</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-semibold">Pengembangan</label>
-                                        <div class="d-flex align-items-center">
-                                            <div class="me-2">
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    <i
-                                                        class="fa fa-star {{ $i <= ($questionnaire->pengembangan ?? 0) ? 'text-warning' : 'text-muted' }}"></i>
-                                                @endfor
-                                            </div>
-                                            <span
-                                                class="badge bg-primary ms-2">{{ $questionnaire->pengembangan ?? '-' }}/5</span>
-                                        </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="p-3 rounded-4 bg-light border-bottom border-3 border-info text-center h-100">
+                                        <label class="text-uppercase fs-xs fw-bold text-muted d-block mb-1">Kesesuaian Prodi</label>
+                                        <h5 class="fw-bold text-dark mb-0">
+                                            {{ [
+                                                'sangat_sesuai' => 'Sangat Sesuai',
+                                                'sesuai' => 'Sesuai',
+                                                'cukup_sesuai' => 'Cukup',
+                                                'kurang_sesuai' => 'Kurang',
+                                                'tidak_sesuai' => 'Tidak Sesuai'
+                                            ][$questionnaire->kesesuaian_pendidikan_pekerjaan] ?? 'N/A' }}
+                                        </h5>
+                                        <small class="text-muted">Linearitas Kerja</small>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Evaluasi Kesesuaian Pendidikan -->
-                            <div class="mb-4">
-                                <h5 class="mb-3 fw-semibold text-dark">
-                                    <i class="fa fa-graduation-cap me-2"></i> Evaluasi Kesesuaian Pendidikan
-                                </h5>
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-semibold">Kesesuaian Pendidikan dengan
-                                            Pekerjaan</label>
-                                        <div>
-                                            @if ($questionnaire->kesesuaian_pendidikan_pekerjaan)
-                                                @php
-                                                    $kesesuaianLabels = [
-                                                        'sangat_sesuai' => 'Sangat Sesuai',
-                                                        'sesuai' => 'Sesuai',
-                                                        'cukup_sesuai' => 'Cukup Sesuai',
-                                                        'kurang_sesuai' => 'Kurang Sesuai',
-                                                        'tidak_sesuai' => 'Tidak Sesuai',
-                                                    ];
-                                                    $kesesuaianColor = [
-                                                        'sangat_sesuai' => 'success',
-                                                        'sesuai' => 'info',
-                                                        'cukup_sesuai' => 'warning',
-                                                        'kurang_sesuai' => 'danger',
-                                                        'tidak_sesuai' => 'dark',
-                                                    ];
-                                                @endphp
-                                                <span
-                                                    class="badge bg-{{ $kesesuaianColor[$questionnaire->kesesuaian_pendidikan_pekerjaan] }} fs-6">
-                                                    {{ $kesesuaianLabels[$questionnaire->kesesuaian_pendidikan_pekerjaan] }}
-                                                </span>
-                                            @else
-                                                <span class="text-muted">-</span>
-                                            @endif
-                                        </div>
+                            <div class="row items-push">
+                                <div class="col-md-6 border-end">
+                                    <h6 class="text-uppercase fs-xs fw-bold text-muted ls-wider mb-3">Grafik Radar Kompetensi</h6>
+                                    <div style="height: 300px;">
+                                        <canvas id="evaluationChart"></canvas>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-semibold">Kualitas Lulusan</label>
-                                        <div>
-                                            @if ($questionnaire->kualitas_lulusan)
-                                                @php
-                                                    $kualitasLabels = [
-                                                        'sangat_baik' => 'Sangat Baik',
-                                                        'baik' => 'Baik',
-                                                        'cukup' => 'Cukup',
-                                                        'kurang' => 'Kurang',
-                                                        'sangat_kurang' => 'Sangat Kurang',
-                                                    ];
-                                                    $kualitasColor = [
-                                                        'sangat_baik' => 'success',
-                                                        'baik' => 'info',
-                                                        'cukup' => 'warning',
-                                                        'kurang' => 'danger',
-                                                        'sangat_kurang' => 'dark',
-                                                    ];
-                                                @endphp
-                                                <span
-                                                    class="badge bg-{{ $kualitasColor[$questionnaire->kualitas_lulusan] }} fs-6">
-                                                    {{ $kualitasLabels[$questionnaire->kualitas_lulusan] }}
-                                                </span>
-                                            @else
-                                                <span class="text-muted">-</span>
-                                            @endif
-                                        </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="text-uppercase fs-xs fw-bold text-muted ls-wider mb-3">Detail Penilaian Indikator</h6>
+                                    @php
+                                        $indicators = [
+                                            ['label' => 'Integritas (Etika)', 'val' => $questionnaire->integritas, 'color' => 'success'],
+                                            ['label' => 'Keahlian Bidang', 'val' => $questionnaire->keahlian, 'color' => 'primary'],
+                                            ['label' => 'Kemampuan (Skill)', 'val' => $questionnaire->kemampuan, 'color' => 'info'],
+                                            ['label' => 'Penguasaan Teknologi', 'val' => $questionnaire->penguasaan, 'color' => 'warning'],
+                                            ['label' => 'Komunikasi', 'val' => $questionnaire->komunikasi, 'color' => 'success'],
+                                            ['label' => 'Kerjasama Tim', 'val' => $questionnaire->kerja_tim, 'color' => 'primary'],
+                                            ['label' => 'Pengembangan Diri', 'val' => $questionnaire->pengembangan, 'color' => 'info'],
+                                        ];
+                                    @endphp
+                                    <div class="space-y-3">
+                                        @foreach($indicators as $ind)
+                                            <div class="d-flex align-items-center justify-content-between mb-2 pb-1 border-bottom">
+                                                <span class="fs-sm fw-semibold text-dark">{{ $ind['label'] }}</span>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="me-2">
+                                                        @for ($i = 1; $i <= 5; $i++)
+                                                            <i class="fa fa-star fs-xs {{ $i <= $ind['val'] ? 'text-warning' : 'text-muted opacity-25' }}"></i>
+                                                        @endfor
+                                                    </div>
+                                                    <span class="badge bg-{{ $ind['color'] }}-light text-{{ $ind['color'] }} rounded-pill fs-xs px-2">{{ $ind['val'] }}/5</span>
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Saran Perbaikan -->
                             @if ($questionnaire->saran_perbaikan)
-                                <div class="mb-4">
-                                    <h5 class="mb-3 fw-semibold text-dark">
-                                        <i class="fa fa-comment me-2"></i> Saran Perbaikan
-                                    </h5>
-                                    <div class="p-3 rounded bg-light">
-                                        <p class="mb-0">{{ $questionnaire->saran_perbaikan }}</p>
-                                    </div>
+                                <div class="mt-4 p-4 rounded-4 bg-light-soft border">
+                                    <h6 class="fw-bold text-dark mb-2">
+                                        <i class="fa fa-comment-dots text-primary me-2"></i>Saran & Masukan dari Atasan:
+                                    </h6>
+                                    <p class="mb-0 fs-sm text-muted fst-italic">"{{ $questionnaire->saran_perbaikan }}"</p>
                                 </div>
                             @endif
-
-                            <!-- Tanggal Pengisian -->
-                            <div class="text-muted small">
-                                <i class="fa fa-clock me-1"></i>
-                                Diisi pada:
-                                {{ $questionnaire->tanggal_isi ? \Carbon\Carbon::parse($questionnaire->tanggal_isi)->format('d-m-Y H:i:s') : '-' }}
-                            </div>
-
-                            <!-- Chart Evaluasi -->
-                            <div class="mt-4">
-                                <h5 class="mb-3 fw-semibold text-dark">
-                                    <i class="fa fa-chart-bar me-2"></i> Grafik Evaluasi Kinerja
-                                </h5>
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <canvas id="evaluationChart" width="400" height="200"></canvas>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="p-3 rounded bg-light">
-                                            <h6 class="mb-2 fw-semibold">Ringkasan Skor</h6>
-                                            <div class="mb-2">
-                                                <small class="text-muted">Skor Tertinggi:</small><br>
-                                                <span class="badge bg-success fs-6">
-                                                    @php
-                                                        $scores = [
-                                                            'integritas' => $questionnaire->integritas ?? 0,
-                                                            'keahlian' => $questionnaire->keahlian ?? 0,
-                                                            'kemampuan' => $questionnaire->kemampuan ?? 0,
-                                                            'penguasaan' => $questionnaire->penguasaan ?? 0,
-                                                            'komunikasi' => $questionnaire->komunikasi ?? 0,
-                                                            'kerja_tim' => $questionnaire->kerja_tim ?? 0,
-                                                            'pengembangan' => $questionnaire->pengembangan ?? 0,
-                                                        ];
-                                                        $labels = [
-                                                            'integritas' => 'Integritas',
-                                                            'keahlian' => 'Keahlian',
-                                                            'kemampuan' => 'Kemampuan',
-                                                            'penguasaan' => 'Penguasaan',
-                                                            'komunikasi' => 'Komunikasi',
-                                                            'kerja_tim' => 'Kerja Tim',
-                                                            'pengembangan' => 'Pengembangan',
-                                                        ];
-
-                                                        // Filter out zero scores and get max
-                                                        $nonZeroScores = array_filter($scores, function ($score) {
-                                                            return $score > 0;
-                                                        });
-
-                                                        if (!empty($nonZeroScores)) {
-                                                            $maxScore = max($nonZeroScores);
-                                                            $maxKey = array_search($maxScore, $nonZeroScores);
-                                                            echo $labels[$maxKey] . ' (' . $maxScore . '/5)';
-                                                        } else {
-                                                            echo 'Belum ada data';
-                                                        }
-                                                    @endphp
-                                                </span>
-                                            </div>
-                                            <div class="mb-2">
-                                                <small class="text-muted">Skor Terendah:</small><br>
-                                                <span class="badge bg-warning text-dark fs-6">
-                                                    @php
-                                                        if (!empty($nonZeroScores)) {
-                                                            $minScore = min($nonZeroScores);
-                                                            $minKey = array_search($minScore, $nonZeroScores);
-                                                            echo $labels[$minKey] . ' (' . $minScore . '/5)';
-                                                        } else {
-                                                            echo 'Belum ada data';
-                                                        }
-                                                    @endphp
-                                                </span>
-                                            </div>
-                                            <div>
-                                                <small class="text-muted">Rata-rata:</small><br>
-                                                <span class="badge bg-primary fs-6">
-                                                    @php
-                                                        if (!empty($nonZeroScores)) {
-                                                            echo number_format(
-                                                                array_sum($nonZeroScores) / count($nonZeroScores),
-                                                                2,
-                                                            ) . '/5';
-                                                        } else {
-                                                            echo '0.00/5';
-                                                        }
-                                                    @endphp
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 @else
-                    <!-- Pesan jika belum diisi -->
-                    <div class="block shadow-sm block-rounded">
-                        <div class="block-header block-header-default bg-light">
-                            <h3 class="mb-0 block-title fw-semibold text-muted">
-                                <i class="fa fa-info-circle me-2"></i> Status Kuesioner
-                            </h3>
-                        </div>
-                        <div class="py-4 text-center block-content block-content-full">
-                            <i class="mb-3 fa fa-file-alt fa-3x text-muted"></i>
-                            <p class="mb-0 text-muted">
-                                @if ($questionnaire->status_pengisian == 'pending')
-                                    Kuesioner belum diisi oleh supervisor.
-                                @elseif($questionnaire->status_pengisian == 'expired')
-                                    Link kuesioner sudah kadaluarsa.
-                                @else
-                                    Kuesioner belum tersedia untuk diisi.
-                                @endif
-                            </p>
+                    <div class="card card-modern border-0 shadow-sm mb-4">
+                        <div class="card-body p-5 text-center">
+                            <div class="icon-circle bg-light text-muted mx-auto mb-3" style="width: 80px; height: 80px;">
+                                <i class="fa fa-file-invoice fa-2x"></i>
+                            </div>
+                            <h5 class="fw-bold text-dark mb-2">Belum Ada Data Evaluasi</h5>
+                            <p class="text-muted fs-sm mb-0">Supervisor belum mengisi kuesioner ini atau masa berlaku link sudah habis.</p>
                         </div>
                     </div>
                 @endif
@@ -488,72 +296,73 @@
             <!-- Sidebar -->
             <div class="col-lg-4">
                 <!-- Aksi -->
-                <div class="block shadow-sm block-rounded">
-                    <div class="block-header block-header-default bg-light">
-                        <h3 class="mb-0 block-title fw-semibold text-primary">
-                            <i class="fa fa-cogs me-2"></i> Aksi
-                        </h3>
-                    </div>
-                    <div class="block-content block-content-full">
+                <div class="card card-modern border-0 shadow-sm mb-4">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3 pb-2 border-bottom">
+                            <div class="icon-circle bg-warning-light text-warning me-3" style="width: 40px; height: 40px;">
+                                <i class="fa fa-cogs"></i>
+                            </div>
+                            <h6 class="fw-bold text-dark mb-0">Panel Kontrol</h6>
+                        </div>
+                        
                         <div class="gap-2 d-grid">
                             @if (Auth::user() && Auth::user()->role === 'admin')
                                 <a href="{{ route('admin.supervisor-questionnaire.edit', $questionnaire->id) }}"
-                                    class="btn btn-warning">
-                                    <i class="fa fa-pencil-alt me-1"></i> Edit
+                                    class="btn btn-warning rounded-pill shadow-sm py-2">
+                                    <i class="fa fa-pencil-alt me-2"></i>Edit Data
                                 </a>
                             @endif
 
                             @if ($questionnaire->status_pengisian == 'pending')
-                                <button type="button" class="btn btn-info"
+                                <button type="button" class="btn btn-info rounded-pill shadow-sm py-2"
                                     onclick="resendNotification({{ $questionnaire->id }})">
-                                    <i class="fa fa-paper-plane me-1"></i> Kirim Ulang Notifikasi
+                                    <i class="fa fa-paper-plane me-2"></i>Kirim Ulang Notifikasi
                                 </button>
                             @endif
 
                             @if ($questionnaire->expires_at < now() && $questionnaire->status_pengisian != 'completed')
-                                <button type="button" class="btn btn-success"
+                                <button type="button" class="btn btn-success rounded-pill shadow-sm py-2"
                                     onclick="extendExpiry({{ $questionnaire->id }})">
-                                    <i class="fa fa-clock me-1"></i> Perpanjang Masa Berlaku
+                                    <i class="fa fa-clock me-2"></i>Perpanjang Masa Berlaku
                                 </button>
                             @endif
+                            
                             @if (Auth::user() && Auth::user()->role === 'admin')
-                                <button type="button" class="btn btn-danger"
+                                <button type="button" class="btn btn-outline-danger rounded-pill py-2"
                                     onclick="deleteQuestionnaire({{ $questionnaire->id }})">
-                                    <i class="fa fa-trash me-1"></i> Hapus
+                                    <i class="fa fa-trash me-2"></i>Hapus Kuesioner
                                 </button>
                             @endif
                         </div>
                     </div>
                 </div>
 
-                <!-- Statistik -->
-                <div class="block shadow-sm block-rounded">
-                    <div class="block-header block-header-default bg-light">
-                        <h3 class="mb-0 block-title fw-semibold text-primary">
-                            <i class="fa fa-chart-bar me-2"></i> Statistik
-                        </h3>
-                    </div>
-                    <div class="block-content block-content-full">
-                        <div class="text-center row g-2">
-                            <div class="col-6">
-                                <div class="p-3 rounded bg-light">
-                                    <div class="fs-4 fw-bold text-primary">
-                                        {{ $questionnaire->created_at ? $questionnaire->created_at->diffForHumans() : '-' }}
-                                    </div>
-                                    <div class="text-muted small">Dibuat</div>
-                                </div>
+                <!-- Statistik Histori -->
+                <div class="card card-modern border-0 shadow-sm mb-4">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3 pb-2 border-bottom">
+                            <div class="icon-circle bg-primary-light text-primary me-3" style="width: 40px; height: 40px;">
+                                <i class="fa fa-history"></i>
                             </div>
-                            <div class="col-6">
-                                <div class="p-3 rounded bg-light">
-                                    <div class="fs-4 fw-bold text-warning">
-                                        @if ($questionnaire->expires_at)
-                                            {{ \Carbon\Carbon::parse($questionnaire->expires_at)->diffForHumans() }}
-                                        @else
-                                            -
-                                        @endif
-                                    </div>
-                                    <div class="text-muted small">Kadaluarsa</div>
-                                </div>
+                            <h6 class="fw-bold text-dark mb-0">Timeline Data</h6>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <div class="p-3 rounded-4 bg-light text-center border">
+                                <h4 class="fw-bold text-primary mb-0 fs-5">
+                                    {{ $questionnaire->created_at ? $questionnaire->created_at->diffForHumans() : '-' }}
+                                </h4>
+                                <div class="text-muted small text-uppercase fw-bold ls-wide" style="font-size: 0.65rem;">Data Dibuat Pada Sistem</div>
+                            </div>
+                            <div class="p-3 rounded-4 bg-light-soft text-center border">
+                                <h4 class="fw-bold text-warning mb-0 fs-5">
+                                    @if ($questionnaire->expires_at)
+                                        {{ \Carbon\Carbon::parse($questionnaire->expires_at)->diffForHumans() }}
+                                    @else
+                                        -
+                                    @endif
+                                </h4>
+                                <div class="text-muted small text-uppercase fw-bold ls-wide" style="font-size: 0.65rem;">Masa Berlaku Link Akses</div>
                             </div>
                         </div>
                     </div>
@@ -576,9 +385,7 @@
                 const ctx = document.getElementById('evaluationChart').getContext('2d');
 
                 const data = {
-                    labels: ['Integritas', 'Keahlian', 'Kemampuan', 'Penguasaan', 'Komunikasi', 'Kerja Tim',
-                        'Pengembangan'
-                    ],
+                    labels: ['Integritas', 'Keahlian', 'Kemampuan', 'Penguasaan', 'Komunikasi', 'Kerja Tim', 'Pengembangan'],
                     datasets: [{
                         label: 'Skor Evaluasi',
                         data: [
@@ -590,14 +397,16 @@
                             {{ $questionnaire->kerja_tim ?? 0 }},
                             {{ $questionnaire->pengembangan ?? 0 }}
                         ],
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
+                        backgroundColor: 'rgba(78, 115, 223, 0.15)',
+                        borderColor: '#4e73df',
                         borderWidth: 2,
-                        pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+                        pointBackgroundColor: '#4e73df',
                         pointBorderColor: '#fff',
-                        pointBorderWidth: 2,
-                        pointRadius: 6,
-                        pointHoverRadius: 8
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#4e73df',
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        fill: true
                     }]
                 };
 
@@ -609,25 +418,32 @@
                         maintainAspectRatio: false,
                         scales: {
                             r: {
-                                beginAtZero: true,
+                                min: 0,
                                 max: 5,
+                                beginAtZero: true,
                                 ticks: {
                                     stepSize: 1,
-                                    callback: function(value) {
-                                        return value + '/5';
-                                    }
+                                    backdropColor: 'transparent',
+                                    color: '#858796',
+                                    font: { size: 10 }
+                                },
+                                grid: { color: 'rgba(0,0,0,0.05)' },
+                                angleLines: { color: 'rgba(0,0,0,0.05)' },
+                                pointLabels: {
+                                    color: '#4e73df',
+                                    font: { weight: 'bold', size: 11 }
                                 }
                             }
                         },
                         plugins: {
-                            legend: {
-                                display: false
-                            },
+                            legend: { display: false },
                             tooltip: {
+                                backgroundColor: '#1f2937',
+                                titleColor: '#fff',
+                                bodyColor: '#fff',
+                                displayColors: false,
                                 callbacks: {
-                                    label: function(context) {
-                                        return context.parsed.r + '/5';
-                                    }
+                                    label: (context) => ` Skor: ${context.parsed.r}/5`
                                 }
                             }
                         }
@@ -640,21 +456,21 @@
 
         // Copy to clipboard
         function copyToClipboard(button) {
-            const input = button.previousElementSibling;
+            const input = document.getElementById('copyUrlInput');
             input.select();
-            document.execCommand('copy');
+            input.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(input.value).then(() => {
+                const originalText = button.innerHTML;
+                button.innerHTML = '<i class="fa fa-check me-1"></i> Tersalin';
+                button.classList.remove('btn-primary');
+                button.classList.add('btn-success');
 
-            // Show success message
-            const originalText = button.innerHTML;
-            button.innerHTML = '<i class="fa fa-check"></i>';
-            button.classList.remove('btn-outline-primary');
-            button.classList.add('btn-success');
-
-            setTimeout(() => {
-                button.innerHTML = originalText;
-                button.classList.remove('btn-success');
-                button.classList.add('btn-outline-primary');
-            }, 2000);
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.classList.remove('btn-success');
+                    button.classList.add('btn-primary');
+                }, 2000);
+            });
         }
 
         // Resend notification

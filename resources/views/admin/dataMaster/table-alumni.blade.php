@@ -1,157 +1,115 @@
-@include('components.admin.head')
+@extends('layouts.admin')
 
-<body class="bg-light">
-    <div id="page-container"
-        class="sidebar-o sidebar-dark enable-page-overlay side-scroll page-header-fixed main-content-narrow">
-        @include('components.admin.admin-header')
-        @include('components.admin.sidebar')
-        @include('components.admin.side-overlay')
-
-        <main id="main-container">
-            <!-- Hero -->
-            <div class="py-4 bg-white shadow-sm border-bottom">
-                <div class="content d-flex flex-column flex-sm-row justify-content-between align-items-center">
-                    <div>
-                        <h1 class="mb-1 h3 fw-bold text-primary">
-                            <i class="fa fa-graduation-cap me-2"></i> Data Alumni
-                        </h1>
-                        <p class="mb-0 text-muted fs-sm">Kelola data alumni aktif, DO, dan cuti dengan lebih mudah.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Content -->
-            <div class="content">
-                <div class="mb-4 border-0 shadow-sm card rounded-4">
-                    <div class="card-body">
-                        <!-- Filter + Export -->
-                        <div class="flex-wrap gap-3 mb-3 d-flex justify-content-between align-items-center">
-                            <div class="flex-wrap gap-2 d-flex align-items-center">
-                                <label for="filter-tahun" class="mb-0 form-label fw-semibold text-dark">
-                                    <i class="fa fa-filter me-1 text-primary"></i> Filter Tahun Masuk:
-                                </label>
-                                <select id="filter-tahun" name="tahun_angkatan"
-                                    class="w-auto px-3 py-1 border shadow-sm form-select form-select-sm border-primary text-primary rounded-pill">
-                                    <option value="">Semua</option>
-                                    @php $tahunSekarang = date('Y'); @endphp
-                                    @for ($i = $tahunSekarang; $i >= 2019; $i--)
-                                        <option value="{{ $i }}"
-                                            {{ request('tahun_angkatan') == $i ? 'selected' : '' }}>
-                                            {{ $i }}
-                                        </option>
-                                    @endfor
-                                </select>
-
-                                <span class="px-3 py-2 bg-opacity-75 shadow-sm badge bg-primary rounded-pill fs-sm">
-                                    Total: <span id="jumlah-alumni" class="fw-bold">0</span>
-                                </span>
-                            </div>
-                            <div class="dt-buttons btn-group text-end"></div>
-                        </div>
-
-                        <!-- Custom Search -->
-                        <div class="mb-3 d-flex justify-content-end">
-                            <div class="input-group" style="max-width: 300px;">
-                                <input type="text" id="customSearch" class="form-control form-control-sm rounded-pill"
-                                    placeholder="Cari alumni...">
-                                <button class="btn btn-sm btn-primary rounded-pill ms-2" id="searchBtn">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Table -->
-                        <div class="border table-responsive rounded-4">
-                            <table id="tabel-alumni"
-                                class="table align-middle shadow-sm table-bordered table-hover table-striped w-100">
-                                <thead class="text-center table-light">
-                                    <tr>
-                                        <th>NIM</th>
-                                        <th>Nama</th>
-                                        <th class="d-none d-sm-table-cell">Prodi</th>
-                                        <th class="d-none d-sm-table-cell">Alamat</th>
-                                        <th>Kelas</th>
-                                        <th class="d-none d-sm-table-cell">Jalur</th>
-                                        <th class="d-none d-sm-table-cell">Masuk</th>
-                                        <th>Lulus</th>
-                                        <th class="d-none d-sm-table-cell">Status</th>
-                                        <th class="d-none d-sm-table-cell">HP</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-
-        @include('components.admin.footer')
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="modalViewMahasiswa" tabindex="-1" aria-labelledby="modalViewMahasiswaLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="border-0 shadow modal-content rounded-4">
-                <div class="text-white modal-header bg-primary rounded-top">
-                    <h5 class="modal-title"><i class="fa fa-user-graduate me-2"></i>Detail Alumni</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Tutup"></button>
-                </div>
-                <div class="modal-body">
-                    <dl class="mb-0 row">
-                        <dt class="col-sm-4">NIM</dt>
-                        <dd class="col-sm-8" id="view-nim"></dd>
-                        <dt class="col-sm-4">Nama Lengkap</dt>
-                        <dd class="col-sm-8" id="view-nama_lengkap"></dd>
-                        <dt class="col-sm-4">Prodi</dt>
-                        <dd class="col-sm-8" id="view-prodi"></dd>
-                        <dt class="col-sm-4">Alamat</dt>
-                        <dd class="col-sm-8" id="view-alamat"></dd>
-                        <dt class="col-sm-4">No.Hp</dt>
-                        <dd class="col-sm-8" id="view-no_hp"></dd>
-                        <dt class="col-sm-4">Kelas</dt>
-                        <dd class="col-sm-8" id="view-kelas"></dd>
-                        <dt class="col-sm-4">Jalur</dt>
-                        <dd class="col-sm-8" id="view-jalur"></dd>
-                        <dt class="col-sm-4">Tahun Masuk</dt>
-                        <dd class="col-sm-8" id="view-tahun_masuk"></dd>
-                        <dt class="col-sm-4">Tahun Lulus</dt>
-                        <dd class="col-sm-8" id="view-tahun_lulus"></dd>
-                        <dt class="col-sm-4">Status</dt>
-                        <dd class="col-sm-8" id="view-status_mahasiswa"></dd>
-                        <dt class="col-sm-4">Terakhir Diubah</dt>
-                        <dd class="col-sm-8" id="view-terakhir_diubah"></dd>
-                    </dl>
+@section('content')
+    <!-- Hero -->
+    <div class="bg-white">
+        <div class="content content-full">
+            <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center py-2">
+                <div class="flex-grow-1">
+                    <h1 class="h3 fw-bold mb-2">
+                        <span class="bg-primary-lighter p-2 rounded-3 me-2">
+                            <i class="fa fa-graduation-cap text-primary"></i>
+                        </span>
+                        Data Alumni
+                    </h1>
+                    <p class="fs-sm fw-medium text-muted mb-0">
+                        Kelola data alumni aktif, DO, dan cuti dengan sistem yang lebih cerdas dan modern.
+                    </p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="assets/js/lib/jquery.min.js"></script>
-    <script src="assets/js/oneui.app.min.js"></script>
-    <!-- DataTables -->
-    <script src="assets/js/plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="assets/js/plugins/datatables-bs5/js/dataTables.bootstrap5.min.js"></script>
-    <script src="assets/js/plugins/datatables-buttons/dataTables.buttons.min.js"></script>
-    <script src="assets/js/plugins/datatables-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
-    <script src="assets/js/plugins/datatables-buttons-jszip/jszip.min.js"></script>
-    <script src="assets/js/plugins/datatables-buttons-pdfmake/pdfmake.min.js"></script>
-    <script src="assets/js/plugins/datatables-buttons-pdfmake/vfs_fonts.js"></script>
-    <script src="assets/js/plugins/datatables-buttons/buttons.html5.min.js"></script>
-    <script src="assets/js/plugins/datatables-buttons/buttons.print.min.js"></script>
+    <!-- Content -->
+    <div class="content">
+        <div class="card card-modern overflow-hidden shadow-sm border-0">
+            <div class="card-body p-4">
+                <!-- Modern Table Toolbar -->
+                <div class="table-toolbar mb-4">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-12 col-xl-8">
+                            <div class="d-flex flex-wrap align-items-center gap-3">
+                                <!-- Angkatan Filter -->
+                                <div class="d-flex align-items-center bg-white p-2 px-3 rounded-pill border shadow-sm">
+                                    <label for="filter-tahun" class="mb-0 me-2 fw-bold text-muted fs-xs text-uppercase">
+                                        <i class="fa fa-calendar-alt text-primary me-1"></i> Angkatan
+                                    </label>
+                                    <select id="filter-tahun" name="tahun_angkatan" class="form-select form-select-sm border-0 bg-transparent fw-bold text-primary p-0 h-auto" style="width: auto; min-width: 80px;">
+                                        <option value="">Semua</option>
+                                        @php $tahunSekarang = date('Y'); @endphp
+                                        @for ($i = $tahunSekarang; $i >= 2018; $i--)
+                                            <option value="{{ $i }}" {{ request('tahun_angkatan') == $i ? 'selected' : '' }}>{{ $i }}</option>
+                                        @endfor
+                                    </select>
+                                </div>
 
+                                <!-- Total Badge -->
+                                <div class="bg-primary-light text-primary px-3 py-2 rounded-pill shadow-sm fs-sm fw-bold border border-primary-lighter">
+                                    <i class="fa fa-graduation-cap me-1"></i> <span id="jumlah-alumni">0</span> <small class="text-uppercase ms-1 opacity-75">Alumni</small>
+                                </div>
+
+                                <div id="entries-container" class="ms-md-auto"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Search Group -->
+                        <div class="col-12 col-xl-4 text-xl-end">
+                            <div class="input-group input-group-modern shadow-sm border rounded-pill overflow-hidden bg-white">
+                                <span class="input-group-text border-0 bg-white ps-3">
+                                    <i class="fa fa-search text-muted"></i>
+                                </span>
+                                <input type="text" id="customSearch" class="form-control border-0 fs-sm" placeholder="Cari data alumni...">
+                                <button class="btn btn-primary px-4 fw-semibold" id="searchBtn">Cari</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table -->
+                <div class="table-responsive">
+                    <table id="tabel-alumni" class="table align-middle table-hover js-dataTable-full w-100 border-0">
+                        <thead>
+                            <tr class="bg-light text-muted text-uppercase fs-xs fw-bold border-0">
+                                <th class="py-3 px-4 border-0">NIM</th>
+                                <th class="py-3 border-0">Nama</th>
+                                <th class="py-3 border-0">Prodi</th>
+                                <th class="py-3 border-0">Kelas</th>
+                                <th class="py-3 border-0">Lulus</th>
+                                <th class="py-3 border-0">Status</th>
+                                <th class="py-3 border-0 text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Detail -->
+    <div class="modal fade" id="modalViewMahasiswa" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 shadow-lg overflow-hidden rounded-4">
+                <div class="modal-header bg-primary py-3 px-4 border-0">
+                    <h5 class="modal-title text-white mb-0 fw-bold">
+                        <i class="fa-solid fa-graduation-cap me-2"></i>Detail Alumni
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+                <div class="modal-body p-4" id="modal-detail-content">
+                    <!-- Content will be injected by JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('scripts')
     <script>
         let table;
 
         function initDataTable(tahun) {
-            if (table) {
-                table.destroy();
-                $('#tabel-alumni tbody').html('');
-            }
+            if (table) { table.destroy(); $('#tabel-alumni tbody').html(''); }
 
             table = $('#tabel-alumni').DataTable({
                 paging: true,
@@ -159,85 +117,60 @@
                 ordering: true,
                 responsive: true,
                 pageLength: 10,
-                dom: "<'row mb-3'" +
-                    "<'col-sm-12 col-md-6'l>" +
-                    "<'col-sm-12 col-md-6 text-end'B>" +
-                    ">" +
-                    "<'row'<'col-sm-12 table-responsive'tr>>" +
-                    "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-                buttons: [{
-                        extend: 'excelHtml5',
-                        className: 'btn btn-sm btn-success rounded-pill me-1',
-                        text: '<i class="fa fa-file-excel me-1"></i> Excel',
-                        exportOptions: {
-                            columns: ':not(:last-child)'
-                        }
-                    },
-                    {
-                        extend: 'pdfHtml5',
-                        className: 'btn btn-sm btn-danger rounded-pill me-1',
-                        text: '<i class="fa fa-file-pdf me-1"></i> PDF',
-                        orientation: 'landscape',
-                        pageSize: 'A4',
-                        exportOptions: {
-                            columns: ':not(:last-child)'
-                        }
-                    },
-                    {
-                        extend: 'print',
-                        className: 'btn btn-sm btn-info rounded-pill',
-                        text: '<i class="fa fa-print me-1"></i> Cetak',
-                        exportOptions: {
-                            columns: ':not(:last-child)'
-                        }
-                    }
+                autoWidth: false,
+                dom: "<'row mt-3 mb-1'<'col-sm-12'B>>" +
+                     "<'row'<'col-sm-12 table-responsive'tr>>" +
+                     "<'row mt-3'<'col-sm-12 col-md-5 fs-sm text-muted'i><'col-sm-12 col-md-7 d-flex justify-content-md-end'p>>",
+                buttons: [
+                    { extend: 'excelHtml5', className: 'btn btn-sm btn-success rounded-pill px-3 shadow-sm border-0 me-2', text: '<i class="fa fa-file-excel me-1"></i> Excel' },
+                    { extend: 'pdfHtml5', className: 'btn btn-sm btn-danger rounded-pill px-3 shadow-sm border-0 me-2', text: '<i class="fa fa-file-pdf me-1"></i> PDF', orientation: 'landscape', pageSize: 'A4' },
+                    { extend: 'print', className: 'btn btn-sm btn-info rounded-pill px-3 shadow-sm border-0', text: '<i class="fa fa-print me-1"></i> Cetak' }
                 ],
+                initComplete: function() {
+                    $('#entries-container').empty();
+                    let lengthMenu = $('.dataTables_length').detach();
+                    $('#entries-container').append(lengthMenu);
+                },
                 ajax: {
                     url: '{{ route('api.alumni') }}',
                     type: 'GET',
-                    data: function(d) {
-                        return {
-                            tahun_angkatan: $('#filter-tahun').val()
-                        };
-                    },
-                    dataSrc: function(json) {
+                    data: d => ({ tahun_angkatan: $('#filter-tahun').val() }),
+                    dataSrc: json => {
                         $('#jumlah-alumni').text(json.data.length);
                         return json.data;
                     }
                 },
                 columns: [
-                    { data: 'nim' },
-                    { data: 'nama_lengkap' },
-                    { data: 'prodi', className: 'd-none d-sm-table-cell' },
-                    { data: 'alamat', className: 'd-none d-sm-table-cell' },
-                    { data: 'kelas' },
-                    { data: 'jalur', className: 'd-none d-sm-table-cell' },
-                    { data: 'tahun_masuk', className: 'd-none d-sm-table-cell' },
-                    { data: 'tahun_lulus' },
-                    { data: 'status_mahasiswa', className: 'd-none d-sm-table-cell' },
-                    { data: 'no_hp', className: 'd-none d-sm-table-cell' },
+                    { data: 'nim', render: data => `<span class="fw-medium text-muted">${data}</span>` },
+                    { data: 'nama_lengkap', render: (data, type, row) => `
+                        <div class="d-flex align-items-center">
+                            <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(data)}&background=random" class="rounded-pill me-2 shadow-sm" style="width:32px; height:32px;">
+                            <div class="fw-bold text-dark">${data}</div>
+                        </div>
+                    `},
+                    { data: 'prodi', render: data => `<span class="badge bg-primary-light text-primary border border-primary-10 rounded-pill px-2 py-1 fs-xs">${data}</span>` },
+                    { data: 'kelas', className: 'text-center' },
+                    { data: 'tahun_lulus', className: 'text-center fw-bold text-muted' },
+                    { data: 'status_mahasiswa', render: data => {
+                        const colors = {'Lulus':'bg-success','Aktif':'bg-primary','Cuti':'bg-warning text-dark','DO':'bg-danger'};
+                        return `<span class="badge ${colors[data]||'bg-secondary'} rounded-pill px-2 py-1 fs-xs border shadow-sm">${data}</span>`;
+                    }},
                     {
                         data: null,
                         orderable: false,
-                        render: function(data) {
-                            return `
-                                <button class="px-3 btn btn-sm btn-outline-primary rounded-pill btn-view"
-                                    data-bs-toggle="modal" data-bs-target="#modalViewMahasiswa"
-                                    data-nim="${data.nim}"
-                                    data-nama_lengkap="${data.nama_lengkap}"
-                                    data-prodi="${data.prodi}"
-                                    data-alamat="${data.alamat}"
-                                    data-no_hp="${data.no_hp}"
-                                    data-kelas="${data.kelas}"
-                                    data-jalur="${data.jalur}"
-                                    data-tahun_masuk="${data.tahun_masuk}"
-                                    data-tahun_lulus="${data.tahun_lulus}"
-                                    data-status_mahasiswa="${data.status_mahasiswa}"
-                                    data-terakhir_diubah="${data.updated_at}">
-                                    <i class="fa fa-eye me-1"></i> Detail
-                                </button>
-                            `;
-                        }
+                        className: 'text-center',
+                        render: data => `
+                            <button class="btn btn-sm btn-white rounded-pill px-3 shadow-sm border btn-view"
+                                data-bs-toggle="modal" data-bs-target="#modalViewMahasiswa"
+                                data-nim="${data.nim}" data-nama="${data.nama_lengkap}"
+                                data-prodi="${data.prodi}" data-alamat="${data.alamat}"
+                                data-no_hp="${data.no_hp}" data-kelas="${data.kelas}"
+                                data-jalur="${data.jalur}" data-tahun_masuk="${data.tahun_masuk}"
+                                data-tahun_lulus="${data.tahun_lulus}" data-status="${data.status_mahasiswa}"
+                                data-updated="${data.updated_at}">
+                                <i class="fa fa-eye text-primary"></i>
+                            </button>
+                        `
                     }
                 ]
             });
@@ -245,38 +178,44 @@
 
         $(document).ready(function() {
             initDataTable($('#filter-tahun').val());
+            $('#filter-tahun').on('change', function() { initDataTable($(this).val()); });
 
-            $('#filter-tahun').on('change', function() {
-                initDataTable($(this).val());
-            });
-
-            // Custom Search
-            $('#searchBtn').on('click', function() {
-                let keyword = $('#customSearch').val();
-                table.search(keyword).draw();
-            });
-
-            $('#customSearch').on('keyup', function(e) {
-                if (e.key === 'Enter') {
-                    $('#searchBtn').click();
-                }
-            });
+            $('#searchBtn').on('click', () => table.search($('#customSearch').val()).draw());
+            $('#customSearch').on('keyup', e => { if (e.key === 'Enter') $('#searchBtn').click(); });
 
             $(document).on('click', '.btn-view', function() {
-                $('#view-nim').text($(this).data('nim'));
-                $('#view-nama_lengkap').text($(this).data('nama_lengkap'));
-                $('#view-prodi').text($(this).data('prodi'));
-                $('#view-alamat').text($(this).data('alamat'));
-                $('#view-no_hp').text($(this).data('no_hp'));
-                $('#view-kelas').text($(this).data('kelas'));
-                $('#view-jalur').text($(this).data('jalur'));
-                $('#view-tahun_masuk').text($(this).data('tahun_masuk'));
-                $('#view-tahun_lulus').text($(this).data('tahun_lulus'));
-                $('#view-status_mahasiswa').text($(this).data('status_mahasiswa'));
-                $('#view-terakhir_diubah').text($(this).data('terakhir_diubah'));
+                const d = $(this).data();
+                const colors = {'Lulus':'bg-success','Aktif':'bg-primary','Cuti':'bg-warning text-dark','DO':'bg-danger'};
+                const badgeClass = colors[d.status] || 'bg-secondary';
+
+                $('#modal-detail-content').html(`
+                    <div class="text-center mb-4">
+                        <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(d.nama)}&size=100&background=random" class="rounded-circle mb-3 shadow" style="width:100px; height:100px; border:3px solid #fff;">
+                        <h4 class="fw-bold mb-1">${d.nama}</h4>
+                        <span class="badge ${badgeClass} rounded-pill px-3 py-2 border shadow-sm">${d.status}</span>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-6"><div class="p-3 bg-light rounded-3"><small class="text-muted d-block">NIM</small><strong>${d.nim}</strong></div></div>
+                        <div class="col-md-6"><div class="p-3 bg-light rounded-3"><small class="text-muted d-block">Program Studi</small><strong>${d.prodi}</strong></div></div>
+                        <div class="col-md-12"><div class="p-3 bg-light rounded-3"><small class="text-muted d-block">Alamat</small><strong>${d.alamat || '-'}</strong></div></div>
+                        <div class="col-md-6"><div class="p-3 bg-light rounded-3"><small class="text-muted d-block">No. HP</small><strong>${d.no_hp || '-'}</strong></div></div>
+                        <div class="col-md-6"><div class="p-3 bg-light rounded-3"><small class="text-muted d-block">Kelas / Jalur</small><strong>${d.kelas} / ${d.jalur}</strong></div></div>
+                        <div class="col-md-6"><div class="p-3 bg-light rounded-3"><small class="text-muted d-block">Tahun Masuk</small><strong>${d.tahun_masuk}</strong></div></div>
+                        <div class="col-md-6"><div class="p-3 bg-light rounded-3"><small class="text-muted d-block">Tahun Lulus</small><strong>${d.tahun_lulus}</strong></div></div>
+                    </div>
+                `);
             });
         });
     </script>
-</body>
+@endsection
 
-</html>
+@section('styles')
+    <style>
+        .bg-primary-light { background-color: rgba(6, 101, 208, 0.08); }
+        .border-primary-10 { border-color: rgba(6, 101, 208, 0.15) !important; }
+        .bg-primary-lighter { background-color: rgba(6, 101, 208, 0.1); }
+        .btn-white { background: #fff; }
+        .btn-white:hover { background: #f8fafc; }
+        .card-modern { border-radius: 1rem; }
+    </style>
+@endsection

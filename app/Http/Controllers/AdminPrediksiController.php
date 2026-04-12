@@ -31,6 +31,7 @@ class AdminPrediksiController extends Controller
 
     public function index()
     {
+    
         return view('admin.prediksi.index');
     }
 
@@ -82,6 +83,7 @@ class AdminPrediksiController extends Controller
 
         // Riwayat terbaru dengan extracted job titles
         $histories = HistoryPrediksi::with('alumni')->latest()->limit(20)->get()->map(function ($h) {
+        $histories = HistoryPrediksi::with('alumni')->latest()->limit(20)->get()->map(function($h) {
             $h->extracted_job_titles = $this->extractJobTitlesFromText($h->hasil ?? '');
             return $h;
         });
@@ -97,6 +99,38 @@ class AdminPrediksiController extends Controller
             'jobTitleCounts',
             'histories'
         ));
+    }
+
+    /**
+     * Method untuk menampilkan detail prediksi (untuk modal)
+     */
+    public function detail($id)
+    {
+        try {
+            $history = HistoryPrediksi::with('alumni')->findOrFail($id);
+
+            // Extract job titles dari hasil
+            $extractedJobTitles = $this->extractJobTitlesFromText($history->hasil ?? '');
+
+            return response()->json([
+                'id' => $history->id,
+                'idAlumni' => $history->idAlumni,
+                'alumni' => [
+                    'nama_lengkap' => $history->alumni->nama_lengkap ?? null,
+                    'nim' => $history->alumni->nim ?? null,
+                    'email' => $history->alumni->email ?? null,
+                ],
+                'hasil' => $history->hasil,
+                'extracted_job_titles' => $extractedJobTitles,
+                'created_at' => $history->created_at,
+                'updated_at' => $history->updated_at,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => true,
+                'message' => 'Data tidak ditemukan atau terjadi kesalahan.'
+            ], 404);
+        }
     }
 
     private function extractJobTitlesFromText(string $text): array

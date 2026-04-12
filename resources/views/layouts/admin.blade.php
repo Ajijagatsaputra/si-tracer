@@ -12,18 +12,16 @@
         @include('components.admin.side-overlay')
 
         <main id="main-container">
-            @yield('content')
+            <div class="content pb-5">
+                @yield('content')
+            </div>
         </main>
 
         @include('components.admin.footer')
     </div>
     <!-- JS -->
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="assets/js/plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="assets/js/plugins/datatables-bs5/js/dataTables.bootstrap5.min.js"></script>
-        <!-- JavaScript Libraries -->
     <script src="{{ asset('assets/js/lib/jquery.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('assets/js/oneui.app.min.js') }}"></script>
 
     <!-- DataTables & Export Plugins -->
@@ -36,12 +34,8 @@
     <script src="{{ asset('assets/js/plugins/datatables-buttons-pdfmake/vfs_fonts.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/datatables-buttons/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/datatables-buttons/buttons.print.min.js') }}"></script>
-     {{-- <!-- JS -->
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="assets/js/oneui.app.min.js"></script>
-    <script src="assets/js/plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="assets/js/plugins/datatables-bs5/js/dataTables.bootstrap5.min.js"></script> --}}@yield('scripts')
+
+    @yield('scripts')
 </body>
 
 </html>

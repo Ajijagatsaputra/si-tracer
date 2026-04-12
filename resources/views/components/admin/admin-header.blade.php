@@ -19,12 +19,12 @@
         <div class="d-flex align-items-center">
             <!-- User Dropdown -->
             <div class="dropdown d-inline-block ms-2">
-                <button type="button" class="btn btn-sm btn-alt-secondary d-flex align-items-center"
+                <button type="button" class="btn btn-sm btn-alt-secondary d-flex align-items-center px-3 rounded-pill shadow-sm"
                     id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img class="rounded-circle" src="/assets/media/avatars/avatar10.jpg" alt="Header Avatar"
-                        style="width: 21px;">
-                    <span class="d-none d-sm-inline-block ms-2">{{ Auth::user()->username }}</span>
-                    <i class="mt-1 opacity-50 fa fa-fw fa-angle-down d-none d-sm-inline-block ms-1"></i>
+                        style="width: 24px; border: 2px solid #fff;">
+                    <span class="d-none d-sm-inline-block ms-2 fw-semibold">{{ Auth::user()->username }}</span>
+                    <i class="opacity-50 fa fa-fw fa-angle-down d-none d-sm-inline-block ms-1"></i>
                 </button>
                 <div class="p-0 border-0 dropdown-menu dropdown-menu-md dropdown-menu-end"
                     aria-labelledby="page-header-user-dropdown">

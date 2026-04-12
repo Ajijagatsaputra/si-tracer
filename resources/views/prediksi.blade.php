@@ -119,7 +119,6 @@ Saya tipe orang yang teliti dan suka tantangan baru."></textarea>
             </form>
 
 
-
             @isset($prediction)
                 <div class="result-card">
                     <div class="icon"><i class="fas fa-check-circle"></i></div>

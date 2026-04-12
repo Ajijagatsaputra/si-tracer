@@ -10,7 +10,6 @@ class OaseClient
     private string $baseUrl = 'https://api.oase.poltektegal.ac.id/api/web';
     private string $apiKey;
 
-    // TTL cache (detik). Silakan sesuaikan.
     private int $ttlTA = 3600;         // 1 jam untuk tahun akademik
     private int $ttlDosen = 1800;      // 30 menit untuk dosen per TA
     private int $ttlMahasiswa = 21600; // 6 jam untuk total mahasiswa
@@ -30,15 +29,19 @@ class OaseClient
     public function getTahunAkademikList(): array
     {
         return Cache::remember('oase:tahun_akademik', $this->ttlTA, function () {
-            $res = $this->http()->get("{$this->baseUrl}/master/tahun-akademik", [
-                'key' => $this->apiKey,
-            ]);
+            try {
+                $res = $this->http()->get("{$this->baseUrl}/master/tahun-akademik", [
+                    'key' => $this->apiKey,
+                ]);
 
-            if (!$res->successful() || !isset($res['data'])) {
-                // fallback: kosong
+                if (!$res->successful() || !isset($res['data'])) {
+                    return [];
+                }
+                return $res['data'];
+            } catch (\Exception $e) {
+                // Log atau diamkan; return [] agar tidak crash
                 return [];
             }
-            return $res['data'];
         });
     }
 
@@ -48,16 +51,20 @@ class OaseClient
 
         $cacheKey = "oase:dosen_count:{$kodeProdi}:{$kodeTA}";
         return Cache::remember($cacheKey, $this->ttlDosen, function () use ($kodeProdi, $kodeTA) {
-            $res = $this->http()->get("{$this->baseUrl}/dosen", [
-                'key' => $this->apiKey,
-                'kd_prodi' => $kodeProdi,
-                'kode_tahun_akademik' => $kodeTA,
-            ]);
+            try {
+                $res = $this->http()->get("{$this->baseUrl}/dosen", [
+                    'key' => $this->apiKey,
+                    'kd_prodi' => $kodeProdi,
+                    'kode_tahun_akademik' => $kodeTA,
+                ]);
 
-            if (!$res->successful() || !isset($res['data'])) {
+                if (!$res->successful() || !isset($res['data'])) {
+                    return 0;
+                }
+                return count($res['data']);
+            } catch (\Exception $e) {
                 return 0;
             }
-            return count($res['data']);
         });
     }
 
@@ -71,15 +78,19 @@ class OaseClient
         return Cache::remember($cacheKey, $this->ttlMahasiswa, function () use ($start, $end) {
             $total = 0;
             for ($tahun = $start; $tahun <= $end; $tahun++) {
-                $res = $this->http()->get("{$this->baseUrl}/mahasiswa", [
-                    'key' => $this->apiKey,
-                    'tahun_angkatan' => $tahun,
-                ]);
+                try {
+                    $res = $this->http()->get("{$this->baseUrl}/mahasiswa", [
+                        'key' => $this->apiKey,
+                        'tahun_angkatan' => $tahun,
+                    ]);
 
-                if ($res->successful() && isset($res['data'])) {
-                    $total += count($res['data']);
+                    if ($res->successful() && isset($res['data'])) {
+                        $total += count($res['data']);
+                    }
+                } catch (\Exception $e) {
+                    // Lanjut saja ke tahun berikutnya jika gagal
+                    continue;
                 }
-                // Jika gagal satu tahun, lanjut; nanti akan dihitung ulang saat cache expire.
             }
             return $total;
         });

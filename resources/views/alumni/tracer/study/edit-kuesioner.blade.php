@@ -1,720 +1,379 @@
 @extends('layout')
 
 @section('content')
+<main class="main">
     @include('components.navbar')
 
-    <!-- Main Content -->
-    <main id="main-container" class="mt-3">
-        <div class="content py-4">
-            <!-- Header -->
-            <div class="bg-gradient-primary p-4 rounded-lg shadow-sm mb-4">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h1 class="h3 fw-bold text-white mb-1">
-                            <i class="fas fa-edit me-2"></i>Edit Kuesioner Tracer Study
-                        </h1>
-                        <p class="text-white-50 mb-0">Perbarui data tracer study alumni Anda dengan detail terbaru</p>
+    <!-- Premium Assets -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/tracer-wizard.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <div class="container mt-5 pt-4">
+        <div class="wizard-header animate-fade-in">
+            <i class="fas fa-edit fa-3x text-primary mb-3"></i>
+            <h1>Perbarui Tracer Study</h1>
+            <p>Pastikan data karir Anda selalu mutakhir untuk mendukung data alumni kami</p>
+        </div>
+
+        <!-- Step Indicator -->
+        <div class="step-indicator animate-fade-in">
+            <div class="step-item active" data-step="1">1<span class="step-label">Identitas</span></div>
+            <div class="step-item" data-step="2">2<span class="step-label">Status</span></div>
+            <div class="step-item" data-step="3">3<span class="step-label">Karir</span></div>
+            <div class="step-item" data-step="4">4<span class="step-label">Pencarian</span></div>
+            <div class="step-item" data-step="5">5<span class="step-label">Kompetensi</span></div>
+            <div class="step-item" data-step="6">6<span class="step-label">Evaluasi</span></div>
+        </div>
+
+        @if ($errors->any())
+            <div class="alert alert-danger rounded-4 mb-4 animate-fade-in shadow-sm border-0 border-start border-4 border-danger">
+                <div class="d-flex align-items-center">
+                    <div class="alert-icon-container me-3 bg-danger bg-opacity-10 p-2 rounded-3 text-danger">
+                        <i class="fas fa-exclamation-circle fa-lg"></i>
                     </div>
                     <div>
-                        <a href="{{ route('home') }}" class="btn btn-light">
-                            <i class="fas fa-arrow-left me-2"></i>Kembali
-                        </a>
+                        <h6 class="fw-bold mb-1 text-danger">Terjadi Kesalahan!</h6>
+                        <ul class="mb-0 small text-danger-emphasis">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
             </div>
+        @endif
 
-            <!-- Progress Bar -->
-            <div class="card shadow-sm mb-4">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="text-muted">Progress Pengisian</span>
-                        <span id="progress-text" class="fw-bold text-primary">0%</span>
-                    </div>
-                    <div class="progress" style="height: 8px;">
-                        <div id="progress-bar" class="progress-bar bg-primary" role="progressbar" style="width: 0%"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Form -->
-            <form id="tracerStudyForm" method="POST" action="{{ route('new-tracer.update', $tracer->id) }}">
+        <div class="wizard-card animate-fade-in">
+            <form id="alumniForm" action="{{ route('new-tracer.update', $tracer->id) }}" method="POST">
                 @csrf
                 @method('PUT')
 
-                <!-- Bagian 1: Info Pribadi -->
-                <div class="section-card animate-fade-in mb-4">
-                    <div class="card shadow-sm">
-                        <div class="card-header bg-primary text-white">
-                            <h5 class="mb-0">
-                                <i class="fas fa-user me-2"></i>Bagian 1: Informasi Pribadi
-                            </h5>
+                <!-- STEP 1: INFORMASI PRIBADI -->
+                <div class="form-section active" data-step="1">
+                    <div class="section-header mb-4">
+                        <h3 class="fw-bold mb-0 text-primary"><i class="fas fa-user-edit me-2"></i> Identitas Alumni</h3>
+                        <p class="text-muted">Informasi data diri Anda saat ini</p>
+                    </div>
+                    
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label class="form-label">Nama Lengkap</label>
+                            <input type="text" name="nama" class="form-control @error('nama') is-invalid @enderror" value="{{ old('nama', $tracer->nama) }}" required>
+                            @error('nama') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
-                        <div class="card-body">
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label for="nama" class="form-label">Nama Lengkap <span class="text-danger">*</span></label>
-                                    <input type="text" name="nama" id="nama" class="form-control"
-                                           value="{{ old('nama', $tracer->nama) }}" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-                                    <input type="email" name="email" id="email" class="form-control"
-                                           value="{{ old('email', $tracer->email) }}" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="no_hp" class="form-label">No. HP <span class="text-danger">*</span></label>
-                                    <input type="text" name="no_hp" id="no_hp" class="form-control"
-                                           value="{{ old('no_hp', $tracer->no_hp) }}" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="nim" class="form-label">NIM <span class="text-danger">*</span></label>
-                                    <input type="text" name="nim" id="nim" class="form-control"
-                                           value="{{ old('nim', $tracer->nim) }}" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="tahun_lulus" class="form-label">Tahun Lulus <span class="text-danger">*</span></label>
-                                    <input type="number" name="tahun_lulus" id="tahun_lulus" class="form-control"
-                                           value="{{ old('tahun_lulus', $tracer->tahun_lulus) }}" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="prodi" class="form-label">Program Studi <span class="text-danger">*</span></label>
-                                    <select name="prodi" id="prodi" class="form-select" required>
-                                        <option value="teknik_informatika" {{ old('prodi', $tracer->prodi) == 'teknik_informatika' ? 'selected' : '' }}>Teknik Informatika</option>
-                                    </select>
-                                </div>
-                                <div class="col-12">
-                                    <label for="alamat" class="form-label">Alamat <span class="text-danger">*</span></label>
-                                    <textarea name="alamat" id="alamat" class="form-control" rows="3" required>{{ old('alamat', $tracer->alamat) }}</textarea>
-                                </div>
-                            </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Nomor WhatsApp</label>
+                            <input type="text" name="no_hp" class="form-control @error('no_hp') is-invalid @enderror" value="{{ old('no_hp', $tracer->no_hp) }}" required>
+                            @error('no_hp') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Alamat Email</label>
+                            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email', $tracer->email) }}" required>
+                            @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Tahun Lulus</label>
+                            <input type="number" name="tahun_lulus" class="form-control @error('tahun_lulus') is-invalid @enderror" value="{{ old('tahun_lulus', $tracer->tahun_lulus) }}" required>
+                            @error('tahun_lulus') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">NIM</label>
+                            <input type="text" name="nim" class="form-control bg-light @error('nim') is-invalid @enderror" value="{{ old('nim', $tracer->nim) }}" readonly>
+                            @error('nim') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Program Studi</label>
+                            <input type="text" name="prodi" class="form-control bg-light" value="Teknik Informatika" readonly>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label">Alamat Lengkap</label>
+                            <textarea name="alamat" class="form-control @error('alamat') is-invalid @enderror" rows="3" required>{{ old('alamat', $tracer->alamat) }}</textarea>
+                            @error('alamat') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     </div>
                 </div>
 
-                <!-- Bagian 2: Status Pekerjaan -->
-                <div class="section-card animate-fade-in mb-4">
-                    <div class="card shadow-sm">
-                        <div class="card-header bg-success text-white">
-                            <h5 class="mb-0">
-                                <i class="fas fa-briefcase me-2"></i>Bagian 2: Status Pekerjaan Saat Ini
-                            </h5>
-                        </div>
-                        <div class="card-body">
-                            <label class="form-label">Pilih status yang sesuai dengan kondisi Anda saat ini <span class="text-danger">*</span></label>
-                            <div class="row g-3">
-                                <div class="col-md-6 col-lg-4">
-                                    <div class="form-check card-radio">
-                                        <input class="form-check-input" type="radio" name="bekerja" id="bekerja_full" value="bekerja_full"
-                                               {{ old('bekerja', $tracer->status_pekerjaan) == 'bekerja_full' ? 'checked' : '' }} required>
-                                        <label class="form-check-label w-100" for="bekerja_full">
-                                            <div class="text-center p-3">
-                                                <i class="fas fa-briefcase fa-2x text-success mb-2"></i>
-                                                <div class="fw-bold">Bekerja</div>
-                                                <small class="text-muted">Full time/Part time</small>
-                                            </div>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-lg-4">
-                                    <div class="form-check card-radio">
-                                        <input class="form-check-input" type="radio" name="bekerja" id="belum_bekerja" value="belum_bekerja"
-                                               {{ old('bekerja', $tracer->status_pekerjaan) == 'belum_bekerja' ? 'checked' : '' }} required>
-                                        <label class="form-check-label w-100" for="belum_bekerja">
-                                            <div class="text-center p-3">
-                                                <i class="fas fa-clock fa-2x text-warning mb-2"></i>
-                                                <div class="fw-bold">Belum Memungkinkan Bekerja</div>
-                                                <small class="text-muted">Melanjutkan studi/Kondisi tertentu</small>
-                                            </div>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-lg-4">
-                                    <div class="form-check card-radio">
-                                        <input class="form-check-input" type="radio" name="bekerja" id="wirausaha" value="wirausaha"
-                                               {{ old('bekerja', $tracer->status_pekerjaan) == 'wirausaha' ? 'checked' : '' }} required>
-                                        <label class="form-check-label w-100" for="wirausaha">
-                                            <div class="text-center p-3">
-                                                <i class="fas fa-store fa-2x text-info mb-2"></i>
-                                                <div class="fw-bold">Wiraswasta</div>
-                                                <small class="text-muted">Memiliki usaha sendiri</small>
-                                            </div>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-lg-4">
-                                    <div class="form-check card-radio">
-                                        <input class="form-check-input" type="radio" name="bekerja" id="lanjutstudy" value="lanjutstudy"
-                                               {{ old('bekerja', $tracer->status_pekerjaan) == 'lanjutstudy' ? 'checked' : '' }} required>
-                                        <label class="form-check-label w-100" for="lanjutstudy">
-                                            <div class="text-center p-3">
-                                                <i class="fas fa-graduation-cap fa-2x text-primary mb-2"></i>
-                                                <div class="fw-bold">Melanjutkan Pendidikan</div>
-                                                <small class="text-muted">S2/S3/Kursus</small>
-                                            </div>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-lg-4">
-                                    <div class="form-check card-radio">
-                                        <input class="form-check-input" type="radio" name="bekerja" id="tidak" value="tidak"
-                                               {{ old('bekerja', $tracer->status_pekerjaan) == 'tidak' ? 'checked' : '' }} required>
-                                        <label class="form-check-label w-100" for="tidak">
-                                            <div class="text-center p-3">
-                                                <i class="fas fa-search fa-2x text-secondary mb-2"></i>
-                                                <div class="fw-bold">Tidak Kerja</div>
-                                                <small class="text-muted">Sedang mencari kerja</small>
-                                            </div>
-                                        </label>
-                                    </div>
-                                </div>
+                <!-- STEP 2: STATUS PEKERJAAN -->
+                <div class="form-section" data-step="2">
+                    <div class="section-header mb-4">
+                        <h3 class="fw-bold mb-0 text-primary"><i class="fas fa-briefcase me-2"></i> Status Aktivitas</h3>
+                        <p class="text-muted">Pilih status Anda yang paling terbaru</p>
+                    </div>
+
+                    <div class="custom-radio-group">
+                        @php $status = old('bekerja', $tracer->status_pekerjaan); @endphp
+                        <label class="custom-radio-item">
+                            <input type="radio" name="bekerja" value="bekerja_full" {{ $status == 'bekerja_full' ? 'checked' : '' }} required>
+                            <div class="radio-content">
+                                <div class="radio-icon"><i class="fas fa-building"></i></div>
+                                <div><h5 class="mb-0 fw-bold">Bekerja</h5><small class="text-muted">Karyawan Full-time / Part-time</small></div>
                             </div>
+                        </label>
+                        <label class="custom-radio-item">
+                            <input type="radio" name="bekerja" value="wirausaha" {{ $status == 'wirausaha' ? 'checked' : '' }}>
+                            <div class="radio-content">
+                                <div class="radio-icon"><i class="fas fa-store"></i></div>
+                                <div><h5 class="mb-0 fw-bold">Wirausaha</h5><small class="text-muted">Memiliki bisnis mandiri</small></div>
+                            </div>
+                        </label>
+                        <label class="custom-radio-item">
+                            <input type="radio" name="bekerja" value="lanjutstudy" {{ $status == 'lanjutstudy' ? 'checked' : '' }}>
+                            <div class="radio-content">
+                                <div class="radio-icon"><i class="fas fa-graduation-cap"></i></div>
+                                <div><h5 class="mb-0 fw-bold">Studi Lanjut</h5><small class="text-muted">Melanjutkan pendidikan resmi</small></div>
+                            </div>
+                        </label>
+                        <label class="custom-radio-item">
+                            <input type="radio" name="bekerja" value="tidak" {{ $status == 'tidak' ? 'checked' : '' }}>
+                            <div class="radio-content">
+                                <div class="radio-icon"><i class="fas fa-search"></i></div>
+                                <div><h5 class="mb-0 fw-bold">Mencari Kerja</h5><small class="text-muted">Sedang mencari peluang baru</small></div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- STEP 3: DETAIL SPESIFIK -->
+                <div class="form-section" data-step="3">
+                    <div id="working_details" style="display: none;">
+                        <h4 class="mb-4 text-primary fw-bold">Detail Pekerjaan/Usaha</h4>
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <label class="form-label">Nama Perusahaan/Usaha</label>
+                                <input type="text" name="nama_perusahaan" class="form-control" value="{{ old('nama_perusahaan', $tracer->pekerjaan->nama_perusahaan ?? ($tracer->wirausaha->nama_usaha ?? '')) }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Jabatan</label>
+                                <input type="text" name="jabatan" class="form-control" value="{{ old('jabatan', $tracer->pekerjaan->jabatan ?? ($tracer->wirausaha->posisi_usaha ?? '')) }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Pendapatan (Rp)</label>
+                                <input type="number" name="pendapatan" class="form-control" value="{{ old('pendapatan', $tracer->pekerjaan->pendapatan ?? ($tracer->wirausaha->pendapatan_usaha ?? '')) }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Tingkat Usaha</label>
+                                <select name="tingkat_usaha_level" class="form-select">
+                                    @php $lvl = old('tingkat_usaha_level', $tracer->pekerjaan->tingkat_usaha_level ?? ($tracer->wirausaha->tingkat_usaha_level ?? '')); @endphp
+                                    <option value="lokal" {{ $lvl == 'lokal' ? 'selected' : '' }}>Lokal</option>
+                                    <option value="nasional" {{ $lvl == 'nasional' ? 'selected' : '' }}>Nasional</option>
+                                    <option value="multinasional" {{ $lvl == 'multinasional' ? 'selected' : '' }}>Internasional</option>
+                                </select>
+                            </div>
+                        </div>
+                        </div>
+
+                        <!-- Data Atasan Section -->
+                        <h4 class="mb-4 mt-5 text-primary fw-bold">Data Atasan (User)</h4>
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <label class="form-label">Nama Atasan</label>
+                                <input type="text" name="nama_atasan" class="form-control" value="{{ old('nama_atasan', $tracer->pekerjaan->nama_atasan ?? '') }}" placeholder="Nama atasan langsung">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Jabatan Atasan</label>
+                                <input type="text" name="jabatan_atasan" class="form-control" value="{{ old('jabatan_atasan', $tracer->pekerjaan->jabatan_atasan ?? '') }}" placeholder="Jabatan atasan">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">WhatsApp Atasan</label>
+                                <input type="text" name="wa_atasan" class="form-control" value="{{ old('wa_atasan', $tracer->pekerjaan->wa_atasan ?? '') }}" placeholder="+62812xxx">
+                                <small class="text-muted">Wajib diawali +62</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Email Atasan</label>
+                                <input type="email" name="email_atasan" class="form-control" value="{{ old('email_atasan', $tracer->pekerjaan->email_atasan ?? '') }}" placeholder="email@perusahaan.com">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="study_details" style="display: none;">
+                        <h4 class="mb-4 text-primary fw-bold">Detail Pendidikan</h4>
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <label class="form-label">Nama Universitas</label>
+                                <input type="text" name="universitas" class="form-control" value="{{ old('universitas', $tracer->pendidikan->universitas ?? '') }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Program Studi</label>
+                                <input type="text" name="program_studi" class="form-control" value="{{ old('program_studi', $tracer->pendidikan->program_studi ?? '') }}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="no_details" style="display: none;" class="text-center py-5">
+                        <i class="fas fa-check-circle fa-4x text-success mb-3"></i>
+                        <h4>Data Sudah Sesuai</h4>
+                        <p class="text-muted">Tidak ada detail tambahan untuk status ini.</p>
+                    </div>
+                </div>
+
+                <!-- STEP 4: PENCARIAN -->
+                <div class="form-section" data-step="4">
+                    <h4 class="mb-4 text-primary fw-bold">Proses Mendapatkan Pekerjaan</h4>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label class="form-label">Kapan mulai mencari kerja?</label>
+                            @php $waktu = old('waktu_cari_kerja', $tracer->pencarianKerja->waktu_cari_kerja ?? ''); @endphp
+                            <select name="waktu_cari_kerja" class="form-select">
+                                <option value="sebelum_lulus" {{ $waktu == 'sebelum_lulus' ? 'selected' : '' }}>Sebelum Lulus</option>
+                                <option value="setelah_lulus" {{ $waktu == 'setelah_lulus' ? 'selected' : '' }}>Setelah Lulus</option>
+                                <option value="tidak_mencari" {{ $waktu == 'tidak_mencari' ? 'selected' : '' }}>Tidak Mencari</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Bulan tunggu bekerja</label>
+                            <input type="number" name="bulan_kerja" class="form-control" value="{{ old('bulan_kerja', $tracer->pekerjaan->bulan_kerja ?? '') }}">
                         </div>
                     </div>
                 </div>
 
-                <!-- Include semua bagian form dari komponen -->
-                @include('components.form-alumni.bagian2-3-4', ['tracer' => $tracer])
-                @include('components.form-alumni.bagian3-8', ['tracer' => $tracer])
-                @include('components.form-alumni.bagian5', ['tracer' => $tracer])
-                {{-- @include('components.form-alumni.bagian6', ['tracer' => $tracer]) --}}
-                @include('components.form-alumni.bagian8', ['tracer' => $tracer])
-                @include('components.form-alumni.bagian9', ['tracer' => $tracer])
-                @include('components.form-alumni.bagian10-11-12', ['tracer' => $tracer])
-                @include('components.form-alumni.bagian13', ['tracer' => $tracer])
-                @include('components.form-alumni.bagian14', ['tracer' => $tracer])
-                {{-- @include('components.form-alumni.bagian15', ['tracer' => $tracer]) --}}
+                <!-- STEP 5: KOMPETENSI -->
+                <div class="form-section" data-step="5">
+                    <h4 class="mb-4 text-primary fw-bold">Analisis Kompetensi</h4>
+                    <div class="table-responsive competency-table-wrapper">
+                        <table class="table align-middle">
+                            <thead>
+                                <tr><th>Kompetensi</th><th>Awal Lulus</th><th>Saat Ini</th></tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $aspeks = ['etika','keahlian','bahasa_inggris','teknologi','komunikasi','kerjasama','pengembangan'];
+                                @endphp
+                                @foreach($aspeks as $key)
+                                <tr>
+                                    <td class="fw-bold">{{ ucfirst(str_replace('_', ' ', $key)) }}</td>
+                                    <td>
+                                        <select name="{{ $key }}_awal" class="form-select">
+                                            @php $val = $tracer->kompetensi->{$key.'_awal'} ?? ''; @endphp
+                                            <option value="sangat_baik" {{ $val == 'sangat_baik' ? 'selected' : '' }}>Sangat Baik</option>
+                                            <option value="baik" {{ $val == 'baik' ? 'selected' : '' }}>Baik</option>
+                                            <option value="cukup" {{ $val == 'cukup' ? 'selected' : '' }}>Cukup</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="{{ $key }}_sekarang" class="form-select">
+                                            @php $val = $tracer->kompetensi->{$key.'_sekarang'} ?? ''; @endphp
+                                            <option value="sangat_baik" {{ $val == 'sangat_baik' ? 'selected' : '' }}>Sangat Baik</option>
+                                            <option value="baik" {{ $val == 'baik' ? 'selected' : '' }}>Baik</option>
+                                            <option value="cukup" {{ $val == 'cukup' ? 'selected' : '' }}>Cukup</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
-                <!-- Submit Button -->
-                <div class="text-center mt-5 mb-4">
-                    <button type="submit" class="btn btn-primary btn-lg px-5">
-                        <i class="fas fa-save me-2"></i>Update Data Tracer Study
-                    </button>
+                <!-- STEP 6: SARAN & EVALUASI -->
+                <div class="form-section" data-step="6">
+                    <h4 class="mb-4 text-primary fw-bold">Prediksi & Evaluasi</h4>
+                    
+                    <div class="upload-area p-5 text-center border-2 border-dashed rounded-4 bg-light mb-4 position-relative">
+                        <div id="ai_loading" style="z-index: 10;" class="position-absolute top-0 start-0 w-100 h-100 bg-white bg-opacity-75 rounded-4 d-none flex-column align-items-center justify-content-center">
+                            <button type="button" id="close_ai_loading" class="btn-close position-absolute top-0 end-0 m-3" aria-label="Close"></button>
+                            <div class="spinner-border text-primary mb-3" role="status"></div>
+                            <h6 class="fw-bold">AI Sedang Menganalisis Transkrip...</h6>
+                            <p id="ai_status_text" class="small text-muted">Mohon tunggu sebentar</p>
+                        </div>
+
+                        <i class="fas fa-file-pdf fa-4x text-primary mb-3"></i>
+                        <h5>Perbarui Transkrip Nilai (PDF/IMG)</h5>
+                        <p class="small text-muted">Unggah ulang transkrip Anda untuk mendapatkan analisis AI terbaru</p>
+                        <input type="file" name="transcript" id="transcript_input" class="form-control mt-3" accept=".pdf,.jpg,.jpeg,.png">
+                    </div>
+
+                    <!-- Prediction Results Area -->
+                    <div id="prediction_results" style="display: none;" class="mb-4 animate-fade-in">
+                        <div class="glass-card p-4 border-primary">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fas fa-robot fa-2x text-primary me-3"></i>
+                                <h5 class="fw-bold mb-0">Rekomendasi Karir (AI Prediction)</h5>
+                            </div>
+                            <div id="prediction_text" class="text-muted mb-0" style="line-height: 1.6;">
+                                <!-- AI Content will be injected here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Saran untuk Pengembangan Institusi</label>
+                        <textarea name="saran" class="form-control" rows="5">{{ old('saran', $tracer->evaluasiPendidikan->saran ?? '') }}</textarea>
+                    </div>
+                    <div class="alert alert-primary rounded-4">
+                        <i class="fas fa-info-circle me-2"></i> Klik tombol di bawah untuk memperbarui data kuesioner Anda secara permanen.
+                    </div>
+                </div>
+
+                <!-- Wizard Navigation -->
+                <div class="wizard-nav">
+                    <button type="button" class="btn btn-wizard btn-prev"><i class="fas fa-arrow-left me-2"></i> Sebelumnya</button>
+                    <button type="button" class="btn btn-wizard btn-next">Selanjutnya <i class="fas fa-arrow-right ms-2"></i></button>
+                    <button type="submit" class="btn btn-wizard btn-submit" style="display:none;"><i class="fas fa-save me-2"></i> Update Sekarang</button>
                 </div>
             </form>
         </div>
-    </main>
+    </div>
 
-    <!-- Custom CSS -->
-    <style>
-        .bg-gradient-primary {
-            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
-        }
-
-        .section-card {
-            margin-bottom: 2rem;
-        }
-
-        .animate-fade-in {
-            animation: fadeIn 0.6s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .card-radio {
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            height: 100%;
-        }
-
-        .card-radio:hover {
-            border-color: #007bff;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,123,255,0.15);
-        }
-
-        .card-radio input[type="radio"]:checked + label {
-            background-color: #f8f9ff;
-            border-color: #007bff;
-        }
-
-        .card-radio input[type="radio"] {
-            display: none;
-        }
-
-        .card-radio label {
-            cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .form-label {
-            font-weight: 600;
-            color: #2c3e50;
-        }
-
-        .text-danger {
-            color: #dc3545 !important;
-        }
-
-        .card-header {
-            border-bottom: none;
-            border-radius: 10px 10px 0 0 !important;
-        }
-
-        .card {
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
-            border: none;
-            border-radius: 25px;
-            padding: 12px 30px;
-            font-weight: 600;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0,123,255,0.3);
-        }
-
-        .progress {
-            border-radius: 10px;
-            background-color: #e9ecef;
-        }
-
-        .progress-bar {
-            border-radius: 10px;
-            transition: width 0.3s ease;
-        }
-
-        /* Section styling for edit mode */
-        .section-header {
-            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 10px 10px 0 0;
-            margin-bottom: 0;
-            font-weight: 600;
-        }
-
-        .section-body {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 0 0 10px 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .section-card .card {
-            border: none;
-            box-shadow: none;
-        }
-
-        /* Validation error styling */
-        .is-invalid {
-            border-color: #dc3545 !important;
-            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
-        }
-
-        .invalid-feedback {
-            display: block;
-            width: 100%;
-            margin-top: 0.25rem;
-            font-size: 0.875em;
-            color: #dc3545;
-        }
-    </style>
-
-    <!-- Edit Mode JavaScript -->
+    <script src="{{ asset('js/tracer-wizard.js') }}"></script>
+    <script src="{{ asset('js/gemini-integration.js') }}?v={{ time() }}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize form immediately
-            initEditMode();
-
-            // Load main JavaScript file
-            loadMainScript();
-        });
-
-        function initEditMode() {
-            // Add immediate event listeners
             const statusRadios = document.querySelectorAll('input[name="bekerja"]');
+            const workDetail = document.getElementById('working_details');
+            const studyDetail = document.getElementById('study_details');
+            const noDetail = document.getElementById('no_details');
 
-            statusRadios.forEach(radio => {
-                radio.addEventListener('change', function() {
-                    handleStatusChangeImmediate(this.value);
-                });
-            });
+            function toggleDetails() {
+                const selected = document.querySelector('input[name="bekerja"]:checked')?.value;
+                const atasanFields = workDetail.querySelectorAll('input');
 
-            // Show initial sections based on current status
-            const checkedStatus = document.querySelector('input[name="bekerja"]:checked');
-            if (checkedStatus) {
-                handleStatusChangeImmediate(checkedStatus.value);
-            }
-        }
+                workDetail.style.display = 'none';
+                studyDetail.style.display = 'none';
+                noDetail.style.display = 'none';
 
-        function handleStatusChangeImmediate(status) {
-            // Hide all sections first
-            hideAllSections();
+                // Reset required attributes
+                atasanFields.forEach(f => f.required = false);
 
-            // Show sections based on status
-            switch (status) {
-                case 'bekerja_full':
-                    showSectionImmediate('waktuAlumniMendapatkanPekerjaan');
-                    showSectionImmediate('lokasikerja');
-                    showSectionImmediate('kesesuaianPekerjaan');
-                    showSectionImmediate('kompetensiA');
-                    showSectionImmediate('kompetensiB');
-                    showSectionImmediate('caraMendapatkanPekerjaan');
-                    showSectionImmediate('sectionCariKerja');
-                    showSectionImmediate('evaluasiPendidikan');
-                    showSectionImmediate('aktivitasSaatIni');
-                    break;
-
-                case 'wirausaha':
-                    showSectionImmediate('wiraswasta');
-                    showSectionImmediate('waktuAlumniMendapatkanPekerjaan');
-                    showSectionImmediate('kesesuaianPekerjaan');
-                    showSectionImmediate('kompetensiA');
-                    showSectionImmediate('kompetensiB');
-                    showSectionImmediate('evaluasiPendidikan');
-                    showSectionImmediate('caraMendapatkanPekerjaan');
-                    showSectionImmediate('sectionCariKerja');
-                    showSectionImmediate('aktivitasSaatIni');
-                    break;
-
-                case 'lanjutstudy':
-                    showSectionImmediate('detailLanjutStudy');
-                    // showSectionImmediate('kompetensiA');
-                    // showSectionImmediate('kompetensiB');
-                    // showSectionImmediate('evaluasiPendidikan');
-                    break;
-
-                case 'belum_bekerja':
-                    showSectionImmediate('aktivitasSaatIni');
-                    break;
-
-                case 'tidak':
-                    // showSectionImmediate('caraMendapatkanPekerjaan');
-                    showSectionImmediate('sectionCariKerja');
-                    showSectionImmediate('aktivitasSaatIni');
-                    break;
-            }
-
-            updateProgressImmediate();
-        }
-
-        function hideAllSections() {
-            const sections = [
-                'waktuAlumniMendapatkanPekerjaan',
-                'lokasikerja',
-                'wiraswasta',
-                'detailLanjutStudy',
-                'kesesuaianPekerjaan',
-                'kompetensiA',
-                'kompetensiB',
-                'caraMendapatkanPekerjaan',
-                'sectionCariKerja',
-                'aktivitasSaatIni',
-                'evaluasiPendidikan'
-            ];
-
-            sections.forEach(sectionId => {
-                hideSectionImmediate(sectionId);
-            });
-        }
-
-        function showSectionImmediate(sectionId) {
-            const section = document.getElementById(sectionId);
-            if (section) {
-                section.style.display = 'block';
-                section.classList.add('animate-fade-in');
-            }
-        }
-
-        function hideSectionImmediate(sectionId) {
-            const section = document.getElementById(sectionId);
-            if (section) {
-                section.style.display = 'none';
-                section.classList.remove('animate-fade-in');
-            }
-        }
-
-        function updateProgressImmediate() {
-            const form = document.getElementById('tracerStudyForm');
-            if (!form) return;
-
-            const allInputs = form.querySelectorAll('input[required], select[required], textarea[required]');
-            const visibleInputs = Array.from(allInputs).filter(input => {
-                const section = input.closest('.section-card, [id*="section"], [id*="Section"]');
-                return !section || window.getComputedStyle(section).display !== 'none';
-            });
-
-            const filledInputs = visibleInputs.filter(input => {
-                if (input.type === 'radio') {
-                    const name = input.name;
-                    return form.querySelector(`input[name="${name}"]:checked`);
+                if (selected === 'bekerja_full' || selected === 'wirausaha') {
+                    workDetail.style.display = 'block';
+                    if (selected === 'bekerja_full') {
+                        ['nama_atasan', 'jabatan_atasan', 'wa_atasan', 'email_atasan'].forEach(name => {
+                            const field = workDetail.querySelector(`[name="${name}"]`);
+                            if (field) field.required = true;
+                        });
+                    }
+                } else if (selected === 'lanjutstudy') {
+                    studyDetail.style.display = 'block';
+                } else if (selected) {
+                    noDetail.style.display = 'block';
                 }
-                return input.value.trim() !== '';
-            });
-
-            const progress = visibleInputs.length > 0 ? Math.round((filledInputs.length / visibleInputs.length) * 100) : 0;
-
-            const progressBar = document.getElementById('progress-bar');
-            const progressText = document.getElementById('progress-text');
-
-            if (progressBar && progressText) {
-                progressBar.style.width = progress + '%';
-                progressText.textContent = progress + '%';
             }
-        }
 
-        function loadMainScript() {
-            // Load the main tracer study JavaScript
-            const script = document.createElement('script');
-            script.src = '{{ asset("js/tracer-study-form.js") }}';
-            script.onload = function() {
-                // Re-trigger section update after main script loads
-                setTimeout(() => {
-                    const checkedStatus = document.querySelector('input[name="bekerja"]:checked');
-                    if (checkedStatus && typeof updateFormSections === 'function') {
-                        updateFormSections();
-                    }
-                }, 100);
-            };
-            document.head.appendChild(script);
-        }
+            statusRadios.forEach(r => r.addEventListener('change', toggleDetails));
+            toggleDetails();
 
+            // Navigation Toggle
+            const btnPrev = document.querySelector('.btn-prev');
+            const btnNext = document.querySelector('.btn-next');
+            const btnSubmit = document.querySelector('.btn-submit');
 
+            const wizardInstance = window.wizard;
+            const originalShow = wizardInstance.showStep;
 
-        // Update progress when form changes
-        document.addEventListener('input', updateProgressImmediate);
-        document.addEventListener('change', updateProgressImmediate);
-
-        // Add form validation for bulan_kerja_lebih6
-        document.addEventListener('submit', function(e) {
-            const form = e.target;
-            const bulanLebih6Field = form.querySelector('input[name="bulan_kerja_lebih6"]');
-            const detailLebih6Section = document.getElementById('detailLebih6Bulan');
-
-            // Check if the lebih dari 6 bulan section is visible
-            if (bulanLebih6Field && detailLebih6Section &&
-                window.getComputedStyle(detailLebih6Section).display !== 'none') {
-
-                const value = parseInt(bulanLebih6Field.value);
-
-                // If field is visible, it must have a value >= 7
-                if (isNaN(value) || value < 7) {
-                    e.preventDefault();
-                    bulanLebih6Field.focus();
-                    bulanLebih6Field.classList.add('is-invalid');
-
-                    // Show error message
-                    let errorDiv = bulanLebih6Field.nextElementSibling;
-                    if (!errorDiv || !errorDiv.classList.contains('invalid-feedback')) {
-                        errorDiv = document.createElement('div');
-                        errorDiv.className = 'invalid-feedback';
-                        bulanLebih6Field.parentNode.appendChild(errorDiv);
-                    }
-                    errorDiv.textContent = 'Untuk pilihan lebih dari 6 bulan, minimal 7 bulan.';
-
-                    return false;
+            wizardInstance.showStep = function(step) {
+                originalShow.call(wizardInstance, step);
+                btnPrev.style.visibility = step === 1 ? 'hidden' : 'visible';
+                if (step === this.totalSteps) {
+                    btnNext.style.display = 'none';
+                    btnSubmit.style.display = 'inline-block';
                 } else {
-                    bulanLebih6Field.classList.remove('is-invalid');
-                    const errorDiv = bulanLebih6Field.nextElementSibling;
-                    if (errorDiv && errorDiv.classList.contains('invalid-feedback')) {
-                        errorDiv.remove();
-                    }
+                    btnNext.style.display = 'inline-block';
+                    btnSubmit.style.display = 'none';
                 }
-            }
+            };
+            wizardInstance.showStep(1);
         });
-
-        // Initialize pekerjaan detail toggle functionality
-        function initPekerjaanDetailToggle() {
-        const select = document.getElementById('mendapatkanPekerjaan');
-        const detailKurang6 = document.getElementById('detailKurang6Bulan');
-        const detailLebih6 = document.getElementById('detailLebih6Bulan');
-
-            if (!select || !detailKurang6 || !detailLebih6) {
-                console.log('Pekerjaan detail elements not found');
-                return;
-            }
-
-        function toggleDetail() {
-            const selectedValue = select.value;
-                console.log('Selected value:', selectedValue);
-
-                // Reset - hide both sections
-            detailKurang6.style.display = 'none';
-            detailLebih6.style.display = 'none';
-
-            // Tampilkan bagian sesuai pilihan
-            if (selectedValue === '<=6bulan') {
-                detailKurang6.style.display = 'flex';
-                    console.log('Showing detailKurang6');
-            } else if (selectedValue === '>6bulan') {
-                detailLebih6.style.display = 'flex';
-                    console.log('Showing detailLebih6');
-                }
-            }
-
-            // Add event listener
-            select.addEventListener('change', toggleDetail);
-
-            // Initial toggle based on current value
-            toggleDetail();
-        }
-
-        // Initialize after sections are shown
-        function initPekerjaanToggleAfterSections() {
-            // Wait for sections to be visible
-            const checkSections = setInterval(() => {
-                const section = document.getElementById('waktuAlumniMendapatkanPekerjaan');
-                if (section && window.getComputedStyle(section).display !== 'none') {
-                    clearInterval(checkSections);
-                    setTimeout(initPekerjaanDetailToggle, 100);
-                }
-            }, 100);
-
-            // Timeout after 5 seconds to prevent infinite checking
-            setTimeout(() => clearInterval(checkSections), 5000);
-        }
-
-        // Start the initialization process
-        initPekerjaanToggleAfterSections();
     </script>
-
-
-<!-- JavaScript untuk toggle field bulan -->
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Ambil semua radio button untuk waktu cari kerja
-        const radioButtons = document.querySelectorAll('input[name="waktu_cari_kerja"]');
-        const bulanSebelumLulus = document.getElementById('bulanSebelumLulus');
-        const bulanSetelahLulus = document.getElementById('bulanSetelahLulus');
-
-        // Function untuk toggle field bulan
-        function toggleBulanField() {
-            const selectedValue = document.querySelector('input[name="waktu_cari_kerja"]:checked')?.value;
-
-            // Reset - hide semua field bulan
-            bulanSebelumLulus.style.display = 'none';
-            bulanSetelahLulus.style.display = 'none';
-
-            // Clear nilai field yang tidak relevan
-            if (selectedValue !== 'sebelum_lulus') {
-                document.getElementById('bulan_sebelum_lulus').value = '';
-            }
-            if (selectedValue !== 'setelah_lulus') {
-                document.getElementById('bulan_setelah_lulus').value = '';
-            }
-
-            // Tampilkan field yang sesuai
-            if (selectedValue === 'sebelum_lulus') {
-                bulanSebelumLulus.style.display = 'block';
-            } else if (selectedValue === 'setelah_lulus') {
-                bulanSetelahLulus.style.display = 'block';
-            }
-            // Jika 'tidak_mencari', tidak ada field yang ditampilkan
-        }
-
-        // Tambahkan event listener untuk setiap radio button
-        radioButtons.forEach(radio => {
-            radio.addEventListener('change', toggleBulanField);
-        });
-
-        // Jalankan toggle saat halaman dimuat (untuk edit form)
-        toggleBulanField();
-    });
-    </script>
-
-
-<!-- JavaScript untuk cascade dropdown provinsi-kota -->
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log('Initializing provinsi-kota cascade dropdown...');
-
-        const provinsiSelect = document.getElementById('provinsi');
-        const kotaSelect = document.getElementById('kota');
-
-        if (!provinsiSelect || !kotaSelect) {
-            console.log('Provinsi atau Kota select elements tidak ditemukan');
-            return;
-        }
-
-        console.log('Elements found:', {
-            provinsi: !!provinsiSelect,
-            kota: !!kotaSelect
-        });
-
-        // Function untuk update kota dropdown berdasarkan provinsi yang dipilih
-        function updateKotaDropdown() {
-            const selectedProvinsi = provinsiSelect.value;
-            console.log('Provinsi selected:', selectedProvinsi);
-
-            // Reset kota dropdown
-            kotaSelect.innerHTML = '<option value="" disabled>-- Pilih Kabupaten/Kota --</option>';
-
-            if (!selectedProvinsi) {
-                kotaSelect.disabled = true;
-                console.log('No provinsi selected, kota dropdown disabled');
-                return;
-            }
-
-            // Enable kota dropdown
-            kotaSelect.disabled = false;
-            console.log('Fetching cities for provinsi:', selectedProvinsi);
-
-            // Fetch kota berdasarkan provinsi yang dipilih
-            fetch(`/api/kota/${selectedProvinsi}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(cities => {
-                    console.log('Cities loaded:', cities);
-
-                    // Populate kota dropdown
-                    Object.keys(cities).forEach(code => {
-                        const option = document.createElement('option');
-                        option.value = code;
-                        option.textContent = cities[code];
-
-                        // Check if this city was previously selected (for edit form)
-                        const oldKota = '{{ old("kota", $tracer->pekerjaan->kota ?? "") }}';
-                        if (oldKota && oldKota === code) {
-                            option.selected = true;
-                            console.log('Restored previous kota selection:', cities[code]);
-                        }
-
-                        kotaSelect.appendChild(option);
-                    });
-
-                    console.log(`Loaded ${Object.keys(cities).length} cities`);
-                })
-                .catch(error => {
-                    console.error('Error loading cities:', error);
-                    // Fallback: show error message
-                    const option = document.createElement('option');
-                    option.value = '';
-                    option.textContent = 'Error loading cities - ' + error.message;
-                    option.disabled = true;
-                    kotaSelect.appendChild(option);
-                });
-        }
-
-        // Add event listener untuk perubahan provinsi
-        provinsiSelect.addEventListener('change', function(e) {
-            console.log('Provinsi changed to:', e.target.value);
-            updateKotaDropdown();
-        });
-
-        // Initialize kota dropdown jika provinsi sudah dipilih (untuk edit form)
-        if (provinsiSelect.value) {
-            console.log('Initializing kota dropdown for edit form with provinsi:', provinsiSelect.value);
-            setTimeout(updateKotaDropdown, 100); // Small delay to ensure DOM is ready
-        } else {
-            console.log('No provinsi selected initially, kota dropdown will be disabled');
-            kotaSelect.disabled = true;
-        }
-    });
-</script>
-
+</main>
 @endsection

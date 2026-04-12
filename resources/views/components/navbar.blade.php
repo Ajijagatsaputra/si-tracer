@@ -84,14 +84,7 @@
                            @endif
                        </ul>
                    </li>
-                   <li class="nav-main-item {{ request()->is('prediksi*') ? 'active' : '' }}">
-                       <a class="nav-main-link {{ request()->is('prediksi*') ? 'active' : '' }}" href="/prediksi"
-                           aria-current="{{ request()->is('prediksi*') ? 'page' : 'false' }}">
-                           <i class="nav-main-link-icon fa fa-chart-pie"></i>
-                           <span class="nav-main-link-name">Prediksi</span>
-                       </a>
-                   </li>
-                   @if (!Auth::user()->role === 'alumni')
+                   @if (Auth::user()->role !== 'alumni')
                        <li class="nav-main-item">
                            <a class="nav-main-link" href="be_pages_dashboard.html">
                                <i class="nav-main-link-icon fa fa-chalkboard-teacher"></i>

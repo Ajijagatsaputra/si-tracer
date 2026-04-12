@@ -151,6 +151,7 @@ class GeminiExtractController extends Controller
         $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
         if ($http_code !== 200) {
+            Log::info('Gemini API Failure Output: ' . $response);
             return [ 'success' => false, 'error' => 'Error API: HTTP ' . $http_code . ' - ' . $response ];
         }
         $result = json_decode($response, true);

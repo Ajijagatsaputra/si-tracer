@@ -15,6 +15,9 @@
                     <p class="lead text-white-50 mb-0">Visualisasi data historis dan prediksi karir alumni menggunakan model Machine Learning canggih.</p>
                 </div>
                 <div class="col-lg-4 text-lg-end mt-4 mt-lg-0 position-relative" style="z-index: 2;">
+                    <a href="{{ route('admin.prediksi.index') }}" class="btn btn-lg btn-white rounded-pill px-4 shadow-sm hover-scale me-2 mb-2 mb-lg-0">
+                        <i class="fa fa-list-ul me-2 text-primary"></i> Lihat Semua
+                    </a>
                     <div class="glass-pill d-inline-block px-4 py-2 border border-white-25 rounded-pill shadow-sm" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
                         <span class="text-white-50 small text-uppercase fw-bold me-2">AI Status:</span>
                         <span class="text-success fw-bold"><i class="fa fa-check-circle me-1"></i> Active</span>
@@ -187,15 +190,6 @@
                                                     data-bs-target="#detailModal">
                                                 <i class="fa fa-eye text-primary me-1"></i> Detail
                                             </button>
-                                            
-                                            <button type="button" class="btn btn-sm btn-danger rounded-pill px-3 shadow-sm"
-                                                    onclick="deleteItem({{ $item->id }})">
-                                                <i class="fa fa-trash-alt"></i>
-                                            </button>
-                                            <form id="delete-form-{{ $item->id }}" action="{{ route('admin.prediksi.destroy', $item->id) }}" method="POST" style="display: none;">
-                                                @csrf
-                                                @method('DELETE')
-                                            </form>
                                         </div>
                                     </div>
                                 @endforeach

@@ -31,8 +31,26 @@ class AdminPrediksiController extends Controller
 
     public function index()
     {
-    
-        return view('admin.prediksi.index');
+        // Statistik ringkas untuk header
+        $totalPredictions = HistoryPrediksi::count();
+        $uniqueUsers = HistoryPrediksi::distinct('idAlumni')->count('idAlumni');
+
+        // Mengambil data dengan nama alumni
+        $predictions = HistoryPrediksi::with('alumni')
+            ->latest()
+            ->paginate(15);
+
+        // Map data untuk hasil ekstraksi
+        $predictions->getCollection()->transform(function ($item) {
+            $item->extracted_job_titles = $this->extractJobTitlesFromText($item->hasil ?? '');
+            return $item;
+        });
+
+        return view('admin.prediksi.index', compact(
+            'totalPredictions',
+            'uniqueUsers',
+            'predictions'
+        ));
     }
 
     public function data()
@@ -82,7 +100,6 @@ class AdminPrediksiController extends Controller
         $jobTitleCounts = array_values($jobTitleCounts);
 
         // Riwayat terbaru dengan extracted job titles
-        $histories = HistoryPrediksi::with('alumni')->latest()->limit(20)->get()->map(function ($h) {
         $histories = HistoryPrediksi::with('alumni')->latest()->limit(20)->get()->map(function($h) {
             $h->extracted_job_titles = $this->extractJobTitlesFromText($h->hasil ?? '');
             return $h;

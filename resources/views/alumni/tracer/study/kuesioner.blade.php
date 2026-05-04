@@ -391,7 +391,7 @@
                             <i class="fas fa-user-shield fa-2x me-3"></i>
                             <div>
                                 <h6 class="mb-1 fw-bold">Privasi Terjamin</h6>
-                                <small>Data yang Anda berikan akan dipergunakan secara anonim untuk keperluan akreditasi dan peningkatan kualitas kampus Politeknik Harapan Bersama.</small>
+                                <small>Data yang Anda berikan akan dipergunakan secara anonim untuk keperluan akreditasi dan peningkatan kualitas kampus Universitas Harkat Negeri.</small>
                             </div>
                         </div>
                     </div>

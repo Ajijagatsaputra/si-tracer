@@ -4,109 +4,353 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login | SIKEMA - Politeknik Harapan Bersama</title>
+    <title>Login | SIKEMA - Universitas Harkat Negeri</title>
+
+    <!-- Premium Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="icon" type="image/png" sizes="192x192" href="assets/media/favicons/logo_phb.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('assets/media/favicons/logo.png') }}">
+    <!-- Premium SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
+        :root {
+            --primary-color: #0d6efd;
+            --primary-gradient: linear-gradient(135deg, #0d6efd 0%, #0043a8 100%);
+            --soft-bg: #f8fafc;
+        }
+
         body,
         html {
             height: 100%;
             margin: 0;
-            background: linear-gradient(120deg, #f0f7fa 0%, #eaf6ff 100%);
+            background-color: var(--soft-bg);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
         }
 
-        .illustration {
-            background-color: #f8f9fa;
+        .login-wrapper {
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 2rem;
-            border-radius: 1.3rem;
-            box-shadow: 0 8px 24px #c2e2f8a1;
+            overflow-y: auto;
         }
 
-        .illustration img {
-            max-width: 88%;
-            height: auto;
-        }
-
-        .login-box {
+        .login-card {
             width: 100%;
-            max-width: 400px;
-            padding: 2rem;
+            max-width: 1000px;
+            margin: auto;
             background: #fff;
-            border-radius: 1.3rem;
-            box-shadow: 0 8px 32px #1676ea13;
-            border: 1px solid #e1edfa;
+            border-radius: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+            display: flex;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .form-control {
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .login-side-info {
+            flex: 1;
+            background: var(--primary-gradient);
+            padding: 3rem;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .login-side-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("{{ asset('assets/media/favicons/logo-sikema.png') }}") no-repeat center;
+            background-size: 80%;
+            opacity: 0.05;
+        }
+
+        .login-form-area {
+            flex: 1;
+            padding: 3rem;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .brand-logo {
+            width: 80px;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .brand-logo:hover {
+            transform: rotate(-10deg) scale(1.1);
+        }
+
+        h2 {
+            font-weight: 800;
+            color: #1e293b;
+            letter-spacing: -0.025em;
+        }
+
+        .text-muted {
+            color: #64748b !important;
+        }
+
+        .form-label {
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #475569;
+            margin-bottom: 0.75rem;
+        }
+
+        .input-group-modern {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group-modern .form-control {
             border-radius: 1rem;
-            border: 1.5px solid #bcd5ee;
-            background: #f8fbff;
-            transition: border .2s;
+            padding: 0.85rem 3.5rem 0.85rem 3.5rem;
+            border: 2px solid #e2e8f0;
+            background: #f8fafc;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .input-group-modern i {
+            position: absolute;
+            left: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 1.1rem;
+            transition: color 0.2s ease;
+            z-index: 5;
         }
 
         .form-control:focus {
-            border-color: #2293d4;
-            box-shadow: 0 2px 14px #1676ea19;
-            background: #f5fbfe;
+            border-color: var(--primary-color);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.1);
         }
 
-        .btn-dark {
-            background: linear-gradient(90deg, #2293d4 40%, #34d0b6 100%);
-            color: #fff;
-            border-radius: 1rem;
+        .form-control:focus+i {
+            color: var(--primary-color);
+        }
+
+        .btn-primary-modern {
+            background: var(--primary-gradient);
             border: none;
-            font-weight: 600;
-            transition: background 0.2s, box-shadow 0.2s;
+            border-radius: 1rem;
+            padding: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 15px -3px rgba(13, 110, 253, 0.3);
         }
 
-        .btn-dark:hover {
-            background: linear-gradient(90deg, #34d0b6 10%, #2293d4 90%);
-            box-shadow: 0 4px 18px #2293d422;
-        }
-
-        .password-group {
-            position: relative;
+        .btn-primary-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgba(13, 110, 253, 0.4);
+            filter: brightness(1.1);
         }
 
         .toggle-password {
             position: absolute;
-            top: 50%;
-            right: 1rem;
-            transform: translateY(-50%);
-            cursor: pointer;
-            background: none;
+            right: 1.25rem;
+            top: 0;
+            bottom: 0;
             border: none;
-            outline: none;
-            z-index: 2;
-            color: #2293d4;
-            font-size: 1.2rem;
+            background: transparent;
+            padding: 0 1rem;
+            margin: 0;
+            color: #94a3b8;
+            cursor: pointer;
+            z-index: 10;
+            outline: none !important;
+            box-shadow: none !important;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .form-control.is-invalid {
-            border-color: #eb3e34;
-            background: #fff0f0;
+        .toggle-password:hover {
+            color: var(--primary-color);
         }
 
-        .form-control.is-valid {
-            border-color: #34d0b6;
-            background: #f2fcfa;
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7) !important;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        .invalid-feedback {
-            font-size: .92rem;
+        /* NEW: Shake animation for validation */
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-8px);
+            }
+
+            50% {
+                transform: translateX(8px);
+            }
+
+            75% {
+                transform: translateX(-8px);
+            }
+        }
+
+        .shake {
+            animation: shake 0.4s ease-in-out;
+        }
+
+        .btn-loading {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .btn-loading .spinner-border {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        @media (max-width: 1199.98px) {
+            .login-card {
+                max-width: 900px;
+            }
+
+            .login-side-info,
+            .login-form-area {
+                padding: 2.5rem;
+            }
+        }
+
+        @media (max-height: 800px) {
+
+            .login-side-info,
+            .login-form-area {
+                padding: 2rem 3rem;
+            }
+
+            .brand-logo {
+                width: 60px;
+                margin-bottom: 1rem;
+            }
+
+            .mb-4 {
+                margin-bottom: 1rem !important;
+            }
+
+            .mb-5 {
+                margin-bottom: 2rem !important;
+            }
+        }
+
+        @media (max-width: 991.98px) {
+            .login-card {
+                flex-direction: column;
+                max-width: 550px;
+            }
+
+            .login-side-info {
+                display: none;
+            }
+
+            .login-form-area {
+                padding: 3rem 2.5rem;
+            }
         }
 
         @media (max-width: 767.98px) {
-            .illustration {
-                display: none !important;
+            .login-wrapper {
+                padding: 1rem;
             }
 
-            .login-box {
-                padding: 1.3rem;
+            .login-card {
+                border-radius: 1.5rem;
+            }
+
+            .login-form-area {
+                padding: 2.5rem 1.5rem;
+            }
+
+            .brand-logo {
+                width: 60px;
+                margin-bottom: 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.75rem;
+            }
+        }
+
+        .floating-circles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .circle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.3;
+            }
+
+            90% {
+                opacity: 0.3;
+            }
+
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
             }
         }
     </style>
@@ -114,110 +358,195 @@
 
 <body>
 
-    <div class="container-fluid h-100">
-        <div class="row h-100">
-            <!-- LEFT Illustration (Hidden on mobile) -->
-            <div class="col-md-6 illustration d-none d-md-flex">
-                <img src="assets/media/favicons/logo-sikema.png" alt="Logo SIKEMA">
+    <div class="login-wrapper">
+        <div class="login-card">
+            <!-- Left Branding Side -->
+            <div class="login-side-info d-none d-lg-flex flex-column justify-content-between">
+                <div>
+                    <h1 class="display-4 fw-800 text-white mb-2">TRACER <span class="fw-300">STUDY</span></h1>
+                    <p class="fs-5 text-white-50">Sistem Informasi Kemahasiswaan & Tracer Study</p>
+                </div>
+
+                <div class="mb-5 animate-fade-in">
+                    <div class="glass-card p-4 rounded-4 shadow-lg mb-4 text-dark position-relative">
+                        <i class="fas fa-quote-left fa-2x opacity-10 position-absolute top-0 start-0 m-2"></i>
+                        <p class="mb-0 fw-medium ps-4 text-dark-50">"Data Anda sangat berharga bagi peningkatan
+                            akreditasi dan kualitas universitas kita di masa depan."</p>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <img src="{{ asset('assets/media/favicons/logo_harkatnegeri.png') }}" alt="Logo"
+                            class="me-3 shadow-sm" style="width: 40px; height: 40px; object-fit: contain;">
+                        <span class="fw-bold">Universitas Harkat Negeri</span>
+                    </div>
+                </div>
+
+                <div class="floating-circles">
+                    <div class="circle" style="width: 80px; height: 80px; left: 10%; animation-delay: 0s;"></div>
+                    <div class="circle" style="width: 120px; height: 120px; left: 70%; animation-delay: 2s;"></div>
+                    <div class="circle" style="width: 60px; height: 60px; left: 40%; animation-delay: 4s;"></div>
+                </div>
             </div>
 
-            <!-- RIGHT Login Form -->
-            <div class="col-12 col-md-6 d-flex align-items-center justify-content-center">
-                <div class="login-box">
-                    <h5 class="mb-1 fw-bold">Sistem Informasi Kemahasiswaan</h5>
-                    <h6 class="mb-3 fw-bold">Politeknik Harapan Bersama</h6>
-                    <p class="mb-4 text-muted">Akses ke seluruh layanan akademik kampus dengan mudah dan cepat.</p>
-
-                    <!-- Session Status -->
-                    @if (session('status'))
-                        <div class="mb-4 alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
-                        <div class="mb-3">
-                            <input type="text" class="form-control" placeholder="Email" name="email" id="email" required>
-                            <div class="invalid-feedback">Mohon masukkan email yang valid.</div>
-                        </div>
-                        <div class="mb-3 password-group">
-                            <input type="password" class="form-control" placeholder="Password" name="password" id="password" required autocomplete="current-password">
-                            <button type="button" class="toggle-password" tabindex="-1" id="togglePassword" aria-label="Tampilkan/Sembunyikan Password">
-                                <span id="icon-eye">&#128065;</span>
-                            </button>
-                            <div class="invalid-feedback">Password minimal 6 karakter.</div>
-                        </div>
-
-                        <div class="mb-3 form-check">
-                            <input class="form-check-input" type="checkbox" id="showPassword">
-                            <label class="form-check-label" for="showPassword">Tampilkan Password</label>
-                        </div>
-                        <button type="submit" class="btn btn-dark w-100">Login</button>
-                    </form>
-
-                    <small class="mt-3 d-block text-muted">Belum punya akun? <a href="/register">Registrasi Akun</a></small>
-                    <small class="mt-2 d-block text-muted">© 2025 | Politeknik Harapan Bersama - Sisofo360</small>
+            <!-- Right Form Side -->
+            <div class="login-form-area">
+                <div class="mb-4 text-center text-lg-start">
+                    <img src="{{ asset('assets/media/favicons/logo_harkatnegeri.png') }}" alt="Logo"
+                        class="brand-logo mb-4">
+                    <h2 class="mb-2">Selamat Datang</h2>
+                    <p class="text-muted">Masuk untuk mengakses portal alumni</p>
                 </div>
+
+                @if (session('status'))
+                    <div class="alert alert-success border-0 rounded-4 shadow-sm mb-4">
+                        <i class="fas fa-check-circle me-2"></i> {{ session('status') }}
+                    </div>
+                @endif
+
+                <form method="POST" action="{{ route('login') }}" novalidate>
+                    @csrf
+
+                    <div class="mb-4">
+                        <label class="form-label">Email Institusi</label>
+                        <div class="input-group-modern">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                placeholder="nama@email.com" name="email" value="{{ old('email') }}" required autofocus>
+                        </div>
+                        @error('email')
+                            <div class="text-danger small mt-n3 mb-3 fw-bold"><i class="fas fa-exclamation-circle me-1"></i>
+                                {{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <label class="form-label mb-0">Password Akun</label>
+                            <a href="#" class="text-primary text-decoration-none xsmall fw-bold">Lupa Password?</a>
+                        </div>
+                        <div class="input-group-modern">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                placeholder="••••••••" name="password" id="password" required>
+                            <button type="button" class="toggle-password" id="togglePassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        @error('password')
+                            <div class="text-danger small mt-n3 mb-3 fw-bold"><i class="fas fa-exclamation-circle me-1"></i>
+                                {{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-4 d-flex justify-content-between align-items-center">
+                        <div class="form-check">
+                            <input class="form-check-input shadow-sm" type="checkbox" name="remember" id="remember">
+                            <label class="form-check-label small fw-medium" for="remember">Ingat Saya</label>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="ログイン-submit"
+                        class="btn btn-primary-modern text-white w-100 mb-4 d-flex align-items-center justify-content-center">
+                        <span class="btn-text">Masuk Sekarang</span>
+                        <i class="fas fa-arrow-right ms-2 fs-xs btn-icon"></i>
+                        <div class="spinner-border text-light ms-2 d-none" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </button>
+
+                    <div class="text-center">
+                        <p class="text-muted small">Belum memiliki akun?
+                            <a href="/register"
+                                class="text-primary fw-800 text-decoration-none ms-1 border-bottom border-2 border-primary border-opacity-10">Mendaftar
+                                Disini</a>
+                        </p>
+                    </div>
+
+                    <div class="mt-5 text-center">
+                        <small class="text-muted opacity-50 xsmall fw-bold">Universitas Harkat Negeri</small>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 
     <script>
-        // Fitur mata di dalam input password (hidden/show)
+        const loginForm = document.querySelector('form');
         const passwordInput = document.getElementById('password');
+        const emailInput = document.querySelector('input[type="email"]');
         const togglePasswordBtn = document.getElementById('togglePassword');
-        const iconEye = document.getElementById('icon-eye');
+        const submitBtn = document.getElementById('ログイン-submit');
 
         togglePasswordBtn.addEventListener('click', function () {
             const type = passwordInput.type === 'password' ? 'text' : 'password';
             passwordInput.type = type;
-            iconEye.textContent = type === 'password' ? '\u{1F441}' : '\u{1F441}\u{200D}\u{1F5E8}'; // mata dan mata dicoret
+            this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
         });
 
-        // Sinkron checkbox "Tampilkan Password" (biar dua-duanya sinkron)
-        document.getElementById('showPassword').addEventListener('change', function () {
-            if (this.checked) {
-                passwordInput.type = 'text';
-                iconEye.textContent = '\u{1F441}\u{200D}\u{1F5E8}';
-            } else {
-                passwordInput.type = 'password';
-                iconEye.textContent = '\u{1F441}';
-            }
-        });
+        loginForm.addEventListener('submit', function (e) {
+            let isValid = true;
+            let errorMessage = "";
 
-        // Validasi form
-        document.querySelector("form").addEventListener("submit", function (e) {
-            const emailInput = document.getElementById("email");
-            const password = passwordInput.value.trim();
-            const email = emailInput.value.trim();
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-            let isValid = true;
-
-            // Email validation
-            if (!email || !emailRegex.test(email)) {
-                emailInput.classList.add("is-invalid");
+            if (!emailInput.value.trim()) {
                 isValid = false;
+                errorMessage = "Email institusi tidak boleh kosong!";
+                emailInput.classList.add('is-invalid');
+            } else if (!emailRegex.test(emailInput.value.trim())) {
+                isValid = false;
+                errorMessage = "Format email tidak valid!";
+                emailInput.classList.add('is-invalid');
             } else {
-                emailInput.classList.remove("is-invalid");
-                emailInput.classList.add("is-valid");
+                emailInput.classList.remove('is-invalid');
             }
 
-            // Password validation
-            if (!password || password.length < 6) {
-                passwordInput.classList.add("is-invalid");
+            if (!passwordInput.value.trim()) {
                 isValid = false;
+                errorMessage = "Password tidak boleh kosong!";
+                passwordInput.classList.add('is-invalid');
             } else {
-                passwordInput.classList.remove("is-invalid");
-                passwordInput.classList.add("is-valid");
+                passwordInput.classList.remove('is-invalid');
             }
 
-            // Prevent form submit if not valid
             if (!isValid) {
                 e.preventDefault();
+                // Play shake animation
+                const formArea = document.querySelector('.login-form-area');
+                formArea.classList.add('shake');
+                setTimeout(() => formArea.classList.remove('shake'), 400);
+
+                // Show SweetAlert
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: errorMessage,
+                    confirmButtonColor: '#0d6efd',
+                    customClass: {
+                        popup: 'rounded-4'
+                    }
+                });
+            } else {
+                // Show loading state
+                submitBtn.classList.add('btn-loading');
+                submitBtn.querySelector('.btn-text').textContent = 'Memproses...';
+                submitBtn.querySelector('.btn-icon').classList.add('d-none');
+                submitBtn.querySelector('.spinner-border').classList.remove('d-none');
             }
         });
+
+        // Add focus effect to labels
+        document.querySelectorAll('.form-control').forEach(input => {
+            input.addEventListener('focus', () => {
+                const label = input.closest('.mb-4').querySelector('.form-label');
+                if (label) label.style.color = 'var(--primary-color)';
+            });
+            input.addEventListener('blur', () => {
+                const label = input.closest('.mb-4').querySelector('.form-label');
+                if (label) label.style.color = '#475569';
+            });
+        });
     </script>
+
 </body>
+
 </html>

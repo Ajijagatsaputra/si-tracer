@@ -172,11 +172,11 @@
         <div class="footer">
             <p><strong>Salam,</strong></p>
             <p><strong>Tim Tracer Study</strong><br>
-            Politeknik Harapan Bersama</p>
+            Universitas Harkat Negeri</p>
 
             <div style="margin-top: 20px;">
-                <a href="https://poltek-harber.ac.id" class="btn">Kunjungi Website</a>
-                <a href="https://alumni.poltek-harber.ac.id" class="btn">Portal Alumni</a>
+                <a href="#" class="btn">Kunjungi Website</a>
+                <a href="#" class="btn">Portal Alumni</a>
             </div>
 
             <p style="font-size: 0.9em; margin-top: 20px; color: #999;">

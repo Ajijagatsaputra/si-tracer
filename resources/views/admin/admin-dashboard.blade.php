@@ -3,22 +3,28 @@
 @section('content')
     <div class="content content-full">
         <!-- Premium Glassmorphic Hero -->
-        <div class="card card-modern border-0 shadow-lg mb-5 overflow-hidden" style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);">
-            <div class="card-body p-4 p-md-5 position-relative">
+        <div class="card card-modern border-0 shadow-lg mb-5 overflow-hidden"
+            style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);">
+            <div class="card-body p-3 p-md-4 position-relative">
                 <div class="row align-items-center">
                     <div class="col-lg-8 position-relative" style="z-index: 2;">
-                        <h1 class="display-5 fw-bold text-white mb-2">Dashboard Admin</h1>
-                        <p class="lead text-white-50 mb-0">Selamat datang kembali, <span class="text-white fw-bold">{{ Auth::user()->username }}</span>. Berikut adalah ringkasan performa sistem hari ini.</p>
+                        <h1 class="display-6 fw-bold text-white mb-2">Dashboard Admin</h1>
+                        <p class="lead text-white-50 mb-0">Selamat datang kembali, <span
+                                class="text-white fw-bold">{{ Auth::user()->username }}</span>. Berikut adalah ringkasan
+                            performa sistem hari ini.</p>
                     </div>
                     <div class="col-lg-4 text-lg-end mt-4 mt-lg-0 position-relative" style="z-index: 2;">
-                        <div class="glass-pill d-inline-block px-4 py-3 border border-white-25 rounded-pill shadow-sm" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
+                        <div class="glass-pill d-inline-block px-4 py-3 border border-white-25 rounded-pill shadow-sm"
+                            style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
                             <div class="d-flex align-items-center text-start">
                                 <div class="icon-circle bg-white-20 text-white me-3" style="width: 45px; height: 45px;">
                                     <i class="fa fa-clock"></i>
                                 </div>
                                 <div>
-                                    <div class="text-white-50 small text-uppercase fw-bold ls-wide" style="font-size: 0.65rem;">Terakhir Update</div>
-                                    <div class="text-white fw-bold">{{ now()->format('H:i') }} - {{ now()->format('d M Y') }}</div>
+                                    <div class="text-white-50 small text-uppercase fw-bold ls-wide"
+                                        style="font-size: 0.65rem;">Terakhir Update</div>
+                                    <div class="text-white fw-bold">{{ now()->format('H:i') }} -
+                                        {{ now()->format('d M Y') }}</div>
                                 </div>
                             </div>
                         </div>
@@ -36,16 +42,18 @@
             {{-- Mahasiswa --}}
             <div class="col-md-6 col-xl-3">
                 <div class="card card-modern border-0 shadow-sm h-100 position-relative overflow-hidden stat-hover-effect">
-                    <div class="card-body p-4">
+                    <div class="card-body p-3">
                         <div class="d-flex justify-content-between align-items-start mb-3">
-                            <div class="icon-circle bg-primary-light text-primary" style="width: 50px; height: 50px;">
-                                <i class="fa fa-chalkboard-teacher fa-lg"></i>
+                            <div class="icon-circle bg-primary-light text-primary" style="width: 40px; height: 40px;">
+                                <i class="fa fa-chalkboard-teacher"></i>
                             </div>
-                            <span class="badge bg-primary-light text-primary rounded-pill px-3 py-1 border border-primary-10 fs-xs fw-bold">Mahasiswa</span>
+                            <span
+                                class="badge bg-primary-light text-primary rounded-pill px-2 py-1 border border-primary-10 fs-xs fw-bold">Mahasiswa</span>
                         </div>
-                        <h3 class="display-6 fw-bold text-dark mb-1 stat-counter">{{ $countMahasiswa }}</h3>
+                        <h3 class="fs-2 fw-bold text-dark mb-1 stat-counter">{{ $countMahasiswa }}</h3>
                         <p class="text-muted small mb-3">Total Mahasiswa Terdaftar</p>
-                        <a href="{{ route('listmahasiswa') }}" class="btn btn-sm btn-outline-primary rounded-pill px-3 mt-auto">
+                        <a href="{{ route('listmahasiswa') }}"
+                            class="btn btn-sm btn-outline-primary rounded-pill px-3 mt-auto">
                             Detail <i class="fa fa-arrow-right ms-1"></i>
                         </a>
                     </div>
@@ -56,16 +64,18 @@
             {{-- Alumni --}}
             <div class="col-md-6 col-xl-3">
                 <div class="card card-modern border-0 shadow-sm h-100 position-relative overflow-hidden stat-hover-effect">
-                    <div class="card-body p-4">
+                    <div class="card-body p-3">
                         <div class="d-flex justify-content-between align-items-start mb-3">
-                            <div class="icon-circle bg-success-light text-success" style="width: 50px; height: 50px;">
-                                <i class="fa fa-user-graduate fa-lg"></i>
+                            <div class="icon-circle bg-success-light text-success" style="width: 40px; height: 40px;">
+                                <i class="fa fa-user-graduate"></i>
                             </div>
-                            <span class="badge bg-success-light text-success rounded-pill px-3 py-1 border border-success-10 fs-xs fw-bold">Alumni</span>
+                            <span
+                                class="badge bg-success-light text-success rounded-pill px-2 py-1 border border-success-10 fs-xs fw-bold">Alumni</span>
                         </div>
-                        <h3 class="display-6 fw-bold text-dark mb-1 stat-counter">{{ $countAlumni }}</h3>
+                        <h3 class="fs-2 fw-bold text-dark mb-1 stat-counter">{{ $countAlumni }}</h3>
                         <p class="text-muted small mb-3">Total Lulusan (Alumni)</p>
-                        <a href="{{ route('listalumni') }}" class="btn btn-sm btn-outline-success rounded-pill px-3 mt-auto">
+                        <a href="{{ route('listalumni') }}"
+                            class="btn btn-sm btn-outline-success rounded-pill px-3 mt-auto">
                             Detail <i class="fa fa-arrow-right ms-1"></i>
                         </a>
                     </div>
@@ -76,20 +86,22 @@
             {{-- Tracer Participation --}}
             <div class="col-md-6 col-xl-3">
                 <div class="card card-modern border-0 shadow-sm h-100 position-relative overflow-hidden stat-hover-effect">
-                    <div class="card-body p-4">
+                    <div class="card-body p-3">
                         <div class="d-flex justify-content-between align-items-start mb-3">
-                            <div class="icon-circle bg-warning-light text-warning" style="width: 50px; height: 50px;">
-                                <i class="fa fa-chart-pie fa-lg"></i>
+                            <div class="icon-circle bg-warning-light text-warning" style="width: 40px; height: 40px;">
+                                <i class="fa fa-chart-pie"></i>
                             </div>
                             @php
                                 $totalTracer = array_sum(array_column($statistikAlumni, 'jumlah'));
                                 $completionRate = $countAlumni > 0 ? round(($totalTracer / $countAlumni) * 100, 1) : 0;
                             @endphp
-                            <span class="badge bg-warning-light text-warning rounded-pill px-3 py-1 border border-warning-10 fs-xs fw-bold">{{ $completionRate }}%</span>
+                            <span
+                                class="badge bg-warning-light text-warning rounded-pill px-2 py-1 border border-warning-10 fs-xs fw-bold">{{ $completionRate }}%</span>
                         </div>
-                        <h3 class="display-6 fw-bold text-dark mb-1 stat-counter">{{ $totalTracer }}</h3>
+                        <h3 class="fs-2 fw-bold text-dark mb-1 stat-counter">{{ $totalTracer }}</h3>
                         <p class="text-muted small mb-3">Telah Mengisi Kuesioner</p>
-                        <a href="{{ route('listtraceralumni.index') }}" class="btn btn-sm btn-outline-warning rounded-pill px-3 mt-auto">
+                        <a href="{{ route('listtraceralumni.index') }}"
+                            class="btn btn-sm btn-outline-warning rounded-pill px-3 mt-auto">
                             Detail <i class="fa fa-arrow-right ms-1"></i>
                         </a>
                     </div>
@@ -102,19 +114,21 @@
             {{-- Questionnaire --}}
             <div class="col-md-6 col-xl-3">
                 <div class="card card-modern border-0 shadow-sm h-100 position-relative overflow-hidden stat-hover-effect">
-                    <div class="card-body p-4">
+                    <div class="card-body p-3">
                         <div class="d-flex justify-content-between align-items-start mb-3">
-                            <div class="icon-circle bg-info-light text-info" style="width: 50px; height: 50px;">
-                                <i class="fa fa-clipboard-list fa-lg"></i>
+                            <div class="icon-circle bg-info-light text-info" style="width: 40px; height: 40px;">
+                                <i class="fa fa-clipboard-list"></i>
                             </div>
                             @php
                                 $surveyRate = $countQuestioner > 0 ? round(($countQuestionerCompleted / $countQuestioner) * 100, 1) : 0;
                             @endphp
-                            <span class="badge bg-info-light text-info rounded-pill px-3 py-1 border border-info-10 fs-xs fw-bold">{{ $surveyRate }}%</span>
+                            <span
+                                class="badge bg-info-light text-info rounded-pill px-2 py-1 border border-info-10 fs-xs fw-bold">{{ $surveyRate }}%</span>
                         </div>
-                        <h3 class="display-6 fw-bold text-dark mb-1 stat-counter">{{ $countQuestionerCompleted }}</h3>
+                        <h3 class="fs-2 fw-bold text-dark mb-1 stat-counter">{{ $countQuestionerCompleted }}</h3>
                         <p class="text-muted small mb-3">Survey Pengguna Selesai</p>
-                        <a href="{{ route('admin.supervisor-questionnaire.dashboard') }}" class="btn btn-sm btn-outline-info rounded-pill px-3 mt-auto">
+                        <a href="{{ route('admin.supervisor-questionnaire.dashboard') }}"
+                            class="btn btn-sm btn-outline-info rounded-pill px-3 mt-auto">
                             Detail <i class="fa fa-arrow-right ms-1"></i>
                         </a>
                     </div>
@@ -142,7 +156,7 @@
                         </div>
                     </div>
                     <div class="card-body p-4 pt-0">
-                        <div class="chart-container mb-4" style="height: 300px;">
+                        <div class="chart-container mb-4" style="height: 240px;">
                             <canvas id="barChartAlumni"></canvas>
                         </div>
                         <div class="row g-3">
@@ -158,13 +172,17 @@
                             @foreach ($alumniStatsConfig as $conf)
                                 @php $statData = $statistikAlumni[$conf['key']] ?? ['jumlah' => 0, 'persen' => '0%']; @endphp
                                 <div class="col-6 col-md-4 col-xl">
-                                    <div class="p-3 rounded-4 bg-light-soft text-center border h-100 transition-all hover-translate-y">
-                                        <div class="icon-circle bg-white text-{{ $conf['color'] }} shadow-sm mx-auto mb-2" style="width: 35px; height: 35px;">
+                                    <div
+                                        class="p-3 rounded-4 bg-light-soft text-center border h-100 transition-all hover-translate-y">
+                                        <div class="icon-circle bg-white text-{{ $conf['color'] }} shadow-sm mx-auto mb-2"
+                                            style="width: 35px; height: 35px;">
                                             <i class="fa {{ $conf['icon'] }} small"></i>
                                         </div>
                                         <div class="fw-bold text-dark fs-5 mb-0">{{ $statData['jumlah'] }}</div>
-                                        <div class="text-muted small text-uppercase fw-bold ls-wide mb-1" style="font-size: 0.6rem;">{{ $conf['label'] }}</div>
-                                        <span class="badge bg-{{ $conf['color'] }}-light text-{{ $conf['color'] }} rounded-pill px-2 py-0 fs-xs border">{{ $statData['persen'] }}</span>
+                                        <div class="text-muted small text-uppercase fw-bold ls-wide mb-1"
+                                            style="font-size: 0.6rem;">{{ $conf['label'] }}</div>
+                                        <span
+                                            class="badge bg-{{ $conf['color'] }}-light text-{{ $conf['color'] }} rounded-pill px-2 py-0 fs-xs border">{{ $statData['persen'] }}</span>
                                     </div>
                                 </div>
                             @endforeach
@@ -192,23 +210,25 @@
                                     <span class="text-success fw-bold small">{{ $completionRate }}%</span>
                                 </div>
                                 <div class="progress rounded-pill bg-white shadow-none mb-2" style="height: 6px;">
-                                    <div class="progress-bar bg-success rounded-pill" style="width: {{ $completionRate }}%"></div>
+                                    <div class="progress-bar bg-success rounded-pill" style="width: {{ $completionRate }}%">
+                                    </div>
                                 </div>
                                 <p class="small text-muted mb-0">Target partisipasi alumni angkatan 2021-2025.</p>
                             </div>
 
                             <div class="p-4 rounded-4 bg-info text-white position-relative overflow-hidden">
                                 <div class="position-relative" style="z-index: 2;">
-                                    <h6 class="fw-bold mb-1 text-white text-uppercase">Survey Pengguna</h6>
-                                    <div class="display-6 fw-bold mb-1">{{ $countQuestionerCompleted }}</div>
-                                    <p class="small mb-0 opacity-80">Feedback dari instansi/perusahaan.</p>
+                                    <h6 class="fw-bold mb-1 text-white text-uppercase fs-xs">Survey Pengguna</h6>
+                                    <div class="fs-2 fw-bold mb-1">{{ $countQuestionerCompleted }}</div>
+                                    <p class="small mb-0 opacity-80" style="font-size: 0.75rem;">Feedback dari instansi.</p>
                                 </div>
-                                <i class="fa fa-building fa-4x position-absolute bottom-0 end-0 mb-n2 me-n2 text-white opacity-20"></i>
+                                <i
+                                    class="fa fa-building fa-3x position-absolute bottom-0 end-0 mb-n2 me-n2 text-white opacity-20"></i>
                             </div>
-                            
+
                             <div class="mt-4 p-3 rounded-4 bg-light">
                                 <h6 class="fw-bold text-dark small text-uppercase mb-3">Timeline Lulusan</h6>
-                                <div class="chart-container" style="height: 150px;">
+                                <div class="chart-container" style="height: 120px;">
                                     <canvas id="lineChartAlumni"></canvas>
                                 </div>
                             </div>
@@ -223,16 +243,16 @@
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Counter Animation
-            $('.stat-counter').each(function() {
+            $('.stat-counter').each(function () {
                 const $this = $(this);
                 const countTo = parseInt($this.text());
                 $({ countNum: 0 }).animate({ countNum: countTo }, {
                     duration: 1500,
                     easing: 'swing',
-                    step: function() { $this.text(Math.floor(this.countNum)); },
-                    complete: function() { $this.text(this.countNum); }
+                    step: function () { $this.text(Math.floor(this.countNum)); },
+                    complete: function () { $this.text(this.countNum); }
                 });
             });
 
@@ -245,10 +265,10 @@
                     datasets: [{
                         label: 'Jumlah Alumni',
                         data: [
-                            {{ $statistikAlumni['Bekerja']['jumlah'] }},
-                            {{ $statistikAlumni['Wirausaha']['jumlah'] }},
-                            {{ $statistikAlumni['Lanjut Studi']['jumlah'] }},
-                            {{ $statistikAlumni['Belum Bekerja']['jumlah'] }},
+                                {{ $statistikAlumni['Bekerja']['jumlah'] }},
+                                {{ $statistikAlumni['Wirausaha']['jumlah'] }},
+                                {{ $statistikAlumni['Lanjut Studi']['jumlah'] }},
+                                {{ $statistikAlumni['Belum Bekerja']['jumlah'] }},
                             {{ $statistikAlumni['Tidak Bekerja']['jumlah'] }}
                         ],
                         backgroundColor: [
@@ -305,17 +325,54 @@
 
 @section('styles')
     <style>
-        .icon-circle.bg-white-20 { background: rgba(255,255,255,0.2); }
-        .bg-primary-light { background-color: rgba(59, 130, 246, 0.08); }
-        .bg-success-light { background-color: rgba(16, 185, 129, 0.08); }
-        .bg-warning-light { background-color: rgba(245, 158, 11, 0.08); }
-        .bg-info-light { background-color: rgba(6, 182, 212, 0.08); }
-        .bg-light-soft { background-color: #f8fafc; }
-        .stat-hover-effect { transition: all 0.3s ease; }
-        .stat-hover-effect:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important; }
-        .hover-translate-y:hover { transform: translateY(-3px); }
-        .glass-pill { transition: all 0.3s ease; }
-        .glass-pill:hover { background: rgba(255,255,255,0.15) !important; transform: scale(1.02); }
-        .ls-wide { letter-spacing: 0.05em; }
+        .icon-circle.bg-white-20 {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .bg-primary-light {
+            background-color: rgba(59, 130, 246, 0.08);
+        }
+
+        .bg-success-light {
+            background-color: rgba(16, 185, 129, 0.08);
+        }
+
+        .bg-warning-light {
+            background-color: rgba(245, 158, 11, 0.08);
+        }
+
+        .bg-info-light {
+            background-color: rgba(6, 182, 212, 0.08);
+        }
+
+        .bg-light-soft {
+            background-color: #f8fafc;
+        }
+
+        .stat-hover-effect {
+            transition: all 0.3s ease;
+        }
+
+        .stat-hover-effect:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08) !important;
+        }
+
+        .hover-translate-y:hover {
+            transform: translateY(-3px);
+        }
+
+        .glass-pill {
+            transition: all 0.3s ease;
+        }
+
+        .glass-pill:hover {
+            background: rgba(255, 255, 255, 0.15) !important;
+            transform: scale(1.02);
+        }
+
+        .ls-wide {
+            letter-spacing: 0.05em;
+        }
     </style>
 @endsection

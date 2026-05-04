@@ -89,7 +89,6 @@ class GeminiExtractController extends Controller
                 ]);
             }
 
-            
             $data = [];
             foreach ($json as $row) {
                 $mk = trim((string)($row['mataKuliah'] ?? $row['nama'] ?? $row['mata_kuliah'] ?? ''));

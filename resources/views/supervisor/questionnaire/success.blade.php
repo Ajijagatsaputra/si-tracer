@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 
-    <title>@yield('title', 'SIKEMA')</title>
+    <title>@yield('title', 'Tracer Study TI UHN')</title>
 
     <meta name="description"
         content="OneUI - Bootstrap 5 Admin Template &amp; UI Framework created by pixelcave and published on Themeforest">
@@ -24,7 +24,7 @@
     <!-- Icons -->
     <link rel="shortcut icon" href="{{ asset('assets/media/favicons/logo.png') }}">
     <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('assets/media/favicons/logo.png') }}">
-    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('assets/media/favicons/logo_phb.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('assets/media/favicons/logo_harkatnegeri.png') }}">
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
@@ -40,8 +40,11 @@
                 <!-- Left Section -->
                 <div class="d-flex align-items-center">
                     <!-- Logo -->
-                    <a class="fw-semibold fs-5 tracking-wider text-dual me-3" href="/">SIKEMA<span
-                            class="fw-normal">TI</span></a>
+                    <a class="fw-semibold fs-5 tracking-wider text-dual me-3 d-flex align-items-center" href="/">
+                        <img src="{{ asset('assets/media/favicons/logo_harkatnegeri.png') }}" alt="Logo" class="me-2"
+                            style="width: 28px; height: 28px; object-fit: contain;">
+                        Tracer Study <span class="fw-normal ms-1">TI UHN</span>
+                    </a>
 
                     <!-- Notifications -->
                     <div class="dropdown d-inline-block me-2" style="z-index: 1040;">
@@ -63,7 +66,7 @@
                                             <i class="fa fa-fw fa-check-circle text-success"></i>
                                         </div>
                                         <div class="flex-grow-1 pe-2">
-                                            <div class="fw-semibold">Selamat datang di SIKEMA</div>
+                                            <div class="fw-semibold">Selamat datang di Tracer Study TI UHN</div>
                                             <span class="fw-medium text-muted">2025-06-25</span>
                                         </div>
                                     </a>
@@ -131,11 +134,41 @@
                                 </ul>
                             </div>
 
-                            <div class="mt-4">
+                            <div class="mt-4 gap-2 d-flex justify-content-center flex-wrap">
                                 <a href="{{ route('supervisor.questionnaire.hasil', $tracerPengguna->token_akses) }}"
-                                    class="btn btn-success">
+                                    class="btn btn-success rounded-pill px-4">
                                     <i class="fas fa-chart-bar me-2"></i>Lihat Hasil
                                 </a>
+                                <a href="{{ route('mitra.loker.create') }}" class="btn btn-primary rounded-pill px-4">
+                                    <i class="fa fa-briefcase me-2"></i>Posting Loker Mitra
+                                </a>
+                            </div>
+
+                            <!-- Loker Upload Banner -->
+                            <div class="card border-0 mt-5 text-start rounded-4 shadow-sm"
+                                style="background-color: rgba(79, 70, 229, 0.05); border: 1px solid rgba(79, 70, 229, 0.15) !important;">
+                                <div class="card-body p-4">
+                                    <div class="d-flex align-items-center gap-3 mb-2">
+                                        <div class="bg-primary text-white p-2.5 rounded-3 d-flex align-items-center justify-content-center"
+                                            style="width: 44px; height: 44px; min-width: 44px;">
+                                            <i class="fa fa-briefcase fs-4"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="fw-bold text-dark mb-0">Punya Lowongan Pekerjaan Aktif?</h5>
+                                            <small class="text-muted">Pasang lowongan kerja gratis untuk alumni
+                                                bertalenta kami</small>
+                                        </div>
+                                    </div>
+                                    <p class="text-muted fs-sm mt-3 mb-4">
+                                        Anda dapat langsung membagikan lowongan kerja aktif dari perusahaan Anda.
+                                        Lowongan yang Anda unggah akan secara otomatis ditampilkan di Bursa Karir
+                                        dashboard alumni Teknik Informatika setelah melalui validasi admin.
+                                    </p>
+                                    <a href="{{ route('mitra.loker.create') }}"
+                                        class="btn btn-primary btn-sm rounded-pill px-4 fw-bold">
+                                        <i class="fa fa-plus-circle me-1"></i> Posting Lowongan Kerja
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -150,11 +183,11 @@
                 <div class="content py-3">
                     <div class="row fs-sm">
                         <div class="col-sm-6 order-sm-2 py-1 text-center text-sm-end">
-                            Politeknik Harapan Bersama
+                            Universitas Harkat Negeri
                         </div>
                         <div class="col-sm-6 order-sm-1 py-1 text-center text-sm-start">
                             <a class="fw-semibold" href="https://1.envato.market/AVD6j" target="_blank">Copyright</a>
-                            &copy; SikemaTI<span data-toggle="year-copy">2025</span>
+                            &copy; Tracer Study TI UHN<span data-toggle="year-copy">2025</span>
                         </div>
                     </div>
                 </div>

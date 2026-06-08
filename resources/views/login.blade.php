@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login | SIKEMA - Universitas Harkat Negeri</title>
+    <title>Login | Tracer Study TI UHN</title>
 
     <!-- Premium Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,14 +14,14 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('assets/media/favicons/logo.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('assets/media/favicons/logo_harkatnegeri.png') }}">
     <!-- Premium SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         :root {
-            --primary-color: #0d6efd;
-            --primary-gradient: linear-gradient(135deg, #0d6efd 0%, #0043a8 100%);
+            --primary-color: #5a121b;
+            --primary-gradient: linear-gradient(135deg, #5a121b 0%, #2b0408 100%);
             --soft-bg: #f8fafc;
         }
 
@@ -86,9 +86,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url("{{ asset('assets/media/favicons/logo-sikema.png') }}") no-repeat center;
-            background-size: 80%;
-            opacity: 0.05;
+            display: none;
         }
 
         .login-form-area {
@@ -157,7 +155,7 @@
         .form-control:focus {
             border-color: var(--primary-color);
             background: #fff;
-            box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.1);
+            box-shadow: 0 0 0 4px rgba(90, 18, 27, 0.1);
         }
 
         .form-control:focus+i {
@@ -172,12 +170,12 @@
             font-weight: 700;
             letter-spacing: 0.01em;
             transition: all 0.3s ease;
-            box-shadow: 0 10px 15px -3px rgba(13, 110, 253, 0.3);
+            box-shadow: 0 10px 15px -3px rgba(90, 18, 27, 0.3);
         }
 
         .btn-primary-modern:hover {
             transform: translateY(-2px);
-            box-shadow: 0 20px 25px -5px rgba(13, 110, 253, 0.4);
+            box-shadow: 0 20px 25px -5px rgba(90, 18, 27, 0.4);
             filter: brightness(1.1);
         }
 
@@ -364,7 +362,13 @@
             <div class="login-side-info d-none d-lg-flex flex-column justify-content-between">
                 <div>
                     <h1 class="display-4 fw-800 text-white mb-2">TRACER <span class="fw-300">STUDY</span></h1>
-                    <p class="fs-5 text-white-50">Sistem Informasi Kemahasiswaan & Tracer Study</p>
+                    <p class="fs-5 text-white-50">Sistem Informasi Penelusuran Alumni & Bursa Kerja</p>
+                </div>
+
+                <!-- Illustration in the middle -->
+                <div class="text-center my-4 animate-fade-in">
+                    <img src="{{ asset('assets/media/favicons/login-uhn.png') }}" alt="UHN Login Illustration"
+                        class="img-fluid" style="max-height: 220px; object-fit: contain;">
                 </div>
 
                 <div class="mb-5 animate-fade-in">
@@ -374,9 +378,8 @@
                             akreditasi dan kualitas universitas kita di masa depan."</p>
                     </div>
                     <div class="d-flex align-items-center">
-                        <img src="{{ asset('assets/media/favicons/logo_harkatnegeri.png') }}" alt="Logo"
-                            class="me-3 shadow-sm" style="width: 40px; height: 40px; object-fit: contain;">
-                        <span class="fw-bold">Universitas Harkat Negeri</span>
+                        <img src="{{ asset('assets/media/favicons/logo-uhn-new.svg') }}" alt="Universitas Harkat Negeri"
+                            style="height: 50px; max-width: 100%; object-fit: contain;">
                     </div>
                 </div>
 
@@ -388,10 +391,14 @@
             </div>
 
             <!-- Right Form Side -->
-            <div class="login-form-area">
+            <div class="login-form-area position-relative">
+                <div class="position-absolute top-0 end-0 mt-3 me-3">
+                    <a href="{{ route('home') }}" class="btn btn-sm btn-outline-secondary rounded-pill px-3 fw-bold"><i
+                            class="fa fa-arrow-left me-1"></i> Kembali</a>
+                </div>
                 <div class="mb-4 text-center text-lg-start">
                     <img src="{{ asset('assets/media/favicons/logo_harkatnegeri.png') }}" alt="Logo"
-                        class="brand-logo mb-4">
+                        class="brand-logo mb-4" style="object-fit: contain;">
                     <h2 class="mb-2">Selamat Datang</h2>
                     <p class="text-muted">Masuk untuk mengakses portal alumni</p>
                 </div>

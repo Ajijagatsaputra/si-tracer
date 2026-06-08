@@ -28,7 +28,8 @@ Route::get('/csrf-token', function () {
     return response()->json(['token' => csrf_token()]);
 });
 
-Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('auth');
+Route::get('/', [\App\Http\Controllers\LandingController::class, 'index'])->name('home');
+Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard')->middleware('auth');
 
 // Auth
 Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
@@ -65,6 +66,12 @@ Route::middleware(['auth', 'cekrole:admin,superadmin'])->group(function () {
     Route::get('/admin/analisis-kurikulum', [AdminCurriculumAnalysisController::class, 'index'])->name('admin.curriculum-analysis.index');
     Route::post('/admin/analisis-kurikulum/generate', [AdminCurriculumAnalysisController::class, 'generate'])->name('admin.curriculum-analysis.generate');
 
+    // Admin Job Vacancy Moderation routes
+    Route::get('/admin/loker', [\App\Http\Controllers\JobVacancyController::class, 'adminIndex'])->name('admin.loker.index');
+    Route::post('/admin/loker/{id}/approve', [\App\Http\Controllers\JobVacancyController::class, 'approve'])->name('admin.loker.approve');
+    Route::post('/admin/loker/{id}/reject', [\App\Http\Controllers\JobVacancyController::class, 'reject'])->name('admin.loker.reject');
+    Route::delete('/admin/loker/{id}', [\App\Http\Controllers\JobVacancyController::class, 'destroy'])->name('admin.loker.destroy');
+
 });
 
 // Alumni-only routes
@@ -85,7 +92,15 @@ Route::middleware(['auth', 'cekrole:alumni'])->group(function () {
 
     // Alumni CV routes
     Route::get('/profil/cv', [AlumniCvController::class, 'index'])->name('profile.cv');
+
+    // Alumni Job Board routes
+    Route::get('/alumni/loker', [\App\Http\Controllers\JobVacancyController::class, 'alumniIndex'])->name('alumni.loker.index');
 });
+
+// Public Mitra & Job details routes
+Route::get('/mitra/loker/buat', [\App\Http\Controllers\JobVacancyController::class, 'mitraCreate'])->name('mitra.loker.create');
+Route::post('/mitra/loker', [\App\Http\Controllers\JobVacancyController::class, 'mitraStore'])->name('mitra.loker.store');
+Route::get('/alumni/loker/{id}', [\App\Http\Controllers\JobVacancyController::class, 'alumniShow'])->name('alumni.loker.show');
 
 Route::resource('listtracerpengguna', AdminTracerPenggunaController::class);
 Route::get('listtraceralumni/{id}/detail', [AdminTracerStudyAlumniController::class, 'detail'])->name('listtraceralumni.detail');

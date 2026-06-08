@@ -84,6 +84,12 @@
                            @endif
                        </ul>
                    </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="{{ route('alumni.loker.index') }}">
+                            <i class="nav-main-link-icon fa fa-briefcase"></i>
+                            <span class="nav-main-link-name">Bursa Kerja</span>
+                        </a>
+                    </li>
                    @if (Auth::user()->role !== 'alumni')
                        <li class="nav-main-item">
                            <a class="nav-main-link" href="be_pages_dashboard.html">

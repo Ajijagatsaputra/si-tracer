@@ -30,7 +30,7 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerateToken();
 
         // return redirect()->intended(route('admin', absolute: false));
-        return redirect()->intended(route('home', absolute: false));
+        return redirect()->intended(route('dashboard', absolute: false));
     }
 
     /**
@@ -47,3 +47,4 @@ class AuthenticatedSessionController extends Controller
         return redirect()->route('login');
     }
 }
+

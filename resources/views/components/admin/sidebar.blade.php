@@ -2,11 +2,10 @@
     <!-- Side Header -->
     <div class="content-header">
         <!-- Logo -->
-        <a class="fw-bold text-dual" href="/">
-            <span class="smini-visible">
-                <i class="fa fa-circle-notch text-primary"></i>
-            </span>
-            <span class="tracking-wider smini-hide fs-4">
+        <a class="fw-bold text-dual d-flex align-items-center" href="/">
+            <img src="{{ asset('assets/media/favicons/logo_harkatnegeri.png') }}" alt="Logo" class="me-2"
+                style="width: 28px; height: 28px; object-fit: contain;">
+            <span class="tracking-wider smini-hide fs-5">
                 <span class="text-white">Tracer</span><span style="color: #4facfe;">Study</span>
             </span>
         </a>
@@ -132,6 +131,16 @@
                             </a>
                         </li>
                     </ul>
+                </li>
+
+                <!-- BURSA KERJA -->
+                <li class="nav-main-heading text-uppercase text-muted fw-bold">Bursa Kerja</li>
+                <li class="nav-main-item">
+                    <a class="nav-main-link {{ request()->is('admin/loker*') ? 'active' : '' }}"
+                        href="{{ route('admin.loker.index') }}">
+                        <i class="nav-main-link-icon fa fa-briefcase text-info"></i>
+                        <span class="nav-main-link-name">Kelola Loker</span>
+                    </a>
                 </li>
             </ul>
         </div>

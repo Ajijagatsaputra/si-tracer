@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', 'SIKEMA')</title>
+    <title>@yield('title', 'Tracer Study TI UHN')</title>
 
     <meta name="description" content="OneUI - Bootstrap 5 Admin Template &amp; UI Framework created by pixelcave and published on Themeforest">
     <meta name="author" content="pixelcave">
@@ -39,7 +39,10 @@
                 <!-- Left Section -->
                 <div class="d-flex align-items-center">
                     <!-- Logo -->
-                    <a class="fw-semibold fs-5 tracking-wider text-dual me-3" href="/">SIKEMA<span class="fw-normal">TI</span></a>
+                    <a class="fw-semibold fs-5 tracking-wider text-dual me-3 d-flex align-items-center" href="/">
+                        <img src="{{ asset('assets/media/favicons/logo_harkatnegeri.png') }}" alt="Logo" class="me-2" style="width: 28px; height: 28px; object-fit: contain;">
+                        Tracer Study <span class="fw-normal ms-1">TI UHN</span>
+                    </a>
 
                     <!-- Notifications -->
                     <div class="dropdown d-inline-block me-2" style="z-index: 1040;">
@@ -59,7 +62,7 @@
                                             <i class="fa fa-fw fa-check-circle text-success"></i>
                                         </div>
                                         <div class="flex-grow-1 pe-2">
-                                            <div class="fw-semibold">Selamat datang di SIKEMA</div>
+                                            <div class="fw-semibold">Selamat datang di Tracer Study TI UHN</div>
                                             <span class="fw-medium text-muted">2025-06-25</span>
                                         </div>
                                     </a>
@@ -150,7 +153,7 @@
             <div class="content py-4">
                 <div class="row items-push fs-sm">
                     <div class="col-sm-6 text-center text-sm-start animate-fade-in">
-                        <a class="fw-semibold text-primary" href="/" target="_blank">SikemaTI</a>
+                        <a class="fw-semibold text-primary" href="/" target="_blank">Tracer Study TI UHN</a>
                         &copy; <span data-toggle="year-copy">2026</span>
                     </div>
                     <div class="col-sm-6 text-center text-sm-end animate-fade-in">

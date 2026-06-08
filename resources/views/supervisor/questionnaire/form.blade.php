@@ -5,16 +5,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 
-    <title>@yield('title', 'SIKEMA')</title>
+    <title>@yield('title', 'Tracer Study TI UHN')</title>
 
-    <meta name="description" content="OneUI - Bootstrap 5 Admin Template &amp; UI Framework created by pixelcave and published on Themeforest">
+    <meta name="description"
+        content="OneUI - Bootstrap 5 Admin Template &amp; UI Framework created by pixelcave and published on Themeforest">
     <meta name="author" content="pixelcave">
     <meta name="robots" content="noindex, nofollow">
 
     <!-- Open Graph Meta -->
     <meta property="og:title" content="OneUI - Bootstrap 5 Admin Template &amp; UI Framework">
     <meta property="og:site_name" content="OneUI">
-    <meta property="og:description" content="OneUI - Bootstrap 5 Admin Template &amp; UI Framework created by pixelcave and published on Themeforest">
+    <meta property="og:description"
+        content="OneUI - Bootstrap 5 Admin Template &amp; UI Framework created by pixelcave and published on Themeforest">
     <meta property="og:type" content="website">
     <meta property="og:url" content="">
     <meta property="og:image" content="">
@@ -22,7 +24,7 @@
     <!-- Icons -->
     <link rel="shortcut icon" href="{{ asset('assets/media/favicons/logo.png') }}">
     <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('assets/media/favicons/logo.png') }}">
-    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('assets/media/favicons/logo_phb.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('assets/media/favicons/logo_harkatnegeri.png') }}">
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
@@ -41,16 +43,22 @@
                 <!-- Left Section -->
                 <div class="d-flex align-items-center">
                     <!-- Logo -->
-                    <a class="tracking-wider fw-semibold fs-5 text-dual me-3" href="/">SIKEMA<span class="fw-normal">TI</span></a>
+                    <a class="fw-semibold fs-5 tracking-wider text-dual me-3 d-flex align-items-center" href="/">
+                        <img src="{{ asset('assets/media/favicons/logo_harkatnegeri.png') }}" alt="Logo" class="me-2"
+                            style="width: 28px; height: 28px; object-fit: contain;">
+                        Tracer Study <span class="fw-normal ms-1">TI UHN</span>
+                    </a>
 
                     <!-- Notifications -->
                     <div class="dropdown d-inline-block me-2" style="z-index: 1040;">
-                        <button type="button" class="btn btn-sm btn-alt-secondary" id="page-header-notifications-dropdown"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button type="button" class="btn btn-sm btn-alt-secondary"
+                            id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
                             <i class="fa fa-fw fa-bell"></i>
                             <span class="text-primary">•</span>
                         </button>
-                        <div class="p-0 border-0 dropdown-menu dropdown-menu-lg fs-sm" aria-labelledby="page-header-notifications-dropdown">
+                        <div class="p-0 border-0 dropdown-menu dropdown-menu-lg fs-sm"
+                            aria-labelledby="page-header-notifications-dropdown">
                             <div class="p-2 text-center bg-body-light border-bottom rounded-top">
                                 <h5 class="dropdown-header text-uppercase">Pemberitahuan</h5>
                             </div>
@@ -61,7 +69,7 @@
                                             <i class="fa fa-fw fa-check-circle text-success"></i>
                                         </div>
                                         <div class="flex-grow-1 pe-2">
-                                            <div class="fw-semibold">Selamat datang di SIKEMA</div>
+                                            <div class="fw-semibold">Selamat datang di Tracer Study TI UHN</div>
                                             <span class="fw-medium text-muted">2025-06-25</span>
                                         </div>
                                     </a>
@@ -72,7 +80,8 @@
                                             <i class="fa fa-fw fa-plus-circle text-primary"></i>
                                         </div>
                                         <div class="flex-grow-1 pe-2">
-                                            <div class="fw-semibold">Segera ganti password akun, jika belum diganti</div>
+                                            <div class="fw-semibold">Segera ganti password akun, jika belum diganti
+                                            </div>
                                             <span class="fw-medium text-muted">26 min ago</span>
                                         </div>
                                     </a>
@@ -104,270 +113,297 @@
         <!-- END Header -->
 
         <!-- Main Content -->
-         <!-- Panggil CSS di Folder Public -->
+        <!-- Panggil CSS di Folder Public -->
 
 
-    <div class="mt-5 mb-5 container-lg">
-        @if (session('success'))
-            <div class="mx-4 mt-4 alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
+        <div class="mt-5 mb-5 container-lg">
+            @if (session('success'))
+                <div class="mx-4 mt-4 alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
 
-        @if (session('error'))
-            <div class="mx-4 mt-4 alert alert-danger alert-dismissible fade show" role="alert">
-                {{ session('error') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
+            @if (session('error'))
+                <div class="mx-4 mt-4 alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
 
-        @if ($errors->any())
-            <div class="mx-4 mt-4 alert alert-danger alert-dismissible fade show" role="alert">
-                <ul class="mb-0">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
+            @if ($errors->any())
+                <div class="mx-4 mt-4 alert alert-danger alert-dismissible fade show" role="alert">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
 
-        <div class="questionnaire-container supervisor-questionnaire">
-            <!-- Header -->
-            <div class="header-section">
-                <i class="mb-3 fas fa-user-tie fa-3x"></i>
-                <h1>Kuesioner Evaluasi Kinerja Alumni</h1>
-                <h2 style="font-size: 1.8rem; font-weight: 600; margin: 0.5rem 0;">Politeknik Harapan Bersama</h2>
-                <p>Kuesioner untuk mengevaluasi kinerja dan kompetensi alumni di tempat kerja</p>
-            </div>
+            <div class="questionnaire-container supervisor-questionnaire">
+                <!-- Header -->
+                <div class="header-section">
+                    <i class="mb-3 fas fa-user-tie fa-3x"></i>
+                    <h1>Kuesioner Evaluasi Kinerja Alumni</h1>
+                    <h2 style="font-size: 1.8rem; font-weight: 600; margin: 0.5rem 0;">Universitas Harkat Negeri</h2>
+                    <p>Kuesioner untuk mengevaluasi kinerja dan kompetensi alumni di tempat kerja</p>
+                </div>
 
-            <div class="p-4 p-md-5">
-                <form id="supervisorForm" action="{{ route('supervisor.questionnaire.submit', $tracerPengguna->token_akses) }}" method="POST">
-                    @csrf
+                <div class="p-4 p-md-5">
+                    <form id="supervisorForm"
+                        action="{{ route('supervisor.questionnaire.submit', $tracerPengguna->token_akses) }}"
+                        method="POST">
+                        @csrf
 
-                    {{-- SECTION: Informasi Alumni --}}
-                    <div class="mb-4 section-card">
-                        <div class="section-header">
-                            <i class="fas fa-user me-2"></i>Informasi Alumni
-                        </div>
-                        <div class="p-4 row g-4">
-                            <div class="col-md-6">
-                                <label class="form-label">Nama Alumni</label>
-                                <input type="text" class="form-control" value="{{ $tracerPengguna->nama_alumni }}" readonly>
+                        {{-- SECTION: Informasi Alumni --}}
+                        <div class="mb-4 section-card">
+                            <div class="section-header">
+                                <i class="fas fa-user me-2"></i>Informasi Alumni
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Jabatan Alumni</label>
-                                <input type="text" class="form-control" value="{{ $tracerPengguna->jabatan_alumni }}" readonly>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Nama Perusahaan</label>
-                                <input type="text" class="form-control" value="{{ $tracerPengguna->nama_perusahaan }}" readonly>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Tanggal Mulai Bekerja</label>
-                                <input type="text" class="form-control" value="{{ \Carbon\Carbon::parse($tracerPengguna->tanggal_mulai_kerja)->format('d/m/Y') }}" readonly>
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- SECTION: Informasi Atasan --}}
-                    <div class="mb-4 section-card">
-                        <div class="section-header">
-                            <i class="fas fa-user-tie me-2"></i>Informasi Atasan
-                        </div>
-                        <div class="p-4 row g-4">
-                            <div class="col-md-6">
-                                <label class="form-label">Nama Lengkap Atasan</label>
-                                <input type="text" class="form-control" value="{{ $tracerPengguna->nama_atasan }}" readonly>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Jabatan Atasan</label>
-                                <input type="text" class="form-control" value="{{ $tracerPengguna->jabatan_atasan }}" readonly>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">NIPY</label>
-                                <input type="text" class="form-control" value="{{ $tracerPengguna->nipy }}" readonly>
-                            </div>
-                             <div class="col-md-6">
-                                <label class="form-label">No Whatsapp</label>
-                                <input type="text" class="form-control" value="{{ $tracerPengguna->wa_atasan }}" readonly>
-                            </div>
-                             <div class="col-md-6">
-                                <label class="form-label">Email Atasan</label>
-                                <input type="text" class="form-control" value="{{ $tracerPengguna->email_atasan }}" readonly>
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- SECTION: Evaluasi Kinerja (Point A) --}}
-                    <div class="mb-4 section-card">
-                        <div class="section-header">
-                            <i class="fas fa-star me-2"></i>Evaluasi Kinerja Alumni
-                        </div>
-                        <div class="p-4">
-                            <div class="evaluation-scale">
-                                <p class="mb-3 text-muted">Berikan penilaian terhadap kinerja alumni berdasarkan skala berikut:</p>
-                                <div class="mb-3 row">
-                                    <div class="col-md-2">
-                                        <small class="text-muted">1 = Sangat Kurang</small>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <small class="text-muted">2 = Kurang</small>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <small class="text-muted">3 = Cukup</small>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <small class="text-muted">4 = Baik</small>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <small class="text-muted">5 = Sangat Baik</small>
-                                    </div>
+                            <div class="p-4 row g-4">
+                                <div class="col-md-6">
+                                    <label class="form-label">Nama Alumni</label>
+                                    <input type="text" class="form-control" value="{{ $tracerPengguna->nama_alumni }}"
+                                        readonly>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Jabatan Alumni</label>
+                                    <input type="text" class="form-control"
+                                        value="{{ $tracerPengguna->jabatan_alumni }}" readonly>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Nama Perusahaan</label>
+                                    <input type="text" class="form-control"
+                                        value="{{ $tracerPengguna->nama_perusahaan }}" readonly>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Tanggal Mulai Bekerja</label>
+                                    <input type="text" class="form-control"
+                                        value="{{ \Carbon\Carbon::parse($tracerPengguna->tanggal_mulai_kerja)->format('d/m/Y') }}"
+                                        readonly>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="row g-4">
-                                @php
-                                    $evaluasiFields = [
-                                        'integritas' => 'Integritas',
-                                        'keahlian' => 'Keahlian',
-                                        'kemampuan' => 'Kemampuan',
-                                        'penguasaan' => 'Penguasaan',
-                                        'komunikasi' => 'Komunikasi',
-                                        'kerja_tim' => 'Kerja Tim',
-                                        'pengembangan' => 'Pengembangan'
-                                    ];
-                                @endphp
+                        {{-- SECTION: Informasi Atasan --}}
+                        <div class="mb-4 section-card">
+                            <div class="section-header">
+                                <i class="fas fa-user-tie me-2"></i>Informasi Atasan
+                            </div>
+                            <div class="p-4 row g-4">
+                                <div class="col-md-6">
+                                    <label class="form-label">Nama Lengkap Atasan</label>
+                                    <input type="text" class="form-control" value="{{ $tracerPengguna->nama_atasan }}"
+                                        readonly>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Jabatan Atasan</label>
+                                    <input type="text" class="form-control"
+                                        value="{{ $tracerPengguna->jabatan_atasan }}" readonly>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">NIPY</label>
+                                    <input type="text" class="form-control" value="{{ $tracerPengguna->nipy }}"
+                                        readonly>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">No Whatsapp</label>
+                                    <input type="text" class="form-control" value="{{ $tracerPengguna->wa_atasan }}"
+                                        readonly>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Email Atasan</label>
+                                    <input type="text" class="form-control" value="{{ $tracerPengguna->email_atasan }}"
+                                        readonly>
+                                </div>
+                            </div>
+                        </div>
 
-                                @foreach ($evaluasiFields as $field => $label)
-                                    <div class="col-md-6">
-                                        <label class="form-label">{{ $label }}</label>
-                                        <select name="{{ $field }}" class="form-select @error($field) is-invalid @enderror" required>
-                                            <option value="">-- Pilih Nilai --</option>
-                                            <option value="1" {{ old($field) == '1' ? 'selected' : '' }}>1 - Sangat Kurang</option>
-                                            <option value="2" {{ old($field) == '2' ? 'selected' : '' }}>2 - Kurang</option>
-                                            <option value="3" {{ old($field) == '3' ? 'selected' : '' }}>3 - Cukup</option>
-                                            <option value="4" {{ old($field) == '4' ? 'selected' : '' }}>4 - Baik</option>
-                                            <option value="5" {{ old($field) == '5' ? 'selected' : '' }}>5 - Sangat Baik</option>
-                                        </select>
-                                        @error($field)
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
+                        {{-- SECTION: Evaluasi Kinerja (Point A) --}}
+                        <div class="mb-4 section-card">
+                            <div class="section-header">
+                                <i class="fas fa-star me-2"></i>Evaluasi Kinerja Alumni
+                            </div>
+                            <div class="p-4">
+                                <div class="evaluation-scale">
+                                    <p class="mb-3 text-muted">Berikan penilaian terhadap kinerja alumni berdasarkan
+                                        skala berikut:</p>
+                                    <div class="mb-3 row">
+                                        <div class="col-md-2">
+                                            <small class="text-muted">1 = Sangat Kurang</small>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <small class="text-muted">2 = Kurang</small>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <small class="text-muted">3 = Cukup</small>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <small class="text-muted">4 = Baik</small>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <small class="text-muted">5 = Sangat Baik</small>
+                                        </div>
                                     </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
+                                </div>
 
-                    {{-- SECTION: Evaluasi Kesesuaian Pendidikan --}}
-                    <div class="mb-4 section-card">
-                        <div class="section-header">
-                            <i class="fas fa-graduation-cap me-2"></i>Evaluasi Kesesuaian Pendidikan
-                        </div>
-                        <div class="p-4 row g-4">
-                            <div class="col-md-6">
-                                <label class="form-label">Kesesuaian Pendidikan dengan Pekerjaan</label>
-                                <select name="kesesuaian_pendidikan_pekerjaan" class="form-select @error('kesesuaian_pendidikan_pekerjaan') is-invalid @enderror" required>
-                                    <option value="">-- Pilih --</option>
-                                    <option value="sangat_sesuai" {{ old('kesesuaian_pendidikan_pekerjaan') == 'sangat_sesuai' ? 'selected' : '' }}>Sangat Sesuai</option>
-                                    <option value="sesuai" {{ old('kesesuaian_pendidikan_pekerjaan') == 'sesuai' ? 'selected' : '' }}>Sesuai</option>
-                                    <option value="cukup_sesuai" {{ old('kesesuaian_pendidikan_pekerjaan') == 'cukup_sesuai' ? 'selected' : '' }}>Cukup Sesuai</option>
-                                    <option value="kurang_sesuai" {{ old('kesesuaian_pendidikan_pekerjaan') == 'kurang_sesuai' ? 'selected' : '' }}>Kurang Sesuai</option>
-                                    <option value="tidak_sesuai" {{ old('kesesuaian_pendidikan_pekerjaan') == 'tidak_sesuai' ? 'selected' : '' }}>Tidak Sesuai</option>
-                                </select>
-                                @error('kesesuaian_pendidikan_pekerjaan')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Kualitas Lulusan Secara Umum</label>
-                                <select name="kualitas_lulusan" class="form-select @error('kualitas_lulusan') is-invalid @enderror" required>
-                                    <option value="">-- Pilih --</option>
-                                    <option value="sangat_baik" {{ old('kualitas_lulusan') == 'sangat_baik' ? 'selected' : '' }}>Sangat Baik</option>
-                                    <option value="baik" {{ old('kualitas_lulusan') == 'baik' ? 'selected' : '' }}>Baik</option>
-                                    <option value="cukup" {{ old('kualitas_lulusan') == 'cukup' ? 'selected' : '' }}>Cukup</option>
-                                    <option value="kurang" {{ old('kualitas_lulusan') == 'kurang' ? 'selected' : '' }}>Kurang</option>
-                                    <option value="sangat_kurang" {{ old('kualitas_lulusan') == 'sangat_kurang' ? 'selected' : '' }}>Sangat Kurang</option>
-                                </select>
-                                @error('kualitas_lulusan')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label">Saran Perbaikan untuk Kampus</label>
-                                <textarea name="saran_perbaikan" class="form-control @error('saran_perbaikan') is-invalid @enderror" rows="4" placeholder="Berikan saran untuk perbaikan kualitas pendidikan...">{{ old('saran_perbaikan') }}</textarea>
-                                @error('saran_perbaikan')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
+                                <div class="row g-4">
+                                    @php
+                                        $evaluasiFields = [
+                                            'integritas' => 'Integritas',
+                                            'keahlian' => 'Keahlian',
+                                            'kemampuan' => 'Kemampuan',
+                                            'penguasaan' => 'Penguasaan',
+                                            'komunikasi' => 'Komunikasi',
+                                            'kerja_tim' => 'Kerja Tim',
+                                            'pengembangan' => 'Pengembangan'
+                                        ];
+                                    @endphp
 
-                    {{-- Tombol Submit --}}
-                    <div class="mt-4 text-center">
-                        <button type="submit" class="btn btn-submit">
-                            <i class="fas fa-paper-plane me-2"></i>Kirim Evaluasi
-                        </button>
-                    </div>
-                </form>
+                                    @foreach ($evaluasiFields as $field => $label)
+                                        <div class="col-md-6">
+                                            <label class="form-label">{{ $label }}</label>
+                                            <select name="{{ $field }}"
+                                                class="form-select @error($field) is-invalid @enderror" required>
+                                                <option value="">-- Pilih Nilai --</option>
+                                                <option value="1" {{ old($field) == '1' ? 'selected' : '' }}>1 - Sangat Kurang
+                                                </option>
+                                                <option value="2" {{ old($field) == '2' ? 'selected' : '' }}>2 - Kurang
+                                                </option>
+                                                <option value="3" {{ old($field) == '3' ? 'selected' : '' }}>3 - Cukup
+                                                </option>
+                                                <option value="4" {{ old($field) == '4' ? 'selected' : '' }}>4 - Baik</option>
+                                                <option value="5" {{ old($field) == '5' ? 'selected' : '' }}>5 - Sangat Baik
+                                                </option>
+                                            </select>
+                                            @error($field)
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- SECTION: Evaluasi Kesesuaian Pendidikan --}}
+                        <div class="mb-4 section-card">
+                            <div class="section-header">
+                                <i class="fas fa-graduation-cap me-2"></i>Evaluasi Kesesuaian Pendidikan
+                            </div>
+                            <div class="p-4 row g-4">
+                                <div class="col-md-6">
+                                    <label class="form-label">Kesesuaian Pendidikan dengan Pekerjaan</label>
+                                    <select name="kesesuaian_pendidikan_pekerjaan"
+                                        class="form-select @error('kesesuaian_pendidikan_pekerjaan') is-invalid @enderror"
+                                        required>
+                                        <option value="">-- Pilih --</option>
+                                        <option value="sangat_sesuai" {{ old('kesesuaian_pendidikan_pekerjaan') == 'sangat_sesuai' ? 'selected' : '' }}>Sangat Sesuai</option>
+                                        <option value="sesuai" {{ old('kesesuaian_pendidikan_pekerjaan') == 'sesuai' ? 'selected' : '' }}>Sesuai</option>
+                                        <option value="cukup_sesuai" {{ old('kesesuaian_pendidikan_pekerjaan') == 'cukup_sesuai' ? 'selected' : '' }}>
+                                            Cukup Sesuai</option>
+                                        <option value="kurang_sesuai" {{ old('kesesuaian_pendidikan_pekerjaan') == 'kurang_sesuai' ? 'selected' : '' }}>Kurang Sesuai</option>
+                                        <option value="tidak_sesuai" {{ old('kesesuaian_pendidikan_pekerjaan') == 'tidak_sesuai' ? 'selected' : '' }}>
+                                            Tidak Sesuai</option>
+                                    </select>
+                                    @error('kesesuaian_pendidikan_pekerjaan')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Kualitas Lulusan Secara Umum</label>
+                                    <select name="kualitas_lulusan"
+                                        class="form-select @error('kualitas_lulusan') is-invalid @enderror" required>
+                                        <option value="">-- Pilih --</option>
+                                        <option value="sangat_baik" {{ old('kualitas_lulusan') == 'sangat_baik' ? 'selected' : '' }}>Sangat Baik</option>
+                                        <option value="baik" {{ old('kualitas_lulusan') == 'baik' ? 'selected' : '' }}>
+                                            Baik</option>
+                                        <option value="cukup" {{ old('kualitas_lulusan') == 'cukup' ? 'selected' : '' }}>
+                                            Cukup</option>
+                                        <option value="kurang" {{ old('kualitas_lulusan') == 'kurang' ? 'selected' : '' }}>Kurang</option>
+                                        <option value="sangat_kurang" {{ old('kualitas_lulusan') == 'sangat_kurang' ? 'selected' : '' }}>Sangat Kurang</option>
+                                    </select>
+                                    @error('kualitas_lulusan')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Saran Perbaikan untuk Kampus</label>
+                                    <textarea name="saran_perbaikan"
+                                        class="form-control @error('saran_perbaikan') is-invalid @enderror" rows="4"
+                                        placeholder="Berikan saran untuk perbaikan kualitas pendidikan...">{{ old('saran_perbaikan') }}</textarea>
+                                    @error('saran_perbaikan')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Tombol Submit --}}
+                        <div class="mt-4 text-center">
+                            <button type="submit" class="btn btn-submit">
+                                <i class="fas fa-paper-plane me-2"></i>Kirim Evaluasi
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('supervisorForm');
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const form = document.getElementById('supervisorForm');
 
-            form.addEventListener('submit', function(e) {
-                // Validasi semua field required
-                const requiredFields = form.querySelectorAll('select[required], textarea[required]');
-                let isValid = true;
+                form.addEventListener('submit', function (e) {
+                    // Validasi semua field required
+                    const requiredFields = form.querySelectorAll('select[required], textarea[required]');
+                    let isValid = true;
 
-                requiredFields.forEach(field => {
-                    if (!field.value.trim()) {
-                        isValid = false;
-                        field.classList.add('is-invalid');
-                    } else {
-                        field.classList.remove('is-invalid');
+                    requiredFields.forEach(field => {
+                        if (!field.value.trim()) {
+                            isValid = false;
+                            field.classList.add('is-invalid');
+                        } else {
+                            field.classList.remove('is-invalid');
+                        }
+                    });
+
+                    if (!isValid) {
+                        e.preventDefault();
+                        alert('Mohon lengkapi semua field yang wajib diisi');
+                        return;
                     }
+
+                    // Tampilkan loading state
+                    const submitBtn = form.querySelector('button[type="submit"]');
+                    const originalText = submitBtn.innerHTML;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Mengirim...';
+                    submitBtn.disabled = true;
+
+                    // Reset button setelah beberapa detik (fallback)
+                    setTimeout(() => {
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+                    }, 10000);
                 });
-
-                if (!isValid) {
-                    e.preventDefault();
-                    alert('Mohon lengkapi semua field yang wajib diisi');
-                    return;
-                }
-
-                // Tampilkan loading state
-                const submitBtn = form.querySelector('button[type="submit"]');
-                const originalText = submitBtn.innerHTML;
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Mengirim...';
-                submitBtn.disabled = true;
-
-                // Reset button setelah beberapa detik (fallback)
-                setTimeout(() => {
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                }, 10000);
             });
-        });
-    </script>
+        </script>
         <!-- END Main Content -->
 
         <!-- Footer -->
         <div class="mt-5">
-        <footer id="page-footer" class="mt-5 footer-sticky bg-body-extra-light fixed-bottom">
-            <div class="py-3 content">
-                <div class="row fs-sm">
-                    <div class="py-1 text-center col-sm-6 order-sm-2 text-sm-end">
-                        Politeknik Harapan Bersama
+            <footer id="page-footer" class="mt-5 footer-sticky bg-body-extra-light fixed-bottom">
+                <div class="py-3 content">
+                    <div class="row fs-sm">
+                        <div class="py-1 text-center col-sm-6 order-sm-2 text-sm-end">
+                            Universitas Harkat Negeri
+                        </div>
+                        <div class="py-1 text-center col-sm-6 order-sm-1 text-sm-start">
+                            <a class="fw-semibold" href="https://1.envato.market/AVD6j" target="_blank">Copyright</a>
+                            &copy; Tracer Study TI UHN<span data-toggle="year-copy">2025</span>
+                        </div>
                     </div>
-                    <div class="py-1 text-center col-sm-6 order-sm-1 text-sm-start">
-                        <a class="fw-semibold" href="https://1.envato.market/AVD6j" target="_blank">Copyright</a>
-                        &copy; SikemaTI<span data-toggle="year-copy">2025</span>
-                    </div>
-                </div>
                 </div>
             </footer>
         </div>

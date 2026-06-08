@@ -93,7 +93,7 @@ class AdminTracerStudyAlumniController extends Controller
     public function getData()
     {
         if (request()->ajax()) {
-            $query = Alumni::with('users');
+            $query = Alumni::with(['users', 'tracerStudy']);
 
             if (request()->filled('tahun_angkatan')) {
                 $query->where('tahun_masuk', request('tahun_angkatan'));
@@ -102,6 +102,9 @@ class AdminTracerStudyAlumniController extends Controller
             return DataTables::of($query->get())
                 ->addColumn('nama', function ($row) {
                     return $row->users ? $row->users->name : '-';
+                })
+                ->addColumn('status_kuesioner', function ($row) {
+                    return $row->tracerStudy ? 'sudah' : 'belum';
                 })
                 ->make(true);
         }

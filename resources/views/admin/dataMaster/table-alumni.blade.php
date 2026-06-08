@@ -83,6 +83,7 @@
                                 <th class="py-3 border-0 text-center">Kelas</th>
                                 <th class="py-3 border-0 text-center">Lulus</th>
                                 <th class="py-3 border-0">Status</th>
+                                <th class="py-3 border-0 text-center">Status Tracer</th>
                                 <th class="py-3 border-0 text-center">Aksi</th>
                             </tr>
                         </thead>
@@ -166,6 +167,17 @@
                         };
                         return `<span class="badge ${colors[data] || 'bg-secondary text-white'} rounded-pill px-2.5 py-1.5 fs-xs fw-bold">${data || '-'}</span>`;
                     }},
+                    { 
+                        data: 'status_kuesioner', 
+                        className: 'text-center',
+                        render: (data, type, row) => {
+                            if (data === 'sudah') {
+                                return `<span class="badge status-badge-aktif rounded-pill px-2.5 py-1.5 fs-xs fw-bold"><i class="fa fa-check-circle me-1"></i>Sudah Mengisi</span>`;
+                            } else {
+                                return `<span class="badge status-badge-cuti rounded-pill px-2.5 py-1.5 fs-xs fw-bold"><i class="fa fa-clock me-1"></i>Belum Mengisi</span>`;
+                            }
+                        }
+                    },
                     {
                         data: null,
                         orderable: false,
@@ -178,6 +190,8 @@
                                 data-no_hp="${data.no_hp || '-'}" data-kelas="${data.kelas || '-'}"
                                 data-jalur="${data.jalur || '-'}" data-tahun_masuk="${data.tahun_masuk || '-'}"
                                 data-tahun_lulus="${data.tahun_lulus || '-'}" data-status="${data.status_mahasiswa || '-'}"
+                                data-status_kuesioner="${data.status_kuesioner || 'belum'}"
+                                data-email="${data.users ? data.users.email : '-'}"
                                 data-updated="${data.updated_at || '-'}">
                                 <i class="fa fa-eye text-primary"></i>
                             </button>
@@ -336,6 +350,36 @@
                                             <div>
                                                 <span class="text-muted text-uppercase fw-bold text-xs d-block mb-0" style="font-size: 0.65rem; letter-spacing: 1px;">WhatsApp</span>
                                                 <span class="fw-bold text-dark fs-sm d-block">${d.no_hp && d.no_hp !== '-' ? `<a href='https://wa.me/${d.no_hp}' class="text-success text-decoration-none fw-bold" target='_blank'>${d.no_hp}</a>` : '-'}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Status Kuesioner Card -->
+                                <div class="col-sm-6">
+                                    <div class="detail-card p-3 rounded-3 border border-light shadow-xs bg-light/30">
+                                        <div class="d-flex align-items-center">
+                                            <div class="icon-box me-3 rounded-3 ${d.status_kuesioner === 'sudah' ? 'bg-success/10 text-success' : 'bg-warning/10 text-warning'} d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; min-width: 40px;">
+                                                <i class="fa ${d.status_kuesioner === 'sudah' ? 'fa-check-circle' : 'fa-clock'} fs-5"></i>
+                                            </div>
+                                            <div>
+                                                <span class="text-muted text-uppercase fw-bold text-xs d-block mb-0" style="font-size: 0.65rem; letter-spacing: 1px;">Status Tracer</span>
+                                                <span class="fw-bold ${d.status_kuesioner === 'sudah' ? 'text-success' : 'text-warning'} fs-sm d-block">${d.status_kuesioner === 'sudah' ? 'Sudah Mengisi' : 'Belum Mengisi'}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Email Register Card -->
+                                <div class="col-12">
+                                    <div class="detail-card p-3 rounded-3 border border-light shadow-xs bg-light/30">
+                                        <div class="d-flex align-items-center">
+                                            <div class="icon-box me-3 rounded-3 bg-danger/10 text-danger d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; min-width: 40px;">
+                                                <i class="fa fa-envelope fs-5"></i>
+                                            </div>
+                                            <div class="w-100">
+                                                <span class="text-muted text-uppercase fw-bold text-xs d-block mb-0" style="font-size: 0.65rem; letter-spacing: 1px;">Email Register</span>
+                                                <span class="fw-bold text-dark fs-sm d-block text-wrap" style="word-break: break-all;">${d.email || '-'}</span>
                                             </div>
                                         </div>
                                     </div>

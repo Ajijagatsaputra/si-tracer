@@ -15,9 +15,6 @@
                     <p class="lead text-white-50 mb-0">Visualisasi data historis dan prediksi karir alumni menggunakan model Machine Learning canggih.</p>
                 </div>
                 <div class="col-lg-4 text-lg-end mt-4 mt-lg-0 position-relative" style="z-index: 2;">
-                    <a href="{{ route('admin.prediksi.index') }}" class="btn btn-lg btn-white rounded-pill px-4 shadow-sm hover-scale me-2 mb-2 mb-lg-0">
-                        <i class="fa fa-list-ul me-2 text-primary"></i> Lihat Semua
-                    </a>
                     <div class="glass-pill d-inline-block px-4 py-2 border border-white-25 rounded-pill shadow-sm" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
                         <span class="text-white-50 small text-uppercase fw-bold me-2">AI Status:</span>
                         <span class="text-success fw-bold"><i class="fa fa-check-circle me-1"></i> Active</span>
@@ -184,16 +181,24 @@
                                         </div>
 
                                         <div class="text-md-end ms-md-3">
-                                            <button type="button" class="btn btn-sm btn-white rounded-pill px-3 shadow-sm border"
-                                                    onclick="showDetail({{ $item->id }})"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#detailModal">
-                                                <i class="fa fa-eye text-primary me-1"></i> Detail
-                                            </button>
+                                            <a href="javascript:void(0)"
+                                               onclick="showDetail({{ $item->id }})"
+                                               data-bs-toggle="modal"
+                                               data-bs-target="#detailModal"
+                                               class="btn-read-article text-uppercase fw-bold text-decoration-none">
+                                                Detail <i class="fa fa-chevron-right ms-1" style="font-size: 0.7rem;"></i>
+                                            </a>
                                         </div>
                                     </div>
                                 @endforeach
                             </div>
+                            
+                            <!-- Pagination -->
+                            @if ($histories->hasPages())
+                                <div class="mt-4 pt-3 border-top">
+                                    {{ $histories->links() }}
+                                </div>
+                            @endif
                         @else
                             <div class="py-5 text-center">
                                 <div class="icon-circle bg-light text-muted mx-auto mb-3" style="width: 70px; height: 70px;">
@@ -210,23 +215,12 @@
     </div>
 
     <!-- Premium Detail Modal -->
-    <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content border-0 shadow-lg overflow-hidden">
-                <div class="modal-header border-0 p-4" style="background: linear-gradient(135deg, #000428 0%, #004e92 100%);">
-                    <div class="d-flex align-items-center">
-                        <div class="icon-circle bg-white-20 text-white me-3" style="width: 40px; height: 40px;">
-                            <i class="fa fa-robot"></i>
-                        </div>
-                        <h5 class="modal-title text-white fw-bold" id="detailModalLabel">AI Analysis Report</h5>
-                    </div>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
+    <div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content border-0 shadow-lg overflow-hidden rounded-4 position-relative">
+                <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3 z-3 bg-dark/20 backdrop-blur rounded-circle p-2 shadow-sm" data-bs-dismiss="modal" aria-label="Close" style="width: 32px; height: 32px; font-size: 0.75rem; border: none;"></button>
                 <div class="modal-body p-0" id="modalContent">
                     <!-- Dynamic Content -->
-                </div>
-                <div class="modal-footer bg-light border-0 p-3">
-                    <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -314,6 +308,75 @@
             }
         });
 
+        function formatAIResponse(text) {
+            if (!text) return '<p class="text-muted text-center py-4">Belum ada analisis yang tersedia.</p>';
+            
+            let formatted = text;
+            
+            // Format headings ###
+            formatted = formatted.replace(/^### (.*?)$/gm, '<h6 class="fw-bold text-primary mt-4 mb-3 border-bottom pb-2"><i class="fa fa-chevron-right text-primary me-2 fs-xs"></i>$1</h6>');
+            
+            // Format headings ##
+            formatted = formatted.replace(/^## (.*?)$/gm, '<h5 class="fw-bold text-dark mt-4 mb-3">$1</h5>');
+            
+            // Format bold **
+            formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong class="text-dark fw-bold">$1</strong>');
+            
+            // Format bullet points
+            formatted = formatted.replace(/^- (.*?)$/gm, '<li class="mb-2">$1</li>');
+            
+            // Replace double newlines with spacing div
+            formatted = formatted.replace(/\n\n/g, '<div class="mb-3"></div>');
+            
+            return formatted;
+        }
+
+        function printReport() {
+            const printContent = document.getElementById('modalContent').innerHTML;
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html>
+                    <head>
+                        <title>Laporan Analisis Prediksi Karir Alumni</title>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+                        <style>
+                            body { font-family: 'Inter', sans-serif; padding: 40px; background: #fff; }
+                            .row { margin: 0; }
+                            .col-lg-5 { background: #000428 !important; color: #fff !important; padding: 40px; border-radius: 12px 0 0 12px; }
+                            .col-lg-7 { padding: 40px; border: 1px solid #dee2e6; border-radius: 0 12px 12px 0; }
+                            .btn, .btn-close { display: none !important; }
+                            .text-white-50 { color: #94a3b8 !important; }
+                            .text-primary-light { color: #60a5fa !important; }
+                            .badge { border: 1px solid currentColor !important; }
+                            .bg-primary-light { background-color: #eff6ff !important; color: #1d4ed8 !important; }
+                            .bg-success-light { background-color: #f0fdf4 !important; color: #15803d !important; }
+                            .bg-warning-light { background-color: #fffbeb !important; color: #b45309 !important; }
+                            .avatar-ring { padding: 4px; border-radius: 50%; display: inline-block; background: rgba(255,255,255,0.1); }
+                            @media print {
+                                body { padding: 0; }
+                                .col-lg-5 { background: linear-gradient(135deg, #000428 0%, #004e92 100%) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="container mt-4">
+                            <div class="row">
+                                ${printContent}
+                            </div>
+                        </div>
+                        <script>
+                            window.onload = function() {
+                                window.print();
+                                setTimeout(function() { window.close(); }, 500);
+                            };
+                        <\/script>
+                    </body>
+                </html>
+            `);
+            printWindow.document.close();
+        }
+
         function showDetail(id) {
             const container = document.getElementById('modalContent');
             container.innerHTML = `
@@ -335,42 +398,75 @@
                     ).join('') || '<span class="text-muted fst-italic">No titles extracted</span>';
 
                     container.innerHTML = `
-                        <div class="p-4 bg-light shadow-inner border-bottom">
-                            <div class="row align-items-center">
-                                <div class="col-md-7">
-                                    <div class="d-flex align-items-center">
-                                        <div class="avatar-circle-lg bg-primary text-white fs-4 me-3">
-                                            ${(data.alumni?.nama_lengkap || 'A').charAt(0)}
-                                        </div>
-                                        <div>
-                                            <h5 class="fw-bold mb-0 text-dark">${data.alumni?.nama_lengkap || 'Unknown Alumni'}</h5>
-                                            <p class="text-muted small mb-0">ID: ${data.idAlumni || '-'} • Analysis on ${date}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-5 text-md-end mt-3 mt-md-0">
-                                    <span class="badge bg-success-light text-success rounded-pill px-3 py-2 border border-success-10">
-                                        <i class="fa fa-shield-check me-1"></i> Verified AI Output
-                                    </span>
-                                </div>
+                        <div class="row g-0">
+                            <!-- Left Side: Profile Banner & Core Info -->
+                            <div class="col-lg-5 text-white position-relative d-flex flex-column justify-content-between p-4 py-5 modal-banner-left">
+                                 
+                                 <!-- Subtle background pattern decorative circles -->
+                                 <div class="position-absolute top-0 start-0 w-100 h-100 overflow-hidden" style="opacity: 0.15; pointer-events: none;">
+                                     <div class="position-absolute rounded-circle bg-white" style="width: 200px; height: 200px; top: -50px; left: -50px;"></div>
+                                     <div class="position-absolute rounded-circle bg-white" style="width: 150px; height: 150px; bottom: -30px; right: -30px;"></div>
+                                 </div>
+    
+                                 <!-- Profile Header Content -->
+                                 <div class="z-1 w-100 px-3">
+                                     <div class="mb-4">
+                                         <div class="avatar-ring p-1 rounded-circle bg-white/20 d-inline-block">
+                                             <div class="avatar-circle-lg bg-primary text-white fs-4 fw-bold d-flex align-items-center justify-content-center" style="width:85px; height:85px; border-radius: 50%; border: 3px solid #fff;">
+                                                 ${(data.alumni?.nama_lengkap || 'A').charAt(0)}
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <span class="badge bg-success-light text-success rounded-pill border border-success-10 px-3 py-1 fs-xs fw-bold mb-2">
+                                         <i class="fa fa-shield-check me-1"></i> Verified AI Output
+                                     </span>
+                                     <h3 class="fw-bold mb-1 text-white fs-4">${data.alumni?.nama_lengkap || 'Unknown Alumni'}</h3>
+                                     
+                                     <div class="mt-4 pt-3 border-top border-white-10">
+                                         <div class="d-flex align-items-center text-white-75 fs-sm py-2">
+                                             <i class="fa fa-id-card text-white-50 me-3" style="width: 20px;"></i>
+                                             <div>
+                                                 <small class="text-white-50 d-block text-uppercase fw-semibold" style="font-size: 0.65rem;">NIM</small>
+                                                 <span class="fw-bold text-white">${data.alumni?.nim || '-'}</span>
+                                             </div>
+                                         </div>
+                                         <div class="d-flex align-items-center text-white-75 fs-sm py-2">
+                                             <i class="fa fa-calendar-alt text-white-50 me-3" style="width: 20px;"></i>
+                                             <div>
+                                                 <small class="text-white-50 d-block text-uppercase fw-semibold" style="font-size: 0.65rem;">Waktu Analisis</small>
+                                                 <span class="fw-semibold text-white">${date}</span>
+                                             </div>
+                                         </div>
+                                     </div>
+
+                                     <div class="mt-4 pt-3 border-top border-white-10">
+                                         <small class="text-white-50 d-block text-uppercase fw-semibold mb-2" style="font-size: 0.65rem;">Predicted Job Categories</small>
+                                         <div class="d-flex flex-wrap">${titlesHTML}</div>
+                                     </div>
+                                 </div>
+                                 
+                                 <div class="d-flex gap-2 pt-4 px-3 z-1">
+                                     <button type="button" class="btn btn-sm btn-white rounded-pill px-4 fw-bold text-primary shadow-sm border-0" onclick="printReport()"><i class="fa fa-print me-1"></i> Cetak</button>
+                                     <button type="button" class="btn btn-sm btn-white/25 text-white rounded-pill px-4 fw-bold shadow-sm border border-white/20" data-bs-dismiss="modal"><i class="fa fa-times me-1"></i> Tutup</button>
+                                 </div>
                             </div>
-                        </div>
-                        <div class="p-4">
-                            <div class="mb-4">
-                                <h6 class="text-uppercase text-primary fw-bold small mb-3 letter-spacing-1">
-                                    <i class="fa fa-tags me-2"></i> Predicted Job Categories
-                                </h6>
-                                <div class="d-flex flex-wrap">${titlesHTML}</div>
-                            </div>
-                            <div class="mb-0">
-                                <h6 class="text-uppercase text-primary fw-bold small mb-3 letter-spacing-1">
-                                    <i class="fa fa-file-invoice me-2"></i> Detailed Analysis & Recommendation
-                                </h6>
-                                <div class="p-4 rounded-4 bg-white border shadow-sm" style="max-height: 400px; overflow-y: auto;">
-                                    <div class="ai-content-body fs-sm text-dark" style="line-height: 1.7;">
-                                        ${data.hasil || '<p class="text-muted text-center py-4">No content available</p>'}
-                                    </div>
-                                </div>
+    
+                            <!-- Right Side: Grid of detailed cards -->
+                            <div class="col-lg-7 bg-white p-4 p-md-5 d-flex flex-column justify-content-between">
+                                 <div>
+                                     <div class="d-flex align-items-center justify-content-between mb-4 border-bottom pb-3">
+                                         <div>
+                                             <h5 class="fw-bold text-dark mb-1">Detail Informasi & Rekomendasi</h5>
+                                             <p class="text-muted fs-xs mb-0">Rekomendasi karir masa depan berdasarkan transkrip nilai.</p>
+                                         </div>
+                                     </div>
+                                     
+                                     <div class="pe-2" style="max-height: 420px; overflow-y: auto; scrollbar-width: thin;">
+                                         <div class="ai-content-body fs-sm text-dark" style="line-height: 1.7;">
+                                             ${formatAIResponse(data.hasil)}
+                                         </div>
+                                     </div>
+                                 </div>
                             </div>
                         </div>
                     `;
@@ -388,6 +484,25 @@
     </script>
 
     <style>
+        .btn-read-article {
+            font-size: 0.72rem;
+            letter-spacing: 1.5px;
+            color: var(--bs-primary, #3b82f6);
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+        }
+        .btn-read-article:hover {
+            color: #004e92 !important;
+            text-decoration: none;
+        }
+        .btn-read-article i {
+            transition: transform 0.2s ease;
+        }
+        .btn-read-article:hover i {
+            transform: translateX(3px);
+        }
+
         .icon-circle.bg-white-20 { background: rgba(255,255,255,0.2); }
         .avatar-circle { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
         .avatar-circle-lg { width: 60px; height: 60px; border-radius: 18px; display: flex; align-items: center; justify-content: center; }
@@ -403,6 +518,22 @@
         .letter-spacing-1 { letter-spacing: 1px; }
         .ai-content-body { white-space: pre-line; }
         .ai-content-body strong { color: var(--bs-primary); }
+        
+        .modal-banner-left {
+            background: linear-gradient(135deg, #000428 0%, #004e92 100%);
+        }
+        @media (min-width: 992px) {
+            .modal-banner-left {
+                min-height: 480px !important;
+            }
+        }
+        @media (max-width: 991.98px) {
+            .modal-banner-left {
+                min-height: auto !important;
+                padding-top: 3.5rem !important;
+                padding-bottom: 2.5rem !important;
+            }
+        }
         
         @media (max-width: 768px) {
             .border-start-md { border-left: 0; }

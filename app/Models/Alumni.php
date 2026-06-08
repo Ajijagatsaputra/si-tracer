@@ -30,8 +30,13 @@ class Alumni extends Model
         return $this->belongsTo(User::class, 'id_users');
     }
 
-    public function tracerstudy()
+    public function tracerStudies()
     {
-        return $this->hasMany(Tracerstudy::class, 'id_alumni');
+        return $this->hasMany(TracerStudy::class, 'alumni_id');
+    }
+
+    public function tracerStudy()
+    {
+        return $this->hasOne(TracerStudy::class, 'alumni_id');
     }
 }

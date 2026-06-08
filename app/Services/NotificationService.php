@@ -18,10 +18,10 @@ class NotificationService
         $nama = $data['nama'] ?? 'Alumni';
         $namaPerusahaan = $data['nama_perusahaan'] ?? 'Perusahaan';
 
-        // Jika ada WhatsApp, kirim notifikasi WA
-        if ($waPekerjaan) {
-            $this->sendWhatsAppNotification($waPekerjaan, $nama, $namaPerusahaan);
-        }
+        // Jika ada WhatsApp, kirim notifikasi WA (DINONAKTIFKAN - Hanya menggunakan Email)
+        // if ($waPekerjaan) {
+        //     $this->sendWhatsAppNotification($waPekerjaan, $nama, $namaPerusahaan);
+        // }
 
         // Jika ada Email, kirim notifikasi Email
         if ($emailPekerjaan) {
@@ -167,10 +167,10 @@ class NotificationService
             return;
         }
 
-        // Kirim notifikasi WhatsApp jika tersedia
-        if ($waAtasan) {
-            $this->sendSupervisorWhatsAppNotification($waAtasan, $namaAtasan, $namaAlumni, $namaPerusahaan, $questionnaireUrl);
-        }
+        // Kirim notifikasi WhatsApp jika tersedia (DINONAKTIFKAN - Hanya menggunakan Email)
+        // if ($waAtasan) {
+        //     $this->sendSupervisorWhatsAppNotification($waAtasan, $namaAtasan, $namaAlumni, $namaPerusahaan, $questionnaireUrl);
+        // }
 
         // Kirim notifikasi Email jika tersedia
         if ($emailAtasan) {

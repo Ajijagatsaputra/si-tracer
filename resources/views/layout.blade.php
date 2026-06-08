@@ -107,6 +107,11 @@
                                 <a class="dropdown-item d-flex align-items-center justify-content-between" href="{{ route('profile') }}">
                                     <span class="fs-sm fw-medium">Profile</span>
                                 </a>
+                                @if (Auth::user()->role === 'alumni')
+                                <a class="dropdown-item d-flex align-items-center justify-content-between" href="{{ route('profile.cv') }}">
+                                    <span class="fs-sm fw-medium">Cetak CV (ATS)</span>
+                                </a>
+                                @endif
                             </div>
                             <div role="separator" class="dropdown-divider m-0"></div>
                             <div class="p-2">

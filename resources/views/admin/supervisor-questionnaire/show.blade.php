@@ -481,7 +481,13 @@
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonText: 'Ya, kirim!',
-                cancelButtonText: 'Batal'
+                cancelButtonText: 'Batal',
+                customClass: {
+                    popup: 'swal-modern',
+                    confirmButton: 'btn-modern btn-modern-primary',
+                    cancelButton: 'btn-modern btn-modern-secondary'
+                },
+                buttonsStyling: false
             }).then((result) => {
                 if (result.isConfirmed) {
                     var url = "{{ route('admin.supervisor-questionnaire.resend-notification', ':id') }}";
@@ -499,7 +505,13 @@
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonText: 'Ya, perpanjang!',
-                cancelButtonText: 'Batal'
+                cancelButtonText: 'Batal',
+                customClass: {
+                    popup: 'swal-modern',
+                    confirmButton: 'btn-modern btn-modern-primary',
+                    cancelButton: 'btn-modern btn-modern-secondary'
+                },
+                buttonsStyling: false
             }).then((result) => {
                 if (result.isConfirmed) {
                     // Show loading state
@@ -507,6 +519,9 @@
                         title: 'Memproses...',
                         text: 'Sedang memperpanjang masa berlaku',
                         allowOutsideClick: false,
+                        customClass: {
+                            popup: 'swal-modern'
+                        },
                         didOpen: () => {
                             Swal.showLoading();
                         }
@@ -528,7 +543,10 @@
                                 Swal.fire({
                                     title: 'Berhasil!',
                                     text: data.message,
-                                    icon: 'success'
+                                    icon: 'success',
+                                    customClass: {
+                                        popup: 'swal-modern'
+                                    }
                                 }).then(() => {
                                     location.reload();
                                 });
@@ -536,7 +554,10 @@
                                 Swal.fire({
                                     title: 'Gagal!',
                                     text: data.message,
-                                    icon: 'error'
+                                    icon: 'error',
+                                    customClass: {
+                                        popup: 'swal-modern'
+                                    }
                                 });
                             }
                         })
@@ -545,7 +566,10 @@
                             Swal.fire({
                                 title: 'Error!',
                                 text: 'Terjadi kesalahan saat memperpanjang masa berlaku.',
-                                icon: 'error'
+                                icon: 'error',
+                                customClass: {
+                                    popup: 'swal-modern'
+                                }
                             });
                         });
                 }
@@ -560,7 +584,13 @@
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Ya, hapus!',
-                cancelButtonText: 'Batal'
+                cancelButtonText: 'Batal',
+                customClass: {
+                    popup: 'swal-modern',
+                    confirmButton: 'btn-modern btn-modern-danger',
+                    cancelButton: 'btn-modern btn-modern-secondary'
+                },
+                buttonsStyling: false
             }).then((result) => {
                 if (result.isConfirmed) {
                     var url = "{{ route('admin.supervisor-questionnaire.destroy', ':id') }}";

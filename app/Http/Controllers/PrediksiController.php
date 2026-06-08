@@ -215,7 +215,7 @@ class PrediksiController extends Controller
     /**
      * Kirim prompt ke Gemini API
      */
-    protected static function getGeminiRecommendation($prompt) {
+    protected static function getGeminiRecommendation($prompt, $attempt = 1) {
         $api_key = config('services.gemini.key');
         $api_url = config('services.gemini.url');
         if (!$api_key) {
@@ -249,7 +249,7 @@ class PrediksiController extends Controller
 
         if ($http_code === 503 && $attempt < 3) {
             sleep(3);
-            return callGemini($prompt, $attempt + 1);
+            return self::getGeminiRecommendation($prompt, $attempt + 1);
         }
 
         if ($http_code !== 200) {

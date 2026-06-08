@@ -5,7 +5,8 @@
                 Universitas Harkat Negeri
             </div>
             <div class="col-sm-6 order-sm-1 py-1 text-center text-sm-start">
-                <span class="fw-semibold text-primary">SikemaTI</span> &copy; <span data-toggle="year-copy">2026</span>
+                <span class="fw-semibold text-primary">TracerStudy</span> &copy; <span
+                    data-toggle="year-copy">2026</span>
                 <span class="mx-2 text-muted">|</span>
                 <span class="text-muted">Tracer Study Dashboard</span>
             </div>

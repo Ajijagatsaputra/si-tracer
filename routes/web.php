@@ -20,6 +20,8 @@ use App\Http\Controllers\MataKuliahController;
 use App\Http\Controllers\PrediksiOpenRouterController;
 use App\Http\Controllers\AdminPrediksiController;
 use App\Http\Controllers\GeminiExtractController;
+use App\Http\Controllers\AdminCurriculumAnalysisController;
+use App\Http\Controllers\AlumniCvController;
 
 // Route untuk CSRF token (untuk refresh token)
 Route::get('/csrf-token', function () {
@@ -48,6 +50,7 @@ Route::middleware(['auth', 'cekrole:admin,superadmin'])->group(function () {
     Route::get('/listhasiltracer', [HasilTracerController::class, 'index'])->name('tracer.rekap');
     Route::get('/api/mahasiswa', [MahasiswaController::class, 'getData'])->name('api.mahasiswa');
     Route::get('/api/alumni', [AdminTracerStudyAlumniController::class, 'getData'])->name('api.alumni');
+    Route::delete('/admin/alumni/{id}', [AdminTracerStudyAlumniController::class, 'destroyAlumni'])->name('admin.alumni.destroy');
     Route::get('/api/dosen', [DosenController::class, 'getDataDosen'])->name('api.dosen');
     Route::get('/api/tahun-akademik', [DosenController::class, 'getTahunAkademik'])->name('api.tahun-akademik');
 
@@ -57,6 +60,10 @@ Route::middleware(['auth', 'cekrole:admin,superadmin'])->group(function () {
     Route::get('/admin/prediksi/{id}', [AdminPrediksiController::class, 'show'])->name('admin.prediksi.show');
     Route::delete('/admin/prediksi/{id}', [AdminPrediksiController::class, 'destroy'])->name('admin.prediksi.destroy');
     Route::get('/admin/prediksi/detail/{id}', [AdminPrediksiController::class, 'detail'])->name('admin.prediksi.detail');
+
+    // Admin Analisis Kurikulum routes
+    Route::get('/admin/analisis-kurikulum', [AdminCurriculumAnalysisController::class, 'index'])->name('admin.curriculum-analysis.index');
+    Route::post('/admin/analisis-kurikulum/generate', [AdminCurriculumAnalysisController::class, 'generate'])->name('admin.curriculum-analysis.generate');
 
 });
 
@@ -75,6 +82,9 @@ Route::middleware(['auth', 'cekrole:alumni'])->group(function () {
         Route::get('/show/{id}', [TracerStudyController::class, 'show'])->name('new-tracer.show');
         Route::get('/check-existing', [TracerStudyController::class, 'checkExisting'])->name('new-tracer.check-existing');
     });
+
+    // Alumni CV routes
+    Route::get('/profil/cv', [AlumniCvController::class, 'index'])->name('profile.cv');
 });
 
 Route::resource('listtracerpengguna', AdminTracerPenggunaController::class);

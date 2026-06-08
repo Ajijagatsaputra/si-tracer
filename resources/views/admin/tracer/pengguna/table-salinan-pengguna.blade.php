@@ -55,31 +55,32 @@
             </div>
             <!-- End Rekapan Data -->
 
-            <div class="block-header block-header-default bg-light d-flex align-items-center justify-content-between px-4 py-2">
+            <div
+                class="block-header block-header-default bg-light d-flex align-items-center justify-content-between px-4 py-2">
                 <h3 class="block-title fw-semibold text-primary mb-0">
                     <i class="fa fa-table me-2"></i> Tabel Salinan Pengguna
                 </h3>
             </div>
             <div class="block-content block-content-full">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped table-hover align-middle js-dataTable-full w-100 mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th class="text-center" style="width: 50px;">#</th>
-                                <th>Nama</th>
-                                <th>Nama Perusahaan</th>
-                                <th>Tanggal Mengisi</th>
-                                <th class="d-none d-sm-table-cell">Prodi</th>
-                                <th>Status</th>
-                                <th>Jabatan</th>
-                                <th class="text-center" style="width: 100px;">Aksi</th>
+                    <table class="table table-hover align-middle js-dataTable-full w-100 border-0 mb-0">
+                        <thead>
+                            <tr class="bg-light text-muted text-uppercase fs-xs fw-bold border-0">
+                                <th class="text-center py-3 border-0" style="width: 50px;">#</th>
+                                <th class="py-3 border-0">Nama</th>
+                                <th class="py-3 border-0">Nama Perusahaan</th>
+                                <th class="py-3 border-0">Tanggal Mengisi</th>
+                                <th class="py-3 border-0 d-none d-sm-table-cell">Prodi</th>
+                                <th class="py-3 border-0">Status</th>
+                                <th class="py-3 border-0">Jabatan</th>
+                                <th class="text-center py-3 border-0" style="width: 100px;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($data as $index => $item)
                                 <tr>
                                     <td class="text-center">{{ $index + 1 }}</td>
-                                    <td>{{ $item->nama }}</td>
+                                    <td class="fw-bold text-dark">{{ $item->nama }}</td>
                                     <td>{{ $item->nama_perusahaan }}</td>
                                     <td class="d-none d-sm-table-cell">
                                         {{ $item->created_at ? $item->created_at->format('d-m-Y') : '-' }}
@@ -87,9 +88,9 @@
                                     <td>{{ $item->prodi_name }}</td>
                                     <td>
                                         @if ($item->created_at)
-                                            <span class="badge bg-success">Sudah Mengisi</span>
+                                            <span class="badge status-badge-aktif py-1.5 px-3">Sudah Mengisi</span>
                                         @else
-                                            <span class="badge bg-warning text-dark">Belum Mengisi</span>
+                                            <span class="badge status-badge-cuti py-1.5 px-3">Belum Mengisi</span>
                                         @endif
                                     </td>
                                     <td>{{ $item->jabatan }}</td>
@@ -98,14 +99,15 @@
 
                                     <td class="text-center">
                                         @if ($role === 'superadmin')
-                                            <a href="{{ route('listtracerpengguna.show', $item->id) }}"
-                                                class="btn btn-sm btn-info rounded-pill" title="Detail">
-                                                <i class="fa fa-eye"></i>
+                                            <a href="{{ route('listtracerpengguna.show', $item->id) }}" class="btn btn-view-circle"
+                                                title="Detail">
+                                                <i class="fa fa-eye text-primary"></i>
                                             </a>
                                         @else
                                             <div class="dropdown position-static">
-                                                <button class="btn btn-sm btn-light border rounded-pill dropdown-toggle" type="button"
-                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                <button class="btn btn-sm btn-light border rounded-pill dropdown-toggle"
+                                                    type="button" data-bs-toggle="dropdown" aria-expanded="false"
+                                                    style="width: 32px; height: 32px; padding: 0; display: inline-flex; align-items: center; justify-content: center;">
                                                     <i class="fa fa-ellipsis-v"></i>
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-menu-end">
@@ -123,10 +125,8 @@
                                                     </li>
                                                     <li>
                                                         <!-- Hapus pakai SweetAlert2 -->
-                                                        <button type="button"
-                                                            class="dropdown-item text-danger btn-hapus"
-                                                            data-id="{{ $item->id }}"
-                                                            data-nama="{{ $item->nama }}">
+                                                        <button type="button" class="dropdown-item text-danger btn-hapus"
+                                                            data-id="{{ $item->id }}" data-nama="{{ $item->nama }}">
                                                             <i class="fa fa-trash-alt me-1"></i> Hapus
                                                         </button>
                                                     </li>
@@ -157,7 +157,7 @@
 
 @section('scripts')
     <!-- DataTables with Buttons (Export) -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css" />
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
@@ -169,7 +169,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        jQuery(document).ready(function() {
+        jQuery(document).ready(function () {
             // DataTable
             jQuery('.js-dataTable-full').DataTable({
                 paging: true,
@@ -210,7 +210,7 @@
             });
 
             // SweetAlert2 konfirmasi hapus
-            $(document).on('click', '.btn-hapus', function(e) {
+            $(document).on('click', '.btn-hapus', function (e) {
                 e.preventDefault();
                 var id = $(this).data('id');
                 var nama = $(this).data('nama');
@@ -222,8 +222,9 @@
                     confirmButtonText: '<i class="fa fa-trash-alt me-1"></i> Ya, hapus!',
                     cancelButtonText: 'Batal',
                     customClass: {
-                        confirmButton: 'btn btn-danger rounded-pill px-4 fw-semibold me-2',
-                        cancelButton: 'btn btn-light border rounded-pill px-4 fw-semibold'
+                        popup: 'swal-modern',
+                        confirmButton: 'btn-modern btn-modern-danger',
+                        cancelButton: 'btn-modern btn-modern-secondary'
                     },
                     buttonsStyling: false,
                     focusCancel: true
@@ -239,17 +240,149 @@
         });
     </script>
     <style>
-        .bg-gradient-primary { background: linear-gradient(92deg, #31c7ef 40%, #38d9c3 100%)!important; }
-        .bg-gradient-success { background: linear-gradient(92deg, #32d484 30%, #75e095 100%)!important; }
-        .bg-gradient-warning { background: linear-gradient(92deg, #ffed85 30%, #ffc371 100%)!important; }
-        .card { min-height: 85px; border-radius: 1.3rem; }
-        .block-title { font-size: 1.13rem;}
-        .dataTables_wrapper .dt-toolbar { margin-bottom:0.7rem; }
-        .dt-toolbar .btn { font-weight:600; }
-        .badge { font-size: 0.93em; }
-        .dropdown-toggle::after { display:none; }
-        .btn-info, .btn-info:focus { background: linear-gradient(91deg, #37b3ed 70%, #5398e6 100%)!important; color:#fff!important;}
-        .btn-info:hover { background: linear-gradient(91deg, #148ed6 80%, #3f6dd6 100%)!important;}
-        .btn-hapus, .btn-hapus:focus { background: transparent; }
+        .bg-gradient-primary {
+            background: linear-gradient(92deg, #31c7ef 40%, #38d9c3 100%) !important;
+        }
+
+        .bg-gradient-success {
+            background: linear-gradient(92deg, #32d484 30%, #75e095 100%) !important;
+        }
+
+        .bg-gradient-warning {
+            background: linear-gradient(92deg, #ffed85 30%, #ffc371 100%) !important;
+        }
+
+        .card {
+            min-height: 85px;
+            border-radius: 1.3rem;
+        }
+
+        .block-title {
+            font-size: 1.13rem;
+        }
+
+        .dropdown-toggle::after {
+            display: none;
+        }
+
+        .btn-hapus,
+        .btn-hapus:focus {
+            background: transparent;
+        }
+
+        /* Modern Table styling */
+        .table-responsive {
+            border-radius: 0.75rem;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        .js-dataTable-full {
+            border-collapse: separate !important;
+            border-spacing: 0 !important;
+            width: 100% !important;
+        }
+
+        .js-dataTable-full thead th {
+            background-color: #f8fafc !important;
+            color: #475569 !important;
+            font-size: 0.75rem !important;
+            font-weight: 700 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.05em !important;
+            padding: 14px 16px !important;
+            border-bottom: 2px solid #e2e8f0 !important;
+            border-top: none !important;
+            white-space: nowrap;
+        }
+
+        .js-dataTable-full tbody tr {
+            transition: all 0.2s ease-in-out;
+        }
+
+        .js-dataTable-full tbody tr:hover {
+            background-color: rgba(241, 245, 249, 0.4) !important;
+        }
+
+        .js-dataTable-full tbody td {
+            padding: 14px 16px !important;
+            border-bottom: 1px solid #f1f5f9 !important;
+            color: #334155;
+            font-size: 0.875rem;
+        }
+
+        /* Modern Pagination styling */
+        .dataTables_wrapper .dataTables_paginate {
+            margin-top: 1.5rem !important;
+            margin-bottom: 0.5rem !important;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            border: 1px solid #e2e8f0 !important;
+            background: #fff !important;
+            color: #475569 !important;
+            border-radius: 8px !important;
+            padding: 6px 12px !important;
+            margin: 0 3px !important;
+            font-weight: 600 !important;
+            font-size: 0.85rem !important;
+            transition: all 0.2s !important;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background: #f1f5f9 !important;
+            color: #0f172a !important;
+            border-color: #cbd5e1 !important;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+            background: #4f46e5 !important;
+            /* Indigo for Alumni/Pengguna */
+            color: #fff !important;
+            border-color: #4f46e5 !important;
+        }
+
+        /* Modern Status Badges */
+        .status-badge-aktif {
+            background-color: #ecfdf5 !important;
+            color: #059669 !important;
+            border: 1px solid #a7f3d0 !important;
+            font-weight: 600 !important;
+            font-size: 0.725rem !important;
+            border-radius: 9999px !important;
+        }
+
+        .status-badge-cuti {
+            background-color: #fffbeb !important;
+            color: #d97706 !important;
+            border: 1px solid #fde68a !important;
+            font-weight: 600 !important;
+            font-size: 0.725rem !important;
+            border-radius: 9999px !important;
+        }
+
+        /* View Button modern circle style */
+        .btn-view-circle {
+            transition: all 0.2s ease-in-out !important;
+            border: 1px solid #e2e8f0 !important;
+            background-color: #fff !important;
+            width: 34px !important;
+            height: 34px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            border-radius: 50% !important;
+            padding: 0 !important;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+        }
+
+        .btn-view-circle:hover {
+            background-color: #f8fafc !important;
+            border-color: #cbd5e1 !important;
+            transform: scale(1.05);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03) !important;
+        }
     </style>
 @endsection

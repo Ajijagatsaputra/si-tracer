@@ -108,12 +108,13 @@
                 </li>
 
                 <!-- PREDIKSI -->
-                <li class="nav-main-heading text-uppercase text-muted fw-bold">Prediksi</li>
-                <li class="nav-main-item {{ request()->is('admin/prediksi*') ? 'open' : '' }}">
+                <li class="nav-main-heading text-uppercase text-muted fw-bold">Prediksi & AI</li>
+                <li
+                    class="nav-main-item {{ request()->is('admin/prediksi*') || request()->routeIs('admin.curriculum-analysis.*') ? 'open' : '' }}">
                     <a class="nav-main-link nav-main-link-submenu" data-toggle="custom-submenu" aria-haspopup="true"
                         aria-expanded="false" href="javascript:void(0)">
                         <i class="nav-main-link-icon fa fa-brain text-warning"></i>
-                        <span class="nav-main-link-name">Prediksi Alumni</span>
+                        <span class="nav-main-link-name">Fitur AI</span>
                     </a>
                     <ul class="nav-main-submenu">
                         <li class="nav-main-item">
@@ -121,6 +122,13 @@
                                 href="{{ route('admin.prediksi.data') }}">
                                 <i class="nav-main-link-icon fa fa-database"></i>
                                 <span class="nav-main-link-name">Data Prediksi</span>
+                            </a>
+                        </li>
+                        <li class="nav-main-item">
+                            <a class="nav-main-link {{ request()->routeIs('admin.curriculum-analysis.index') ? 'active' : '' }}"
+                                href="{{ route('admin.curriculum-analysis.index') }}">
+                                <i class="nav-main-link-icon fa fa-chart-line text-success"></i>
+                                <span class="nav-main-link-name">Analisis Kurikulum</span>
                             </a>
                         </li>
                     </ul>

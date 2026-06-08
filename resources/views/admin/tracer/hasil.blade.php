@@ -111,7 +111,7 @@
                                     @endforeach
                                     <td class="px-2 py-3 text-center border-0">
                                         @if ($row['rata_rata'] > 0)
-                                            <span class="badge bg-{{ $row['rata_rata'] >= 4.0 ? 'success' : ($row['rata_rata'] >= 3.0 ? 'primary' : 'warning') }}-light text-{{ $row['rata_rata'] >= 4.0 ? 'success' : ($row['rata_rata'] >= 3.0 ? 'primary' : 'warning') }} rounded-pill px-3 py-2 border">
+                                            <span class="badge {{ $row['rata_rata'] >= 4.0 ? 'status-badge-aktif' : ($row['rata_rata'] >= 3.0 ? 'status-badge-alumni' : 'status-badge-cuti') }} rounded-pill px-3 py-1.5 fs-xs fw-bold">
                                                 {{ number_format($row['rata_rata'], 2) }}
                                             </span>
                                         @else
@@ -194,26 +194,93 @@
                 transition: all 0.2s ease;
             }
             .card-row-rounded:hover {
-                transform: scale(1.005);
-                box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
+                transform: translateY(-2px);
+                box-shadow: 0 8px 16px rgba(0,0,0,0.06) !important;
             }
             .dt-buttons {
                 display: flex;
                 gap: 5px;
             }
             .dt-button {
-                padding: 0.4rem 1rem !important;
+                border: 1px solid #e2e8f0 !important;
+                background: #fff !important;
+                color: #475569 !important;
                 border-radius: 50px !important;
-                font-size: 0.75rem !important;
+                padding: 6px 16px !important;
                 font-weight: 600 !important;
-                border: 1px solid #dee2e6 !important;
-                background: white !important;
+                font-size: 0.8rem !important;
                 transition: all 0.2s !important;
+                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
             }
             .dt-button:hover {
-                background: #f8f9fa !important;
-                border-color: #4e73df !important;
-                color: #4e73df !important;
+                background: #f1f5f9 !important;
+                color: #0f172a !important;
+                border-color: #cbd5e1 !important;
+                transform: translateY(-1px);
+            }
+
+            /* Modern Table styling */
+            #table-hasil-survei {
+                border-collapse: separate !important;
+                border-spacing: 0 8px !important;
+                width: 100% !important;
+            }
+
+            #table-hasil-survei thead th {
+                background-color: #f8fafc !important;
+                color: #475569 !important;
+                font-size: 0.75rem !important;
+                font-weight: 700 !important;
+                text-transform: uppercase !important;
+                letter-spacing: 0.05em !important;
+                padding: 14px 16px !important;
+                border: none !important;
+            }
+
+            #table-hasil-survei tbody tr {
+                background-color: #ffffff !important;
+                transition: all 0.2s ease-in-out;
+            }
+
+            #table-hasil-survei tbody td {
+                padding: 14px 16px !important;
+                border-top: 1px solid #f1f5f9 !important;
+                border-bottom: 1px solid #f1f5f9 !important;
+                color: #334155;
+            }
+
+            #table-hasil-survei tbody td:first-child {
+                border-left: 1px solid #f1f5f9 !important;
+                border-top-left-radius: 0.75rem !important;
+                border-bottom-left-radius: 0.75rem !important;
+            }
+
+            #table-hasil-survei tbody td:last-child {
+                border-right: 1px solid #f1f5f9 !important;
+                border-top-right-radius: 0.75rem !important;
+                border-bottom-right-radius: 0.75rem !important;
+            }
+
+            /* Modern Status Badges */
+            .status-badge-aktif {
+                background-color: #ecfdf5 !important;
+                color: #059669 !important;
+                border: 1px solid #a7f3d0 !important;
+            }
+            .status-badge-cuti {
+                background-color: #fffbeb !important;
+                color: #d97706 !important;
+                border: 1px solid #fde68a !important;
+            }
+            .status-badge-do {
+                background-color: #fff1f2 !important;
+                color: #e11d48 !important;
+                border: 1px solid #fecdd3 !important;
+            }
+            .status-badge-lulus, .status-badge-alumni {
+                background-color: #e0e7ff !important;
+                color: #4f46e5 !important;
+                border: 1px solid #c7d2fe !important;
             }
         </style>
     @endpush

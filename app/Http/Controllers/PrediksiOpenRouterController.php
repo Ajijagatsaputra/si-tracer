@@ -210,7 +210,8 @@ class PrediksiOpenRouterController extends Controller
             'model' => $model,
             'messages' => [
                 [ 'role' => 'user', 'content' => $prompt ]
-            ]
+            ],
+            'max_tokens' => 1000
         ];
 
         $ch = curl_init($api_url);

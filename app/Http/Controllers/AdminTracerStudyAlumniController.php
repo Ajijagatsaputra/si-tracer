@@ -240,12 +240,12 @@ class AdminTracerStudyAlumniController extends Controller
         switch ($data['status_pekerjaan']) {
             case 'bekerja_full':
                 $this->updatePekerjaanDetail($tracerStudy, $data);
-        $this->updateKompetensiDetail($tracerStudy, $data);
+                $this->updateKompetensiDetail($tracerStudy, $data);
 
                 break;
             case 'wirausaha':
                 $this->updateWirausahaDetail($tracerStudy, $data);
-        $this->updateKompetensiDetail($tracerStudy, $data);
+                $this->updateKompetensiDetail($tracerStudy, $data);
 
                 break;
             case 'lanjutstudy':
@@ -332,7 +332,6 @@ class AdminTracerStudyAlumniController extends Controller
         );
     }
 
-    // Hapus
     public function destroy($id)
     {
         $tracer = TracerStudy::findOrFail($id);
@@ -341,6 +340,30 @@ class AdminTracerStudyAlumniController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Data berhasil dihapus.'
+        ]);
+    }
+
+    // Hapus Data Alumni Master
+    public function destroyAlumni($id)
+    {
+        $alumni = Alumni::findOrFail($id);
+
+        if ($alumni->id_users) {
+            $user = \App\Models\User::find($alumni->id_users);
+            if ($user && $user->role === 'alumni') {
+                // Delete user (cascades to alumni and tracer study records)
+                $user->delete();
+            } else {
+                // If it is admin/superadmin or user not found, only delete the alumni record
+                $alumni->delete();
+            }
+        } else {
+            $alumni->delete();
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data alumni berhasil dihapus.'
         ]);
     }
 }

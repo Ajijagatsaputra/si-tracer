@@ -259,3 +259,113 @@
 .btn-action:hover {
     transform: translateY(-2px);
 }
+
+/* Modern SweetAlert2 styling */
+.swal2-popup.swal-modern {
+    border-radius: 1.25rem !important;
+    padding: 2.5rem 2rem !important;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+    border: 1px solid #f1f5f9 !important;
+    font-family: 'Inter', sans-serif !important;
+}
+
+.swal2-title {
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    margin-bottom: 0.75rem !important;
+}
+
+.swal2-html-container {
+    font-size: 0.875rem !important;
+    color: #64748b !important;
+    line-height: 1.6 !important;
+    margin-bottom: 2rem !important;
+}
+
+.swal2-actions {
+    gap: 12px !important;
+    margin-top: 1.5rem !important;
+}
+
+.btn-modern {
+    padding: 10px 24px !important;
+    font-size: 0.875rem !important;
+    font-weight: 600 !important;
+    border-radius: 9999px !important;
+    transition: all 0.2s ease-in-out !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+    border: 1px solid transparent !important;
+    cursor: pointer !important;
+}
+
+.btn-modern:hover {
+    transform: translateY(-1px);
+}
+
+.btn-modern:active {
+    transform: translateY(0);
+}
+
+.btn-modern-danger {
+    background-color: #ef4444 !important;
+    color: #ffffff !important;
+    border-color: #ef4444 !important;
+}
+
+.btn-modern-danger:hover {
+    background-color: #dc2626 !important;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2) !important;
+}
+
+.btn-modern-primary {
+    background-color: #4f46e5 !important;
+    color: #ffffff !important;
+    border-color: #4f46e5 !important;
+}
+
+.btn-modern-primary:hover {
+    background-color: #4338ca !important;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2) !important;
+}
+
+.btn-modern-secondary {
+    background-color: #f8fafc !important;
+    color: #475569 !important;
+    border-color: #cbd5e1 !important;
+}
+
+.btn-modern-secondary:hover {
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+    border-color: #94a3b8 !important;
+}
+
+.swal2-icon {
+    border-width: 3px !important;
+    margin: 0 auto 1.5rem auto !important;
+}
+
+.swal2-icon.swal2-warning {
+    border-color: #f59e0b !important;
+    color: #f59e0b !important;
+}
+
+.swal2-icon.swal2-success {
+    border-color: #10b981 !important;
+}
+.swal2-icon.swal2-success [class^='swal2-success-line'] {
+    background-color: #10b981 !important;
+}
+.swal2-icon.swal2-success .swal2-success-ring {
+    border: 4px solid rgba(16, 185, 129, 0.2) !important;
+}
+.swal2-icon.swal2-error {
+    border-color: #ef4444 !important;
+}
+.swal2-icon.swal2-error [class^='swal2-x-mark-line'] {
+    background-color: #ef4444 !important;
+}

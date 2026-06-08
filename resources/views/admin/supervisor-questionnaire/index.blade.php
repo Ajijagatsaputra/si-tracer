@@ -14,7 +14,8 @@
                     </p>
                 </div>
                 <div class="hero-actions d-flex gap-2">
-                    <a href="{{ route('admin.supervisor-questionnaire.dashboard') }}" class="btn btn-primary px-4 py-2 rounded-pill shadow-sm">
+                    <a href="{{ route('admin.supervisor-questionnaire.dashboard') }}"
+                        class="btn btn-primary px-4 py-2 rounded-pill shadow-sm">
                         <i class="fa fa-chart-pie me-2"></i>Dashboard
                     </a>
                 </div>
@@ -34,10 +35,12 @@
                             <div class="stat-icon-modern bg-primary-light text-primary me-3">
                                 <i class="fa fa-clipboard-list"></i>
                             </div>
-                            <div class="stat-label-modern fw-bold text-muted text-uppercase fs-xs ls-wider">Total Kuesioner</div>
+                            <div class="stat-label-modern fw-bold text-muted text-uppercase fs-xs ls-wider">Total Kuesioner
+                            </div>
                         </div>
                         <div class="d-flex align-items-baseline">
-                            <h2 class="h1 fw-bold mb-0 text-primary-darker stat-number" data-count="{{ $totalQuestionnaires }}">0</h2>
+                            <h2 class="h1 fw-bold mb-0 text-primary-darker stat-number"
+                                data-count="{{ $totalQuestionnaires }}">0</h2>
                         </div>
                         <div class="progress mt-3" style="height: 6px; background-color: rgba(79, 172, 254, 0.1);">
                             <div class="progress-bar bg-primary" style="width: 100%"></div>
@@ -57,10 +60,13 @@
                             <div class="stat-label-modern fw-bold text-muted text-uppercase fs-xs ls-wider">Menunggu</div>
                         </div>
                         <div class="d-flex align-items-baseline">
-                            <h2 class="h1 fw-bold mb-0 text-warning stat-number" data-count="{{ $pendingQuestionnaires }}">0</h2>
+                            <h2 class="h1 fw-bold mb-0 text-warning stat-number" data-count="{{ $pendingQuestionnaires }}">0
+                            </h2>
                         </div>
                         <div class="progress mt-3" style="height: 6px; background-color: rgba(245, 158, 11, 0.1);">
-                            <div class="progress-bar bg-warning" style="width: {{ $totalQuestionnaires > 0 ? ($pendingQuestionnaires / $totalQuestionnaires * 100) : 0 }}%"></div>
+                            <div class="progress-bar bg-warning"
+                                style="width: {{ $totalQuestionnaires > 0 ? ($pendingQuestionnaires / $totalQuestionnaires * 100) : 0 }}%">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -77,10 +83,13 @@
                             <div class="stat-label-modern fw-bold text-muted text-uppercase fs-xs ls-wider">Selesai</div>
                         </div>
                         <div class="d-flex align-items-baseline">
-                            <h2 class="h1 fw-bold mb-0 text-success stat-number" data-count="{{ $completedQuestionnaires }}">0</h2>
+                            <h2 class="h1 fw-bold mb-0 text-success stat-number"
+                                data-count="{{ $completedQuestionnaires }}">0</h2>
                         </div>
                         <div class="progress mt-3" style="height: 6px; background-color: rgba(16, 185, 129, 0.1);">
-                            <div class="progress-bar bg-success" style="width: {{ $totalQuestionnaires > 0 ? ($completedQuestionnaires / $totalQuestionnaires * 100) : 0 }}%"></div>
+                            <div class="progress-bar bg-success"
+                                style="width: {{ $totalQuestionnaires > 0 ? ($completedQuestionnaires / $totalQuestionnaires * 100) : 0 }}%">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -97,10 +106,13 @@
                             <div class="stat-label-modern fw-bold text-muted text-uppercase fs-xs ls-wider">Kadaluarsa</div>
                         </div>
                         <div class="d-flex align-items-baseline">
-                            <h2 class="h1 fw-bold mb-0 text-danger stat-number" data-count="{{ $expiredQuestionnaires }}">0</h2>
+                            <h2 class="h1 fw-bold mb-0 text-danger stat-number" data-count="{{ $expiredQuestionnaires }}">0
+                            </h2>
                         </div>
                         <div class="progress mt-3" style="height: 6px; background-color: rgba(239, 68, 68, 0.1);">
-                            <div class="progress-bar bg-danger" style="width: {{ $totalQuestionnaires > 0 ? ($expiredQuestionnaires / $totalQuestionnaires * 100) : 0 }}%"></div>
+                            <div class="progress-bar bg-danger"
+                                style="width: {{ $totalQuestionnaires > 0 ? ($expiredQuestionnaires / $totalQuestionnaires * 100) : 0 }}%">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -123,7 +135,8 @@
                         <span class="input-group-text border-0 bg-white px-3">
                             <i class="fa fa-search text-muted"></i>
                         </span>
-                        <input type="text" id="custom-search" class="form-control border-0 px-2 py-2" placeholder="Cari data kuesioner...">
+                        <input type="text" id="custom-search" class="form-control border-0 px-2 py-2"
+                            placeholder="Cari data kuesioner...">
                         <button class="btn btn-primary px-4" type="button">Cari</button>
                     </div>
                 </div>
@@ -152,7 +165,8 @@
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <div class="avatar-placeholder bg-primary-light text-primary fw-bold me-3 rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                            <div class="avatar-placeholder bg-primary-light text-primary fw-bold me-3 rounded-circle d-flex align-items-center justify-content-center"
+                                                style="width: 40px; height: 40px;">
                                                 {{ strtoupper(substr($item->nama_alumni, 0, 1)) }}
                                             </div>
                                             <div>
@@ -168,7 +182,8 @@
                                                 <span><i class="fa fa-envelope me-1 opacity-50"></i>{{ $item->email_atasan }}</span>
                                             @endif
                                             @if ($item->wa_atasan)
-                                                <span><i class="fab fa-whatsapp me-1 text-success opacity-75"></i>{{ $item->wa_atasan }}</span>
+                                                <span><i
+                                                        class="fab fa-whatsapp me-1 text-success opacity-75"></i>{{ $item->wa_atasan }}</span>
                                             @endif
                                         </div>
                                     </td>
@@ -207,9 +222,9 @@
                                                 class="btn btn-sm btn-action bg-info-light text-info border-0" title="Detail">
                                                 <i class="fa fa-eye"></i>
                                             </a>
-                                            <button type="button" class="btn btn-sm btn-action bg-warning-light text-warning border-0"
-                                                title="Kirim Ulang Notifikasi"
-                                                onclick="resendNotification({{ $item->id }})">
+                                            <button type="button"
+                                                class="btn btn-sm btn-action bg-warning-light text-warning border-0"
+                                                title="Kirim Ulang Notifikasi" onclick="resendNotification({{ $item->id }})">
                                                 <i class="fa fa-paper-plane"></i>
                                             </button>
                                         </div>
@@ -239,7 +254,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        jQuery(document).ready(function() {
+        jQuery(document).ready(function () {
             var tableElement = jQuery('.js-dataTable-full');
             if (tableElement.length === 0) return;
 
@@ -250,18 +265,18 @@
                 responsive: true,
                 pageLength: 10,
                 dom: "<'row'<'col-sm-12'tr>>" +
-                     "<'row mt-3'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                    "<'row mt-3'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                 language: {
                     url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/id.json'
                 },
                 columnDefs: [{
-                        orderable: false,
-                        targets: [0, 5]
-                    },
-                    {
-                        className: 'text-center',
-                        targets: [0, 4, 5]
-                    }
+                    orderable: false,
+                    targets: [0, 5]
+                },
+                {
+                    className: 'text-center',
+                    targets: [0, 4, 5]
+                }
                 ],
                 order: [
                     [1, 'asc']
@@ -271,23 +286,23 @@
             // Move length menu
             $('.dataTables_length').appendTo('#entries-container').empty();
             $('<select class="form-select form-select-sm border-0 bg-transparent fw-bold text-primary p-0 h-auto" style="width: auto;">' +
-              '<option value="10">10</option>' +
-              '<option value="25">25</option>' +
-              '<option value="50">50</option>' +
-              '<option value="100">100</option>' +
-              '</select>')
-              .appendTo('#entries-container')
-              .on('change', function() {
-                  table.page.len($(this).val()).draw();
-              });
+                '<option value="10">10</option>' +
+                '<option value="25">25</option>' +
+                '<option value="50">50</option>' +
+                '<option value="100">100</option>' +
+                '</select>')
+                .appendTo('#entries-container')
+                .on('change', function () {
+                    table.page.len($(this).val()).draw();
+                });
 
             // Custom Search
-            $('#custom-search').on('keyup', function() {
+            $('#custom-search').on('keyup', function () {
                 table.search(this.value).draw();
             });
 
             // Counter Animation
-            $('.stat-number').each(function() {
+            $('.stat-number').each(function () {
                 const $this = $(this);
                 const countTo = parseInt($this.attr('data-count'));
                 $({ countNum: 0 }).animate({
@@ -295,17 +310,17 @@
                 }, {
                     duration: 1500,
                     easing: 'swing',
-                    step: function() {
+                    step: function () {
                         $this.text(Math.floor(this.countNum));
                     },
-                    complete: function() {
+                    complete: function () {
                         $this.text(this.countNum);
                     }
                 });
             });
 
             // Resend notification
-            window.resendNotification = function(id) {
+            window.resendNotification = function (id) {
                 Swal.fire({
                     title: 'Kirim Ulang Notifikasi?',
                     text: 'Apakah Anda yakin ingin mengirim ulang notifikasi ke supervisor?',
@@ -314,8 +329,11 @@
                     confirmButtonText: 'Ya, kirim!',
                     cancelButtonText: 'Batal',
                     customClass: {
-                        popup: 'swal-modern'
-                    }
+                        popup: 'swal-modern',
+                        confirmButton: 'btn-modern btn-modern-primary',
+                        cancelButton: 'btn-modern btn-modern-secondary'
+                    },
+                    buttonsStyling: false
                 }).then((result) => {
                     if (result.isConfirmed) {
                         var url = "{{ route('admin.supervisor-questionnaire.resend-notification', ':id') }}";

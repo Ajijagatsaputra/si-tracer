@@ -114,15 +114,26 @@ class AdminCurriculumAnalysisController extends Controller
         // Susun prompt untuk Gemini
         $prompt = $this->buildAnalysisPrompt($competencyStats, $supervisorStats, $suggestions);
 
-        // Panggil API Gemini
+        // Panggil API Gemini dengan fallback ke OpenRouter jika gagal
         $result = $this->callGemini($prompt);
+
+        if (!$result['success']) {
+            Log::info('Direct Gemini API failed. Attempting OpenRouter fallback...');
+            $openrouterResult = $this->callOpenRouter($prompt);
+            if ($openrouterResult['success']) {
+                $result = [
+                    'success' => true,
+                    'text' => $openrouterResult['text']
+                ];
+            }
+        }
 
         if ($result['success']) {
             // Simpan di Cache selama 24 jam
             Cache::put('curriculum_gap_analysis', $result['text'], now()->addHours(24));
-            return redirect()->back()->with('success', 'Analisis kurikulum berhasil diperbarui oleh Gemini AI.');
+            return redirect()->back()->with('success', 'Analisis kurikulum berhasil diperbarui oleh Jagat AI.');
         } else {
-            return redirect()->back()->with('error', 'Gagal memanggil Gemini AI: ' . $result['error']);
+            return redirect()->back()->with('error', 'Gagal memanggil Jagat AI: ' . ($result['error'] ?? 'Terjadi kesalahan sistem pada API AI.'));
         }
     }
 
@@ -162,7 +173,7 @@ class AdminCurriculumAnalysisController extends Controller
             . "Format respons Anda dalam Markdown yang rapi dan profesional.";
     }
 
-    private function callGemini($prompt)
+    private function callGemini($prompt, $attempt = 1)
     {
         $apiKey = config('services.gemini.key');
         $apiUrl = config('services.gemini.url');
@@ -197,11 +208,17 @@ class AdminCurriculumAnalysisController extends Controller
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
+        // Jika terjadi 503 (High Demand) atau 429 (Rate Limit), coba lagi sampai 3 kali
+        if (($httpCode === 503 || $httpCode === 429) && $attempt < 3) {
+            sleep(2);
+            return $this->callGemini($prompt, $attempt + 1);
+        }
+
         if ($httpCode !== 200) {
             Log::error('Gemini API Error: ' . $response);
             return [
                 'success' => false,
-                'error' => 'HTTP Code ' . $httpCode . ' - Silakan cek konfigurasi API Key Anda.'
+                'error' => 'HTTP Code ' . $httpCode . ' - ' . ($response ?: 'Empty response')
             ];
         }
 
@@ -218,6 +235,75 @@ class AdminCurriculumAnalysisController extends Controller
         return [
             'success' => false,
             'error' => 'Respon dari Gemini kosong.'
+        ];
+    }
+
+    /**
+     * Fallback to OpenRouter using free reliable models when Gemini API fails
+     */
+    private function callOpenRouter($prompt)
+    {
+        $apiKey = config('services.openrouter.key');
+        $apiUrl = config('services.openrouter.url', 'https://openrouter.ai/api/v1/chat/completions');
+
+        if (!$apiKey) {
+            return [
+                'success' => false,
+                'error' => 'OPENROUTER_API_KEY belum dikonfigurasi'
+            ];
+        }
+
+        $models = [
+            'google/gemini-2.5-flash:free',
+            'google/gemini-2.0-flash-exp:free',
+            config('services.openrouter.model', 'google/gemini-2.0-flash-exp:free')
+        ];
+        $models = array_unique($models);
+
+        foreach ($models as $model) {
+            $payload = [
+                'model' => $model,
+                'messages' => [
+                    [
+                        'role' => 'user',
+                        'content' => $prompt
+                    ]
+                ],
+                'max_tokens' => 2500
+            ];
+
+            $ch = curl_init($apiUrl);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Content-Type: application/json',
+                'Authorization: Bearer ' . $apiKey,
+            ]);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+
+            $response = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+
+            if ($httpCode === 200) {
+                $result = json_decode($response, true);
+                $text = $result['choices'][0]['message']['content'] ?? null;
+                if ($text) {
+                    return [
+                        'success' => true,
+                        'text' => $text
+                    ];
+                }
+            } else {
+                Log::warning("OpenRouter Fallback Error for model {$model}: {$response}");
+            }
+        }
+
+        return [
+            'success' => false,
+            'error' => 'Fallback OpenRouter gagal untuk semua model'
         ];
     }
 }

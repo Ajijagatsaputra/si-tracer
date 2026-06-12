@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('content')
-    <main class="main">
+    <main id="main-container" class="main">
         @include('components.navbar')
         @include('components.card-main')
     </main>

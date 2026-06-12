@@ -68,9 +68,17 @@ Route::middleware(['auth', 'cekrole:admin,superadmin'])->group(function () {
 
     // Admin Job Vacancy Moderation routes
     Route::get('/admin/loker', [\App\Http\Controllers\JobVacancyController::class, 'adminIndex'])->name('admin.loker.index');
+    Route::get('/admin/loker/create', [\App\Http\Controllers\JobVacancyController::class, 'adminCreate'])->name('admin.loker.create');
+    Route::post('/admin/loker/store', [\App\Http\Controllers\JobVacancyController::class, 'adminStore'])->name('admin.loker.store');
     Route::post('/admin/loker/{id}/approve', [\App\Http\Controllers\JobVacancyController::class, 'approve'])->name('admin.loker.approve');
     Route::post('/admin/loker/{id}/reject', [\App\Http\Controllers\JobVacancyController::class, 'reject'])->name('admin.loker.reject');
     Route::delete('/admin/loker/{id}', [\App\Http\Controllers\JobVacancyController::class, 'destroy'])->name('admin.loker.destroy');
+    Route::get('/admin/loker/{id}/edit', [\App\Http\Controllers\JobVacancyController::class, 'adminEdit'])->name('admin.loker.edit');
+    Route::put('/admin/loker/{id}', [\App\Http\Controllers\JobVacancyController::class, 'adminUpdate'])->name('admin.loker.update');
+
+    // Admin Job Applications Management
+    Route::get('/admin/loker/applications', [\App\Http\Controllers\JobVacancyController::class, 'adminApplications'])->name('admin.loker.applications');
+    Route::put('/admin/loker/applications/{id}/status', [\App\Http\Controllers\JobVacancyController::class, 'adminUpdateApplicationStatus'])->name('admin.loker.application.update-status');
 
 });
 
@@ -93,8 +101,9 @@ Route::middleware(['auth', 'cekrole:alumni'])->group(function () {
     // Alumni CV routes
     Route::get('/profil/cv', [AlumniCvController::class, 'index'])->name('profile.cv');
 
-    // Alumni Job Board routes
+    // Alumni Job Board routes (riwayat lamaran)
     Route::get('/alumni/loker', [\App\Http\Controllers\JobVacancyController::class, 'alumniIndex'])->name('alumni.loker.index');
+    Route::post('/alumni/loker/{id}/apply', [\App\Http\Controllers\JobVacancyController::class, 'applyJob'])->name('alumni.loker.apply');
 });
 
 // Public Mitra & Job details routes

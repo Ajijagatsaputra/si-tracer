@@ -182,14 +182,6 @@
                                     value="{{ old('company_name') }}">
                             </div>
 
-                            <!-- Logo Perusahaan -->
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold text-muted small text-uppercase">Logo Perusahaan
-                                    (Opsional)</label>
-                                <input type="file" name="logo" class="form-control" accept="image/*">
-                                <div class="form-text fs-xs">Format: JPG, PNG. Max: 2MB.</div>
-                            </div>
-
                             <!-- Posisi Pekerjaan -->
                             <div class="col-md-6">
                                 <label class="form-label fw-bold text-muted small text-uppercase">Posisi / Jabatan
@@ -213,6 +205,32 @@
                                     </option>
                                 </select>
                             </div>
+
+                            <!-- Logo Perusahaan -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-muted small text-uppercase">Logo Perusahaan
+                                    (Opsional)</label>
+                                <input type="file" name="logo" class="form-control" accept="image/*">
+                                <div class="form-text fs-xs">Format: JPG, PNG, JPEG. Max: 2MB.</div>
+                            </div>
+
+                            <!-- Poster Lowongan -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-muted small text-uppercase">Poster Lowongan /
+                                    Brosur (Opsional)</label>
+                                <div id="poster-dropzone" class="border rounded-3 p-3 text-center bg-light"
+                                    style="border-style: dashed !important; border-width: 2px !important; border-color: #cbd5e1 !important; cursor: pointer; transition: all 0.2s ease-in-out;">
+                                    <i class="fa fa-cloud-upload-alt text-muted fa-2x mb-2"></i>
+                                    <div class="fw-bold text-dark small">Pilih atau Tarik Gambar Poster</div>
+                                    <div class="text-muted fs-xs mt-1">Maksimal 10 gambar. Format: JPG, JPEG, PNG. Max
+                                        2MB per gambar.</div>
+                                </div>
+                                <input type="file" id="posters-input" name="posters[]" class="d-none" accept="image/*"
+                                    multiple>
+
+                                <!-- Preview Container -->
+                                <div id="poster-previews" class="row g-2 mt-2" style="display: none;"></div>
+                            </div>
                         </div>
 
                         <h4 class="fw-bold text-dark mb-4 border-bottom pb-2 text-primary"><i
@@ -222,19 +240,17 @@
                             <!-- Deskripsi Pekerjaan -->
                             <div class="col-12">
                                 <label class="form-label fw-bold text-muted small text-uppercase">Deskripsi Pekerjaan
-                                    <span class="text-danger">*</span></label>
+                                    (Opsional)</label>
                                 <textarea name="description" rows="4" class="form-control"
-                                    placeholder="Tuliskan gambaran umum, tugas, dan tanggung jawab posisi ini..."
-                                    required>{{ old('description') }}</textarea>
+                                    placeholder="Tuliskan gambaran umum, tugas, dan tanggung jawab posisi ini...">{{ old('description') }}</textarea>
                             </div>
 
                             <!-- Persyaratan Pekerjaan -->
                             <div class="col-12">
                                 <label class="form-label fw-bold text-muted small text-uppercase">Kualifikasi /
-                                    Persyaratan <span class="text-danger">*</span></label>
+                                    Persyaratan (Opsional)</label>
                                 <textarea name="requirements" rows="4" class="form-control"
-                                    placeholder="Tuliskan kualifikasi (contoh: Pendidikan minimal, skill yang wajib dikuasai, pengalaman kerja)..."
-                                    required>{{ old('requirements') }}</textarea>
+                                    placeholder="Tuliskan kualifikasi (contoh: Pendidikan minimal, skill yang wajib dikuasai, pengalaman kerja)...">{{ old('requirements') }}</textarea>
                             </div>
                         </div>
 
@@ -245,9 +261,9 @@
                             <!-- Lokasi -->
                             <div class="col-md-6">
                                 <label class="form-label fw-bold text-muted small text-uppercase">Lokasi Penempatan
-                                    <span class="text-danger">*</span></label>
+                                    (Opsional)</label>
                                 <input type="text" name="location" class="form-control"
-                                    placeholder="Contoh: Jakarta / Remote (WFH)" required value="{{ old('location') }}">
+                                    placeholder="Contoh: Jakarta / Remote (WFH)" value="{{ old('location') }}">
                             </div>
 
                             <!-- Rentang Gaji -->
@@ -261,10 +277,9 @@
                             <!-- Email Kontak -->
                             <div class="col-md-6">
                                 <label class="form-label fw-bold text-muted small text-uppercase">Email Pendaftaran
-                                    <span class="text-danger">*</span></label>
+                                    (Opsional)</label>
                                 <input type="email" name="contact_email" class="form-control"
-                                    placeholder="Contoh: recruit@company.com" required
-                                    value="{{ old('contact_email') }}">
+                                    placeholder="Contoh: recruit@company.com" value="{{ old('contact_email') }}">
                             </div>
 
                             <!-- Link Pendaftaran -->
@@ -293,6 +308,146 @@
         </div>
     </footer>
 
+    <style>
+        #poster-dropzone:hover {
+            background-color: #e2e8f0 !important;
+            border-color: #3b82f6 !important;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const dropzone = document.getElementById('poster-dropzone');
+            const input = document.getElementById('posters-input');
+            const previewContainer = document.getElementById('poster-previews');
+            const dataTransfer = new DataTransfer();
+
+            // Trigger input click when clicking dropzone
+            dropzone.addEventListener('click', () => input.click());
+
+            // Drag and drop events
+            dropzone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropzone.style.backgroundColor = '#e2e8f0';
+                dropzone.style.borderColor = '#3b82f6';
+            });
+
+            dropzone.addEventListener('dragleave', () => {
+                dropzone.style.backgroundColor = '';
+                dropzone.style.borderColor = '#cbd5e1';
+            });
+
+            dropzone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropzone.style.backgroundColor = '';
+                dropzone.style.borderColor = '#cbd5e1';
+
+                if (e.dataTransfer.files.length) {
+                    handleFiles(e.dataTransfer.files);
+                }
+            });
+
+            // Handle input change
+            input.addEventListener('change', () => {
+                if (input.files.length) {
+                    handleFiles(input.files);
+                }
+            });
+
+            function handleFiles(files) {
+                const fileArray = Array.from(files);
+
+                // Filter out non-images
+                const imageFiles = fileArray.filter(file => file.type.startsWith('image/'));
+
+                if (imageFiles.length === 0) {
+                    alert('Hanya diperbolehkan mengunggah file gambar.');
+                    return;
+                }
+
+                // Check if we exceed 10 images limit
+                if (dataTransfer.files.length + imageFiles.length > 10) {
+                    alert('Maksimal hanya dapat mengunggah 10 poster.');
+                    const remaining = 10 - dataTransfer.files.length;
+                    imageFiles.splice(remaining);
+                }
+
+                imageFiles.forEach(file => {
+                    // Check size (2MB)
+                    if (file.size > 2 * 1024 * 1024) {
+                        alert(`File ${file.name} melebihi batas 2MB.`);
+                        return;
+                    }
+                    dataTransfer.items.add(file);
+                });
+
+                // Update the file input
+                input.files = dataTransfer.files;
+
+                // Render preview
+                renderPreviews();
+            }
+
+            function renderPreviews() {
+                previewContainer.innerHTML = '';
+                const files = dataTransfer.files;
+
+                if (files.length === 0) {
+                    previewContainer.style.display = 'none';
+                    return;
+                }
+
+                previewContainer.style.display = 'flex';
+
+                Array.from(files).forEach((file, index) => {
+                    const url = URL.createObjectURL(file);
+
+                    const col = document.createElement('div');
+                    col.className = 'col-4 col-sm-3 position-relative mt-2';
+
+                    col.innerHTML = `
+                        <div class="card border rounded-3 overflow-hidden shadow-xs h-100 bg-light">
+                            <img src="${url}" class="card-img-top img-fluid" style="height: 100px; object-fit: contain;" alt="Poster preview">
+                            <div class="card-body p-1 text-center bg-white border-top">
+                                <span class="text-truncate d-block small text-muted" style="max-width: 100%; font-size: 0.7rem;">${file.name}</span>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-danger btn-xs rounded-circle position-absolute top-0 end-0 m-1 btn-delete-preview" data-index="${index}" style="width: 20px; height: 20px; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; border: none; outline: none;">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    `;
+
+                    col.querySelector('img').onload = function () {
+                        URL.revokeObjectURL(url);
+                    };
+
+                    previewContainer.appendChild(col);
+                });
+
+                // Add event listeners for delete buttons
+                document.querySelectorAll('.btn-delete-preview').forEach(btn => {
+                    btn.addEventListener('click', function (e) {
+                        e.stopPropagation();
+                        const indexToDelete = parseInt(this.dataset.index);
+
+                        const newDt = new DataTransfer();
+                        Array.from(dataTransfer.files).forEach((file, idx) => {
+                            if (idx !== indexToDelete) {
+                                newDt.items.add(file);
+                            }
+                        });
+
+                        while (dataTransfer.files.length > 0) {
+                            dataTransfer.items.remove(0);
+                        }
+                        Array.from(newDt.files).forEach(file => dataTransfer.items.add(file));
+
+                        input.files = dataTransfer.files;
+                        renderPreviews();
+                    });
+                });
+            }
+        });
+    </script>
     <!-- Bootstrap Bundle JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

@@ -10,7 +10,7 @@
                     <div class="col-lg-9 col-xl-8 position-relative" style="z-index: 2;">
                         <span
                             class="badge bg-success-light text-success rounded-pill px-3 py-2 mb-3 border border-success-10 fs-xs fw-bold">
-                            <i class="fa fa-robot me-1"></i> AI Powered Analysis
+                            <i class="fa fa-robot me-1"></i>Jagat AI Powered Analysis
                         </span>
                         <h1 class="display-6 fw-bold text-white mb-2 fs-2 fs-md-1">Analisis Kesenjangan Kurikulum</h1>
                         <p class="lead text-white mb-0 fs-6 fs-md-5">
@@ -181,7 +181,7 @@
                     <div class="spinner-border text-success mb-3" role="status" style="width: 3.5rem; height: 3.5rem;">
                         <span class="visually-hidden">Loading...</span>
                     </div>
-                    <h5 class="fw-bold text-dark mt-2 fs-5">Menganalisis Kurikulum dengan Gemini AI</h5>
+                    <h5 class="fw-bold text-dark mt-2 fs-5">Menganalisis Kurikulum dengan Jagat AI</h5>
                     <p class="text-muted small mb-0">Harap tunggu, proses ini memakan waktu beberapa detik...</p>
                 </div>
             </div>
@@ -194,7 +194,7 @@
                         </div>
                         <div>
                             <h5 class="fw-bold text-dark mb-0 fs-5">Rekomendasi Pembaruan Kurikulum (AI)</h5>
-                            <p class="text-muted small mb-0">Laporan analisis komprehensif yang dihasilkan oleh Gemini AI
+                            <p class="text-muted small mb-0">Laporan analisis komprehensif yang dihasilkan oleh Jagat AI
                             </p>
                         </div>
                     </div>
@@ -230,7 +230,7 @@
                         <h5 class="fw-bold text-dark">Analisis Belum Dibuat</h5>
                         <p class="text-muted small mb-4 px-3" style="max-width: 500px; margin: 0 auto;">
                             Sistem belum memproses analisis kesenjangan kurikulum untuk periode ini. Silakan klik tombol di
-                            bawah untuk meminta Gemini AI menganalisis data saat ini.
+                            bawah untuk meminta Jagat AI menganalisis data saat ini.
                         </p>
                         <form class="form-generate-analysis" method="POST"
                             action="{{ route('admin.curriculum-analysis.generate') }}">
@@ -443,12 +443,12 @@
                             {
                                 label: 'Kompetensi Awal (Alumni)',
                                 data: [
-                                                    {{ $competencyStats->etika_awal ?? 0 }},
-                                                    {{ $competencyStats->keahlian_awal ?? 0 }},
-                                                    {{ $competencyStats->bahasa_inggris_awal ?? 0 }},
-                                                    {{ $competencyStats->teknologi_awal ?? 0 }},
-                                                    {{ $competencyStats->kerjasama_awal ?? 0 }},
-                                                    {{ $competencyStats->komunikasi_awal ?? 0 }},
+                                                                    {{ $competencyStats->etika_awal ?? 0 }},
+                                                                    {{ $competencyStats->keahlian_awal ?? 0 }},
+                                                                    {{ $competencyStats->bahasa_inggris_awal ?? 0 }},
+                                                                    {{ $competencyStats->teknologi_awal ?? 0 }},
+                                                                    {{ $competencyStats->kerjasama_awal ?? 0 }},
+                                                                    {{ $competencyStats->komunikasi_awal ?? 0 }},
                                     {{ $competencyStats->pengembangan_awal ?? 0 }}
                                 ],
                                 backgroundColor: 'rgba(59, 130, 246, 0.2)',
@@ -461,12 +461,12 @@
                             {
                                 label: 'Kompetensi Sekarang (Alumni)',
                                 data: [
-                                                    {{ $competencyStats->etika_sekarang ?? 0 }},
-                                                    {{ $competencyStats->keahlian_sekarang ?? 0 }},
-                                                    {{ $competencyStats->bahasa_inggris_sekarang ?? 0 }},
-                                                    {{ $competencyStats->teknologi_sekarang ?? 0 }},
-                                                    {{ $competencyStats->kerjasama_sekarang ?? 0 }},
-                                                    {{ $competencyStats->komunikasi_sekarang ?? 0 }},
+                                                                    {{ $competencyStats->etika_sekarang ?? 0 }},
+                                                                    {{ $competencyStats->keahlian_sekarang ?? 0 }},
+                                                                    {{ $competencyStats->bahasa_inggris_sekarang ?? 0 }},
+                                                                    {{ $competencyStats->teknologi_sekarang ?? 0 }},
+                                                                    {{ $competencyStats->kerjasama_sekarang ?? 0 }},
+                                                                    {{ $competencyStats->komunikasi_sekarang ?? 0 }},
                                     {{ $competencyStats->pengembangan_sekarang ?? 0 }}
                                 ],
                                 backgroundColor: 'rgba(16, 185, 129, 0.2)',
@@ -479,12 +479,12 @@
                             {
                                 label: 'Kepuasan Industri (Atasan)',
                                 data: [
-                                                    {{ $supervisorStats->integritas ?? 0 }},
-                                                    {{ $supervisorStats->keahlian ?? 0 }},
-                                                    {{ $supervisorStats->kemampuan ?? 0 }},
-                                                    {{ $supervisorStats->penguasaan ?? 0 }},
-                                                    {{ $supervisorStats->komunikasi ?? 0 }},
-                                                    {{ $supervisorStats->kerja_tim ?? 0 }},
+                                                                    {{ $supervisorStats->integritas ?? 0 }},
+                                                                    {{ $supervisorStats->keahlian ?? 0 }},
+                                                                    {{ $supervisorStats->kemampuan ?? 0 }},
+                                                                    {{ $supervisorStats->penguasaan ?? 0 }},
+                                                                    {{ $supervisorStats->komunikasi ?? 0 }},
+                                                                    {{ $supervisorStats->kerja_tim ?? 0 }},
                                     {{ $supervisorStats->pengembangan ?? 0 }}
                                 ],
                                 backgroundColor: 'rgba(245, 158, 11, 0.2)',

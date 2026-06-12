@@ -29,6 +29,11 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
         $request->session()->regenerateToken();
 
+        $user = Auth::user();
+        if ($user && trim(strtolower($user->role)) === 'alumni') {
+            return redirect()->route('home');
+        }
+
         // return redirect()->intended(route('admin', absolute: false));
         return redirect()->intended(route('dashboard', absolute: false));
     }

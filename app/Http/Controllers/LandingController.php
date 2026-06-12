@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Alumni;
 use App\Models\TracerStudy;
 use App\Models\JobVacancy;
+use App\Models\JobApplication;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LandingController extends Controller
 {
@@ -21,8 +23,20 @@ class LandingController extends Controller
         $workingCount = $employed + $entrepreneur;
         $workingPercentage = $totalTracer > 0 ? round(($workingCount / $totalTracer) * 100, 1) : 0;
 
-        // Fetch latest 3 approved job vacancies
-        $recentJobs = JobVacancy::where('status', 'approved')->latest()->take(3)->get();
+        // Fetch latest 6 approved job vacancies
+        $recentJobs = JobVacancy::where('status', 'approved')->latest()->take(6)->get();
+
+        // Get applied job IDs for logged-in alumni
+        $appliedJobIds = [];
+        $user = Auth::user();
+        if ($user && $user->role === 'alumni') {
+            $alumni = $user->alumni ?? Alumni::where('id_users', $user->id)->first();
+            if ($alumni) {
+                $appliedJobIds = JobApplication::where('alumni_id', $alumni->id)
+                    ->pluck('job_vacancy_id')
+                    ->toArray();
+            }
+        }
 
         return view('landing', compact(
             'totalAlumni',
@@ -31,7 +45,8 @@ class LandingController extends Controller
             'entrepreneur',
             'continuing',
             'workingPercentage',
-            'recentJobs'
+            'recentJobs',
+            'appliedJobIds'
         ));
     }
 }

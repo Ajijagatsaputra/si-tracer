@@ -14,6 +14,7 @@ class JobVacancy extends Model
     protected $fillable = [
         'company_name',
         'logo_path',
+        'poster_paths',
         'position',
         'category',
         'description',
@@ -24,4 +25,13 @@ class JobVacancy extends Model
         'contact_link',
         'status',
     ];
+
+    protected $casts = [
+        'poster_paths' => 'array',
+    ];
+
+    public function jobApplications()
+    {
+        return $this->hasMany(JobApplication::class, 'job_vacancy_id');
+    }
 }

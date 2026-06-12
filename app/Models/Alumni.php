@@ -39,4 +39,9 @@ class Alumni extends Model
     {
         return $this->hasOne(TracerStudy::class, 'alumni_id');
     }
+
+    public function jobApplications()
+    {
+        return $this->hasMany(JobApplication::class, 'alumni_id');
+    }
 }

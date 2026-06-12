@@ -135,12 +135,28 @@
 
                 <!-- BURSA KERJA -->
                 <li class="nav-main-heading text-uppercase text-muted fw-bold">Bursa Kerja</li>
-                <li class="nav-main-item">
-                    <a class="nav-main-link {{ request()->is('admin/loker*') ? 'active' : '' }}"
-                        href="{{ route('admin.loker.index') }}">
+                <li class="nav-main-item {{ request()->is('admin/loker*') ? 'open' : '' }}">
+                    <a class="nav-main-link nav-main-link-submenu" data-toggle="custom-submenu" aria-haspopup="true"
+                        aria-expanded="false" href="javascript:void(0)">
                         <i class="nav-main-link-icon fa fa-briefcase text-info"></i>
-                        <span class="nav-main-link-name">Kelola Loker</span>
+                        <span class="nav-main-link-name">Bursa Kerja</span>
                     </a>
+                    <ul class="nav-main-submenu">
+                        <li class="nav-main-item">
+                            <a class="nav-main-link {{ request()->routeIs('admin.loker.index') || request()->routeIs('admin.loker.create') ? 'active' : '' }}"
+                                href="{{ route('admin.loker.index') }}">
+                                <i class="nav-main-link-icon fa fa-tasks"></i>
+                                <span class="nav-main-link-name">Kelola Loker</span>
+                            </a>
+                        </li>
+                        <li class="nav-main-item">
+                            <a class="nav-main-link {{ request()->routeIs('admin.loker.applications') ? 'active' : '' }}"
+                                href="{{ route('admin.loker.applications') }}">
+                                <i class="nav-main-link-icon fa fa-clipboard-list"></i>
+                                <span class="nav-main-link-name">Lamaran Alumni</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>

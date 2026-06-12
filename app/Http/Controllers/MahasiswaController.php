@@ -25,4 +25,3 @@ class MahasiswaController extends Controller
         return response()->json($response->json());
     }
 }
-

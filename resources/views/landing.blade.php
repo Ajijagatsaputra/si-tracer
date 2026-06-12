@@ -305,9 +305,34 @@
                     <li class="nav-item">
                         <a class="nav-link fw-semibold text-dark px-3" href="#loker">Lowongan Kerja</a>
                     </li>
-                    <li class="nav-item ms-lg-2">
-                        <a href="{{ route('login') }}" class="btn btn-outline-primary rounded-pill px-4 fw-bold">Login Portal</a>
-                    </li>
+                    @auth
+                        <li class="nav-item dropdown ms-lg-2">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="{{ Auth::user()->avatar ? asset('storage/avatars/' . Auth::user()->avatar) : asset('assets/media/avatars/avatar10.jpg') }}" alt="Avatar" class="rounded-circle border border-secondary" style="width: 38px; height: 38px; object-fit: cover;">
+                                <span class="fw-semibold text-dark">{{ Auth::user()->username }}</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 mt-2">
+                                <li>
+                                    <a class="dropdown-item py-2" href="{{ route('dashboard') }}">
+                                        <i class="fa fa-gauge me-2 text-primary"></i> Dashboard Alumni
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form method="POST" action="{{ route('logout') }}" class="mb-0">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item py-2 text-danger border-0 bg-transparent w-100 text-start">
+                                            <i class="fa fa-right-from-bracket me-2"></i> Keluar
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    @else
+                        <li class="nav-item ms-lg-2">
+                            <a href="{{ route('login') }}" class="btn btn-outline-primary rounded-pill px-4 fw-bold">Masuk</a>
+                        </li>
+                    @endauth
                 </ul>
             </div>
         </div>
@@ -323,10 +348,14 @@
                     </div>
                     <h1 class="hero-title mb-4">Membangun Jembatan Karir <span>Masa Depan</span></h1>
                     <p class="text-white/80 fs-5 mb-5 fw-medium" style="line-height: 1.6;">
-                        Portal Tracer Study Program Studi Teknik Informatika Universitas Harkat Negeri. Kami menghubungkan keselarasan kurikulum akademik dengan kebutuhan nyata industri kerja.
+                        Portal Tracer Study Program Studi Teknik Informatika Universitas Harkat Negeri. Kami menghubungkan keselarasan kurikulum akademik dengan kebutuhan nyata industry kerja.
                     </p>
                     <div class="d-flex flex-wrap gap-3">
-                        <a href="{{ route('login') }}" class="btn btn-modern-primary shadow-lg px-4 py-3"><i class="fa fa-right-to-bracket me-2"></i> Masuk Sebagai Alumni</a>
+                        @auth
+                            <a href="{{ route('dashboard') }}" class="btn btn-modern-primary shadow-lg px-4 py-3"><i class="fa fa-gauge me-2"></i> Ke Dashboard Alumni</a>
+                        @else
+                            <a href="{{ route('login') }}" class="btn btn-modern-primary shadow-lg px-4 py-3"><i class="fa fa-right-to-bracket me-2"></i> Masuk Sebagai Alumni</a>
+                        @endauth
                         <a href="{{ route('mitra.loker.create') }}" class="btn btn-modern-outline px-4 py-3"><i class="fa fa-briefcase me-2"></i> Unggah Loker Mitra</a>
                     </div>
                 </div>
@@ -448,7 +477,11 @@
                     <h2 class="section-title">Lowongan Kerja Terbaru</h2>
                     <p class="text-muted fw-medium mb-0">Raih kesempatan berkarir di berbagai perusahaan mitra terbaik kami.</p>
                 </div>
-                <a href="{{ route('login') }}" class="btn btn-outline-primary rounded-pill px-4 mt-3 mt-md-0 fw-bold">Lihat Semua Loker <i class="fa fa-arrow-right ms-1"></i></a>
+                @auth
+                    <a href="{{ route('alumni.loker.index') }}" class="btn btn-outline-primary rounded-pill px-4 mt-3 mt-md-0 fw-bold">Riwayat Lamaran Saya <i class="fa fa-arrow-right ms-1"></i></a>
+                @else
+                    <a href="{{ route('login') }}" class="btn btn-outline-primary rounded-pill px-4 mt-3 mt-md-0 fw-bold">Masuk untuk Melamar <i class="fa fa-arrow-right ms-1"></i></a>
+                @endauth
             </div>
 
             <div class="row g-4">
@@ -471,7 +504,27 @@
                                 </div>
                             </div>
                             
-                            <a href="{{ route('login') }}" class="btn btn-light btn-sm rounded-pill py-2 w-100 fw-bold border text-primary">Masuk untuk Melamar <i class="fa fa-arrow-right ms-1"></i></a>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-outline-secondary btn-sm rounded-pill px-3 fw-semibold btn-detail-landing" data-id="{{ $job->id }}">
+                                    <i class="fa fa-eye me-1"></i> Detail
+                                </button>
+                                @auth
+                                    @if(in_array($job->id, $appliedJobIds ?? []))
+                                        <button class="btn btn-light btn-sm rounded-pill py-2 flex-grow-1 fw-bold border text-success" disabled>
+                                            <i class="fa fa-check-circle me-1"></i> Sudah Dilamar
+                                        </button>
+                                    @else
+                                        <button class="btn btn-primary btn-sm rounded-pill py-2 flex-grow-1 fw-bold btn-apply-landing"
+                                            data-id="{{ $job->id }}"
+                                            data-position="{{ $job->position }}"
+                                            data-company="{{ $job->company_name }}">
+                                            <i class="fa fa-paper-plane me-1"></i> Lamar
+                                        </button>
+                                    @endif
+                                @else
+                                    <a href="{{ route('login') }}" class="btn btn-light btn-sm rounded-pill py-2 flex-grow-1 fw-bold border text-primary text-center">Lamar</a>
+                                @endauth
+                            </div>
                         </div>
                     </div>
                 @empty
@@ -485,6 +538,410 @@
             </div>
         </div>
     </section>
+
+    @auth
+    <!-- Apply Job Modal -->
+    <div class="modal fade" id="modalApplyJob" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 overflow-hidden">
+                <div class="modal-header bg-dark text-white border-0 p-4">
+                    <div>
+                        <h5 class="modal-title fw-bold text-white mb-1">Lamar Posisi</h5>
+                        <p class="mb-0 text-white-50 fs-sm" id="apply-job-info">-</p>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4 text-start">
+                    <input type="hidden" id="apply-job-id">
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-muted small text-uppercase">Nomor WhatsApp / Telepon Aktif <span class="text-danger">*</span></label>
+                        <input type="text" id="apply-phone" class="form-control" placeholder="Contoh: 081234567890" required style="border-radius: 12px;" value="{{ Auth::check() && Auth::user()->alumni ? Auth::user()->alumni->no_hp : '' }}">
+                        <div class="form-text">Nomor telepon yang bisa dihubungi oleh perusahaan.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-muted small text-uppercase">Gaji yang Diharapkan (Opsional)</label>
+                        <input type="text" id="apply-expected-salary" class="form-control" placeholder="Contoh: Rp 5.000.000" style="border-radius: 12px;">
+                        <div class="form-text">Masukkan perkiraan atau rentang gaji yang Anda harapkan.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-muted small text-uppercase">Unggah CV / Resume <span class="text-danger">*</span></label>
+                        <input type="file" id="apply-cv" class="form-control" accept=".pdf,.doc,.docx" required style="border-radius: 12px;">
+                        <div class="form-text">Format yang diperbolehkan: PDF, DOC, DOCX. Maksimal 2MB.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-muted small text-uppercase">Pesan Singkat / Cover Letter (Opsional)</label>
+                        <textarea id="apply-cover-letter" class="form-control" rows="4" maxlength="1000"
+                            placeholder="Tuliskan pesan singkat atau motivasi Anda melamar posisi ini..." style="border-radius: 12px;"></textarea>
+                        <div class="form-text">Maksimal 1000 karakter</div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 p-3">
+                    <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary rounded-pill px-4 fw-bold" id="btn-submit-apply">
+                        <i class="fa fa-paper-plane me-1"></i> Kirim Lamaran
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endauth
+
+    <!-- Job Detail Modal (Landing) -->
+    <div class="modal fade" id="modalJobDetail" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 rounded-4 overflow-hidden shadow-lg">
+                <div class="modal-header bg-dark text-white border-0 p-4">
+                    <div class="d-flex align-items-center gap-3">
+                        <div id="detail-company-logo-container">
+                            <!-- Logo populated by JS -->
+                        </div>
+                        <div>
+                            <h5 class="modal-title fw-bold text-white mb-1" id="detail-job-position">-</h5>
+                            <p class="mb-0 text-white-50 fs-sm" id="detail-company-name">-</p>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4 bg-light/30">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="p-3 bg-white border border-light shadow-xs rounded-3">
+                                <span class="text-muted text-uppercase fw-bold d-block mb-1" style="font-size: 0.65rem;">Kategori Bidang</span>
+                                <span class="fw-bold text-dark" id="detail-job-category">-</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 bg-white border border-light shadow-xs rounded-3">
+                                <span class="text-muted text-uppercase fw-bold d-block mb-1" style="font-size: 0.65rem;">Lokasi</span>
+                                <span class="fw-bold text-dark" id="detail-job-location">-</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 bg-white border border-light shadow-xs rounded-3">
+                                <span class="text-muted text-uppercase fw-bold d-block mb-1" style="font-size: 0.65rem;">Gaji</span>
+                                <span class="fw-bold text-dark" id="detail-job-salary">-</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 bg-white border border-light shadow-xs rounded-3">
+                                <span class="text-muted text-uppercase fw-bold d-block mb-1" style="font-size: 0.65rem;">Email Pendaftaran</span>
+                                <span class="fw-bold text-dark" id="detail-job-contact-email">-</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 bg-white border border-light shadow-xs rounded-3">
+                                <span class="text-muted text-uppercase fw-bold d-block mb-1" style="font-size: 0.65rem;">Link Pendaftaran</span>
+                                <span class="fw-bold text-dark" id="detail-job-contact-link">-</span>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="p-3 bg-white border border-light shadow-xs rounded-3">
+                                <span class="text-muted text-uppercase fw-bold d-block mb-2" style="font-size: 0.65rem;">Deskripsi Pekerjaan</span>
+                                <div class="text-dark fs-sm" id="detail-job-description" style="white-space: pre-line; line-height: 1.6;">-</div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="p-3 bg-white border border-light shadow-xs rounded-3">
+                                <span class="text-muted text-uppercase fw-bold d-block mb-2" style="font-size: 0.65rem;">Kualifikasi / Persyaratan</span>
+                                <div class="text-dark fs-sm" id="detail-job-requirements" style="white-space: pre-line; line-height: 1.6;">-</div>
+                            </div>
+                        </div>
+
+                        <!-- Poster display -->
+                        <div class="col-12" id="detail-poster-container" style="display: none;">
+                            <div class="p-3 bg-white border border-light shadow-xs rounded-3 text-center">
+                                <span class="text-muted text-uppercase fw-bold d-block mb-2 text-start" style="font-size: 0.65rem;">Poster / Brosur Lowongan</span>
+                                
+                                <div id="carouselLandingPosters" class="carousel slide carousel-dark" data-bs-ride="carousel">
+                                    <div class="carousel-indicators" id="carousel-landing-indicators">
+                                        <!-- Indicators populated by JS -->
+                                    </div>
+                                    <div class="carousel-inner rounded-3 shadow-sm bg-light" id="carousel-landing-inner" style="max-height: 480px;">
+                                        <!-- Slides populated by JS -->
+                                    </div>
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselLandingPosters" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselLandingPosters" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 p-3 bg-light/50">
+                    <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Tutup</button>
+                    <div id="detail-action-container">
+                        <!-- Action button populated dynamically by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var isAuthenticated = @json(Auth::check());
+
+        // Open apply modal directly from card
+        document.querySelectorAll('.btn-apply-landing').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var id = this.dataset.id;
+                var position = this.dataset.position;
+                var company = this.dataset.company;
+                document.getElementById('apply-job-id').value = id;
+                document.getElementById('apply-job-info').textContent = position + ' — ' + company;
+                document.getElementById('apply-cover-letter').value = '';
+                document.getElementById('apply-expected-salary').value = '';
+                document.getElementById('apply-cv').value = '';
+                var modal = new bootstrap.Modal(document.getElementById('modalApplyJob'));
+                modal.show();
+            });
+        });
+
+        // Open detail modal
+        document.querySelectorAll('.btn-detail-landing').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var jobId = this.dataset.id;
+                
+                fetch('/alumni/loker/' + jobId)
+                    .then(function(res) { return res.json(); })
+                    .then(function(job) {
+                        document.getElementById('detail-job-position').textContent = job.position;
+                        document.getElementById('detail-company-name').textContent = job.company_name;
+                        document.getElementById('detail-job-category').textContent = job.category;
+                        document.getElementById('detail-job-location').textContent = job.location ? job.location : '-';
+                        document.getElementById('detail-job-salary').textContent = job.salary_range ? job.salary_range : '-';
+                        document.getElementById('detail-job-description').textContent = job.description ? job.description : '-';
+                        document.getElementById('detail-job-requirements').textContent = job.requirements ? job.requirements : '-';
+                        document.getElementById('detail-job-contact-email').textContent = job.contact_email ? job.contact_email : '-';
+                        var contactLink = document.getElementById('detail-job-contact-link');
+                        if (job.contact_link) {
+                            contactLink.innerHTML = '<a href="' + job.contact_link + '" target="_blank" class="text-primary fw-bold"><i class="fa fa-external-link-alt me-1"></i> Buka Link</a>';
+                        } else {
+                            contactLink.textContent = '-';
+                        }
+
+                        // Logo
+                        var logoContainer = document.getElementById('detail-company-logo-container');
+                        if (job.logo_path) {
+                            logoContainer.innerHTML = '<img src="' + job.logo_path + '" alt="Logo" class="rounded-3 shadow-xs" style="width: 48px; height: 48px; object-fit: cover;">';
+                        } else {
+                            logoContainer.innerHTML = '<div class="bg-primary-light text-primary rounded-3 fw-bold d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; font-size: 1.1rem;">' + job.company_name.substring(0, 2).toUpperCase() + '</div>';
+                        }
+
+                        // Posters
+                        var posterContainer = document.getElementById('detail-poster-container');
+                        var indicators = document.getElementById('carousel-landing-indicators');
+                        var inner = document.getElementById('carousel-landing-inner');
+                        
+                        indicators.innerHTML = '';
+                        inner.innerHTML = '';
+
+                        var posters = job.poster_paths;
+                        if (posters && Array.isArray(posters) && posters.length > 0) {
+                            posters.forEach(function(path, index) {
+                                var activeClass = index === 0 ? 'active' : '';
+                                var ariaCurrent = index === 0 ? 'aria-current="true"' : '';
+                                
+                                indicators.innerHTML += '<button type="button" data-bs-target="#carouselLandingPosters" data-bs-slide-to="' + index + '" class="' + activeClass + '" ' + ariaCurrent + ' aria-label="Slide ' + (index + 1) + '"></button>';
+                                
+                                inner.innerHTML += 
+                                    '<div class="carousel-item ' + activeClass + '">' +
+                                        '<img src="' + path + '" class="d-block w-100 rounded-3 shadow-sm" style="max-height: 450px; object-fit: contain;" alt="Poster Lowongan">' +
+                                    '</div>';
+                            });
+
+                            var prevControl = document.querySelector('#carouselLandingPosters .carousel-control-prev');
+                            var nextControl = document.querySelector('#carouselLandingPosters .carousel-control-next');
+                            
+                            if (posters.length <= 1) {
+                                indicators.style.display = 'none';
+                                if (prevControl) prevControl.style.display = 'none';
+                                if (nextControl) nextControl.style.display = 'none';
+                            } else {
+                                indicators.style.display = 'flex';
+                                if (prevControl) prevControl.style.display = 'block';
+                                if (nextControl) nextControl.style.display = 'block';
+                            }
+
+                            posterContainer.style.display = 'block';
+                            
+                            var carouselEl = document.getElementById('carouselLandingPosters');
+                            var carousel = bootstrap.Carousel.getOrCreateInstance(carouselEl);
+                            carousel.to(0);
+                        } else {
+                            posterContainer.style.display = 'none';
+                        }
+
+                        // Action Button in detail modal
+                        var actionContainer = document.getElementById('detail-action-container');
+                        if (!isAuthenticated) {
+                            actionContainer.innerHTML = '<a href="/login" class="btn btn-primary rounded-pill px-4 fw-bold">Masuk untuk Melamar <i class="fa fa-arrow-right ms-1"></i></a>';
+                        } else if (job.already_applied) {
+                            actionContainer.innerHTML = '<button class="btn btn-light rounded-pill px-4 fw-bold border text-success" disabled><i class="fa fa-check-circle me-1"></i> Sudah Dilamar</button>';
+                        } else {
+                            actionContainer.innerHTML = '<button class="btn btn-primary rounded-pill px-4 fw-bold btn-apply-from-detail" data-id="' + job.id + '" data-position="' + job.position + '" data-company="' + job.company_name + '"><i class="fa fa-paper-plane me-1"></i> Lamar Sekarang</button>';
+                            
+                            // Bind click event for the dynamically generated button
+                            actionContainer.querySelector('.btn-apply-from-detail').addEventListener('click', function() {
+                                // Close detail modal first
+                                var detailModalEl = document.getElementById('modalJobDetail');
+                                var detailModalInstance = bootstrap.Modal.getInstance(detailModalEl);
+                                if (detailModalInstance) {
+                                    detailModalInstance.hide();
+                                }
+
+                                // Set info and open apply modal
+                                var id = this.dataset.id;
+                                var position = this.dataset.position;
+                                var company = this.dataset.company;
+                                document.getElementById('apply-job-id').value = id;
+                                document.getElementById('apply-job-info').textContent = position + ' — ' + company;
+                                document.getElementById('apply-cover-letter').value = '';
+                                document.getElementById('apply-expected-salary').value = '';
+                                document.getElementById('apply-cv').value = '';
+                                
+                                setTimeout(function() {
+                                    var applyModal = new bootstrap.Modal(document.getElementById('modalApplyJob'));
+                                    applyModal.show();
+                                }, 400); // Small delay to allow detail modal to hide smoothly
+                            });
+                        }
+
+                        var detailModal = new bootstrap.Modal(document.getElementById('modalJobDetail'));
+                        detailModal.show();
+                    })
+                    .catch(function(err) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Gagal memuat detail lowongan kerja.',
+                            confirmButtonColor: '#3085d6'
+                        });
+                    });
+            });
+        });
+
+        // Submit application
+        @auth
+        document.getElementById('btn-submit-apply').addEventListener('click', function() {
+            var btn = this;
+            var jobId = document.getElementById('apply-job-id').value;
+            var coverLetter = document.getElementById('apply-cover-letter').value;
+            var phone = document.getElementById('apply-phone').value.trim();
+            var expectedSalary = document.getElementById('apply-expected-salary').value.trim();
+            var cvInput = document.getElementById('apply-cv');
+            
+            if (!phone) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Peringatan',
+                    text: 'Nomor WhatsApp / Telepon wajib diisi.',
+                    confirmButtonColor: '#3085d6'
+                });
+                return;
+            }
+
+            if (cvInput.files.length === 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Peringatan',
+                    text: 'Silakan unggah berkas CV / Resume Anda.',
+                    confirmButtonColor: '#3085d6'
+                });
+                return;
+            }
+
+            var cvFile = cvInput.files[0];
+            if (cvFile.size > 2 * 1024 * 1024) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Peringatan',
+                    text: 'Ukuran file CV melebihi batas 2MB.',
+                    confirmButtonColor: '#3085d6'
+                });
+                return;
+            }
+
+            var formData = new FormData();
+            formData.append('cover_letter', coverLetter);
+            formData.append('phone', phone);
+            formData.append('expected_salary', expectedSalary);
+            formData.append('cv', cvFile);
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa fa-spinner fa-spin me-1"></i> Mengirim...';
+
+            fetch('/alumni/loker/' + jobId + '/apply', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '{{ csrf_token() }}',
+                    'Accept': 'application/json',
+                },
+                body: formData
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa fa-paper-plane me-1"></i> Kirim Lamaran';
+                
+                var modalEl = document.getElementById('modalApplyJob');
+                var applyModalInstance = bootstrap.Modal.getInstance(modalEl);
+                if (applyModalInstance) {
+                    applyModalInstance.hide();
+                }
+
+                if (data.success) {
+                    // Update button to "Sudah Dilamar" on the card
+                    var applyBtn = document.querySelector('.btn-apply-landing[data-id="' + jobId + '"]');
+                    if (applyBtn) {
+                        applyBtn.outerHTML = '<button class="btn btn-light btn-sm rounded-pill py-2 flex-grow-1 fw-bold border text-success" disabled><i class="fa fa-check-circle me-1"></i> Sudah Dilamar</button>';
+                    }
+                    
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil!',
+                        text: data.message,
+                        showConfirmButton: false,
+                        timer: 3500,
+                        timerProgressBar: true,
+                        customClass: {
+                            popup: 'rounded-4'
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal',
+                        text: data.message || 'Gagal mengirim lamaran.',
+                        confirmButtonColor: '#3085d6'
+                    });
+                }
+            })
+            .catch(function() {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa fa-paper-plane me-1"></i> Kirim Lamaran';
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Kesalahan Sistem',
+                    text: 'Terjadi kesalahan jaringan atau server. Silakan coba lagi.',
+                    confirmButtonColor: '#3085d6'
+                });
+            });
+        });
+        @endauth
+    });
+    </script>
 
     <!-- Footer -->
     <footer class="footer-uhn py-5 mt-5">
@@ -511,6 +968,8 @@
         </div>
     </footer>
 
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Bootstrap Bundle JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

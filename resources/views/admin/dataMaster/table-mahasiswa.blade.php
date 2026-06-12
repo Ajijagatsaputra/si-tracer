@@ -273,21 +273,48 @@
         }
 
         function initDataTable(tahunAngkatan) {
+            // Matikan pop-up alert bawaan browser/DataTables
+            $.fn.dataTable.ext.errMode = 'none';
+
+            // Dengar event error dari DataTables
+            $('.js-dataTable-full').off('error.dt').on('error.dt', function (e, settings, techNote, message) {
+                console.error('DataTables Error:', message);
+
+                // Buat toast pemberitahuan yang elegan
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 8000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                });
+
+                Toast.fire({
+                    icon: 'error',
+                    title: '<span class="fw-bold text-dark fs-sm">Koneksi API OASE Bermasalah</span>',
+                    html: '<div class="text-muted fs-xs text-start mt-1"><i class="fa fa-exclamation-circle me-1 text-danger"></i> Server API OASE Poltek Tegal sedang offline/timeout. Silakan hubungi admin atau coba lagi nanti.</div>'
+                });
+            });
+
             if (table) { table.destroy(); $('.js-dataTable-full').empty(); }
             $('.js-dataTable-full').html(`
-                        <thead>
-                            <tr class="bg-light text-muted text-uppercase fs-xs fw-bold border-0">
-                                <th class="py-3 px-4 border-0">Mahasiswa</th>
-                                <th class="py-3 border-0">NIM</th>
-                                <th class="py-3 border-0">Prodi</th>
-                                <th class="py-3 border-0">Semester</th>
-                                <th class="py-3 border-0 text-center">Kelas</th>
-                                <th class="py-3 border-0">Jalur</th>
-                                <th class="py-3 border-0">Tahun</th>
-                                <th class="py-3 border-0">Status</th>
-                                <th class="py-3 border-0 text-center">Aksi</th>
-                            </tr>
-                        </thead><tbody></tbody>`);
+                            <thead>
+                                <tr class="bg-light text-muted text-uppercase fs-xs fw-bold border-0">
+                                    <th class="py-3 px-4 border-0">Mahasiswa</th>
+                                    <th class="py-3 border-0">NIM</th>
+                                    <th class="py-3 border-0">Prodi</th>
+                                    <th class="py-3 border-0">Semester</th>
+                                    <th class="py-3 border-0 text-center">Kelas</th>
+                                    <th class="py-3 border-0">Jalur</th>
+                                    <th class="py-3 border-0">Tahun</th>
+                                    <th class="py-3 border-0">Status</th>
+                                    <th class="py-3 border-0 text-center">Aksi</th>
+                                </tr>
+                            </thead><tbody></tbody>`);
 
             table = $('.js-dataTable-full').DataTable({
                 paging: true,
@@ -318,9 +345,9 @@
                         if (json.status) { $('#jumlah-mahasiswa').text(json.data.length); }
                         return json.status ? json.data.map(item => ({
                             nama: `<div class='d-flex align-items-center py-1'>
-                                        <img src="${item.avatar_url ?? 'https://ui-avatars.com/api/?name=' + encodeURIComponent(item.nama_lengkap)}" class="shadow-sm border border-2 border-white" style="width:36px;height:36px;border-radius:12px;margin-right:12px;object-fit:cover;">
-                                        <div><div class="fw-bold text-dark">${item.nama_lengkap}</div><small class="text-muted d-sm-none">${item.nim}</small></div>
-                                      </div>`,
+                                            <img src="${item.avatar_url ?? 'https://ui-avatars.com/api/?name=' + encodeURIComponent(item.nama_lengkap)}" class="shadow-sm border border-2 border-white" style="width:36px;height:36px;border-radius:12px;margin-right:12px;object-fit:cover;">
+                                            <div><div class="fw-bold text-dark">${item.nama_lengkap}</div><small class="text-muted d-sm-none">${item.nim}</small></div>
+                                          </div>`,
                             nim: `<span class="text-muted fw-medium">${item.nim}</span>`,
                             prodi: `<div class="fs-xs fw-semibold text-primary bg-primary-light px-2 py-1 rounded-pill d-inline-block border border-primary-10">${item.prodi?.nama || 'N/A'}</div>`,
                             semester: item.semester,
@@ -329,12 +356,12 @@
                             tahun_masuk: item.tahun_masuk,
                             status: renderStatusBadge(item.status_mahasiswa),
                             aksi: `<div class="text-center">
-                                        <button class="btn btn-sm btn-white rounded-pill px-3 shadow-sm border btn-view" 
-                                            data-nim='${item.nim}' data-nama='${item.nama_lengkap}' data-prodi='${item.prodi?.nama || ''}'
-                                            data-semester='${item.semester}' data-kelas='${item.kelas}' data-jalur='${item.jalur}'
-                                            data-tahun='${item.tahun_masuk}' data-status='${item.status_mahasiswa}'
-                                            data-telp='${item.no_whatsapp || ''}' data-avatar='${item.avatar_url ?? ''}'><i class="fa fa-eye text-primary"></i></button>
-                                     </div>`
+                                            <button class="btn btn-sm btn-white rounded-pill px-3 shadow-sm border btn-view" 
+                                                data-nim='${item.nim}' data-nama='${item.nama_lengkap}' data-prodi='${item.prodi?.nama || ''}'
+                                                data-semester='${item.semester}' data-kelas='${item.kelas}' data-jalur='${item.jalur}'
+                                                data-tahun='${item.tahun_masuk}' data-status='${item.status_mahasiswa}'
+                                                data-telp='${item.no_whatsapp || ''}' data-avatar='${item.avatar_url ?? ''}'><i class="fa fa-eye text-primary"></i></button>
+                                         </div>`
                         })) : [];
                     }
                 },
@@ -476,7 +503,9 @@
             font-size: 0.6rem !important;
         }
 
-        #view-telp, #view-telp a, .detail-card a {
+        #view-telp,
+        #view-telp a,
+        .detail-card a {
             word-break: break-all !important;
             white-space: normal !important;
         }
@@ -572,7 +601,8 @@
 
         .dataTables_wrapper .dataTables_paginate .paginate_button.current,
         .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
-            background: #0ea5e9 !important; /* Sky Blue for Mahasiswa */
+            background: #0ea5e9 !important;
+            /* Sky Blue for Mahasiswa */
             color: #fff !important;
             border-color: #0ea5e9 !important;
         }
@@ -583,21 +613,26 @@
             color: #059669 !important;
             border: 1px solid #a7f3d0 !important;
         }
+
         .status-badge-cuti {
             background-color: #fffbeb !important;
             color: #d97706 !important;
             border: 1px solid #fde68a !important;
         }
+
         .status-badge-do {
             background-color: #fff1f2 !important;
             color: #e11d48 !important;
             border: 1px solid #fecdd3 !important;
         }
-        .status-badge-lulus, .status-badge-alumni {
+
+        .status-badge-lulus,
+        .status-badge-alumni {
             background-color: #e0e7ff !important;
             color: #4f46e5 !important;
             border: 1px solid #c7d2fe !important;
         }
+
         .status-badge-keluar {
             background-color: #f1f5f9 !important;
             color: #475569 !important;
@@ -617,7 +652,7 @@
             border-radius: 50% !important;
             padding: 0 !important;
         }
-        
+
         .btn-view:hover {
             background-color: #f8fafc !important;
             border-color: #cbd5e1 !important;

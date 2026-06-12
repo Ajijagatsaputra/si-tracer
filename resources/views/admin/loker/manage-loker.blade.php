@@ -16,6 +16,11 @@
                         Kelola dan validasi lowongan pekerjaan yang diunggah oleh mitra perusahaan.
                     </p>
                 </div>
+                <div class="flex-shrink-0 mt-3 mt-sm-0 ms-sm-3">
+                    <a href="{{ route('admin.loker.create') }}" class="btn btn-primary rounded-pill px-4 fw-bold">
+                        <i class="fa fa-plus-circle me-1"></i> Tambah Loker Baru
+                    </a>
+                </div>
                 <nav class="flex-shrink-0 mt-3 mt-sm-0 ms-sm-3" aria-label="breadcrumb">
                     <ol class="breadcrumb breadcrumb-alt">
                         <li class="breadcrumb-item">
@@ -126,6 +131,12 @@
                                                 <i class="fa fa-eye"></i>
                                             </button>
 
+                                            <!-- Edit Button -->
+                                            <a href="{{ route('admin.loker.edit', $job->id) }}"
+                                                class="btn btn-sm btn-alt-warning" title="Edit Lowongan">
+                                                <i class="fa fa-pencil-alt"></i>
+                                            </a>
+
                                             @if($job->status === 'pending')
                                                 <!-- Approve Button -->
                                                 <button type="button" class="btn btn-sm btn-alt-success btn-approve"
@@ -216,6 +227,20 @@
                                 <span class="fw-bold text-dark" id="modal-salary">-</span>
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="p-3 bg-white border border-light shadow-xs rounded-3">
+                                <span class="text-muted text-uppercase fw-bold d-block mb-1"
+                                    style="font-size: 0.65rem;">Email Pendaftaran</span>
+                                <span class="fw-bold text-dark" id="modal-contact-email">-</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 bg-white border border-light shadow-xs rounded-3">
+                                <span class="text-muted text-uppercase fw-bold d-block mb-1"
+                                    style="font-size: 0.65rem;">Link Pendaftaran</span>
+                                <span class="fw-bold text-dark" id="modal-contact-link">-</span>
+                            </div>
+                        </div>
 
                         <div class="col-12">
                             <div class="p-3 bg-white border border-light shadow-xs rounded-3">
@@ -232,6 +257,33 @@
                                     style="font-size: 0.65rem;">Kualifikasi / Persyaratan</span>
                                 <div class="text-dark fs-sm" id="modal-requirements"
                                     style="white-space: pre-line; line-height: 1.6;">-</div>
+                            </div>
+                        </div>
+
+                        <div class="col-12" id="modal-poster-container" style="display: none;">
+                            <div class="p-3 bg-white border border-light shadow-xs rounded-3 text-center">
+                                <span class="text-muted text-uppercase fw-bold d-block mb-2 text-start"
+                                    style="font-size: 0.65rem;">Poster / Brosur Lowongan</span>
+
+                                <div id="carouselAdminPosters" class="carousel slide carousel-dark" data-bs-ride="carousel">
+                                    <div class="carousel-indicators" id="carousel-admin-indicators">
+                                        <!-- Indicators populated by JS -->
+                                    </div>
+                                    <div class="carousel-inner rounded-3 shadow-sm bg-light" id="carousel-admin-inner"
+                                        style="max-height: 480px;">
+                                        <!-- Slides populated by JS -->
+                                    </div>
+                                    <button class="carousel-control-prev" type="button"
+                                        data-bs-target="#carouselAdminPosters" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button"
+                                        data-bs-target="#carouselAdminPosters" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -270,6 +322,42 @@
                         $('#modal-salary').text(job.salary_range ? job.salary_range : '-');
                         $('#modal-description').text(job.description);
                         $('#modal-requirements').text(job.requirements);
+
+                        var posterContainer = $('#modal-poster-container');
+                        var indicators = $('#carousel-admin-indicators');
+                        var inner = $('#carousel-admin-inner');
+
+                        indicators.empty();
+                        inner.empty();
+
+                        var posters = job.poster_paths;
+                        if (posters && Array.isArray(posters) && posters.length > 0) {
+                            posters.forEach(function (path, index) {
+                                var activeClass = index === 0 ? 'active' : '';
+                                var ariaCurrent = index === 0 ? 'aria-current="true"' : '';
+                                indicators.append('<button type="button" data-bs-target="#carouselAdminPosters" data-bs-slide-to="' + index + '" class="' + activeClass + '" ' + ariaCurrent + ' aria-label="Slide ' + (index + 1) + '"></button>');
+
+                                inner.append(
+                                    '<div class="carousel-item ' + activeClass + '">' +
+                                    '<img src="' + path + '" class="d-block w-100 rounded-3 shadow-sm" style="max-height: 450px; object-fit: contain;" alt="Poster Lowongan">' +
+                                    '</div>'
+                                );
+                            });
+
+                            if (posters.length <= 1) {
+                                $('#carouselAdminPosters .carousel-control-prev, #carouselAdminPosters .carousel-control-next, #carouselAdminPosters .carousel-indicators').hide();
+                            } else {
+                                $('#carouselAdminPosters .carousel-control-prev, #carouselAdminPosters .carousel-control-next, #carouselAdminPosters .carousel-indicators').show();
+                            }
+
+                            posterContainer.show();
+
+                            var carouselEl = document.getElementById('carouselAdminPosters');
+                            var carousel = bootstrap.Carousel.getOrCreateInstance(carouselEl);
+                            carousel.to(0);
+                        } else {
+                            posterContainer.hide();
+                        }
 
                         var myModal = new bootstrap.Modal(document.getElementById('modalAdminDetailLoker'));
                         myModal.show();

@@ -81,6 +81,7 @@
                                 <th class="py-3 border-0">NIM</th>
                                 <th class="py-3 border-0">Prodi</th>
                                 <th class="py-3 border-0 text-center">Kelas</th>
+                                <th class="py-3 border-0 text-center">Angkatan</th>
                                 <th class="py-3 border-0 text-center">Lulus</th>
                                 <th class="py-3 border-0">Status</th>
                                 <th class="py-3 border-0 text-center">Status Tracer</th>
@@ -112,6 +113,33 @@
         let table;
 
         function initDataTable(tahun) {
+            // Matikan pop-up alert bawaan browser/DataTables
+            $.fn.dataTable.ext.errMode = 'none';
+
+            // Dengar event error dari DataTables
+            $('#tabel-alumni').off('error.dt').on('error.dt', function (e, settings, techNote, message) {
+                console.error('DataTables Error:', message);
+
+                // Buat toast pemberitahuan yang elegan
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 8000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                });
+
+                Toast.fire({
+                    icon: 'error',
+                    title: '<span class="fw-bold text-dark fs-sm">Koneksi API OASE Bermasalah</span>',
+                    html: '<div class="text-muted fs-xs text-start mt-1"><i class="fa fa-exclamation-circle me-1 text-danger"></i> Server API OASE Poltek Tegal sedang offline/timeout. Silakan hubungi admin atau coba lagi nanti.</div>'
+                });
+            });
+
             if (table) { table.destroy(); $('#tabel-alumni tbody').html(''); }
 
             table = $('#tabel-alumni').DataTable({
@@ -156,6 +184,7 @@
                     { data: 'nim', render: data => `<span class="text-muted fw-medium">${data || '-'}</span>` },
                     { data: 'prodi', render: data => `<div class="fs-xs fw-semibold text-primary bg-primary-light px-2 py-1 rounded-pill d-inline-block border border-primary-10">${data || '-'}</div>` },
                     { data: 'kelas', render: data => data || '-', className: 'text-center' },
+                    { data: 'tahun_masuk', render: data => data || '-', className: 'text-center fw-bold text-muted' },
                     { data: 'tahun_lulus', render: data => data || '-', className: 'text-center fw-bold text-muted' },
                     { data: 'status_mahasiswa', render: data => {
                         const colors = {
@@ -183,22 +212,30 @@
                         orderable: false,
                         className: 'text-center',
                         render: data => `
-                            <button class="btn btn-sm btn-white rounded-pill px-3 shadow-sm border btn-view"
-                                data-bs-toggle="modal" data-bs-target="#modalViewMahasiswa"
-                                data-nim="${data.nim || '-'}" data-nama="${data.nama_lengkap || 'No Name'}"
-                                data-prodi="${data.prodi || '-'}" data-alamat="${data.alamat || '-'}"
-                                data-no_hp="${data.no_hp || '-'}" data-kelas="${data.kelas || '-'}"
-                                data-jalur="${data.jalur || '-'}" data-tahun_masuk="${data.tahun_masuk || '-'}"
-                                data-tahun_lulus="${data.tahun_lulus || '-'}" data-status="${data.status_mahasiswa || '-'}"
-                                data-status_kuesioner="${data.status_kuesioner || 'belum'}"
-                                data-email="${data.users ? data.users.email : '-'}"
-                                data-updated="${data.updated_at || '-'}">
-                                <i class="fa fa-eye text-primary"></i>
-                            </button>
-                            <button class="btn btn-sm btn-white rounded-pill px-3 shadow-sm border btn-delete ms-1"
-                                data-id="${data.id}" data-nama="${data.nama_lengkap || 'No Name'}" title="Hapus">
-                                <i class="fa fa-trash-alt text-danger"></i>
-                            </button>
+                            <div class="dropdown d-inline-block">
+                                <button type="button" class="btn btn-sm btn-alt-secondary" id="dropdown-alumni-${data.id}" data-bs-toggle="dropdown" data-bs-boundary="viewport" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-ellipsis-v"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end fs-sm" aria-labelledby="dropdown-alumni-${data.id}" style="min-width: 120px;">
+                                    <a class="dropdown-item btn-view" href="javascript:void(0)"
+                                        data-bs-toggle="modal" data-bs-target="#modalViewMahasiswa"
+                                        data-nim="${data.nim || '-'}" data-nama="${data.nama_lengkap || 'No Name'}"
+                                        data-prodi="${data.prodi || '-'}" data-alamat="${data.alamat || '-'}"
+                                        data-no_hp="${data.no_hp || '-'}" data-kelas="${data.kelas || '-'}"
+                                        data-jalur="${data.jalur || '-'}" data-tahun_masuk="${data.tahun_masuk || '-'}"
+                                        data-tahun_lulus="${data.tahun_lulus || '-'}" data-status="${data.status_mahasiswa || '-'}"
+                                        data-status_kuesioner="${data.status_kuesioner || 'belum'}"
+                                        data-email="${data.users ? data.users.email : '-'}"
+                                        data-updated="${data.updated_at || '-'}">
+                                        <i class="fa fa-fw fa-eye text-primary me-2"></i> Detail
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item btn-delete text-danger" href="javascript:void(0)"
+                                        data-id="${data.id}" data-nama="${data.nama_lengkap || 'No Name'}">
+                                        <i class="fa fa-fw fa-trash-alt text-danger me-2"></i> Hapus
+                                    </a>
+                                </div>
+                            </div>
                         `
                     }
                 ]
@@ -610,8 +647,14 @@
         /* Modern Table styling */
         .table-responsive {
             border-radius: 0.75rem;
-            overflow: hidden;
             border: 1px solid #e2e8f0;
+            overflow: visible;
+        }
+
+        @media (max-width: 991.98px) {
+            .table-responsive {
+                overflow-x: auto;
+            }
         }
 
         .js-dataTable-full {
@@ -705,27 +748,7 @@
             background-color: #f1f5f9 !important;
             color: #475569 !important;
             border: 1px solid #cbd5e1 !important;
-        }
-
-        /* View Button modern circle style */
-        .btn-view {
-            transition: all 0.2s ease-in-out !important;
-            border: 1px solid #e2e8f0 !important;
-            background-color: #fff !important;
-            width: 34px !important;
-            height: 34px !important;
-            display: inline-flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            border-radius: 50% !important;
-            padding: 0 !important;
-        }
-        
-        .btn-view:hover {
-            background-color: #f8fafc !important;
-            border-color: #cbd5e1 !important;
-            transform: scale(1.05);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03) !important;
-        }
+        }        
+        /* View Button modern styles removed since it is now a clean dropdown item */
     </style>
 @endsection

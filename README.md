@@ -1,61 +1,134 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# SI-Tracer UHN (Tracer Study & Bursa Kerja TI UHN)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistem Informasi Penelusuran Alumni dan Evaluasi Kurikulum Terpadu (Tracer Study) Program Studi Teknik Informatika - Universitas Harkat Negeri (UHN). Aplikasi ini dirancang untuk mendata alumni, melacak penyerapan lulusan di dunia kerja, menganalisis relevansi kurikulum menggunakan AI, serta menyediakan portal lowongan kerja (bursa karir) terpadu.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 Fitur Utama
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 1. Portal Alumni
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Kuesioner Tracer Study**: Pengisian kuesioner alumni terintegrasi untuk melacak relevansi pendidikan dengan karir.
+- **Resume & CV Builder**: Pembuatan CV otomatis siap cetak berdasarkan data profil alumni.
+- **Bursa Kerja & Riwayat Lamaran**: Pendaftaran lowongan kerja langsung melalui portal dengan fitur:
+    - Unggah CV/Resume (PDF/DOC/DOCX, maksimal 2MB).
+    - Input Nomor WhatsApp/Telepon Aktif (terintegrasi).
+    - Ekspektasi Gaji (Opsional).
+    - Notifikasi interaktif menggunakan **SweetAlert2**.
 
-## Learning Laravel
+### 2. Panel Admin
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **Manajemen Data Master**: Pengelolaan data mahasiswa, alumni, dan mitra perusahaan.
+- **Kelola Lowongan Kerja**: Pembuatan, penyuntingan, dan penghapusan lowongan dengan dukungan:
+    - Unggah hingga 10 poster/gambar lowongan (dengan fitur preview).
+    - Field deskripsi, kualifikasi, rentang gaji, dan kontak pendaftaran dibuat opsional (fleksibel).
+- **Manajemen Lamaran Masuk**: Daftar alumni yang melamar pekerjaan lengkap dengan link langsung WhatsApp serta tombol unduh CV.
+- **Analisis Kurikulum Berbasis AI**: Sistem analisis otomatis keselarasan kurikulum dengan kebutuhan industri berbasis **Google Gemini AI** dan fallback **OpenRouter**.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🛠️ Tech Stack
 
-## Laravel Sponsors
+- **Backend**: Laravel 11 (PHP 8.2+)
+- **Database**: MySQL / MariaDB
+- **Frontend**: HTML5, CSS3, JavaScript (ES6+), Bootstrap 5, OneUI Template
+- **UI/UX Enhancement**: SweetAlert2 (Notifikasi Dinamis), FontAwesome 6 (Ikon)
+- **AI Integration**: Google Gemini API & OpenRouter API
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## 📦 Prasyarat Instalasi
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Pastikan server lokal Anda telah terinstal:
 
-## Contributing
+- PHP >= 8.2
+- Composer
+- MySQL / MariaDB
+- Node.js & NPM
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## ⚙️ Langkah Instalasi
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+1. **Clone Repository**
 
-## Security Vulnerabilities
+    ```bash
+    git clone https://github.com/Ajijagatsaputra/si-tracer.git
+    cd si-tracer
+    ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+2. **Instal Dependensi PHP & JavaScript**
 
-## License
+    ```bash
+    composer install
+    npm install
+    ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+3. **Salin & Konfigurasi Lingkungan (`.env`)**
+
+    ```bash
+    cp .env.example .env
+    ```
+
+    _Atur konfigurasi database, API key Gemini/OpenRouter, dan kredensial lainnya pada file `.env`:_
+
+    ```env
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=tracer_revisi
+    DB_USERNAME=root
+    DB_PASSWORD=
+
+    GEMINI_API_KEY=your_gemini_api_key
+    OPENROUTER_API_KEY=your_openrouter_api_key
+    ```
+
+4. **Generate Application Key**
+
+    ```bash
+    php artisan key:generate
+    ```
+
+5. **Jalankan Migrasi & Database Seeder**
+
+    ```bash
+    php artisan migrate
+    php artisan db:seed --class=DumyUserSeeder
+    ```
+
+6. **Buat Symlink Storage**
+
+    ```bash
+    php artisan storage:link
+    ```
+
+7. **Jalankan Server Lokal**
+    - Terminal 1 (Laravel Development Server):
+        ```bash
+        php artisan serve --port=8082
+        ```
+    - Terminal 2 (Vite Compiler):
+        ```bash
+        npm run dev
+        ```
+
+---
+
+## 🔑 Kredensial Login Default (Development)
+
+Untuk masuk ke dalam sistem selama masa pengembangan:
+
+- **Akun Admin**
+    - Email: `adminti@gmail.com`
+    - Password: `password`
+
+- **Akun Alumni (Contoh)**
+    - Email: `ramang@gmail.com`
+    - Password: `password`
+
+---
+
+## 📄 Lisensi
+
+Proyek ini dikembangkan untuk kebutuhan internal Universitas Harkat Negeri. Berlisensi di bawah [MIT License](LICENSE).

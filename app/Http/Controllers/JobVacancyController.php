@@ -5,9 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\JobVacancy;
 use App\Models\JobApplication;
 use App\Models\Alumni;
+use App\Mail\LokerSubmittedMail;
+use App\Mail\LokerApprovedMail;
+use App\Mail\LokerRejectedMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class JobVacancyController extends Controller
 {
@@ -41,6 +46,12 @@ class JobVacancyController extends Controller
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'posters' => 'nullable|array|max:10',
             'posters.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+
+            // Identitas Penanggung Jawab (PIC) — wajib
+            'pic_name' => 'required|string|max:255',
+            'pic_email' => 'required|email|max:255',
+            'pic_phone' => 'required|string|max:20',
+            'pic_position' => 'nullable|string|max:255',
         ]);
 
         $data = $request->except(['logo', 'posters']);
@@ -61,7 +72,16 @@ class JobVacancyController extends Controller
 
         $data['status'] = 'pending';
 
-        JobVacancy::create($data);
+        $job = JobVacancy::create($data);
+
+        // Kirim email notifikasi ke PIC mitra
+        try {
+            if ($job->pic_email) {
+                Mail::to($job->pic_email)->send(new LokerSubmittedMail($job));
+            }
+        } catch (\Exception $e) {
+            Log::warning('Gagal mengirim email notifikasi loker submitted: ' . $e->getMessage());
+        }
 
         return redirect()->back()->with('success_message', 'Lowongan pekerjaan berhasil diunggah! Lowongan Anda sedang dalam proses moderasi oleh Admin.');
     }
@@ -344,6 +364,15 @@ class JobVacancyController extends Controller
         $job = JobVacancy::findOrFail($id);
         $job->update(['status' => 'approved']);
 
+        // Kirim email notifikasi approved ke PIC mitra
+        try {
+            if ($job->pic_email) {
+                Mail::to($job->pic_email)->send(new LokerApprovedMail($job));
+            }
+        } catch (\Exception $e) {
+            Log::warning('Gagal mengirim email notifikasi loker approved: ' . $e->getMessage());
+        }
+
         return response()->json([
             'success' => true,
             'message' => 'Lowongan pekerjaan berhasil disetujui!'
@@ -357,6 +386,15 @@ class JobVacancyController extends Controller
     {
         $job = JobVacancy::findOrFail($id);
         $job->update(['status' => 'rejected']);
+
+        // Kirim email notifikasi rejected ke PIC mitra
+        try {
+            if ($job->pic_email) {
+                Mail::to($job->pic_email)->send(new LokerRejectedMail($job));
+            }
+        } catch (\Exception $e) {
+            Log::warning('Gagal mengirim email notifikasi loker rejected: ' . $e->getMessage());
+        }
 
         return response()->json([
             'success' => true,

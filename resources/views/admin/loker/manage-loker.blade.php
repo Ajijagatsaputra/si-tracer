@@ -75,9 +75,9 @@
                                 <th class="text-center" style="width: 50px;">No</th>
                                 <th>Perusahaan</th>
                                 <th>Posisi</th>
+                                <th>Pengunggah (PIC)</th>
                                 <th>Kategori</th>
                                 <th>Lokasi</th>
-                                <th>Kontak</th>
                                 <th class="text-center">Status</th>
                                 <th class="text-center" style="width: 150px;">Aksi</th>
                             </tr>
@@ -102,18 +102,24 @@
                                         </div>
                                     </td>
                                     <td>{{ $job->position }}</td>
+                                    <td>
+                                        @if($job->pic_name)
+                                            <div class="small">
+                                                <div class="fw-semibold text-dark">{{ $job->pic_name }}</div>
+                                                @if($job->pic_position)
+                                                    <div class="text-muted">{{ $job->pic_position }}</div>
+                                                @endif
+                                                <div><i class="fa fa-envelope text-muted me-1"
+                                                        style="font-size:0.7rem;"></i>{{ $job->pic_email }}</div>
+                                                <div><i class="fa fa-phone text-muted me-1"
+                                                        style="font-size:0.7rem;"></i>{{ $job->pic_phone }}</div>
+                                            </div>
+                                        @else
+                                            <span class="text-muted small fst-italic">Admin Upload</span>
+                                        @endif
+                                    </td>
                                     <td><span class="badge bg-primary-lighter text-primary">{{ $job->category }}</span></td>
                                     <td>{{ $job->location }}</td>
-                                    <td>
-                                        <div class="small">
-                                            <div><i class="fa fa-envelope text-muted me-1"></i> {{ $job->contact_email }}</div>
-                                            @if($job->contact_link)
-                                                <div><i class="fa fa-link text-muted me-1"></i> <a href="{{ $job->contact_link }}"
-                                                        target="_blank" class="text-primary text-truncate d-inline-block"
-                                                        style="max-width: 150px;">Link</a></div>
-                                            @endif
-                                        </div>
-                                    </td>
                                     <td class="text-center">
                                         @if($job->status === 'pending')
                                             <span class="badge bg-warning"><i class="fa fa-clock me-1"></i> Pending</span>
@@ -160,7 +166,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="8" class="text-center text-muted py-4">Belum ada data lowongan pekerjaan.</td>
+                                    <td colspan="9" class="text-center text-muted py-4">Belum ada data lowongan pekerjaan.</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -239,6 +245,26 @@
                                 <span class="text-muted text-uppercase fw-bold d-block mb-1"
                                     style="font-size: 0.65rem;">Link Pendaftaran</span>
                                 <span class="fw-bold text-dark" id="modal-contact-link">-</span>
+                            </div>
+                        </div>
+
+                        <!-- PIC Info Section -->
+                        <div class="col-12" id="modal-pic-container" style="display: none;">
+                            <div class="p-3 bg-warning-light border border-warning rounded-3"
+                                style="background-color: rgba(255,193,7,0.08);">
+                                <span class="text-muted text-uppercase fw-bold d-block mb-2" style="font-size: 0.65rem;">
+                                    <i class="fa fa-user-tie me-1"></i> Penanggung Jawab (PIC Pengunggah)
+                                </span>
+                                <div class="row g-2">
+                                    <div class="col-md-6"><span class="small text-muted">Nama:</span> <span
+                                            class="fw-bold text-dark d-block" id="modal-pic-name">-</span></div>
+                                    <div class="col-md-6"><span class="small text-muted">Jabatan:</span> <span
+                                            class="fw-bold text-dark d-block" id="modal-pic-position">-</span></div>
+                                    <div class="col-md-6"><span class="small text-muted">Email:</span> <span
+                                            class="fw-bold text-dark d-block" id="modal-pic-email">-</span></div>
+                                    <div class="col-md-6"><span class="small text-muted">No. HP:</span> <span
+                                            class="fw-bold text-dark d-block" id="modal-pic-phone">-</span></div>
+                                </div>
                             </div>
                         </div>
 
@@ -322,6 +348,17 @@
                         $('#modal-salary').text(job.salary_range ? job.salary_range : '-');
                         $('#modal-description').text(job.description);
                         $('#modal-requirements').text(job.requirements);
+
+                        // PIC Info
+                        if (job.pic_name) {
+                            $('#modal-pic-name').text(job.pic_name);
+                            $('#modal-pic-email').text(job.pic_email || '-');
+                            $('#modal-pic-phone').text(job.pic_phone || '-');
+                            $('#modal-pic-position').text(job.pic_position || '-');
+                            $('#modal-pic-container').show();
+                        } else {
+                            $('#modal-pic-container').hide();
+                        }
 
                         var posterContainer = $('#modal-poster-container');
                         var indicators = $('#carousel-admin-indicators');

@@ -677,7 +677,7 @@
         }
 
         .js-dataTable-full tbody tr {
-            transition: all 0.2s ease-in-out;
+            transition: background-color 0.2s ease-in-out;
         }
 
         .js-dataTable-full tbody tr:hover {
@@ -749,6 +749,28 @@
             color: #475569 !important;
             border: 1px solid #cbd5e1 !important;
         }        
-        /* View Button modern styles removed since it is now a clean dropdown item */
+        /* Fix dropdown overlap pada tabel */
+        .js-dataTable-full tbody tr {
+            position: relative;
+            z-index: 1;
+        }
+        .js-dataTable-full tbody tr.dropdown-row-active {
+            z-index: 999 !important;
+        }
+        .js-dataTable-full .dropdown-menu {
+            z-index: 1050 !important;
+        }
     </style>
+
+    <script>
+        // Fix: Pastikan dropdown tidak tertutup oleh baris hover di bawahnya
+        document.addEventListener('shown.bs.dropdown', function(e) {
+            var row = e.target.closest('tr');
+            if (row) row.classList.add('dropdown-row-active');
+        });
+        document.addEventListener('hidden.bs.dropdown', function(e) {
+            var row = e.target.closest('tr');
+            if (row) row.classList.remove('dropdown-row-active');
+        });
+    </script>
 @endsection

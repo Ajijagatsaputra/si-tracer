@@ -24,6 +24,10 @@ class JobVacancy extends Model
         'contact_email',
         'contact_link',
         'status',
+        'pic_name',
+        'pic_email',
+        'pic_phone',
+        'pic_position',
     ];
 
     protected $casts = [

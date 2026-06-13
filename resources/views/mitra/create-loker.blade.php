@@ -17,45 +17,71 @@
     <!-- FontAwesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <!-- Icons -->
+    <link rel="shortcut icon" href="{{ asset('assets/media/favicons/logo_harkatnegeri.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('assets/media/favicons/logo_harkatnegeri.png') }}">
+
     <style>
         :root {
-            --primary: #4f46e5;
-            --primary-dark: #3730a3;
-            --primary-light: rgba(79, 70, 229, 0.05);
+            --primary: #5a121b;
+            --primary-dark: #400b11;
+            --primary-light: rgba(90, 18, 27, 0.08);
             --dark: #0f172a;
             --dark-light: #1e293b;
             --gray-light: #f8fafc;
-            --accent: #06b6d4;
+            --accent: #b89635;
         }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #f1f5f9;
+            background-color: var(--gray-light);
             color: var(--dark-light);
             overflow-x: hidden;
         }
 
-        /* Navbar Styling */
+        /* Navbar - konsisten dengan landing page */
         .navbar-modern {
-            background: rgba(255, 255, 255, 0.8) !important;
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            background: #ffffff !important;
+            backdrop-filter: none;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             transition: all 0.3s ease;
         }
 
         .navbar-brand-text {
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--primary) !important;
             letter-spacing: -0.5px;
         }
 
-        /* Banner Header */
+        /* Page Header Banner */
         .page-header {
-            background: linear-gradient(135deg, var(--dark) 0%, #020617 100%);
+            background: linear-gradient(135deg, #2b0408 0%, #150204 100%);
             color: #fff;
             padding: 120px 0 50px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(184, 150, 53, 0.12) 0%, transparent 70%);
+            top: -80px;
+            right: -80px;
+        }
+
+        .page-header::after {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(90, 18, 27, 0.25) 0%, transparent 70%);
+            bottom: -40px;
+            left: -40px;
         }
 
         /* Form Card */
@@ -79,12 +105,17 @@
         .form-control:focus,
         .form-select:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+            box-shadow: 0 0 0 3px rgba(90, 18, 27, 0.15);
+        }
+
+        .section-divider {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary-light);
         }
 
         .btn-submit {
             background: var(--primary);
-            color: #white;
+            color: #fff;
             border: none;
             padding: 12px 32px;
             border-radius: 50px;
@@ -94,34 +125,92 @@
 
         .btn-submit:hover {
             background: var(--primary-dark);
+            color: #fff;
             transform: translateY(-2px);
+        }
+
+        .btn-outline-primary-uhn {
+            color: var(--primary) !important;
+            border-color: var(--primary) !important;
+        }
+
+        .btn-outline-primary-uhn:hover {
+            color: #fff !important;
+            background-color: var(--primary) !important;
+        }
+
+        .text-primary {
+            color: var(--primary) !important;
+        }
+
+        .info-callout {
+            background: linear-gradient(135deg, rgba(90, 18, 27, 0.04) 0%, rgba(184, 150, 53, 0.04) 100%);
+            border-left: 4px solid var(--primary);
+            border-radius: 12px;
+            padding: 16px 20px;
+        }
+
+        /* Footer */
+        .footer-uhn {
+            background-color: var(--primary) !important;
+            color: rgba(255, 255, 255, 0.8) !important;
+        }
+
+        /* Step indicator */
+        .step-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .step-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        #poster-dropzone:hover {
+            background-color: #e2e8f0 !important;
+            border-color: var(--primary) !important;
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Header Navigation -->
+    <!-- Header Navigation — konsisten dengan landing page -->
     <nav class="navbar navbar-expand-lg navbar-modern fixed-top py-3">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">
-                <span class="bg-primary text-white p-2 rounded-3 me-2 d-flex align-items-center justify-content-center"
-                    style="width: 38px; height: 38px;">
-                    <i class="fa fa-graduation-cap"></i>
-                </span>
-                <span class="navbar-brand-text fs-4">SIKEMATI</span>
+                <img src="{{ asset('assets/media/favicons/logo_harkatnegeri.png') }}" alt="Logo" class="me-2"
+                    style="width: 38px; height: 38px; object-fit: contain;">
+                <span class="navbar-brand-text fs-4"><span class="fw-normal">Tracer</span> <span class="fw-bold">Study
+                        TI UHN</span></span>
             </a>
-            <a href="/" class="btn btn-outline-secondary rounded-pill px-4 btn-sm ms-auto fw-bold"><i
-                    class="fa fa-arrow-left me-1"></i> Kembali ke Landing Page</a>
+            <a href="/" class="btn btn-outline-primary-uhn rounded-pill px-4 btn-sm ms-auto fw-bold"><i
+                    class="fa fa-arrow-left me-1"></i> Kembali ke Beranda</a>
         </div>
     </nav>
 
     <!-- Page Header Banner -->
     <header class="page-header">
-        <div class="container text-center">
+        <div class="container text-center position-relative z-1">
+            <div class="badge bg-white/10 text-white rounded-pill px-3 py-2 mb-3 fw-bold text-uppercase"
+                style="font-size: 0.7rem; letter-spacing: 1.5px; border: 1px solid rgba(255,255,255,0.15);">
+                <i class="fa fa-handshake me-1"></i> Kolaborasi Mitra Industri
+            </div>
             <h1 class="fw-extrabold text-white mb-2 fs-2">Posting Lowongan Pekerjaan</h1>
-            <p class="text-white/70 mb-0">Bagikan peluang karir aktif di perusahaan Anda kepada alumni terbaik Teknik
-                Informatika</p>
+            <p class="text-white-50 mb-0 fw-medium">Bagikan peluang karir aktif di perusahaan Anda kepada alumni terbaik
+                Teknik Informatika UHN</p>
         </div>
     </header>
 
@@ -130,14 +219,25 @@
         <div class="row justify-content-center">
             <div class="col-lg-8">
 
+                <!-- Info Callout -->
+                <div class="info-callout mb-4">
+                    <div class="d-flex align-items-start gap-3">
+                        <i class="fa fa-info-circle text-primary fs-5 mt-1"></i>
+                        <div>
+                            <h6 class="fw-bold text-dark mb-1">Informasi Penting</h6>
+                            <p class="mb-0 small text-muted">Lowongan yang Anda unggah akan melewati proses
+                                <strong>moderasi oleh Admin</strong> sebelum ditampilkan ke alumni. Pastikan data yang
+                                diisi lengkap dan valid agar proses persetujuan lebih cepat.</p>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Alert Messages -->
                 @if(session('success_message'))
                     <div class="alert alert-success border-0 rounded-4 shadow-sm p-4 mb-4 text-dark"
                         style="background-color: #d1e7dd;">
                         <div class="d-flex">
-                            <div class="me-3 fs-3 text-success">
-                                <i class="fa fa-check-circle"></i>
-                            </div>
+                            <div class="me-3 fs-3 text-success"><i class="fa fa-check-circle"></i></div>
                             <div>
                                 <h5 class="fw-bold mb-1">Berhasil Terkirim!</h5>
                                 <p class="mb-0 fs-sm">{{ session('success_message') }}</p>
@@ -150,9 +250,7 @@
                     <div class="alert alert-danger border-0 rounded-4 shadow-sm p-4 mb-4 text-dark"
                         style="background-color: #f8d7da;">
                         <div class="d-flex">
-                            <div class="me-3 fs-3 text-danger">
-                                <i class="fa fa-times-circle"></i>
-                            </div>
+                            <div class="me-3 fs-3 text-danger"><i class="fa fa-times-circle"></i></div>
                             <div>
                                 <h5 class="fw-bold mb-1">Terjadi Kesalahan</h5>
                                 <ul class="mb-0 fs-sm ps-3">
@@ -169,11 +267,55 @@
                     <form action="{{ route('mitra.loker.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
-                        <h4 class="fw-bold text-dark mb-4 border-bottom pb-2 text-primary"><i
-                                class="fa fa-building me-2"></i> Profil Perusahaan & Posisi</h4>
+                        {{-- ═══════════════════════════════════════ --}}
+                        {{-- STEP 1: IDENTITAS PENANGGUNG JAWAB --}}
+                        {{-- ═══════════════════════════════════════ --}}
+                        <div class="step-indicator">
+                            <span class="step-number">1</span>
+                            <h4 class="fw-bold text-dark mb-0">Identitas Penanggung Jawab</h4>
+                        </div>
+                        <p class="text-muted small mb-4 ms-5">Data diri penanggung jawab yang mengunggah lowongan ini.
+                            Digunakan oleh admin untuk verifikasi.</p>
 
-                        <div class="row g-3 mb-4">
-                            <!-- Nama Perusahaan -->
+                        <div class="row g-3 mb-5">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-muted small text-uppercase">Nama Lengkap PIC <span
+                                        class="text-danger">*</span></label>
+                                <input type="text" name="pic_name" class="form-control"
+                                    placeholder="Contoh: Budi Santoso" required value="{{ old('pic_name') }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-muted small text-uppercase">Jabatan di
+                                    Perusahaan</label>
+                                <input type="text" name="pic_position" class="form-control"
+                                    placeholder="Contoh: HRD Manager" value="{{ old('pic_position') }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-muted small text-uppercase">Email Aktif PIC <span
+                                        class="text-danger">*</span></label>
+                                <input type="email" name="pic_email" class="form-control"
+                                    placeholder="Contoh: budi@company.com" required value="{{ old('pic_email') }}">
+                                <div class="form-text fs-xs">Email ini digunakan admin untuk konfirmasi keaslian
+                                    lowongan.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-muted small text-uppercase">Nomor WhatsApp / HP
+                                    <span class="text-danger">*</span></label>
+                                <input type="text" name="pic_phone" class="form-control"
+                                    placeholder="Contoh: 081234567890" required value="{{ old('pic_phone') }}">
+                            </div>
+                        </div>
+
+                        {{-- ═══════════════════════════════════════ --}}
+                        {{-- STEP 2: PROFIL PERUSAHAAN & POSISI --}}
+                        {{-- ═══════════════════════════════════════ --}}
+                        <div class="step-indicator">
+                            <span class="step-number">2</span>
+                            <h4 class="fw-bold text-dark mb-0">Profil Perusahaan & Posisi</h4>
+                        </div>
+                        <p class="text-muted small mb-4 ms-5">Informasi perusahaan dan posisi yang dibuka.</p>
+
+                        <div class="row g-3 mb-5">
                             <div class="col-md-6">
                                 <label class="form-label fw-bold text-muted small text-uppercase">Nama Perusahaan <span
                                         class="text-danger">*</span></label>
@@ -181,16 +323,12 @@
                                     placeholder="Contoh: PT Teknologi Bangsa" required
                                     value="{{ old('company_name') }}">
                             </div>
-
-                            <!-- Posisi Pekerjaan -->
                             <div class="col-md-6">
                                 <label class="form-label fw-bold text-muted small text-uppercase">Posisi / Jabatan
                                     Pekerjaan <span class="text-danger">*</span></label>
                                 <input type="text" name="position" class="form-control"
                                     placeholder="Contoh: Frontend Developer" required value="{{ old('position') }}">
                             </div>
-
-                            <!-- Kategori Pekerjaan -->
                             <div class="col-md-6">
                                 <label class="form-label fw-bold text-muted small text-uppercase">Kategori Bidang <span
                                         class="text-danger">*</span></label>
@@ -205,16 +343,12 @@
                                     </option>
                                 </select>
                             </div>
-
-                            <!-- Logo Perusahaan -->
                             <div class="col-md-6">
                                 <label class="form-label fw-bold text-muted small text-uppercase">Logo Perusahaan
                                     (Opsional)</label>
                                 <input type="file" name="logo" class="form-control" accept="image/*">
                                 <div class="form-text fs-xs">Format: JPG, PNG, JPEG. Max: 2MB.</div>
                             </div>
-
-                            <!-- Poster Lowongan -->
                             <div class="col-md-6">
                                 <label class="form-label fw-bold text-muted small text-uppercase">Poster Lowongan /
                                     Brosur (Opsional)</label>
@@ -227,25 +361,26 @@
                                 </div>
                                 <input type="file" id="posters-input" name="posters[]" class="d-none" accept="image/*"
                                     multiple>
-
-                                <!-- Preview Container -->
                                 <div id="poster-previews" class="row g-2 mt-2" style="display: none;"></div>
                             </div>
                         </div>
 
-                        <h4 class="fw-bold text-dark mb-4 border-bottom pb-2 text-primary"><i
-                                class="fa fa-file-invoice me-2"></i> Detail & Persyaratan Kerja</h4>
+                        {{-- ═══════════════════════════════════════ --}}
+                        {{-- STEP 3: DETAIL & PERSYARATAN KERJA --}}
+                        {{-- ═══════════════════════════════════════ --}}
+                        <div class="step-indicator">
+                            <span class="step-number">3</span>
+                            <h4 class="fw-bold text-dark mb-0">Detail & Persyaratan Kerja</h4>
+                        </div>
+                        <p class="text-muted small mb-4 ms-5">Deskripsi pekerjaan dan kualifikasi yang dibutuhkan.</p>
 
-                        <div class="row g-3 mb-4">
-                            <!-- Deskripsi Pekerjaan -->
+                        <div class="row g-3 mb-5">
                             <div class="col-12">
                                 <label class="form-label fw-bold text-muted small text-uppercase">Deskripsi Pekerjaan
                                     (Opsional)</label>
                                 <textarea name="description" rows="4" class="form-control"
                                     placeholder="Tuliskan gambaran umum, tugas, dan tanggung jawab posisi ini...">{{ old('description') }}</textarea>
                             </div>
-
-                            <!-- Persyaratan Pekerjaan -->
                             <div class="col-12">
                                 <label class="form-label fw-bold text-muted small text-uppercase">Kualifikasi /
                                     Persyaratan (Opsional)</label>
@@ -254,35 +389,34 @@
                             </div>
                         </div>
 
-                        <h4 class="fw-bold text-dark mb-4 border-bottom pb-2 text-primary"><i
-                                class="fa fa-map-marker-alt me-2"></i> Lokasi, Gaji, & Kontak</h4>
+                        {{-- ═══════════════════════════════════════ --}}
+                        {{-- STEP 4: LOKASI, GAJI, & KONTAK --}}
+                        {{-- ═══════════════════════════════════════ --}}
+                        <div class="step-indicator">
+                            <span class="step-number">4</span>
+                            <h4 class="fw-bold text-dark mb-0">Lokasi, Gaji, & Kontak</h4>
+                        </div>
+                        <p class="text-muted small mb-4 ms-5">Informasi penempatan dan cara pendaftaran.</p>
 
                         <div class="row g-3 mb-4">
-                            <!-- Lokasi -->
                             <div class="col-md-6">
                                 <label class="form-label fw-bold text-muted small text-uppercase">Lokasi Penempatan
                                     (Opsional)</label>
                                 <input type="text" name="location" class="form-control"
                                     placeholder="Contoh: Jakarta / Remote (WFH)" value="{{ old('location') }}">
                             </div>
-
-                            <!-- Rentang Gaji -->
                             <div class="col-md-6">
                                 <label class="form-label fw-bold text-muted small text-uppercase">Rentang Gaji
                                     (Opsional)</label>
                                 <input type="text" name="salary_range" class="form-control"
                                     placeholder="Contoh: Rp 6.000.000 - Rp 9.000.000" value="{{ old('salary_range') }}">
                             </div>
-
-                            <!-- Email Kontak -->
                             <div class="col-md-6">
                                 <label class="form-label fw-bold text-muted small text-uppercase">Email Pendaftaran
                                     (Opsional)</label>
                                 <input type="email" name="contact_email" class="form-control"
                                     placeholder="Contoh: recruit@company.com" value="{{ old('contact_email') }}">
                             </div>
-
-                            <!-- Link Pendaftaran -->
                             <div class="col-md-6">
                                 <label class="form-label fw-bold text-muted small text-uppercase">Link Pendaftaran
                                     Online (Opsional)</label>
@@ -291,8 +425,8 @@
                             </div>
                         </div>
 
-                        <div class="text-end pt-3">
-                            <button type="submit" class="btn btn-primary btn-submit text-white px-5 py-3 shadow"><i
+                        <div class="text-end pt-3 border-top">
+                            <button type="submit" class="btn btn-submit text-white px-5 py-3 shadow"><i
                                     class="fa fa-paper-plane me-2"></i> Unggah Lowongan Kerja</button>
                         </div>
                     </form>
@@ -302,18 +436,13 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-dark text-white py-4 mt-5">
+    <footer class="footer-uhn py-4 mt-5">
         <div class="container text-center">
-            <p class="small text-white/50 mb-0">&copy; 2026 Universitas Harkat Negeri. Hak Cipta Dilindungi.</p>
+            <p class="small mb-0" style="color: rgba(255,255,255,0.6);">&copy; 2026 Universitas Harkat Negeri. Hak Cipta
+                Dilindungi.</p>
         </div>
     </footer>
 
-    <style>
-        #poster-dropzone:hover {
-            background-color: #e2e8f0 !important;
-            border-color: #3b82f6 !important;
-        }
-    </style>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const dropzone = document.getElementById('poster-dropzone');
@@ -321,14 +450,12 @@
             const previewContainer = document.getElementById('poster-previews');
             const dataTransfer = new DataTransfer();
 
-            // Trigger input click when clicking dropzone
             dropzone.addEventListener('click', () => input.click());
 
-            // Drag and drop events
             dropzone.addEventListener('dragover', (e) => {
                 e.preventDefault();
                 dropzone.style.backgroundColor = '#e2e8f0';
-                dropzone.style.borderColor = '#3b82f6';
+                dropzone.style.borderColor = '#5a121b';
             });
 
             dropzone.addEventListener('dragleave', () => {
@@ -340,70 +467,38 @@
                 e.preventDefault();
                 dropzone.style.backgroundColor = '';
                 dropzone.style.borderColor = '#cbd5e1';
-
-                if (e.dataTransfer.files.length) {
-                    handleFiles(e.dataTransfer.files);
-                }
+                if (e.dataTransfer.files.length) handleFiles(e.dataTransfer.files);
             });
 
-            // Handle input change
             input.addEventListener('change', () => {
-                if (input.files.length) {
-                    handleFiles(input.files);
-                }
+                if (input.files.length) handleFiles(input.files);
             });
 
             function handleFiles(files) {
-                const fileArray = Array.from(files);
-
-                // Filter out non-images
-                const imageFiles = fileArray.filter(file => file.type.startsWith('image/'));
-
-                if (imageFiles.length === 0) {
-                    alert('Hanya diperbolehkan mengunggah file gambar.');
-                    return;
-                }
-
-                // Check if we exceed 10 images limit
+                const imageFiles = Array.from(files).filter(file => file.type.startsWith('image/'));
+                if (imageFiles.length === 0) { alert('Hanya diperbolehkan mengunggah file gambar.'); return; }
                 if (dataTransfer.files.length + imageFiles.length > 10) {
                     alert('Maksimal hanya dapat mengunggah 10 poster.');
-                    const remaining = 10 - dataTransfer.files.length;
-                    imageFiles.splice(remaining);
+                    imageFiles.splice(10 - dataTransfer.files.length);
                 }
-
                 imageFiles.forEach(file => {
-                    // Check size (2MB)
-                    if (file.size > 2 * 1024 * 1024) {
-                        alert(`File ${file.name} melebihi batas 2MB.`);
-                        return;
-                    }
+                    if (file.size > 2 * 1024 * 1024) { alert(`File ${file.name} melebihi batas 2MB.`); return; }
                     dataTransfer.items.add(file);
                 });
-
-                // Update the file input
                 input.files = dataTransfer.files;
-
-                // Render preview
                 renderPreviews();
             }
 
             function renderPreviews() {
                 previewContainer.innerHTML = '';
                 const files = dataTransfer.files;
-
-                if (files.length === 0) {
-                    previewContainer.style.display = 'none';
-                    return;
-                }
-
+                if (files.length === 0) { previewContainer.style.display = 'none'; return; }
                 previewContainer.style.display = 'flex';
 
                 Array.from(files).forEach((file, index) => {
                     const url = URL.createObjectURL(file);
-
                     const col = document.createElement('div');
                     col.className = 'col-4 col-sm-3 position-relative mt-2';
-
                     col.innerHTML = `
                         <div class="card border rounded-3 overflow-hidden shadow-xs h-100 bg-light">
                             <img src="${url}" class="card-img-top img-fluid" style="height: 100px; object-fit: contain;" alt="Poster preview">
@@ -411,36 +506,24 @@
                                 <span class="text-truncate d-block small text-muted" style="max-width: 100%; font-size: 0.7rem;">${file.name}</span>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-danger btn-xs rounded-circle position-absolute top-0 end-0 m-1 btn-delete-preview" data-index="${index}" style="width: 20px; height: 20px; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; border: none; outline: none;">
+                        <button type="button" class="btn btn-danger btn-xs rounded-circle position-absolute top-0 end-0 m-1 btn-delete-preview" data-index="${index}" style="width: 20px; height: 20px; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; border: none;">
                             <i class="fa fa-times"></i>
                         </button>
                     `;
-
-                    col.querySelector('img').onload = function () {
-                        URL.revokeObjectURL(url);
-                    };
-
+                    col.querySelector('img').onload = function () { URL.revokeObjectURL(url); };
                     previewContainer.appendChild(col);
                 });
 
-                // Add event listeners for delete buttons
                 document.querySelectorAll('.btn-delete-preview').forEach(btn => {
                     btn.addEventListener('click', function (e) {
                         e.stopPropagation();
                         const indexToDelete = parseInt(this.dataset.index);
-
                         const newDt = new DataTransfer();
                         Array.from(dataTransfer.files).forEach((file, idx) => {
-                            if (idx !== indexToDelete) {
-                                newDt.items.add(file);
-                            }
+                            if (idx !== indexToDelete) newDt.items.add(file);
                         });
-
-                        while (dataTransfer.files.length > 0) {
-                            dataTransfer.items.remove(0);
-                        }
+                        while (dataTransfer.files.length > 0) dataTransfer.items.remove(0);
                         Array.from(newDt.files).forEach(file => dataTransfer.items.add(file));
-
                         input.files = dataTransfer.files;
                         renderPreviews();
                     });

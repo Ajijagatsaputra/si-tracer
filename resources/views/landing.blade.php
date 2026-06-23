@@ -590,6 +590,49 @@
     </div>
     @endauth
 
+    @auth
+    {{-- Modal: Gate Tracer Study (Opsi C - Soft Gate) --}}
+    {{-- Tampil ketika alumni yang belum isi kuesioner klik tombol Lamar --}}
+    <div class="modal fade" id="modalTracerGate" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 overflow-hidden shadow-xl">
+                <div class="modal-header border-0 p-0">
+                    <div class="w-100 text-center p-4" style="background: linear-gradient(135deg, #5a121b 0%, #8b1a28 100%);">
+                        <div class="d-flex align-items-center justify-content-center mb-3" style="width: 72px; height: 72px; background: rgba(255,255,255,0.15); border-radius: 50%; margin: 0 auto;">
+                            <i class="fa fa-clipboard-list text-white" style="font-size: 2rem;"></i>
+                        </div>
+                        <h5 class="fw-extrabold text-white mb-1">Satu Langkah Lagi!</h5>
+                        <p class="text-white-50 mb-0 fs-sm">Lengkapi profil Tracer Study Anda</p>
+                    </div>
+                </div>
+                <div class="modal-body p-4 text-center">
+                    <p class="fw-semibold text-dark mb-2">Untuk dapat melamar lowongan kerja,</p>
+                    <p class="text-muted mb-4">
+                        Anda perlu mengisi <strong>Kuesioner Tracer Study</strong> terlebih dahulu.<br>
+                        Hanya membutuhkan <strong>±5 menit</strong> dan membantu kampus
+                        meningkatkan kualitas pendidikan untuk adik angkatan Anda.
+                    </p>
+                    <div class="d-flex align-items-center gap-3 p-3 rounded-3 mb-4 text-start" style="background: rgba(90, 18, 27, 0.06); border: 1px solid rgba(90, 18, 27, 0.12);">
+                        <i class="fa fa-circle-check text-success fs-4 flex-shrink-0"></i>
+                        <div>
+                            <div class="fw-bold text-dark small">Setelah mengisi, Anda bisa:</div>
+                            <div class="text-muted small">Melamar semua lowongan yang tersedia di platform ini</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0 px-4 pb-4 d-flex gap-2">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4 flex-fill" data-bs-dismiss="modal">
+                        Nanti Saja
+                    </button>
+                    <a href="{{ route('new-tracer.index') }}" class="btn btn-primary rounded-pill px-4 fw-bold flex-fill" style="background: #5a121b; border-color: #5a121b;">
+                        <i class="fa fa-pencil-alt me-1"></i> Isi Sekarang
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endauth
+
     <!-- Job Detail Modal (Landing) -->
     <div class="modal fade" id="modalJobDetail" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -691,20 +734,39 @@
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         var isAuthenticated = @json(Auth::check());
+        var hasFilledTracer = @json($hasFilledTracer ?? false);
 
-        // Open apply modal directly from card
+        // Helper: tampilkan tracer gate modal
+        function showTracerGate() {
+            var gateModal = new bootstrap.Modal(document.getElementById('modalTracerGate'));
+            gateModal.show();
+        }
+
+        // Helper: buka modal apply (dipanggil setelah gate lolos)
+        function openApplyModal(id, position, company) {
+            document.getElementById('apply-job-id').value = id;
+            document.getElementById('apply-job-info').textContent = position + ' — ' + company;
+            document.getElementById('apply-cover-letter').value = '';
+            document.getElementById('apply-expected-salary').value = '';
+            document.getElementById('apply-cv').value = '';
+            var modal = new bootstrap.Modal(document.getElementById('modalApplyJob'));
+            modal.show();
+        }
+
+        // Open apply modal from card — dengan gate tracer study
         document.querySelectorAll('.btn-apply-landing').forEach(function(btn) {
             btn.addEventListener('click', function() {
                 var id = this.dataset.id;
                 var position = this.dataset.position;
                 var company = this.dataset.company;
-                document.getElementById('apply-job-id').value = id;
-                document.getElementById('apply-job-info').textContent = position + ' — ' + company;
-                document.getElementById('apply-cover-letter').value = '';
-                document.getElementById('apply-expected-salary').value = '';
-                document.getElementById('apply-cv').value = '';
-                var modal = new bootstrap.Modal(document.getElementById('modalApplyJob'));
-                modal.show();
+
+                // ✅ Opsi C: Cek apakah sudah isi tracer study
+                if (!hasFilledTracer) {
+                    showTracerGate();
+                    return;
+                }
+
+                openApplyModal(id, position, company);
             });
         });
 
@@ -791,9 +853,13 @@
                             actionContainer.innerHTML = '<button class="btn btn-light rounded-pill px-4 fw-bold border text-success" disabled><i class="fa fa-check-circle me-1"></i> Sudah Dilamar</button>';
                         } else {
                             actionContainer.innerHTML = '<button class="btn btn-primary rounded-pill px-4 fw-bold btn-apply-from-detail" data-id="' + job.id + '" data-position="' + job.position + '" data-company="' + job.company_name + '"><i class="fa fa-paper-plane me-1"></i> Lamar Sekarang</button>';
-                            
+
                             // Bind click event for the dynamically generated button
                             actionContainer.querySelector('.btn-apply-from-detail').addEventListener('click', function() {
+                                var id = this.dataset.id;
+                                var position = this.dataset.position;
+                                var company = this.dataset.company;
+
                                 // Close detail modal first
                                 var detailModalEl = document.getElementById('modalJobDetail');
                                 var detailModalInstance = bootstrap.Modal.getInstance(detailModalEl);
@@ -801,20 +867,17 @@
                                     detailModalInstance.hide();
                                 }
 
-                                // Set info and open apply modal
-                                var id = this.dataset.id;
-                                var position = this.dataset.position;
-                                var company = this.dataset.company;
-                                document.getElementById('apply-job-id').value = id;
-                                document.getElementById('apply-job-info').textContent = position + ' — ' + company;
-                                document.getElementById('apply-cover-letter').value = '';
-                                document.getElementById('apply-expected-salary').value = '';
-                                document.getElementById('apply-cv').value = '';
-                                
+                                // ✅ Opsi C: Cek apakah sudah isi tracer study
+                                if (!hasFilledTracer) {
+                                    setTimeout(function() {
+                                        showTracerGate();
+                                    }, 400);
+                                    return;
+                                }
+
                                 setTimeout(function() {
-                                    var applyModal = new bootstrap.Modal(document.getElementById('modalApplyJob'));
-                                    applyModal.show();
-                                }, 400); // Small delay to allow detail modal to hide smoothly
+                                    openApplyModal(id, position, company);
+                                }, 400);
                             });
                         }
 

@@ -120,7 +120,7 @@ class MataKuliahController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => 'Terjadi kesalahan saat menyimpan data: ' . $e->getMessage(),
+                'message' => 'Terjadi kesalahan saat menyimpan data. Silakan coba lagi.',
                 'data' => []
             ], 500);
         }
@@ -168,7 +168,7 @@ class MataKuliahController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => 'Terjadi kesalahan saat mengambil data: ' . $e->getMessage(),
+                'message' => 'Terjadi kesalahan saat mengambil data. Silakan coba lagi.',
                 'data' => []
             ], 500);
         }
@@ -226,7 +226,7 @@ class MataKuliahController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => 'Terjadi kesalahan saat menghapus data: ' . $e->getMessage()
+                'message' => 'Terjadi kesalahan saat menghapus data. Silakan coba lagi.'
             ], 500);
         }
     }
@@ -298,7 +298,7 @@ class MataKuliahController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => 'Terjadi kesalahan saat memperbarui data: ' . $e->getMessage()
+                'message' => 'Terjadi kesalahan saat memperbarui data. Silakan coba lagi.'
             ], 500);
         }
     }

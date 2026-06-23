@@ -23,4 +23,5 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
 
     @yield('styles')
+    @stack('styles')
 </head>

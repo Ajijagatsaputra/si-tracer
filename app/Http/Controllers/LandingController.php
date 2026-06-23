@@ -28,13 +28,18 @@ class LandingController extends Controller
 
         // Get applied job IDs for logged-in alumni
         $appliedJobIds = [];
+        $hasFilledTracer = false; // Default: belum mengisi
         $user = Auth::user();
+
         if ($user && $user->role === 'alumni') {
             $alumni = $user->alumni ?? Alumni::where('id_users', $user->id)->first();
             if ($alumni) {
                 $appliedJobIds = JobApplication::where('alumni_id', $alumni->id)
                     ->pluck('job_vacancy_id')
                     ->toArray();
+
+                // Cek apakah alumni sudah mengisi tracer study
+                $hasFilledTracer = TracerStudy::where('alumni_id', $alumni->id)->exists();
             }
         }
 
@@ -46,7 +51,8 @@ class LandingController extends Controller
             'continuing',
             'workingPercentage',
             'recentJobs',
-            'appliedJobIds'
+            'appliedJobIds',
+            'hasFilledTracer'
         ));
     }
 }

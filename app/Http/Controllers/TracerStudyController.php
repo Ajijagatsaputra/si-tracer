@@ -47,27 +47,8 @@ class TracerStudyController extends Controller
     public function store(TracerStudyRequest $request)
     {
         try {
-            // Debug session dan CSRF token
-            Log::info('Tracer Study request received:', [
-                'user_id' => auth()->id(),
-                'session_id' => session()->getId(),
-                'session_lifetime' => config('session.lifetime'),
-                'csrf_token' => $request->input('_token'),
-                'session_csrf_token' => csrf_token(),
-                'tokens_match' => $request->input('_token') === csrf_token(),
-                'method' => $request->method(),
-                'url' => $request->url()
-            ]);
-
             // Data sudah divalidasi oleh TracerStudyRequest
             $validated = $request->validated();
-
-            // Log data yang akan disimpan untuk debugging
-            Log::info('Tracer Study data to be saved:', [
-                'user_id' => auth()->id(),
-                'status_pekerjaan' => $validated['bekerja'] ?? 'not_set',
-                'data_keys' => array_keys($validated)
-            ]);
 
             // Simpan data menggunakan service
             $tracerStudy = $this->tracerStudyService->saveTracerStudy($validated);
@@ -81,15 +62,11 @@ class TracerStudyController extends Controller
         } catch (\Exception $e) {
             Log::error('Error saving tracer study: ' . $e->getMessage(), [
                 'user_id' => auth()->id(),
-                'session_id' => session()->getId(),
-                'csrf_token' => $request->input('_token'),
-                'session_csrf_token' => csrf_token(),
-                'data' => $request->all(),
-                'trace' => $e->getTraceAsString()
+                'url' => $request->url()
             ]);
 
             return back()
-                ->withErrors(['error' => 'Gagal menyimpan data: ' . $e->getMessage()])
+                ->withErrors(['error' => 'Gagal menyimpan data. Silakan coba lagi.'])
                 ->withInput();
         }
     }
@@ -138,49 +115,18 @@ class TracerStudyController extends Controller
 
             $validated = $request->validated();
 
-            // Log data yang akan diupdate untuk debugging
-            Log::info('Tracer Study data to be updated:', [
-                'user_id' => auth()->id(),
-                'tracer_study_id' => $id,
-                'status_pekerjaan' => $validated['bekerja'] ?? 'not_set',
-                'data_keys' => array_keys($validated),
-                'raw_data' => $request->all(),
-                'validated_data' => $validated
-            ]);
-
-            // Log data sebelum update
-            Log::info('Data sebelum update:', [
-                'tracer_study' => $tracer->toArray(),
-                'pekerjaan' => $tracer->pekerjaan ? $tracer->pekerjaan->toArray() : null,
-                'kompetensi' => $tracer->kompetensi ? $tracer->kompetensi->toArray() : null,
-            ]);
-
             // Update menggunakan service
             $updatedTracer = $this->tracerStudyService->updateTracerStudy($id, $validated);
-
-            // Log data setelah update
-            Log::info('Data setelah update:', [
-                'tracer_study' => $updatedTracer->toArray(),
-                'pekerjaan' => $updatedTracer->pekerjaan ? $updatedTracer->pekerjaan->toArray() : null,
-                'kompetensi' => $updatedTracer->kompetensi ? $updatedTracer->kompetensi->toArray() : null,
-            ]);
-
-            Log::info('Tracer Study updated successfully:', [
-                'tracer_study_id' => $updatedTracer->id,
-                'status_pekerjaan' => $updatedTracer->status_pekerjaan
-            ]);
 
             return redirect()->route('home')->with('success', 'Data tracer study berhasil diperbarui!');
         } catch (\Exception $e) {
             Log::error('Error updating tracer study: ' . $e->getMessage(), [
                 'user_id' => auth()->id(),
                 'tracer_study_id' => $id,
-                'data' => $request->all(),
-                'trace' => $e->getTraceAsString()
             ]);
 
             return back()
-                ->with('error', 'Gagal memperbarui data: ' . $e->getMessage())
+                ->with('error', 'Gagal memperbarui data. Silakan coba lagi.')
                 ->withInput();
         }
     }

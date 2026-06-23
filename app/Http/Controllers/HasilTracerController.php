@@ -4,27 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\Alumni;
 use App\Models\TracerPengguna;
-use Illuminate\Http\Request;
-use PHPUnit\Event\Tracer\Tracer;
 
 class HasilTracerController extends Controller
 {
     public function index()
     {
         $indikator = [
-            'integritas'   => 'Integritas',
-            'keahlian'     => 'Keahlian',
-            'kemampuan'    => 'Kemampuan',
-            'penguasaan'   => 'Penguasaan',
-            'komunikasi'   => 'Komunikasi',
-            'kerja_tim'    => 'Kerja Tim',
+            'integritas' => 'Integritas',
+            'keahlian' => 'Keahlian',
+            'kemampuan' => 'Kemampuan',
+            'penguasaan' => 'Penguasaan',
+            'komunikasi' => 'Komunikasi',
+            'kerja_tim' => 'Kerja Tim',
             'pengembangan' => 'Pengembangan Diri'
         ];
 
         // Menggunakan data dari TracerPengguna yang sudah completed
-        $totalAlumni   = Alumni::count();
-        $sudahMengisi  = TracerPengguna::where('status_pengisian', 'completed')->count() ?? 0;
-        $belumMengisi  = TracerPengguna::count() - $sudahMengisi;
+        $totalAlumni = Alumni::count();
+        $sudahMengisi = TracerPengguna::where('status_pengisian', 'completed')->count() ?? 0;
+        $belumMengisi = TracerPengguna::count() - $sudahMengisi;
 
         $hasil = [];
         foreach ($indikator as $field => $label) {
@@ -33,7 +31,7 @@ class HasilTracerController extends Controller
                 ->whereNotNull($field)
                 ->pluck($field)
                 ->map(function ($v) {
-                    return (int) $v; // Konversi ke integer karena di database berupa string
+                    return (int) $v;
                 });
 
             $rekap = [
@@ -103,11 +101,16 @@ class HasilTracerController extends Controller
 
     private function getKategoriNilai($nilai)
     {
-        if ($nilai >= 4.5) return 'Sangat Baik';
-        if ($nilai >= 3.5) return 'Baik';
-        if ($nilai >= 2.5) return 'Cukup';
-        if ($nilai >= 1.5) return 'Kurang Baik';
-        if ($nilai > 0)    return 'Tidak Baik';
+        if ($nilai >= 4.5)
+            return 'Sangat Baik';
+        if ($nilai >= 3.5)
+            return 'Baik';
+        if ($nilai >= 2.5)
+            return 'Cukup';
+        if ($nilai >= 1.5)
+            return 'Kurang Baik';
+        if ($nilai > 0)
+            return 'Tidak Baik';
         return '-';
     }
 }

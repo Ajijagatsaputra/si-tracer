@@ -75,7 +75,6 @@
                         </div>
                     </div>
                     <div id="table-actions" class="d-flex gap-2">
-                        <!-- DataTable buttons will be moved here via JS -->
                     </div>
                 </div>
 
@@ -96,8 +95,6 @@
                                 <tr class="shadow-sm rounded-4 mb-2 bg-white card-row-rounded">
                                     <td class="px-4 py-3 fw-bold text-dark fs-sm border-0 rounded-start">{{ $row['label'] }}</td>
                                     @php
-                                        // Mapping keys because legacy uses 1-5 reversed or specific mapping
-                                        // The labels in order were: Sangat Baik (5), Baik (4), Cukup (3), Kurang Baik (2), Tidak Baik (1)
                                         $scoreKeys = [5, 4, 3, 2, 1];
                                     @endphp
                                     @foreach ($scoreKeys as $key)
@@ -111,7 +108,7 @@
                                     @endforeach
                                     <td class="px-2 py-3 text-center border-0">
                                         @if ($row['rata_rata'] > 0)
-                                            <span class="badge {{ $row['rata_rata'] >= 4.0 ? 'status-badge-aktif' : ($row['rata_rata'] >= 3.0 ? 'status-badge-alumni' : 'status-badge-cuti') }} rounded-pill px-3 py-1.5 fs-xs fw-bold">
+                                            <span class="badge {{ $row['rata_rata'] >= 4.0 ? 'status-badge-aktif' : ($row['rata_rata'] >= 3.0 ? 'status-badge-alumni' : ($row['rata_rata'] >= 2.0 ? 'status-badge-cuti' : 'status-badge-do')) }} rounded-pill px-3 py-1.5 fs-xs fw-bold">
                                                 {{ number_format($row['rata_rata'], 2) }}
                                             </span>
                                         @else
@@ -262,22 +259,22 @@
             }
 
             /* Modern Status Badges */
-            .status-badge-aktif {
+            .status-badge-aktif, .badge.status-badge-aktif {
                 background-color: #ecfdf5 !important;
                 color: #059669 !important;
                 border: 1px solid #a7f3d0 !important;
             }
-            .status-badge-cuti {
+            .status-badge-cuti, .badge.status-badge-cuti {
                 background-color: #fffbeb !important;
                 color: #d97706 !important;
                 border: 1px solid #fde68a !important;
             }
-            .status-badge-do {
+            .status-badge-do, .badge.status-badge-do {
                 background-color: #fff1f2 !important;
                 color: #e11d48 !important;
                 border: 1px solid #fecdd3 !important;
             }
-            .status-badge-lulus, .status-badge-alumni {
+            .status-badge-lulus, .status-badge-alumni, .badge.status-badge-lulus, .badge.status-badge-alumni {
                 background-color: #e0e7ff !important;
                 color: #4f46e5 !important;
                 border: 1px solid #c7d2fe !important;

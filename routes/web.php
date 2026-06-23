@@ -111,9 +111,11 @@ Route::get('/mitra/loker/buat', [\App\Http\Controllers\JobVacancyController::cla
 Route::post('/mitra/loker', [\App\Http\Controllers\JobVacancyController::class, 'mitraStore'])->name('mitra.loker.store');
 Route::get('/alumni/loker/{id}', [\App\Http\Controllers\JobVacancyController::class, 'alumniShow'])->name('alumni.loker.show');
 
-Route::resource('listtracerpengguna', AdminTracerPenggunaController::class);
-Route::get('listtraceralumni/{id}/detail', [AdminTracerStudyAlumniController::class, 'detail'])->name('listtraceralumni.detail');
-Route::resource('listtraceralumni', AdminTracerStudyAlumniController::class);
+Route::middleware(['auth', 'cekrole:admin,superadmin'])->group(function () {
+    Route::resource('listtracerpengguna', AdminTracerPenggunaController::class);
+    Route::get('listtraceralumni/{id}/detail', [AdminTracerStudyAlumniController::class, 'detail'])->name('listtraceralumni.detail');
+    Route::resource('listtraceralumni', AdminTracerStudyAlumniController::class);
+});
 
 // Routes untuk Supervisor Questionnaire
 Route::prefix('supervisor')->group(function () {

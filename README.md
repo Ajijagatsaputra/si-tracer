@@ -39,79 +39,121 @@ Sistem Informasi Penelusuran Alumni dan Evaluasi Kurikulum Terpadu (Tracer Study
 
 ## 📦 Prasyarat Instalasi
 
-Pastikan server lokal Anda telah terinstal:
+Pilih salah satu metode instalasi di bawah ini:
 
-- PHP >= 8.2
+### A. Menggunakan Docker (Direkomendasikan - Praktis & Cepat)
+Pastikan sistem Anda sudah terinstal:
+- Docker Desktop / Docker Engine
+- Docker Compose v2+
+
+### B. Menggunakan Server Lokal (Manual)
+Pastikan sistem Anda sudah terinstal:
+- PHP >= 8.2 (dengan ekstensi gd, zip, pdo_mysql)
 - Composer
-- MySQL / MariaDB
 - Node.js & NPM
+- MySQL / MariaDB
+- Tesseract OCR (instal di level OS)
+- Poppler Utils / pdftotext (instal di level OS)
 
 ---
 
 ## ⚙️ Langkah Instalasi
 
-1. **Clone Repository**
+### 🐳 Metode 1: Menggunakan Docker (Rekomendasi)
 
-    ```bash
-    git clone https://github.com/Ajijagatsaputra/si-tracer.git
-    cd si-tracer
-    ```
+1. **Clone Repository**
+   ```bash
+   git clone https://github.com/Ajijagatsaputra/si-tracer.git
+   cd si-tracer
+   ```
+
+2. **Salin & Siapkan File Lingkungan (`.env`)**
+   ```bash
+   cp .env.example .env
+   ```
+   *(Untuk Docker, pengaturan host database `DB_HOST` dan `DB_PASSWORD` sudah dikonfigurasi otomatis di docker-compose).*
+
+3. **Membangun & Jalankan Docker Container**
+   ```bash
+   docker compose up -d --build
+   ```
+
+4. **Instal Dependensi Composer di Dalam Container**
+   ```bash
+   docker compose exec app composer install
+   ```
+
+5. **Buat Symlink Storage**
+   ```bash
+   docker compose exec app php artisan storage:link
+   ```
+
+6. **Sinkronisasi Migrasi Database**
+   Jika tabel belum sepenuhnya termigrasi setelah impor database dump `tracer.sql` bawaan:
+   ```bash
+   docker compose exec app php artisan migrate
+   ```
+
+7. **Akses Aplikasi**
+   - Halaman Utama Website: **[http://localhost:8000](http://localhost:8000)**
+   - Port Vite Assets: `5173` (terkompilasi otomatis melalui layanan Node)
+   - Port MySQL Database: `3306`
+
+---
+
+### 🖥️ Metode 2: Menggunakan Server Lokal (Manual)
+
+1. **Clone Repository**
+   ```bash
+   git clone https://github.com/Ajijagatsaputra/si-tracer.git
+   cd si-tracer
+   ```
 
 2. **Instal Dependensi PHP & JavaScript**
-
-    ```bash
-    composer install
-    npm install
-    ```
+   ```bash
+   composer install
+   npm install
+   ```
 
 3. **Salin & Konfigurasi Lingkungan (`.env`)**
-
-    ```bash
-    cp .env.example .env
-    ```
-
-    _Atur konfigurasi database, API key Gemini/OpenRouter, dan kredensial lainnya pada file `.env`:_
-
-    ```env
-    DB_CONNECTION=mysql
-    DB_HOST=127.0.0.1
-    DB_PORT=3306
-    DB_DATABASE=tracer_revisi
-    DB_USERNAME=root
-    DB_PASSWORD=
-
-    GEMINI_API_KEY=your_gemini_api_key
-    OPENROUTER_API_KEY=your_openrouter_api_key
-    ```
+   ```bash
+   cp .env.example .env
+   ```
+   *Atur konfigurasi database, API key Gemini/OpenRouter pada file `.env`:*
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=tracer_revisi
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
 
 4. **Generate Application Key**
+   ```bash
+   php artisan key:generate
+   ```
 
-    ```bash
-    php artisan key:generate
-    ```
-
-5. **Jalankan Migrasi & Database Seeder**
-
-    ```bash
-    php artisan migrate
-    php artisan db:seed --class=DumyUserSeeder
-    ```
+5. **Jalankan Migrasi & Import Database**
+   Import database manual menggunakan file `tracer.sql` ke database Anda, lalu jalankan migrasi tambahan:
+   ```bash
+   php artisan migrate
+   ```
 
 6. **Buat Symlink Storage**
+   ```bash
+   php artisan storage:link
+   ```
 
-    ```bash
-    php artisan storage:link
-    ```
-
-7. **Jalankan Server Lokal**
-    - Terminal 1 (Laravel Development Server):
-        ```bash
-        php artisan serve --port=8082
-        ```
-    - Terminal 2 (Vite Compiler):
-        ```bash
-        npm run dev
-        ```
+7. **Jalankan Layanan Development**
+   - Terminal 1 (Laravel Server):
+     ```bash
+     php artisan serve --port=8082
+     ```
+   - Terminal 2 (Vite Compiler):
+     ```bash
+     npm run dev
+     ```
 
 ---
 

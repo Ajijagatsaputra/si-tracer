@@ -1,9 +1,22 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-bs-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal Tracer Study & Bursa Kerja - Universitas Harkat Negeri</title>
+    
+    <script>
+        // Check local storage or system preference immediately to prevent theme flashing
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+                document.documentElement.setAttribute('data-bs-theme', 'dark');
+            } else {
+                document.documentElement.setAttribute('data-bs-theme', 'light');
+            }
+        })();
+    </script>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,20 +42,47 @@
             --dark-light: #1e293b;
             --gray-light: #f8fafc;
             --accent: #b89635;
+            
+            --card-bg: #ffffff;
+            --card-border: rgba(0, 0, 0, 0.03);
+            --card-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+            --navbar-bg: #ffffff;
+            --text-main: var(--dark-light);
+            --text-dark: var(--dark);
+            --text-muted: #64748b;
+        }
+
+        [data-bs-theme="dark"] {
+            --primary: #8b1a28;
+            --primary-dark: #5a121b;
+            --primary-light: rgba(139, 26, 40, 0.15);
+            --dark: #ffffff;
+            --dark-light: #cbd5e1;
+            --gray-light: #0b0f19;
+            --accent: #d9af3f;
+            
+            --card-bg: #1e293b;
+            --card-border: rgba(255, 255, 255, 0.06);
+            --card-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+            --navbar-bg: #111827;
+            --text-main: #cbd5e1;
+            --text-dark: #ffffff;
+            --text-muted: #94a3b8;
         }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--gray-light);
-            color: var(--dark-light);
+            color: var(--text-main);
             overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         /* Navbar Styling */
         .navbar-modern {
-            background: #ffffff !important;
-            backdrop-filter: none;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            background: var(--navbar-bg) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--card-border);
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             transition: all 0.3s ease;
         }
@@ -52,13 +92,48 @@
             letter-spacing: -0.5px;
         }
 
+        [data-bs-theme="dark"] .navbar-brand-text {
+            color: #ffffff !important;
+        }
+        
+        [data-bs-theme="dark"] .navbar-brand-text span.fw-bold {
+            color: #fca5a5 !important;
+        }
+
         .navbar-modern .nav-link {
-            color: var(--dark-light) !important;
+            color: var(--text-main) !important;
             transition: color 0.2s ease;
         }
 
         .navbar-modern .nav-link:hover {
             color: var(--primary) !important;
+        }
+        
+        [data-bs-theme="dark"] .navbar-modern .nav-link.text-dark {
+            color: var(--text-main) !important;
+        }
+
+        [data-bs-theme="dark"] .navbar-modern .nav-link.text-dark:hover {
+            color: #ffffff !important;
+        }
+
+        [data-bs-theme="dark"] .navbar-modern .dropdown-toggle {
+            color: #ffffff !important;
+        }
+
+        [data-bs-theme="dark"] .navbar-modern .dropdown-menu {
+            background-color: #1f2937 !important;
+            border-color: rgba(255, 255, 255, 0.08) !important;
+            box-shadow: var(--card-shadow);
+        }
+
+        [data-bs-theme="dark"] .navbar-modern .dropdown-item {
+            color: #cbd5e1 !important;
+        }
+
+        [data-bs-theme="dark"] .navbar-modern .dropdown-item:hover {
+            background-color: rgba(255, 255, 255, 0.05) !important;
+            color: #ffffff !important;
         }
 
         .btn-outline-primary {
@@ -70,6 +145,49 @@
             color: #ffffff !important;
             background-color: var(--primary) !important;
             border-color: var(--primary) !important;
+        }
+
+        [data-bs-theme="dark"] .btn-outline-primary {
+            color: #fca5a5 !important;
+            border-color: #fca5a5 !important;
+        }
+
+        [data-bs-theme="dark"] .btn-outline-primary:hover {
+            color: #ffffff !important;
+            background-color: var(--primary) !important;
+            border-color: var(--primary) !important;
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle-btn {
+            background: rgba(100, 116, 139, 0.08);
+            border: 1px solid rgba(100, 116, 139, 0.15);
+            color: var(--text-main);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .theme-toggle-btn:hover {
+            background: rgba(100, 116, 139, 0.15);
+            transform: scale(1.05);
+            color: var(--primary);
+        }
+
+        [data-bs-theme="dark"] .theme-toggle-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+        }
+
+        [data-bs-theme="dark"] .theme-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--accent);
         }
 
         /* Hero Section */
@@ -155,24 +273,33 @@
             margin-bottom: 12px;
         }
 
+        [data-bs-theme="dark"] .section-tag {
+            color: var(--accent);
+        }
+
         .section-title {
             font-size: 2.25rem;
             font-weight: 800;
-            color: var(--dark);
+            color: var(--text-dark);
             letter-spacing: -0.5px;
         }
 
         /* Feature Card */
         .feature-card {
-            background: #fff;
-            border: 1px solid rgba(0, 0, 0, 0.03);
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             border-radius: 20px;
             transition: all 0.3s ease;
         }
 
         .feature-card:hover {
             transform: translateY(-6px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+            box-shadow: var(--card-shadow);
+        }
+
+        .feature-card h3,
+        .feature-card h5 {
+            color: var(--text-dark) !important;
         }
 
         .icon-box-primary {
@@ -187,18 +314,34 @@
             font-size: 1.5rem;
         }
 
+        [data-bs-theme="dark"] .icon-box-primary {
+            color: #fca5a5;
+        }
+
         /* Job Posting Card */
         .job-card {
-            background: #fff;
-            border: 1px solid rgba(0, 0, 0, 0.04);
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             border-radius: 20px;
             transition: all 0.3s ease;
         }
 
         .job-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.04);
-            border-color: rgba(79, 70, 229, 0.15);
+            box-shadow: var(--card-shadow);
+            border-color: rgba(90, 18, 27, 0.25);
+        }
+
+        [data-bs-theme="dark"] .job-card:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .job-card h4 {
+            color: var(--text-dark);
+        }
+
+        .job-card h6 {
+            color: var(--text-muted);
         }
 
         /* Partner CTA */
@@ -248,6 +391,10 @@
             color: var(--primary) !important;
         }
 
+        [data-bs-theme="dark"] .text-primary {
+            color: #fca5a5 !important;
+        }
+
         .text-indigo-200 {
             color: #fca5a5 !important;
         }
@@ -279,6 +426,85 @@
         .footer-uhn hr {
             border-color: rgba(255, 255, 255, 0.15) !important;
             opacity: 1;
+        }
+
+        /* Dark mode custom overrides for other elements */
+        .text-dark {
+            color: var(--text-dark) !important;
+        }
+
+        .text-muted {
+            color: var(--text-muted) !important;
+        }
+
+        [data-bs-theme="dark"] .modal-content {
+            background-color: #1e293b !important;
+            color: #cbd5e1 !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        }
+
+        [data-bs-theme="dark"] .modal-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+        }
+
+        [data-bs-theme="dark"] .modal-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+        }
+
+        [data-bs-theme="dark"] .modal-body {
+            background-color: #1e293b !important;
+        }
+
+        [data-bs-theme="dark"] .modal-body .bg-light,
+        [data-bs-theme="dark"] .modal-body .bg-light\/30 {
+            background-color: rgba(255, 255, 255, 0.03) !important;
+        }
+
+        [data-bs-theme="dark"] .modal-body .bg-white {
+            background-color: #111827 !important;
+            border-color: rgba(255, 255, 255, 0.06) !important;
+        }
+
+        [data-bs-theme="dark"] .form-control {
+            background-color: #111827 !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+            color: #ffffff !important;
+        }
+
+        [data-bs-theme="dark"] .form-control:focus {
+            background-color: #111827 !important;
+            border-color: var(--primary) !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 0 0.25rem rgba(139, 26, 40, 0.25) !important;
+        }
+
+        [data-bs-theme="dark"] .input-group-text {
+            background-color: #111827 !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+            color: #94a3b8 !important;
+        }
+
+        [data-bs-theme="dark"] .card {
+            background-color: var(--card-bg) !important;
+            border-color: var(--card-border) !important;
+        }
+
+        [data-bs-theme="dark"] .btn-close {
+            filter: invert(1) grayscale(1) brightness(2);
+        }
+
+        [data-bs-theme="dark"] .bg-primary-light {
+            background-color: rgba(139, 26, 40, 0.15) !important;
+        }
+
+        [data-bs-theme="dark"] .btn-light {
+            background-color: rgba(255, 255, 255, 0.05) !important;
+            border-color: rgba(255, 255, 255, 0.08) !important;
+            color: #ffffff !important;
+        }
+
+        [data-bs-theme="dark"] .btn-light:hover {
+            background-color: rgba(255, 255, 255, 0.1) !important;
         }
     </style>
 </head>
@@ -333,6 +559,13 @@
                             <a href="{{ route('login') }}" class="btn btn-outline-primary rounded-pill px-4 fw-bold">Masuk</a>
                         </li>
                     @endauth
+                    
+                    <!-- Theme Toggle Button -->
+                    <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Ubah Tema">
+                            <i id="theme-icon" class="fa fa-moon"></i>
+                        </button>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -639,9 +872,7 @@
             <div class="modal-content border-0 rounded-4 overflow-hidden shadow-lg">
                 <div class="modal-header bg-dark text-white border-0 p-4">
                     <div class="d-flex align-items-center gap-3">
-                        <div id="detail-company-logo-container">
-                            <!-- Logo populated by JS -->
-                        </div>
+                        <div id="detail-company-logo-container"></div>
                         <div>
                             <h5 class="modal-title fw-bold text-white mb-1" id="detail-job-position">-</h5>
                             <p class="mb-0 text-white-50 fs-sm" id="detail-company-name">-</p>
@@ -733,6 +964,31 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Theme toggle logic
+        var themeToggleBtn = document.getElementById('theme-toggle');
+        var themeIcon = document.getElementById('theme-icon');
+
+        function updateToggleIcon(theme) {
+            if (theme === 'dark') {
+                themeIcon.className = 'fa fa-sun text-warning';
+            } else {
+                themeIcon.className = 'fa fa-moon';
+            }
+        }
+
+        // Initialize icon state
+        var currentTheme = document.documentElement.getAttribute('data-bs-theme') || 'light';
+        updateToggleIcon(currentTheme);
+
+        if (themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', function() {
+                var newTheme = document.documentElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-bs-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateToggleIcon(newTheme);
+            });
+        }
+
         var isAuthenticated = @json(Auth::check());
         var hasFilledTracer = @json($hasFilledTracer ?? false);
 
@@ -760,7 +1016,6 @@
                 var position = this.dataset.position;
                 var company = this.dataset.company;
 
-                // ✅ Opsi C: Cek apakah sudah isi tracer study
                 if (!hasFilledTracer) {
                     showTracerGate();
                     return;

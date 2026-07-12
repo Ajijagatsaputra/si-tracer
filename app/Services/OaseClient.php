@@ -21,13 +21,16 @@ class OaseClient
 
     private function http()
     {
-        return Http::timeout(6)      // hindari ngegantung
-                   ->retry(2, 300)   // 2x retry dengan jeda 300ms
-                   ->acceptJson();
+        return Http::timeout(2)      // lowered timeout to 2 seconds
+            ->acceptJson();
     }
 
     public function getTahunAkademikList(): array
     {
+        if (Cache::has('oase:is_offline')) {
+            return [];
+        }
+
         return Cache::remember('oase:tahun_akademik', $this->ttlTA, function () {
             try {
                 $res = $this->http()->get("{$this->baseUrl}/master/tahun-akademik", [
@@ -39,7 +42,7 @@ class OaseClient
                 }
                 return $res['data'];
             } catch (\Exception $e) {
-                // Log atau diamkan; return [] agar tidak crash
+                Cache::put('oase:is_offline', true, 300); // offline for 5 minutes
                 return [];
             }
         });
@@ -47,7 +50,11 @@ class OaseClient
 
     public function getDosenCount(?string $kodeTA, string $kodeProdi = '09'): int
     {
-        if (!$kodeTA) return 0;
+        if (!$kodeTA)
+            return 0;
+        if (Cache::has('oase:is_offline')) {
+            return 0;
+        }
 
         $cacheKey = "oase:dosen_count:{$kodeProdi}:{$kodeTA}";
         return Cache::remember($cacheKey, $this->ttlDosen, function () use ($kodeProdi, $kodeTA) {
@@ -63,6 +70,7 @@ class OaseClient
                 }
                 return count($res['data']);
             } catch (\Exception $e) {
+                Cache::put('oase:is_offline', true, 300);
                 return 0;
             }
         });
@@ -74,10 +82,17 @@ class OaseClient
      */
     public function getMahasiswaTotal(int $start = 2020, int $end = 2025): int
     {
+        if (Cache::has('oase:is_offline')) {
+            return 0;
+        }
+
         $cacheKey = "oase:mahasiswa_total:{$start}:{$end}";
         return Cache::remember($cacheKey, $this->ttlMahasiswa, function () use ($start, $end) {
             $total = 0;
             for ($tahun = $start; $tahun <= $end; $tahun++) {
+                if (Cache::has('oase:is_offline')) {
+                    break;
+                }
                 try {
                     $res = $this->http()->get("{$this->baseUrl}/mahasiswa", [
                         'key' => $this->apiKey,
@@ -88,8 +103,8 @@ class OaseClient
                         $total += count($res['data']);
                     }
                 } catch (\Exception $e) {
-                    // Lanjut saja ke tahun berikutnya jika gagal
-                    continue;
+                    Cache::put('oase:is_offline', true, 300);
+                    break; // stop looping if offline
                 }
             }
             return $total;

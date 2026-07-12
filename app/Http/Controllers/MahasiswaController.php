@@ -20,6 +20,10 @@ class MahasiswaController extends Controller
     {
         $tahun = $request->input('tahun_angkatan');
 
+        if (Cache::has('oase:is_offline')) {
+            return response()->json(['status' => false, 'data' => []]);
+        }
+
         // Buat cache key unik per tahun angkatan
         // Jika tidak ada filter tahun, gunakan key 'all'
         $cacheKey = 'oase:mahasiswa_list:' . ($tahun ?? 'all');
@@ -28,19 +32,23 @@ class MahasiswaController extends Controller
         $ttl = 1800;
 
         $data = Cache::remember($cacheKey, $ttl, function () use ($tahun) {
-            $response = Http::timeout(6)
-                ->retry(2, 300)
-                ->get('https://api.oase.poltektegal.ac.id/api/web/mahasiswa', [
-                    'key' => config('services.oase.key', env('OASE_API_KEY')),
-                    'tahun_angkatan' => $tahun,
-                ]);
+            try {
+                $response = Http::timeout(2)
+                    ->get('https://api.oase.poltektegal.ac.id/api/web/mahasiswa', [
+                        'key' => config('services.oase.key', env('OASE_API_KEY')),
+                        'tahun_angkatan' => $tahun,
+                    ]);
 
-            // Jika API gagal, kembalikan struktur kosong agar tidak crash
-            if (!$response->successful()) {
+                // Jika API gagal, kembalikan struktur kosong agar tidak crash
+                if (!$response->successful()) {
+                    return ['status' => false, 'data' => []];
+                }
+
+                return $response->json();
+            } catch (\Exception $e) {
+                Cache::put('oase:is_offline', true, 300);
                 return ['status' => false, 'data' => []];
             }
-
-            return $response->json();
         });
 
         return response()->json($data);

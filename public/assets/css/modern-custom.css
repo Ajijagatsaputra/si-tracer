@@ -369,3 +369,134 @@
 .swal2-icon.swal2-error [class^='swal2-x-mark-line'] {
     background-color: #ef4444 !important;
 }
+
+/* ==========================================
+   DARK MODE OVERRIDES FOR ADMIN/SUPERADMIN
+   ========================================== */
+#page-container.dark-mode {
+    background-color: #0b0f19 !important;
+}
+
+#page-container.dark-mode #main-container {
+    background-color: #0b0f19 !important;
+}
+
+/* Header Overrides */
+#page-container.dark-mode #page-header {
+    background: rgba(17, 24, 39, 0.9) !important; /* Gray 900 with blur */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2) !important;
+}
+
+#page-container.dark-mode #page-header .btn-alt-secondary {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    color: #e2e8f0 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+#page-container.dark-mode #page-header .btn-alt-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Blocks / Cards Overrides */
+#page-container.dark-mode .block,
+#page-container.dark-mode .card {
+    background-color: #1e293b !important; /* Slate 800 */
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3) !important;
+}
+
+#page-container.dark-mode .block-header {
+    background-color: #1e293b !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+#page-container.dark-mode .block-content {
+    background-color: #1e293b !important;
+    color: #cbd5e1 !important;
+}
+
+/* Tables Overrides */
+#page-container.dark-mode #tabel-alumni tbody tr,
+#page-container.dark-mode .js-dataTable-full tbody tr {
+    background-color: #1e293b !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.25) !important;
+}
+
+#page-container.dark-mode #tabel-alumni tbody tr:hover,
+#page-container.dark-mode .js-dataTable-full tbody tr:hover {
+    background-color: #334155 !important; /* Slate 700 */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4) !important;
+}
+
+#page-container.dark-mode #tabel-alumni tbody td,
+#page-container.dark-mode .js-dataTable-full tbody td {
+    color: #e2e8f0 !important;
+}
+
+/* Table Toolbar Overrides */
+#page-container.dark-mode .table-toolbar {
+    background: rgba(30, 41, 59, 0.4) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Input & Select Controls Overrides */
+#page-container.dark-mode select.form-select,
+#page-container.dark-mode .dataTables_length select,
+#page-container.dark-mode .dataTables_filter input,
+#page-container.dark-mode .form-control {
+    background-color: #0b0f19 !important; /* Slate 900 */
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+}
+
+#page-container.dark-mode select.form-select:focus,
+#page-container.dark-mode .dataTables_length select:focus,
+#page-container.dark-mode .dataTables_filter input:focus,
+#page-container.dark-mode .form-control:focus {
+    border-color: #4facfe !important;
+    box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.2) !important;
+}
+
+/* SweetAlert2 Dark Overrides */
+#page-container.dark-mode .swal2-popup.swal-modern {
+    background-color: #1e293b !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #cbd5e1 !important;
+}
+
+#page-container.dark-mode .swal2-title {
+    color: #ffffff !important;
+}
+
+#page-container.dark-mode .swal2-html-container {
+    color: #cbd5e1 !important;
+}
+
+/* Standard Utility Text Color Overrides */
+#page-container.dark-mode .text-dark {
+    color: #ffffff !important;
+}
+
+#page-container.dark-mode .text-muted {
+    color: #94a3b8 !important;
+}
+
+#page-container.dark-mode .bg-body-light {
+    background-color: #111827 !important;
+}
+
+#page-container.dark-mode .dropdown-menu {
+    background-color: #1e293b !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+#page-container.dark-mode .dropdown-item {
+    color: #cbd5e1 !important;
+}
+
+#page-container.dark-mode .dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    color: #ffffff !important;
+}
+

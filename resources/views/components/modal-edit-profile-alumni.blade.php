@@ -47,7 +47,14 @@
             </div>
             <div class="col-md-3">
               <label class="form-label">Tahun Lulus</label>
-              <input type="number" name="tahun_lulus" value="{{ $alumni->tahun_lulus }}" class="form-control">
+              <select name="tahun_lulus" class="form-select">
+                <option value="" disabled {{ empty($alumni->tahun_lulus) ? 'selected' : '' }}>Pilih</option>
+                @for ($year = date('Y'); $year >= 2010; $year--)
+                  <option value="{{ $year }}" {{ $alumni->tahun_lulus == $year ? 'selected' : '' }}>
+                    {{ $year }}
+                  </option>
+                @endfor
+              </select>
             </div>
             <div class="col-md-6">
               <label class="form-label">Status Mahasiswa</label>

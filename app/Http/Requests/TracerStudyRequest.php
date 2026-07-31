@@ -31,9 +31,17 @@ class TracerStudyRequest extends FormRequest
             'alamat' => ['required', 'string'],
 
             // Status Pekerjaan
-            'bekerja' => ['required', 'string', Rule::in([
-                'bekerja_full', 'belum_bekerja', 'wirausaha', 'lanjutstudy', 'tidak'
-            ])],
+            'bekerja' => [
+                'required',
+                'string',
+                Rule::in([
+                    'bekerja_full',
+                    'belum_bekerja',
+                    'wirausaha',
+                    'lanjutstudy',
+                    'tidak'
+                ])
+            ],
 
             // Detail Pekerjaan (conditional)
             'mendapatkan_pekerjaan' => ['nullable', 'string', Rule::in(['<=6bulan', '>6bulan'])],
@@ -52,12 +60,27 @@ class TracerStudyRequest extends FormRequest
             'email_atasan' => ['nullable', 'email', 'max:255'],
 
             // kesesuaian pekerjaan
-            'hubungan_studi_pekerjaan' => ['nullable', 'string', Rule::in([
-                'sangat_erat', 'erat', 'cukup_erat', 'kurang_erat', 'tidak_erat'
-            ])],
-            'pendidikan_sesuai_pekerjaan' => ['nullable', 'string', Rule::in([
-                'lebih_tinggi', 'sama', 'lebih_rendah', 'tidak_perlu_pt'
-            ])],
+            'hubungan_studi_pekerjaan' => [
+                'nullable',
+                'string',
+                Rule::in([
+                    'sangat_erat',
+                    'erat',
+                    'cukup_erat',
+                    'kurang_erat',
+                    'tidak_erat'
+                ])
+            ],
+            'pendidikan_sesuai_pekerjaan' => [
+                'nullable',
+                'string',
+                Rule::in([
+                    'lebih_tinggi',
+                    'sama',
+                    'lebih_rendah',
+                    'tidak_perlu_pt'
+                ])
+            ],
 
             // Detail Wirausaha (conditional)
             'nama_usaha' => ['nullable', 'string', 'max:255'],
@@ -71,27 +94,36 @@ class TracerStudyRequest extends FormRequest
             'sumber_biaya' => ['nullable', 'string', Rule::in(['biaya_sendiri', 'beasiswa_pemerintah', 'beasiswa_swasta', 'beasiswa_institusi'])],
             'tanggal_masuk' => ['nullable', 'date'],
             'lokasi_universitas' => ['nullable', 'string'],
-            'sumber_biaya_politeknik' => ['nullable', 'string', Rule::in([
-                'biaya_sendiri_orangtua', 'beasiswa_adik', 'beasiswa_bidikmisi',
-                'beasiswa_ppa', 'beasiswa_afirmasi', 'beasiswa_swasta', 'lainnya'
-            ])],
+            'sumber_biaya_politeknik' => [
+                'nullable',
+                'string',
+                Rule::in([
+                    'biaya_sendiri_orangtua',
+                    'beasiswa_adik',
+                    'beasiswa_bidikmisi',
+                    'beasiswa_ppa',
+                    'beasiswa_afirmasi',
+                    'beasiswa_swasta',
+                    'lainnya'
+                ])
+            ],
             'sumber_biaya_lainnya' => ['nullable', 'string', 'max:255'],
 
             // Kompetensi (untuk semua)
-            'etika_awal' => ['nullable', 'string', Rule::in(['sangat_baik', 'baik', 'cukup', 'kurang_baik', 'tidak_baik'])],
-            'keahlian_awal' => ['nullable', 'string', Rule::in(['sangat_baik', 'baik', 'cukup', 'kurang_baik', 'tidak_baik'])],
-            'bahasa_inggris_awal' => ['nullable', 'string', Rule::in(['sangat_baik', 'baik', 'cukup', 'kurang_baik', 'tidak_baik'])],
-            'komunikasi_awal' => ['nullable', 'string', Rule::in(['sangat_baik', 'baik', 'cukup', 'kurang_baik', 'tidak_baik'])],
-            'kerjasama_awal' => ['nullable', 'string', Rule::in(['sangat_baik', 'baik', 'cukup', 'kurang_baik', 'tidak_baik'])],
-            'teknologi_awal' => ['nullable', 'string', Rule::in(['sangat_baik', 'baik', 'cukup', 'kurang_baik', 'tidak_baik'])],
-            'pengembangan_awal' => ['nullable', 'string', Rule::in(['sangat_baik', 'baik', 'cukup', 'kurang_baik', 'tidak_baik'])],
-            'etika_sekarang' => ['nullable', 'string', Rule::in(['sangat_baik', 'baik', 'cukup', 'kurang_baik', 'tidak_baik'])],
-            'keahlian_sekarang' => ['nullable', 'string', Rule::in(['sangat_baik', 'baik', 'cukup', 'kurang_baik', 'tidak_baik'])],
-            'bahasa_inggris_sekarang' => ['nullable', 'string', Rule::in(['sangat_baik', 'baik', 'cukup', 'kurang_baik', 'tidak_baik'])],
-            'komunikasi_sekarang' => ['nullable', 'string', Rule::in(['sangat_baik', 'baik', 'cukup', 'kurang_baik', 'tidak_baik'])],
-            'kerjasama_sekarang' => ['nullable', 'string', Rule::in(['sangat_baik', 'baik', 'cukup', 'kurang_baik', 'tidak_baik'])],
-            'teknologi_sekarang' => ['nullable', 'string', Rule::in(['sangat_baik', 'baik', 'cukup', 'kurang_baik', 'tidak_baik'])],
-            'pengembangan_sekarang' => ['nullable', 'string', Rule::in(['sangat_baik', 'baik', 'cukup', 'kurang_baik', 'tidak_baik'])],
+            'etika_awal' => ['nullable', 'string', Rule::in(['1', '2', '3', '4', '5', 'sangat_baik', 'baik', 'cukup', 'kurang_baik', 'tidak_baik', 'kurang'])],
+            'keahlian_awal' => ['nullable', 'string', Rule::in(['1', '2', '3', '4', '5', 'sangat_baik', 'baik', 'cukup', 'kurang_baik', 'tidak_baik', 'kurang'])],
+            'bahasa_inggris_awal' => ['nullable', 'string', Rule::in(['1', '2', '3', '4', '5', 'sangat_baik', 'baik', 'cukup', 'kurang_baik', 'tidak_baik', 'kurang'])],
+            'komunikasi_awal' => ['nullable', 'string', Rule::in(['1', '2', '3', '4', '5', 'sangat_baik', 'baik', 'cukup', 'kurang_baik', 'tidak_baik', 'kurang'])],
+            'kerjasama_awal' => ['nullable', 'string', Rule::in(['1', '2', '3', '4', '5', 'sangat_baik', 'baik', 'cukup', 'kurang_baik', 'tidak_baik', 'kurang'])],
+            'teknologi_awal' => ['nullable', 'string', Rule::in(['1', '2', '3', '4', '5', 'sangat_baik', 'baik', 'cukup', 'kurang_baik', 'tidak_baik', 'kurang'])],
+            'pengembangan_awal' => ['nullable', 'string', Rule::in(['1', '2', '3', '4', '5', 'sangat_baik', 'baik', 'cukup', 'kurang_baik', 'tidak_baik', 'kurang'])],
+            'etika_sekarang' => ['nullable', 'string', Rule::in(['1', '2', '3', '4', '5', 'sangat_baik', 'baik', 'cukup', 'kurang_baik', 'tidak_baik', 'kurang'])],
+            'keahlian_sekarang' => ['nullable', 'string', Rule::in(['1', '2', '3', '4', '5', 'sangat_baik', 'baik', 'cukup', 'kurang_baik', 'tidak_baik', 'kurang'])],
+            'bahasa_inggris_sekarang' => ['nullable', 'string', Rule::in(['1', '2', '3', '4', '5', 'sangat_baik', 'baik', 'cukup', 'kurang_baik', 'tidak_baik', 'kurang'])],
+            'komunikasi_sekarang' => ['nullable', 'string', Rule::in(['1', '2', '3', '4', '5', 'sangat_baik', 'baik', 'cukup', 'kurang_baik', 'tidak_baik', 'kurang'])],
+            'kerjasama_sekarang' => ['nullable', 'string', Rule::in(['1', '2', '3', '4', '5', 'sangat_baik', 'baik', 'cukup', 'kurang_baik', 'tidak_baik', 'kurang'])],
+            'teknologi_sekarang' => ['nullable', 'string', Rule::in(['1', '2', '3', '4', '5', 'sangat_baik', 'baik', 'cukup', 'kurang_baik', 'tidak_baik', 'kurang'])],
+            'pengembangan_sekarang' => ['nullable', 'string', Rule::in(['1', '2', '3', '4', '5', 'sangat_baik', 'baik', 'cukup', 'kurang_baik', 'tidak_baik', 'kurang'])],
 
             // Pencarian Kerja (conditional)
             'waktu_cari_kerja' => ['nullable', 'string', Rule::in(['sebelum_lulus', 'setelah_lulus', 'tidak_mencari'])],
@@ -126,7 +158,7 @@ class TracerStudyRequest extends FormRequest
             // Data Atasan (wajib jika status bekerja_full)
             'nama_atasan' => ['nullable', 'string', 'max:255'],
             'jabatan_atasan' => ['nullable', 'string', 'max:255'],
-            'wa_atasan' => ['nullable', 'string', 'max:20', 'regex:/^\+62[0-9]{9,12}$/'],
+            'wa_atasan' => ['nullable', 'string', 'max:20', 'regex:/^(\+62|62|0)[0-9]{8,13}$/'],
             'email_atasan' => ['nullable', 'email', 'max:255'],
         ];
     }

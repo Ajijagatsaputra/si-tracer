@@ -21,7 +21,7 @@ class OaseClient
 
     private function http()
     {
-        return Http::timeout(2)      // lowered timeout to 2 seconds
+        return Http::timeout(15)
             ->acceptJson();
     }
 

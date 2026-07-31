@@ -47,7 +47,7 @@ class RegisteredUserController extends Controller
         }
 
         try {
-            $response = Http::timeout(4)->get('https://api.oase.poltektegal.ac.id/api/web/mahasiswa', [
+            $response = Http::timeout(10)->get('https://api.oase.poltektegal.ac.id/api/web/mahasiswa', [
                 'key' => env('OASE_API_KEY'),
                 'nim' => $request->nim,
                 'tahun_angkatan' => $request->tahun_angkatan

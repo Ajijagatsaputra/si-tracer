@@ -16,7 +16,7 @@ class DosenController extends Controller
         }
 
         try {
-            $response = Http::timeout(2)->get('https://api.oase.poltektegal.ac.id/api/web/master/tahun-akademik', [
+            $response = Http::timeout(10)->get('https://api.oase.poltektegal.ac.id/api/web/master/tahun-akademik', [
                 'key' => env('OASE_API_KEY')
             ]);
 
@@ -44,7 +44,7 @@ class DosenController extends Controller
         }
 
         try {
-            $response = Http::timeout(2)->get('https://api.oase.poltektegal.ac.id/api/web/dosen', [
+            $response = Http::timeout(10)->get('https://api.oase.poltektegal.ac.id/api/web/dosen', [
                 'key' => env('OASE_API_KEY'),
                 'kd_prodi' => '09',
                 'kode_tahun_akademik' => $tahun

@@ -33,7 +33,7 @@ class MahasiswaController extends Controller
 
         $data = Cache::remember($cacheKey, $ttl, function () use ($tahun) {
             try {
-                $response = Http::timeout(2)
+                $response = Http::timeout(15)
                     ->get('https://api.oase.poltektegal.ac.id/api/web/mahasiswa', [
                         'key' => config('services.oase.key', env('OASE_API_KEY')),
                         'tahun_angkatan' => $tahun,

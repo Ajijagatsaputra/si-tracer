@@ -167,8 +167,27 @@
                     type: 'GET',
                     data: d => ({ tahun_angkatan: $('#filter-tahun').val() }),
                     dataSrc: json => {
-                        $('#jumlah-alumni').text(json.data.length);
-                        return json.data;
+                        const data = json.data || [];
+                        $('#jumlah-alumni').text(data.length);
+                        return data;
+                    },
+                    error: function (xhr, error, thrown) {
+                        console.error('AJAX Error:', error, thrown);
+                        $('#jumlah-alumni').text('0');
+
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 8000,
+                            timerProgressBar: true
+                        });
+
+                        Toast.fire({
+                            icon: 'error',
+                            title: '<span class="fw-bold text-dark fs-sm">Gagal Memuat Data Alumni</span>',
+                            html: '<div class="text-muted fs-xs text-start mt-1"><i class="fa fa-exclamation-circle me-1 text-danger"></i> Tidak dapat mengambil data alumni dari server. Silakan refresh halaman atau coba lagi nanti.</div>'
+                        });
                     }
                 },
                 columns: [

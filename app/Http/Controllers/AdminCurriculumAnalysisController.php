@@ -19,7 +19,7 @@ class AdminCurriculumAnalysisController extends Controller
             AVG(kerjasama_awal) as kerjasama_awal,
             AVG(komunikasi_awal) as komunikasi_awal,
             AVG(pengembangan_awal) as pengembangan_awal,
-            
+
             AVG(etika_sekarang) as etika_sekarang,
             AVG(keahlian_sekarang) as keahlian_sekarang,
             AVG(bahasa_inggris_sekarang) as bahasa_inggris_sekarang,
@@ -77,7 +77,7 @@ class AdminCurriculumAnalysisController extends Controller
             AVG(kerjasama_awal) as kerjasama_awal,
             AVG(komunikasi_awal) as komunikasi_awal,
             AVG(pengembangan_awal) as pengembangan_awal,
-            
+
             AVG(etika_sekarang) as etika_sekarang,
             AVG(keahlian_sekarang) as keahlian_sekarang,
             AVG(bahasa_inggris_sekarang) as bahasa_inggris_sekarang,
@@ -111,20 +111,26 @@ class AdminCurriculumAnalysisController extends Controller
             return redirect()->back()->with('error', 'Data Tracer Study belum mencukupi untuk dianalisis oleh AI.');
         }
 
-        // Susun prompt untuk Gemini
+        // Susun prompt untuk AI
         $prompt = $this->buildAnalysisPrompt($competencyStats, $supervisorStats, $suggestions);
 
-        // Panggil API Gemini dengan fallback ke OpenRouter jika gagal
-        $result = $this->callGemini($prompt);
+        // Panggil API DeepSeek (Hugging Face) sebagai model utama, dengan fallback ke Gemini & OpenRouter jika gagal
+        $result = $this->callDeepSeek($prompt);
 
         if (!$result['success']) {
-            Log::info('Direct Gemini API failed. Attempting OpenRouter fallback...');
-            $openrouterResult = $this->callOpenRouter($prompt);
-            if ($openrouterResult['success']) {
-                $result = [
-                    'success' => true,
-                    'text' => $openrouterResult['text']
-                ];
+            Log::info('DeepSeek API failed. Attempting direct Gemini fallback...');
+            $geminiResult = $this->callGemini($prompt);
+            if ($geminiResult['success']) {
+                $result = $geminiResult;
+            } else {
+                Log::info('Direct Gemini API failed. Attempting OpenRouter fallback...');
+                $openrouterResult = $this->callOpenRouter($prompt);
+                if ($openrouterResult['success']) {
+                    $result = [
+                        'success' => true,
+                        'text' => $openrouterResult['text']
+                    ];
+                }
             }
         }
 
@@ -171,6 +177,94 @@ class AdminCurriculumAnalysisController extends Controller
             . "### 4. Langkah Strategis Program Studi\n"
             . "Langkah-langkah taktis prodi (seperti workshop, sertifikasi industri, magang bersertifikat, dll.) untuk meningkatkan kesiapan kerja lulusan.\n\n"
             . "Format respons Anda dalam Markdown yang rapi dan profesional.";
+    }
+
+    /**
+     * Primary call to DeepSeek via Hugging Face Router
+     */
+    private function callDeepSeek($prompt, $attempt = 1, $usePlainStringContent = false)
+    {
+        $apiKey = config('services.deepseek.key');
+        $apiUrl = config('services.deepseek.url', 'https://router.huggingface.co/v1/chat/completions');
+        $model = config('services.deepseek.model', 'deepseek-ai/DeepSeek-V4.1-Flash-1017');
+
+        if (!$apiKey || !$apiUrl) {
+            return [
+                'success' => false,
+                'error' => 'DEEPSEEK_API_KEY belum dikonfigurasi di file .env.'
+            ];
+        }
+
+        $messageContent = $usePlainStringContent
+            ? $prompt
+            : [
+                [
+                    'type' => 'text',
+                    'text' => $prompt,
+                ]
+            ];
+
+        $payload = [
+            'messages' => [
+                [
+                    'role' => 'user',
+                    'content' => $messageContent,
+                ]
+            ],
+            'model' => $model,
+            'stream' => false,
+            'max_tokens' => 2500,
+        ];
+
+        $ch = curl_init($apiUrl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Authorization: Bearer ' . $apiKey,
+            'Content-Type: application/json',
+        ]);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if (($httpCode === 503 || $httpCode === 429) && $attempt < 2) {
+            sleep(2);
+            return $this->callDeepSeek($prompt, $attempt + 1, $usePlainStringContent);
+        }
+
+        if (($httpCode === 400 || $httpCode === 422) && !$usePlainStringContent) {
+            return $this->callDeepSeek($prompt, $attempt, true);
+        }
+
+        if ($httpCode !== 200) {
+            Log::warning("DeepSeek HF Router Error (HTTP {$httpCode}): " . ($response ?: 'Empty response'));
+            return [
+                'success' => false,
+                'error' => 'HTTP Code ' . $httpCode . ' - ' . ($response ?: 'Empty response')
+            ];
+        }
+
+        $result = json_decode($response, true);
+        $text = $result['choices'][0]['message']['content'] ?? null;
+        if (is_string($text)) {
+            $text = trim(preg_replace('/<think>.*?<\/think>/s', '', $text));
+        }
+
+        if (!empty($text)) {
+            return [
+                'success' => true,
+                'text' => $text
+            ];
+        }
+
+        return [
+            'success' => false,
+            'error' => 'Respon dari DeepSeek kosong.'
+        ];
     }
 
     private function callGemini($prompt, $attempt = 1)

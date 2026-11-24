@@ -170,4 +170,5 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::post('/api/predict-gemini', [\App\Http\Controllers\PrediksiController::class, 'ajaxPredictGemini'])->name('api.predict-gemini');
+Route::post('/api/predict-deepseek', [\App\Http\Controllers\PrediksiController::class, 'ajaxPredictDeepSeek'])->name('api.predict-deepseek');
 Route::post('/api/predict-openrouter', [\App\Http\Controllers\PrediksiOpenRouterController::class, 'ajaxPredictOpenRouter'])->name('api.predict-openrouter');

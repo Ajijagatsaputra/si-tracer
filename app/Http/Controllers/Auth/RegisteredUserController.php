@@ -14,6 +14,7 @@ use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
@@ -76,23 +77,32 @@ class RegisteredUserController extends Controller
                 'nim' => 'Mahasiswa belum lulus',
             ]);
         } else {
-            $user = User::create([
-                'username' => str_replace(' ', '', strtolower($dataJson['data'][0]['nama_lengkap'])),
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-            ]);
+            $user = DB::transaction(function () use ($request, $dataJson) {
+                $mhs = $dataJson['data'][0];
 
-            $alumni = Alumni::create([
-                'id_users' => $user->id,
-                'nim' => $dataJson['data'][0]['nim'],
-                'nama_lengkap' => $dataJson['data'][0]['nama_lengkap'],
-                'no_hp' => $dataJson['data'][0]['no_whatsapp'],
-                'prodi' => $dataJson['data'][0]['prodi']['nama'],
-                'kelas' => $dataJson['data'][0]['kelas'],
-                'jalur' => $dataJson['data'][0]['jalur'],
-                'tahun_masuk' => $dataJson['data'][0]['tahun_masuk'],
-                'status_mahasiswa' => $dataJson['data'][0]['status_mahasiswa'],
-            ]);
+                $user = User::create([
+                    'username' => str_replace(' ', '', strtolower($mhs['nama_lengkap'])),
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password),
+                    'role' => 'alumni',
+                ]);
+
+                Alumni::create([
+                    'id_users' => $user->id,
+                    'nim' => $mhs['nim'],
+                    'nama_lengkap' => $mhs['nama_lengkap'],
+                    'no_hp' => !empty($mhs['no_whatsapp']) ? $mhs['no_whatsapp'] : '-',
+                    'prodi' => is_array($mhs['prodi']) ? ($mhs['prodi']['nama'] ?? '-') : ($mhs['prodi'] ?? '-'),
+                    'alamat' => !empty($mhs['alamat']) ? $mhs['alamat'] : '-',
+                    'kelas' => !empty($mhs['kelas']) ? $mhs['kelas'] : '-',
+                    'jalur' => !empty($mhs['jalur']) ? $mhs['jalur'] : '-',
+                    'tahun_masuk' => !empty($mhs['tahun_masuk']) ? $mhs['tahun_masuk'] : $request->tahun_angkatan,
+                    'tahun_lulus' => !empty($mhs['tahun_lulus']) ? $mhs['tahun_lulus'] : null,
+                    'status_mahasiswa' => !empty($mhs['status_mahasiswa']) ? $mhs['status_mahasiswa'] : 'Lulus',
+                ]);
+
+                return $user;
+            });
 
             event(new Registered($user));
 

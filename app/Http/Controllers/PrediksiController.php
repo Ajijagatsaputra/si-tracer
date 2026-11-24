@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Models\MataKuliah;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class PrediksiController extends Controller
 {
@@ -230,6 +231,92 @@ class PrediksiController extends Controller
     }
 
     /**
+     * Kirim prompt ke DeepSeek via Hugging Face Router (Primary), fallback ke Gemini & OpenRouter
+     */
+    protected static function getDeepSeekRecommendation($prompt, $attempt = 1, $usePlainStringContent = false)
+    {
+        $api_key = config('services.deepseek.key');
+        $api_url = config('services.deepseek.url', 'https://router.huggingface.co/v1/chat/completions');
+        $model = config('services.deepseek.model', 'deepseek-ai/DeepSeek-V4.1-Flash-1017');
+
+        if ($api_key && $api_url) {
+            $messageContent = $usePlainStringContent
+                ? $prompt
+                : [
+                    [
+                        'type' => 'text',
+                        'text' => $prompt,
+                    ]
+                ];
+
+            $payload = [
+                'messages' => [
+                    [
+                        'role' => 'user',
+                        'content' => $messageContent,
+                    ]
+                ],
+                'model' => $model,
+                'stream' => false,
+                'max_tokens' => 1500,
+            ];
+
+            $ch = curl_init($api_url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Authorization: Bearer ' . $api_key,
+                'Content-Type: application/json',
+            ]);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+            $response = curl_exec($ch);
+            $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+
+            if (($http_code === 503 || $http_code === 429) && $attempt < 2) {
+                sleep(2);
+                return self::getDeepSeekRecommendation($prompt, $attempt + 1, $usePlainStringContent);
+            }
+
+            if (($http_code === 400 || $http_code === 422) && !$usePlainStringContent) {
+                return self::getDeepSeekRecommendation($prompt, $attempt, true);
+            }
+
+            $result = json_decode($response, true);
+            $text = $result['choices'][0]['message']['content'] ?? null;
+            if (is_string($text)) {
+                $text = trim(preg_replace('/<think>.*?<\/think>/s', '', $text));
+            }
+
+            if ($http_code === 200 && !empty($text)) {
+                try {
+                    $userId = auth()->id();
+                    $alumni = \App\Models\Alumni::where('id_users', $userId)->first();
+                    if ($alumni) {
+                        \App\Models\HistoryPrediksi::create([
+                            'idAlumni' => $alumni->id,
+                            'hasil' => $text,
+                        ]);
+                    }
+                } catch (\Throwable $e) {
+                }
+
+                return [
+                    'success' => true,
+                    'text' => $text,
+                ];
+            }
+
+            Log::warning("DeepSeek HF Router Error (HTTP {$http_code}): " . ($response ?: 'Empty response'));
+        }
+
+        // Fallback otomatis ke Gemini (yang juga memiliki fallback ke OpenRouter)
+        return self::getGeminiRecommendation($prompt);
+    }
+
+    /**
      * Kirim prompt ke Gemini API
      */
     protected static function getGeminiRecommendation($prompt, $attempt = 1)
@@ -417,11 +504,16 @@ class PrediksiController extends Controller
             return $v ?: 'N/A';
         })->all();
         $prompt = self::generatePrompt($mata_kuliah, $sks_data, $grade_data, $deskripsi, $mode);
-        $result = self::getGeminiRecommendation($prompt);
+        $result = self::getDeepSeekRecommendation($prompt);
         if (!empty($result['success']) && !empty($result['text'])) {
             $result['text'] = self::sanitizeAiText($result['text']);
         }
         return response()->json($result);
+    }
+
+    public function ajaxPredictDeepSeek(Request $request)
+    {
+        return $this->ajaxPredictGemini($request);
     }
 
 

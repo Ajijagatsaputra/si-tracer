@@ -93,21 +93,33 @@ class AdminTracerStudyAlumniController extends Controller
     public function getData()
     {
         if (request()->ajax()) {
-            $query = Alumni::with(['users', 'tracerStudy']);
+            try {
+                $query = Alumni::with(['users', 'tracerStudy']);
 
-            if (request()->filled('tahun_angkatan')) {
-                $query->where('tahun_masuk', request('tahun_angkatan'));
+                if (request()->filled('tahun_angkatan')) {
+                    $query->where('tahun_masuk', request('tahun_angkatan'));
+                }
+
+                return DataTables::of($query->get())
+                    ->addColumn('nama', function ($row) {
+                        return $row->nama_lengkap ?? ($row->users ? $row->users->username : '-');
+                    })
+                    ->addColumn('status_kuesioner', function ($row) {
+                        return $row->tracerStudy ? 'sudah' : 'belum';
+                    })
+                    ->make(true);
+            } catch (\Exception $e) {
+                return response()->json([
+                    'draw' => request()->input('draw', 1),
+                    'recordsTotal' => 0,
+                    'recordsFiltered' => 0,
+                    'data' => [],
+                    'error' => 'Terjadi kesalahan saat mengambil data alumni: ' . $e->getMessage()
+                ], 200);
             }
-
-            return DataTables::of($query->get())
-                ->addColumn('nama', function ($row) {
-                    return $row->users ? $row->users->name : '-';
-                })
-                ->addColumn('status_kuesioner', function ($row) {
-                    return $row->tracerStudy ? 'sudah' : 'belum';
-                })
-                ->make(true);
         }
+
+        return response()->json(['data' => []]);
     }
 
     /**

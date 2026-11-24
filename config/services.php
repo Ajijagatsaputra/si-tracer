@@ -66,4 +66,9 @@ return [
         'model' => env('OPENROUTER_MODEL', 'google/gemini-2.0-flash-exp:free'),
     ],
 
+    'deepseek' => [
+        'key' => env('DEEPSEEK_API_KEY'),
+        'url' => env('DEEPSEEK_API_URL', 'https://router.huggingface.co/v1/chat/completions'),
+        'model' => env('DEEPSEEK_MODEL', 'deepseek-ai/DeepSeek-V4.1-Flash-1017'),
+    ],
 ];

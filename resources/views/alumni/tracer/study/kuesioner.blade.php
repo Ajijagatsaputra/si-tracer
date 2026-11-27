@@ -2,14 +2,12 @@
 
 @section('content')
     <main id="main-container" class="main">
-        @include('components.navbar')
-
         <!-- Premium Assets -->
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="{{ asset('css/tracer-wizard.css') }}">
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-        <div class="container mt-5 pt-4">
+        <div class="container py-4">
             <div class="wizard-header animate-fade-in">
                 <i class="fas fa-graduation-cap fa-3x text-primary mb-3"></i>
                 <h1>Tracer Study Alumni</h1>

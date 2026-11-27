@@ -34,7 +34,7 @@ class AdminTracerPenggunaController extends Controller
             $query->whereYear('created_at', $request->tahun);
         }
 
-        $data = $query->latest()->paginate(10);
+        $data = $query->latest()->get();
  $totalAlumni = Alumni::count();
     // Asumsi: field relasi alumni di tracer_pengguna adalah alumni_id
     // Jika tidak ada, sesuaikan fieldnya!

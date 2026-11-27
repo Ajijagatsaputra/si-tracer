@@ -4,8 +4,6 @@
 
 @section('content')
 <main id="main-container">
-    @include('components.navbar')
-
 <style>
     /* Profile Page Custom Premium Styles */
     .profile-container {

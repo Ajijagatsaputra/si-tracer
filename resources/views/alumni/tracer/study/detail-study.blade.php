@@ -1,9 +1,7 @@
 @extends('layout')
 
 @section('content')
-    @include('components.navbar')
-
-    <main id="main-container" class="mt-4">
+    <main id="main-container">
         <!-- Hero Section / Header -->
         <div class="bg-white border-bottom shadow-sm">
             <div class="container py-4">
@@ -370,19 +368,72 @@
 
     <style>
         body {
-            background-color: #f8fafc;
+            background-color: #f1f5f9;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
+
+        #main-container {
+            background: #f1f5f9;
+        }
+
+        #main-container > .bg-white.border-bottom {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%) !important;
+            border-color: #e2e8f0 !important;
+        }
+
+        #main-container .card {
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 1rem !important;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.045) !important;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        #main-container .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08) !important;
+        }
+
+        #main-container .card-header {
+            border-radius: 1rem 1rem 0 0;
+        }
+
+        #main-container .bg-light {
+            background-color: #f8fafc !important;
+        }
+
+        #main-container .table thead th {
+            color: #475569;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        #main-container .table tbody tr:last-child td {
+            border-bottom: 0;
+        }
+
         .xsmall {
             font-size: 0.7rem;
             letter-spacing: 0.5px;
             text-transform: uppercase;
         }
-        .card {
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        .card:hover {
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05) !important;
+
+        @media (max-width: 575.98px) {
+            #main-container .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            #main-container h1 {
+                font-size: 1.35rem;
+            }
+
+            #main-container .d-flex.gap-2 > .btn {
+                flex: 1;
+                padding-left: 0.75rem !important;
+                padding-right: 0.75rem !important;
+            }
         }
     </style>
 @endsection

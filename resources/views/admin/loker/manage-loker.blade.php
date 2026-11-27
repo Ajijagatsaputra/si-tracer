@@ -1,321 +1,278 @@
 @extends('layouts.admin')
 
 @section('content')
-    <!-- Hero -->
-    <div class="bg-white">
-        <div class="content content-full">
-            <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center py-2">
-                <div class="flex-grow-1">
-                    <h1 class="h3 fw-bold mb-2">
-                        <span class="bg-primary-lighter p-2 rounded-3 me-2">
-                            <i class="fa fa-briefcase text-primary"></i>
-                        </span>
-                        Moderasi Bursa Kerja
-                    </h1>
-                    <p class="fs-sm fw-medium text-muted mb-0">
-                        Kelola dan validasi lowongan pekerjaan yang diunggah oleh mitra perusahaan.
-                    </p>
+    <div class="akila-page-wrap">
+        <!-- Breadcrumb -->
+        <div class="akila-breadcrumb">
+            <a href="{{ route('admin.dashboard') }}"><i class="fa fa-home me-1"></i> Home</a>
+            <span class="sep">&rsaquo;</span>
+            <span>Bursa Kerja</span>
+            <span class="sep">&rsaquo;</span>
+            <span class="active">Daftar Lowongan Kerja</span>
+        </div>
+
+        <!-- Main Card -->
+        <div class="akila-list-card">
+            <div class="akila-card-header">
+                <div>
+                    <h1 class="akila-title">Daftar Lowongan Kerja</h1>
+                    <p class="akila-subtitle">Kelola semua data lowongan pekerjaan dari admin dan mitra perusahaan yang tersedia di sistem.</p>
                 </div>
-                <div class="flex-shrink-0 mt-3 mt-sm-0 ms-sm-3">
-                    <a href="{{ route('admin.loker.create') }}" class="btn btn-primary rounded-pill px-4 fw-bold">
-                        <i class="fa fa-plus-circle me-1"></i> Tambah Loker Baru
+                <div class="akila-header-actions">
+                    <a href="{{ route('admin.loker.create') }}" class="btn-akila-dark">
+                        <i class="fa fa-plus"></i> Tambah Lowongan
                     </a>
                 </div>
-                <nav class="flex-shrink-0 mt-3 mt-sm-0 ms-sm-3" aria-label="breadcrumb">
-                    <ol class="breadcrumb breadcrumb-alt">
-                        <li class="breadcrumb-item">
-                            <a class="link-fx" href="{{ route('admin.dashboard') }}">Dashboard</a>
-                        </li>
-                        <li class="breadcrumb-item active" aria-current="page">Kelola Loker</li>
-                    </ol>
-                </nav>
             </div>
-        </div>
-    </div>
 
-    <!-- Main Content -->
-    <div class="content">
-
-        <!-- Filter Card -->
-        <div class="block block-rounded block-mode-loading-oneui shadow-sm mb-4">
-            <div class="block-content block-content-full">
-                <form action="{{ route('admin.loker.index') }}" method="GET" id="filter-form">
-                    <div class="row g-2">
-                        <div class="col-md-5">
-                            <input type="text" name="search" class="form-control"
-                                placeholder="Cari posisi atau nama perusahaan..." value="{{ request('search') }}">
-                        </div>
-                        <div class="col-md-4">
-                            <select name="status" class="form-select" onchange="this.form.submit()">
-                                <option value="">Semua Status</option>
-                                <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Menunggu
-                                    Persetujuan (Pending)</option>
-                                <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Disetujui
-                                    (Approved)</option>
-                                <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Ditolak
-                                    (Rejected)</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <button type="submit" class="btn btn-primary w-100"><i class="fa fa-search me-1"></i>
-                                Cari</button>
-                        </div>
-                    </div>
-                </form>
+            <!-- Length Row -->
+            <div class="akila-toolbar-row">
+                <div id="entries-container" class="akila-length-wrap"></div>
             </div>
-        </div>
 
-        <!-- Table Card -->
-        <div class="block block-rounded shadow-sm">
-            <div class="block-content block-content-full">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped table-vcenter">
-                        <thead>
+            <!-- Table -->
+            <div class="akila-table-wrapper">
+                <table class="table akila-table align-middle w-100" id="tabel-loker">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="width: 38px;">
+                                <input type="checkbox" class="form-check-input akila-checkbox" id="check-all-loker">
+                            </th>
+                            <th class="text-center" style="width: 56px;">No.</th>
+                            <th style="min-width: 210px;">Nama Lowongan & Perusahaan</th>
+                            <th style="min-width: 210px;">Deskripsi</th>
+                            <th>Tipe & Lokasi</th>
+                            <th class="text-center">Sampul</th>
+                            <th>Nama Pengunggah</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center" style="width: 130px;">Aksi</th>
+                        </tr>
+                        <tr class="akila-filter-row">
+                            <th></th>
+                            <th class="text-center"><span class="akila-no-pill">No</span></th>
+                            <th>
+                                <div class="akila-filter-input">
+                                    <i class="fa fa-search"></i>
+                                    <input type="text" class="col-filter" data-col="2" placeholder="Cari posisi / PT...">
+                                </div>
+                            </th>
+                            <th>
+                                <div class="akila-filter-input">
+                                    <i class="fa fa-search"></i>
+                                    <input type="text" class="col-filter" data-col="3" placeholder="Cari deskripsi...">
+                                </div>
+                            </th>
+                            <th>
+                                <select class="akila-filter-select col-filter-select" data-col="4">
+                                    <option value="">Semua Kategori</option>
+                                    @foreach($jobs->pluck('category')->filter()->unique() as $cat)
+                                        <option value="{{ $cat }}">{{ $cat }}</option>
+                                    @endforeach
+                                </select>
+                            </th>
+                            <th></th>
+                            <th>
+                                <div class="akila-filter-input">
+                                    <i class="fa fa-search"></i>
+                                    <input type="text" class="col-filter" data-col="6" placeholder="Cari pengunggah...">
+                                </div>
+                            </th>
+                            <th>
+                                <select class="akila-filter-select col-filter-select" data-col="7">
+                                    <option value="">Semua Status</option>
+                                    <option value="PUBLISHED">Published (Approved)</option>
+                                    <option value="PENDING">Pending</option>
+                                    <option value="DITOLAK">Ditolak</option>
+                                </select>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($jobs as $index => $job)
+                            @php
+                                $descExcerpt = mb_strimwidth(trim(strip_tags($job->description ?? '')), 0, 90, '...');
+                                $firstPoster = is_array($job->poster_paths) && count($job->poster_paths) > 0 ? $job->poster_paths[0] : $job->logo_path;
+                                $isComplete = !empty($job->description) && !empty($job->requirements);
+                            @endphp
                             <tr>
-                                <th class="text-center" style="width: 50px;">No</th>
-                                <th>Perusahaan</th>
-                                <th>Posisi</th>
-                                <th>Pengunggah (PIC)</th>
-                                <th>Kategori</th>
-                                <th>Lokasi</th>
-                                <th class="text-center">Status</th>
-                                <th class="text-center" style="width: 150px;">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($jobs as $index => $job)
-                                <tr>
-                                    <td class="text-center">{{ ($jobs->currentPage() - 1) * $jobs->perPage() + $index + 1 }}
-                                    </td>
-                                    <td class="fw-semibold">
-                                        <div class="d-flex align-items-center gap-2">
-                                            @if($job->logo_path)
-                                                <img src="{{ $job->logo_path }}" alt="Logo" class="rounded"
-                                                    style="width: 32px; height: 32px; object-fit: cover;">
-                                            @else
-                                                <div class="bg-primary-lighter text-primary rounded d-flex align-items-center justify-content-center fw-bold"
-                                                    style="width: 32px; height: 32px; font-size: 0.8rem;">
-                                                    {{ substr($job->company_name, 0, 2) }}
-                                                </div>
-                                            @endif
-                                            <span>{{ $job->company_name }}</span>
-                                        </div>
-                                    </td>
-                                    <td>{{ $job->position }}</td>
-                                    <td>
+                                <td class="text-center">
+                                    <input type="checkbox" class="form-check-input akila-checkbox row-check" value="{{ $job->id }}">
+                                </td>
+                                <td class="text-center text-muted fw-semibold">{{ $index + 1 }}</td>
+                                <td>
+                                    <div class="akila-cell-title">{{ $job->position }}</div>
+                                    <div class="akila-cell-desc" style="font-size: 0.76rem;">{{ $job->company_name }}</div>
+                                </td>
+                                <td>
+                                    <div class="akila-cell-desc">{{ $descExcerpt ?: 'Tidak ada deskripsi singkat.' }}</div>
+                                </td>
+                                <td>
+                                    <div class="d-flex flex-wrap gap-1">
+                                        <span class="akila-badge akila-badge-outline">{{ $job->category ?: 'Umum' }}</span>
+                                        @if($job->location)
+                                            <span class="akila-badge akila-badge-orange">{{ $job->location }}</span>
+                                        @endif
                                         @if($job->pic_name)
-                                            <div class="small">
-                                                <div class="fw-semibold text-dark">{{ $job->pic_name }}</div>
-                                                @if($job->pic_position)
-                                                    <div class="text-muted">{{ $job->pic_position }}</div>
-                                                @endif
-                                                <div><i class="fa fa-envelope text-muted me-1"
-                                                        style="font-size:0.7rem;"></i>{{ $job->pic_email }}</div>
-                                                <div><i class="fa fa-phone text-muted me-1"
-                                                        style="font-size:0.7rem;"></i>{{ $job->pic_phone }}</div>
-                                            </div>
+                                            <span class="akila-badge akila-badge-purple">Mitra</span>
                                         @else
-                                            <span class="text-muted small fst-italic">Admin Upload</span>
+                                            <span class="akila-badge akila-badge-blue">Internal</span>
                                         @endif
-                                    </td>
-                                    <td><span class="badge bg-primary-lighter text-primary">{{ $job->category }}</span></td>
-                                    <td>{{ $job->location }}</td>
-                                    <td class="text-center">
-                                        @if($job->status === 'pending')
-                                            <span class="badge bg-warning"><i class="fa fa-clock me-1"></i> Pending</span>
-                                        @elseif($job->status === 'approved')
-                                            <span class="badge bg-success"><i class="fa fa-check me-1"></i> Approved</span>
-                                        @else
-                                            <span class="badge bg-danger"><i class="fa fa-times me-1"></i> Rejected</span>
-                                        @endif
-                                    </td>
-                                    <td class="text-center">
-                                        <div class="btn-group">
-                                            <!-- View Detail Button -->
-                                            <button type="button" class="btn btn-sm btn-alt-info btn-view-detail"
-                                                data-id="{{ $job->id }}" title="Lihat Detail">
-                                                <i class="fa fa-eye"></i>
-                                            </button>
-
-                                            <!-- Edit Button -->
-                                            <a href="{{ route('admin.loker.edit', $job->id) }}"
-                                                class="btn btn-sm btn-alt-warning" title="Edit Lowongan">
-                                                <i class="fa fa-pencil-alt"></i>
-                                            </a>
-
-                                            @if($job->status === 'pending')
-                                                <!-- Approve Button -->
-                                                <button type="button" class="btn btn-sm btn-alt-success btn-approve"
-                                                    data-id="{{ $job->id }}" title="Setujui">
-                                                    <i class="fa fa-check"></i>
-                                                </button>
-                                                <!-- Reject Button -->
-                                                <button type="button" class="btn btn-sm btn-alt-danger btn-reject"
-                                                    data-id="{{ $job->id }}" title="Tolak">
-                                                    <i class="fa fa-times"></i>
-                                                </button>
-                                            @endif
-
-                                            <!-- Delete Button -->
-                                            <button type="button" class="btn btn-sm btn-alt-danger btn-delete"
-                                                data-id="{{ $job->id }}" title="Hapus">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    @if($firstPoster)
+                                        <img src="{{ $firstPoster }}" alt="Sampul" class="akila-thumb">
+                                    @else
+                                        <span class="d-inline-flex align-items-center justify-content-center akila-thumb fw-bold text-muted" style="font-size: 0.72rem;">
+                                            {{ strtoupper(substr($job->company_name, 0, 2)) }}
+                                        </span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <div class="akila-person">
+                                        <span class="akila-person-avatar"><i class="fa fa-user"></i></span>
+                                        <span>{{ $job->pic_name ?: 'Admin' }}</span>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    @if($job->status === 'approved')
+                                        <div class="akila-status-stack">
+                                            <span class="akila-badge akila-badge-green">PUBLISHED</span>
+                                            <span class="{{ $isComplete ? 'akila-substatus-ok' : 'akila-substatus-warn' }}">
+                                                {{ $isComplete ? 'Lengkap' : 'Belum Lengkap' }}
+                                            </span>
                                         </div>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="9" class="text-center text-muted py-4">Belum ada data lowongan pekerjaan.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Pagination -->
-                <div class="d-flex justify-content-between align-items-center mt-4">
-                    <div class="fs-sm text-muted">
-                        Menampilkan {{ $jobs->firstItem() ?? 0 }} sampai {{ $jobs->lastItem() ?? 0 }} dari
-                        {{ $jobs->total() }} data
-                    </div>
-                    {{ $jobs->appends(request()->query())->links() }}
-                </div>
+                                    @elseif($job->status === 'pending')
+                                        <div class="akila-status-stack">
+                                            <span class="akila-badge akila-badge-amber">PENDING</span>
+                                            <span class="akila-substatus-muted">Moderasi</span>
+                                        </div>
+                                    @else
+                                        <div class="akila-status-stack">
+                                            <span class="akila-badge akila-badge-red">DITOLAK</span>
+                                            <span class="akila-substatus-warn">Non-Aktif</span>
+                                        </div>
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    <div class="akila-actions">
+                                        <button type="button" class="akila-action-btn btn-view-detail"
+                                            data-id="{{ $job->id }}" title="Lihat Detail">
+                                            <i class="far fa-eye"></i>
+                                        </button>
+                                        <a href="{{ route('admin.loker.edit', $job->id) }}"
+                                            class="akila-action-btn act-edit" title="Edit Lowongan">
+                                            <i class="far fa-edit"></i>
+                                        </a>
+                                        @if($job->status === 'pending')
+                                            <button type="button" class="akila-action-btn act-approve btn-approve"
+                                                data-id="{{ $job->id }}" title="Setujui">
+                                                <i class="fa fa-check"></i>
+                                            </button>
+                                            <button type="button" class="akila-action-btn act-delete btn-reject"
+                                                data-id="{{ $job->id }}" title="Tolak">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        @endif
+                                        <button type="button" class="akila-action-btn act-delete btn-delete"
+                                            data-id="{{ $job->id }}" title="Hapus">
+                                            <i class="far fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 
     <!-- Job Detail Modal (Admin) -->
-    <div class="modal fade" id="modalAdminDetailLoker" tabindex="-1" aria-labelledby="modalAdminDetailLokerLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="modalAdminDetailLoker" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content border-0 overflow-hidden rounded-4">
                 <div class="modal-header bg-dark text-white p-3">
-                    <h5 class="modal-title fw-bold text-white"><i class="fa fa-briefcase me-2"></i> Detail Lowongan
-                        Pekerjaan</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+                    <h5 class="modal-title fw-bold text-white"><i class="fa fa-briefcase me-2"></i> Detail Lowongan Pekerjaan</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body p-4 bg-light/30">
+                <div class="modal-body p-4 bg-light">
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <div class="p-3 bg-white border border-light shadow-xs rounded-3">
-                                <span class="text-muted text-uppercase fw-bold d-block mb-1"
-                                    style="font-size: 0.65rem;">Nama Perusahaan</span>
+                            <div class="p-3 bg-white border rounded-3">
+                                <span class="text-muted text-uppercase fw-bold d-block mb-1" style="font-size: 0.65rem;">Nama Perusahaan</span>
                                 <span class="fw-bold text-dark" id="modal-company-name">-</span>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="p-3 bg-white border border-light shadow-xs rounded-3">
-                                <span class="text-muted text-uppercase fw-bold d-block mb-1"
-                                    style="font-size: 0.65rem;">Posisi Jabatan</span>
+                            <div class="p-3 bg-white border rounded-3">
+                                <span class="text-muted text-uppercase fw-bold d-block mb-1" style="font-size: 0.65rem;">Posisi Jabatan</span>
                                 <span class="fw-bold text-dark" id="modal-position">-</span>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="p-3 bg-white border border-light shadow-xs rounded-3">
-                                <span class="text-muted text-uppercase fw-bold d-block mb-1"
-                                    style="font-size: 0.65rem;">Kategori Bidang</span>
+                            <div class="p-3 bg-white border rounded-3">
+                                <span class="text-muted text-uppercase fw-bold d-block mb-1" style="font-size: 0.65rem;">Kategori</span>
                                 <span class="fw-bold text-dark" id="modal-category">-</span>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="p-3 bg-white border border-light shadow-xs rounded-3">
-                                <span class="text-muted text-uppercase fw-bold d-block mb-1"
-                                    style="font-size: 0.65rem;">Lokasi</span>
+                            <div class="p-3 bg-white border rounded-3">
+                                <span class="text-muted text-uppercase fw-bold d-block mb-1" style="font-size: 0.65rem;">Lokasi</span>
                                 <span class="fw-bold text-dark" id="modal-location">-</span>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="p-3 bg-white border border-light shadow-xs rounded-3">
-                                <span class="text-muted text-uppercase fw-bold d-block mb-1"
-                                    style="font-size: 0.65rem;">Gaji</span>
+                            <div class="p-3 bg-white border rounded-3">
+                                <span class="text-muted text-uppercase fw-bold d-block mb-1" style="font-size: 0.65rem;">Gaji</span>
                                 <span class="fw-bold text-dark" id="modal-salary">-</span>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="p-3 bg-white border border-light shadow-xs rounded-3">
-                                <span class="text-muted text-uppercase fw-bold d-block mb-1"
-                                    style="font-size: 0.65rem;">Email Pendaftaran</span>
-                                <span class="fw-bold text-dark" id="modal-contact-email">-</span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="p-3 bg-white border border-light shadow-xs rounded-3">
-                                <span class="text-muted text-uppercase fw-bold d-block mb-1"
-                                    style="font-size: 0.65rem;">Link Pendaftaran</span>
-                                <span class="fw-bold text-dark" id="modal-contact-link">-</span>
-                            </div>
-                        </div>
-
-                        <!-- PIC Info Section -->
                         <div class="col-12" id="modal-pic-container" style="display: none;">
-                            <div class="p-3 bg-warning-light border border-warning rounded-3"
-                                style="background-color: rgba(255,193,7,0.08);">
+                            <div class="p-3 bg-warning-light border border-warning rounded-3">
                                 <span class="text-muted text-uppercase fw-bold d-block mb-2" style="font-size: 0.65rem;">
                                     <i class="fa fa-user-tie me-1"></i> Penanggung Jawab (PIC Pengunggah)
                                 </span>
                                 <div class="row g-2">
-                                    <div class="col-md-6"><span class="small text-muted">Nama:</span> <span
-                                            class="fw-bold text-dark d-block" id="modal-pic-name">-</span></div>
-                                    <div class="col-md-6"><span class="small text-muted">Jabatan:</span> <span
-                                            class="fw-bold text-dark d-block" id="modal-pic-position">-</span></div>
-                                    <div class="col-md-6"><span class="small text-muted">Email:</span> <span
-                                            class="fw-bold text-dark d-block" id="modal-pic-email">-</span></div>
-                                    <div class="col-md-6"><span class="small text-muted">No. HP:</span> <span
-                                            class="fw-bold text-dark d-block" id="modal-pic-phone">-</span></div>
+                                    <div class="col-md-6"><span class="small text-muted">Nama:</span> <span class="fw-bold text-dark d-block" id="modal-pic-name">-</span></div>
+                                    <div class="col-md-6"><span class="small text-muted">Jabatan:</span> <span class="fw-bold text-dark d-block" id="modal-pic-position">-</span></div>
+                                    <div class="col-md-6"><span class="small text-muted">Email:</span> <span class="fw-bold text-dark d-block" id="modal-pic-email">-</span></div>
+                                    <div class="col-md-6"><span class="small text-muted">No. HP:</span> <span class="fw-bold text-dark d-block" id="modal-pic-phone">-</span></div>
                                 </div>
                             </div>
                         </div>
-
                         <div class="col-12">
-                            <div class="p-3 bg-white border border-light shadow-xs rounded-3">
-                                <span class="text-muted text-uppercase fw-bold d-block mb-2"
-                                    style="font-size: 0.65rem;">Deskripsi Pekerjaan</span>
-                                <div class="text-dark fs-sm" id="modal-description"
-                                    style="white-space: pre-line; line-height: 1.6;">-</div>
+                            <div class="p-3 bg-white border rounded-3">
+                                <span class="text-muted text-uppercase fw-bold d-block mb-2" style="font-size: 0.65rem;">Deskripsi Pekerjaan</span>
+                                <div class="text-dark fs-sm" id="modal-description" style="white-space: pre-line; line-height: 1.6;">-</div>
                             </div>
                         </div>
-
                         <div class="col-12">
-                            <div class="p-3 bg-white border border-light shadow-xs rounded-3">
-                                <span class="text-muted text-uppercase fw-bold d-block mb-2"
-                                    style="font-size: 0.65rem;">Kualifikasi / Persyaratan</span>
-                                <div class="text-dark fs-sm" id="modal-requirements"
-                                    style="white-space: pre-line; line-height: 1.6;">-</div>
+                            <div class="p-3 bg-white border rounded-3">
+                                <span class="text-muted text-uppercase fw-bold d-block mb-2" style="font-size: 0.65rem;">Kualifikasi / Persyaratan</span>
+                                <div class="text-dark fs-sm" id="modal-requirements" style="white-space: pre-line; line-height: 1.6;">-</div>
                             </div>
                         </div>
-
                         <div class="col-12" id="modal-poster-container" style="display: none;">
-                            <div class="p-3 bg-white border border-light shadow-xs rounded-3 text-center">
-                                <span class="text-muted text-uppercase fw-bold d-block mb-2 text-start"
-                                    style="font-size: 0.65rem;">Poster / Brosur Lowongan</span>
-
+                            <div class="p-3 bg-white border rounded-3 text-center">
+                                <span class="text-muted text-uppercase fw-bold d-block mb-2 text-start" style="font-size: 0.65rem;">Poster / Brosur Lowongan</span>
                                 <div id="carouselAdminPosters" class="carousel slide carousel-dark" data-bs-ride="carousel">
-                                    <div class="carousel-indicators" id="carousel-admin-indicators">
-                                        <!-- Indicators populated by JS -->
-                                    </div>
-                                    <div class="carousel-inner rounded-3 shadow-sm bg-light" id="carousel-admin-inner"
-                                        style="max-height: 480px;">
-                                        <!-- Slides populated by JS -->
-                                    </div>
-                                    <button class="carousel-control-prev" type="button"
-                                        data-bs-target="#carouselAdminPosters" data-bs-slide="prev">
+                                    <div class="carousel-indicators" id="carousel-admin-indicators"></div>
+                                    <div class="carousel-inner rounded-3 bg-light" id="carousel-admin-inner" style="max-height: 460px;"></div>
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselAdminPosters" data-bs-slide="prev">
                                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        <span class="visually-hidden">Previous</span>
                                     </button>
-                                    <button class="carousel-control-next" type="button"
-                                        data-bs-target="#carouselAdminPosters" data-bs-slide="next">
+                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselAdminPosters" data-bs-slide="next">
                                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                        <span class="visually-hidden">Next</span>
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer bg-light border-top p-3">
-                    <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Tutup</button>
+                <div class="modal-footer bg-white border-top p-3">
+                    <button type="button" class="btn-akila-outline" data-bs-dismiss="modal">Tutup</button>
                 </div>
             </div>
         </div>
@@ -324,174 +281,171 @@
 
 @section('scripts')
     <script>
-        $(document).ready(function () {
-            // CSRF Token Setup
+        jQuery(document).ready(function ($) {
             $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
+            });
+
+            const table = $('#tabel-loker').DataTable({
+                paging: true,
+                searching: true,
+                ordering: true,
+                orderCellsTop: true,
+                pageLength: 10,
+                lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
+                autoWidth: false,
+                dom: "lrt<'row align-items-center mt-3'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 d-flex justify-content-md-end'p>>",
+                columnDefs: [
+                    { orderable: false, targets: [0, 5, 8] }
+                ],
+                order: [[1, 'asc']],
+                language: {
+                    lengthMenu: 'Tampilkan _MENU_ data',
+                    info: 'Menampilkan _START_ sampai _END_ dari _TOTAL_ data',
+                    infoEmpty: 'Tidak ada data tersedia',
+                    zeroRecords: 'Tidak ada lowongan yang cocok dengan filter.',
+                    emptyTable: 'Belum ada data lowongan pekerjaan.',
+                    paginate: { first: '&laquo;', last: '&raquo;', next: '&rsaquo;', previous: '&lsaquo;' }
+                },
+                initComplete: function () {
+                    $('#entries-container').empty().append($('.dataTables_length').detach());
                 }
             });
 
-            // View Details
-            $('.btn-view-detail').on('click', function () {
-                var id = $(this).data('id');
-                var url = "{{ route('alumni.loker.show', ':id') }}".replace(':id', id);
+            $('.akila-filter-row th').on('click mousedown', function (e) {
+                e.stopPropagation();
+            });
 
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    success: function (job) {
-                        $('#modal-company-name').text(job.company_name);
-                        $('#modal-position').text(job.position);
-                        $('#modal-category').text(job.category);
-                        $('#modal-location').text(job.location);
-                        $('#modal-salary').text(job.salary_range ? job.salary_range : '-');
-                        $('#modal-description').text(job.description);
-                        $('#modal-requirements').text(job.requirements);
+            $(document).on('keyup change', '#tabel-loker .col-filter', function () {
+                const colIdx = $(this).data('col');
+                if (table.column(colIdx).search() !== this.value) {
+                    table.column(colIdx).search(this.value).draw();
+                }
+            });
 
-                        // PIC Info
-                        if (job.pic_name) {
-                            $('#modal-pic-name').text(job.pic_name);
-                            $('#modal-pic-email').text(job.pic_email || '-');
-                            $('#modal-pic-phone').text(job.pic_phone || '-');
-                            $('#modal-pic-position').text(job.pic_position || '-');
-                            $('#modal-pic-container').show();
-                        } else {
-                            $('#modal-pic-container').hide();
-                        }
+            $(document).on('change', '#tabel-loker .col-filter-select', function () {
+                const colIdx = $(this).data('col');
+                table.column(colIdx).search(this.value).draw();
+            });
 
-                        var posterContainer = $('#modal-poster-container');
-                        var indicators = $('#carousel-admin-indicators');
-                        var inner = $('#carousel-admin-inner');
+            $('#check-all-loker').on('change', function () {
+                $('#tabel-loker .row-check').prop('checked', this.checked);
+            });
 
-                        indicators.empty();
-                        inner.empty();
+            // View Details (delegated for DataTables pages)
+            $(document).on('click', '.btn-view-detail', function () {
+                const id = $(this).data('id');
+                const url = "{{ route('alumni.loker.show', ':id') }}".replace(':id', id);
 
-                        var posters = job.poster_paths;
-                        if (posters && Array.isArray(posters) && posters.length > 0) {
-                            posters.forEach(function (path, index) {
-                                var activeClass = index === 0 ? 'active' : '';
-                                var ariaCurrent = index === 0 ? 'aria-current="true"' : '';
-                                indicators.append('<button type="button" data-bs-target="#carouselAdminPosters" data-bs-slide-to="' + index + '" class="' + activeClass + '" ' + ariaCurrent + ' aria-label="Slide ' + (index + 1) + '"></button>');
+                $.get(url, function (job) {
+                    $('#modal-company-name').text(job.company_name || '-');
+                    $('#modal-position').text(job.position || '-');
+                    $('#modal-category').text(job.category || '-');
+                    $('#modal-location').text(job.location || '-');
+                    $('#modal-salary').text(job.salary_range || '-');
+                    $('#modal-description').text(job.description || '-');
+                    $('#modal-requirements').text(job.requirements || '-');
 
-                                inner.append(
-                                    '<div class="carousel-item ' + activeClass + '">' +
-                                    '<img src="' + path + '" class="d-block w-100 rounded-3 shadow-sm" style="max-height: 450px; object-fit: contain;" alt="Poster Lowongan">' +
-                                    '</div>'
-                                );
-                            });
-
-                            if (posters.length <= 1) {
-                                $('#carouselAdminPosters .carousel-control-prev, #carouselAdminPosters .carousel-control-next, #carouselAdminPosters .carousel-indicators').hide();
-                            } else {
-                                $('#carouselAdminPosters .carousel-control-prev, #carouselAdminPosters .carousel-control-next, #carouselAdminPosters .carousel-indicators').show();
-                            }
-
-                            posterContainer.show();
-
-                            var carouselEl = document.getElementById('carouselAdminPosters');
-                            var carousel = bootstrap.Carousel.getOrCreateInstance(carouselEl);
-                            carousel.to(0);
-                        } else {
-                            posterContainer.hide();
-                        }
-
-                        var myModal = new bootstrap.Modal(document.getElementById('modalAdminDetailLoker'));
-                        myModal.show();
-                    },
-                    error: function () {
-                        Swal.fire('Error', 'Gagal memuat detail data.', 'error');
+                    if (job.pic_name) {
+                        $('#modal-pic-name').text(job.pic_name);
+                        $('#modal-pic-email').text(job.pic_email || '-');
+                        $('#modal-pic-phone').text(job.pic_phone || '-');
+                        $('#modal-pic-position').text(job.pic_position || '-');
+                        $('#modal-pic-container').show();
+                    } else {
+                        $('#modal-pic-container').hide();
                     }
+
+                    const posterContainer = $('#modal-poster-container');
+                    const indicators = $('#carousel-admin-indicators').empty();
+                    const inner = $('#carousel-admin-inner').empty();
+                    const posters = job.poster_paths;
+
+                    if (posters && Array.isArray(posters) && posters.length > 0) {
+                        posters.forEach(function (path, index) {
+                            const activeClass = index === 0 ? 'active' : '';
+                            indicators.append(`<button type="button" data-bs-target="#carouselAdminPosters" data-bs-slide-to="${index}" class="${activeClass}"></button>`);
+                            inner.append(`<div class="carousel-item ${activeClass}"><img src="${path}" class="d-block w-100 rounded-3" style="max-height: 440px; object-fit: contain;"></div>`);
+                        });
+                        $('#carouselAdminPosters .carousel-control-prev, #carouselAdminPosters .carousel-control-next, #carouselAdminPosters .carousel-indicators').toggle(posters.length > 1);
+                        posterContainer.show();
+                    } else {
+                        posterContainer.hide();
+                    }
+
+                    new bootstrap.Modal(document.getElementById('modalAdminDetailLoker')).show();
+                }).fail(function () {
+                    Swal.fire('Error', 'Gagal memuat detail lowongan.', 'error');
                 });
             });
 
             // Approve
-            $('.btn-approve').on('click', function () {
-                var id = $(this).data('id');
-                var url = "{{ route('admin.loker.approve', ':id') }}".replace(':id', id);
+            $(document).on('click', '.btn-approve', function () {
+                const id = $(this).data('id');
+                const url = "{{ route('admin.loker.approve', ':id') }}".replace(':id', id);
 
                 Swal.fire({
                     title: 'Setujui Lowongan?',
-                    text: "Lowongan kerja akan langsung ditampilkan pada dashboard bursa kerja alumni.",
+                    text: 'Lowongan kerja akan langsung ditampilkan pada bursa kerja alumni.',
                     icon: 'question',
                     showCancelButton: true,
-                    confirmButtonColor: '#10b981',
-                    cancelButtonColor: '#6b7280',
-                    confirmButtonText: 'Ya, Setujui!',
-                    cancelButtonText: 'Batal'
+                    confirmButtonText: 'Ya, Setujui',
+                    cancelButtonText: 'Batal',
+                    customClass: { popup: 'swal-modern', confirmButton: 'btn-modern btn-modern-primary', cancelButton: 'btn-modern btn-modern-secondary' },
+                    buttonsStyling: false
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        $.ajax({
-                            url: url,
-                            type: 'POST',
-                            success: function (res) {
-                                Swal.fire('Berhasil', res.message, 'success').then(() => {
-                                    location.reload();
-                                });
-                            },
-                            error: function () {
-                                Swal.fire('Error', 'Gagal menyetujui lowongan kerja.', 'error');
-                            }
-                        });
+                        $.post(url, function (res) {
+                            Swal.fire('Berhasil', res.message, 'success').then(() => location.reload());
+                        }).fail(() => Swal.fire('Error', 'Gagal menyetujui lowongan kerja.', 'error'));
                     }
                 });
             });
 
             // Reject
-            $('.btn-reject').on('click', function () {
-                var id = $(this).data('id');
-                var url = "{{ route('admin.loker.reject', ':id') }}".replace(':id', id);
+            $(document).on('click', '.btn-reject', function () {
+                const id = $(this).data('id');
+                const url = "{{ route('admin.loker.reject', ':id') }}".replace(':id', id);
 
                 Swal.fire({
                     title: 'Tolak Lowongan?',
-                    text: "Lowongan kerja ini akan ditolak dan tidak akan ditampilkan ke alumni.",
+                    text: 'Lowongan kerja ini akan ditolak dan tidak ditampilkan ke alumni.',
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#ef4444',
-                    cancelButtonColor: '#6b7280',
-                    confirmButtonText: 'Ya, Tolak!',
-                    cancelButtonText: 'Batal'
+                    confirmButtonText: 'Ya, Tolak',
+                    cancelButtonText: 'Batal',
+                    customClass: { popup: 'swal-modern', confirmButton: 'btn-modern btn-modern-danger', cancelButton: 'btn-modern btn-modern-secondary' },
+                    buttonsStyling: false
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        $.ajax({
-                            url: url,
-                            type: 'POST',
-                            success: function (res) {
-                                Swal.fire('Berhasil', res.message, 'success').then(() => {
-                                    location.reload();
-                                });
-                            },
-                            error: function () {
-                                Swal.fire('Error', 'Gagal menolak lowongan kerja.', 'error');
-                            }
-                        });
+                        $.post(url, function (res) {
+                            Swal.fire('Berhasil', res.message, 'success').then(() => location.reload());
+                        }).fail(() => Swal.fire('Error', 'Gagal menolak lowongan kerja.', 'error'));
                     }
                 });
             });
 
             // Delete
-            $('.btn-delete').on('click', function () {
-                var id = $(this).data('id');
-                var url = "{{ route('admin.loker.destroy', ':id') }}".replace(':id', id);
+            $(document).on('click', '.btn-delete', function () {
+                const id = $(this).data('id');
+                const url = "{{ route('admin.loker.destroy', ':id') }}".replace(':id', id);
 
                 Swal.fire({
                     title: 'Hapus Lowongan?',
-                    text: "Data lowongan kerja akan dihapus permanen dari sistem.",
+                    text: 'Data lowongan kerja akan dihapus permanen dari sistem.',
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#ef4444',
-                    cancelButtonColor: '#6b7280',
-                    confirmButtonText: 'Ya, Hapus!',
-                    cancelButtonText: 'Batal'
+                    confirmButtonText: 'Ya, Hapus',
+                    cancelButtonText: 'Batal',
+                    customClass: { popup: 'swal-modern', confirmButton: 'btn-modern btn-modern-danger', cancelButton: 'btn-modern btn-modern-secondary' },
+                    buttonsStyling: false
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
                             url: url,
                             type: 'DELETE',
                             success: function (res) {
-                                Swal.fire('Berhasil', res.message, 'success').then(() => {
-                                    location.reload();
-                                });
+                                Swal.fire('Berhasil', res.message, 'success').then(() => location.reload());
                             },
                             error: function () {
                                 Swal.fire('Error', 'Gagal menghapus lowongan kerja.', 'error');

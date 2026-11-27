@@ -1,388 +1,247 @@
 @extends('layouts.admin')
 
 @section('content')
-    <!-- Hero -->
-    <div class="bg-body-light border-bottom py-3">
-        <div class="content d-flex flex-column flex-sm-row justify-content-between align-items-center">
-            <div>
-                <h1 class="h3 fw-bold mb-0 text-primary">
-                    <i class="fa fa-clipboard-list me-2"></i> Data Salinan Tracer Pengguna
-                </h1>
-                <p class="text-muted fs-sm mb-0">Kelola data salinan tracer pengguna secara profesional dan mudah.</p>
-            </div>
+    <div class="akila-page-wrap">
+        <!-- Breadcrumb -->
+        <div class="akila-breadcrumb">
+            <a href="{{ route('admin.dashboard') }}"><i class="fa fa-home me-1"></i> Home</a>
+            <span class="sep">&rsaquo;</span>
+            <span>Kelola Tracer</span>
+            <span class="sep">&rsaquo;</span>
+            <span class="active">Daftar Salinan Tracer Pengguna</span>
         </div>
-    </div>
-    <!-- END Hero -->
 
-    <!-- Page Content -->
-    <div class="content">
-        <div class="block block-rounded shadow-sm">
-            <!-- Rekapan Data -->
-            <div class="row g-3 py-3 px-4 align-items-center">
-                <div class="col-md-4">
-                    <div class="card card-body border-0 bg-gradient-primary text-white shadow-sm gradient-card">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <div class="fs-2 fw-bold">{{ $totalAlumni }}</div>
-                                <div class="fs-sm">Total Alumni</div>
-                            </div>
-                            <div><i class="fa fa-users fa-2x opacity-50"></i></div>
-                        </div>
-                    </div>
+        <!-- Main Card -->
+        <div class="akila-list-card">
+            <div class="akila-card-header">
+                <div>
+                    <h1 class="akila-title">Daftar Salinan Tracer Pengguna</h1>
+                    <p class="akila-subtitle">Kelola semua data rekapan penilaian pengguna lulusan yang tersedia di sistem.</p>
                 </div>
-                <div class="col-md-4">
-                    <div class="card card-body border-0 bg-gradient-success text-white shadow-sm gradient-card">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <div class="fs-2 fw-bold">{{ $sudahMengisi }}</div>
-                                <div class="fs-sm">Sudah Mengisi</div>
-                            </div>
-                            <div><i class="fa fa-check-circle fa-2x opacity-50"></i></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card card-body border-0 bg-gradient-warning text-dark shadow-sm gradient-card">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <div class="fs-2 fw-bold">{{ $belumMengisi }}</div>
-                                <div class="fs-sm">Belum Mengisi</div>
-                            </div>
-                            <div><i class="fa fa-times-circle fa-2x opacity-50"></i></div>
-                        </div>
-                    </div>
+                <div class="akila-header-actions">
+                    <div id="export-buttons-container" class="d-inline-flex gap-1"></div>
                 </div>
             </div>
-            <!-- End Rekapan Data -->
 
-            <div
-                class="block-header block-header-default bg-light d-flex align-items-center justify-content-between px-4 py-2">
-                <h3 class="block-title fw-semibold text-primary mb-0">
-                    <i class="fa fa-table me-2"></i> Tabel Salinan Pengguna
-                </h3>
+            <!-- Compact Stats Strip -->
+            <div class="akila-stats-strip">
+                <div class="akila-stat-chip">
+                    <i class="fa fa-users text-primary"></i>
+                    <span>Total Alumni: <strong>{{ $totalAlumni }}</strong></span>
+                </div>
+                <div class="akila-stat-chip">
+                    <i class="fa fa-check-circle text-success"></i>
+                    <span>Sudah Mengisi: <strong>{{ $sudahMengisi }}</strong></span>
+                </div>
+                <div class="akila-stat-chip">
+                    <i class="fa fa-clock text-warning"></i>
+                    <span>Belum Mengisi: <strong>{{ $belumMengisi }}</strong></span>
+                </div>
             </div>
-            <div class="block-content block-content-full">
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle js-dataTable-full w-100 border-0 mb-0">
-                        <thead>
-                            <tr class="bg-light text-muted text-uppercase fs-xs fw-bold border-0">
-                                <th class="text-center py-3 border-0" style="width: 50px;">#</th>
-                                <th class="py-3 border-0">Nama</th>
-                                <th class="py-3 border-0">Nama Perusahaan</th>
-                                <th class="py-3 border-0">Tanggal Mengisi</th>
-                                <th class="py-3 border-0 d-none d-sm-table-cell">Prodi</th>
-                                <th class="py-3 border-0">Status</th>
-                                <th class="py-3 border-0">Jabatan</th>
-                                <th class="text-center py-3 border-0" style="width: 100px;">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($data as $index => $item)
-                                <tr>
-                                    <td class="text-center">{{ $index + 1 }}</td>
-                                    <td class="fw-bold text-dark">{{ $item->nama }}</td>
-                                    <td>{{ $item->nama_perusahaan }}</td>
-                                    <td class="d-none d-sm-table-cell">
-                                        {{ $item->created_at ? $item->created_at->format('d-m-Y') : '-' }}
-                                    </td>
-                                    <td>{{ $item->prodi_name }}</td>
-                                    <td>
-                                        @if ($item->created_at)
-                                            <span class="badge status-badge-aktif py-1.5 px-3">Sudah Mengisi</span>
-                                        @else
-                                            <span class="badge status-badge-cuti py-1.5 px-3">Belum Mengisi</span>
-                                        @endif
-                                    </td>
-                                    <td>{{ $item->jabatan }}</td>
 
-                                    @php $role = Auth::user()->role; @endphp
+            <!-- Length Row -->
+            <div class="akila-toolbar-row">
+                <div id="entries-container" class="akila-length-wrap"></div>
+            </div>
 
-                                    <td class="text-center">
-                                        @if ($role === 'superadmin')
-                                            <a href="{{ route('listtracerpengguna.show', $item->id) }}" class="btn btn-view-circle"
-                                                title="Detail">
-                                                <i class="fa fa-eye text-primary"></i>
+            <!-- Table -->
+            <div class="akila-table-wrapper">
+                <table class="table akila-table js-dataTable-full align-middle w-100" id="tabel-salinan-pengguna">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="width: 38px;">
+                                <input type="checkbox" class="form-check-input akila-checkbox" id="check-all-sp">
+                            </th>
+                            <th class="text-center" style="width: 56px;">No.</th>
+                            <th>Nama Atasan / Pengguna</th>
+                            <th>Perusahaan & Jabatan</th>
+                            <th>Program Studi</th>
+                            <th>Tanggal Mengisi</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center" style="width: 110px;">Aksi</th>
+                        </tr>
+                        <tr class="akila-filter-row">
+                            <th></th>
+                            <th class="text-center"><span class="akila-no-pill">No</span></th>
+                            <th>
+                                <div class="akila-filter-input">
+                                    <i class="fa fa-search"></i>
+                                    <input type="text" class="col-filter" data-col="2" placeholder="Cari nama...">
+                                </div>
+                            </th>
+                            <th>
+                                <div class="akila-filter-input">
+                                    <i class="fa fa-search"></i>
+                                    <input type="text" class="col-filter" data-col="3" placeholder="Cari perusahaan...">
+                                </div>
+                            </th>
+                            <th>
+                                <div class="akila-filter-input">
+                                    <i class="fa fa-search"></i>
+                                    <input type="text" class="col-filter" data-col="4" placeholder="Cari prodi...">
+                                </div>
+                            </th>
+                            <th>
+                                <div class="akila-filter-input">
+                                    <i class="fa fa-search"></i>
+                                    <input type="text" class="col-filter" data-col="5" placeholder="Cari tanggal...">
+                                </div>
+                            </th>
+                            <th>
+                                <select class="akila-filter-select col-filter-select" data-col="6">
+                                    <option value="">Semua Status</option>
+                                    <option value="Lengkap">Lengkap</option>
+                                    <option value="Belum Lengkap">Belum Lengkap</option>
+                                </select>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @php $role = Auth::user()->role; @endphp
+                        @foreach ($data as $index => $item)
+                            <tr>
+                                <td class="text-center">
+                                    <input type="checkbox" class="form-check-input akila-checkbox row-check" value="{{ $item->id }}">
+                                </td>
+                                <td class="text-center text-muted fw-semibold">{{ $index + 1 }}</td>
+                                <td>
+                                    <div class="akila-person">
+                                        <span class="akila-person-avatar"><i class="fa fa-user"></i></span>
+                                        <span class="akila-cell-title">{{ $item->nama }}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="akila-cell-title">{{ $item->nama_perusahaan ?: '-' }}</div>
+                                    <div class="akila-cell-desc" style="font-size: 0.76rem;">{{ $item->jabatan ?: '-' }}</div>
+                                </td>
+                                <td>
+                                    <span class="akila-badge akila-badge-outline">{{ $item->prodi_name ?: 'Teknik Informatika' }}</span>
+                                </td>
+                                <td>
+                                    <span class="akila-cell-desc">{{ $item->created_at ? $item->created_at->format('d M Y') : '-' }}</span>
+                                </td>
+                                <td class="text-center">
+                                    @if ($item->created_at)
+                                        <div class="akila-status-stack">
+                                            <span class="akila-badge akila-badge-green">SELESAI</span>
+                                            <span class="akila-substatus-ok">Lengkap</span>
+                                        </div>
+                                    @else
+                                        <div class="akila-status-stack">
+                                            <span class="akila-badge akila-badge-amber">MENUNGGU</span>
+                                            <span class="akila-substatus-warn">Belum Lengkap</span>
+                                        </div>
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    <div class="akila-actions">
+                                        <a href="{{ route('listtracerpengguna.show', $item->id) }}" class="akila-action-btn" title="Detail">
+                                            <i class="far fa-eye"></i>
+                                        </a>
+                                        @if ($role !== 'superadmin')
+                                            <a href="{{ route('listtracerpengguna.edit', $item->id) }}" class="akila-action-btn act-edit" title="Edit">
+                                                <i class="far fa-edit"></i>
                                             </a>
-                                        @else
-                                            <div class="dropdown position-static">
-                                                <button class="btn btn-sm btn-light border rounded-pill dropdown-toggle"
-                                                    type="button" data-bs-toggle="dropdown" aria-expanded="false"
-                                                    style="width: 32px; height: 32px; padding: 0; display: inline-flex; align-items: center; justify-content: center;">
-                                                    <i class="fa fa-ellipsis-v"></i>
-                                                </button>
-                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li>
-                                                        <a href="{{ route('listtracerpengguna.show', $item->id) }}"
-                                                            class="dropdown-item">
-                                                            <i class="fa fa-eye me-1"></i> Detail
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="{{ route('listtracerpengguna.edit', $item->id) }}"
-                                                            class="dropdown-item">
-                                                            <i class="fa fa-pencil-alt me-1"></i> Edit
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <!-- Hapus pakai SweetAlert2 -->
-                                                        <button type="button" class="dropdown-item text-danger btn-hapus"
-                                                            data-id="{{ $item->id }}" data-nama="{{ $item->nama }}">
-                                                            <i class="fa fa-trash-alt me-1"></i> Hapus
-                                                        </button>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                            <button type="button" class="akila-action-btn act-delete btn-hapus"
+                                                data-id="{{ $item->id }}" data-nama="{{ $item->nama }}" title="Hapus">
+                                                <i class="far fa-trash-alt"></i>
+                                            </button>
                                         @endif
-                                    </td>
-                                </tr>
-                            @endforeach
-
-                            @if ($data->isEmpty())
-                                <tr>
-                                    <td colspan="8" class="text-center">Belum ada data.</td>
-                                </tr>
-                            @endif
-                        </tbody>
-                    </table>
-                    <!-- Hidden form for delete (one for all rows, handled by JS) -->
-                    <form id="form-hapus" method="POST" style="display: none;">
-                        @csrf
-                        @method('DELETE')
-                    </form>
-                </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                <form id="form-hapus" method="POST" style="display: none;">
+                    @csrf
+                    @method('DELETE')
+                </form>
             </div>
         </div>
     </div>
 @endsection
 
 @section('scripts')
-    <!-- DataTables with Buttons (Export) -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css" />
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-    <!-- SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <script>
-        jQuery(document).ready(function () {
-            // DataTable
-            jQuery('.js-dataTable-full').DataTable({
+        jQuery(document).ready(function ($) {
+            const table = $('#tabel-salinan-pengguna').DataTable({
                 paging: true,
                 searching: true,
                 ordering: true,
-                responsive: true,
+                orderCellsTop: true,
                 autoWidth: false,
-                pageLength: 5,
-                lengthMenu: [
-                    [5, 10, 15, 20],
-                    [5, 10, 15, 20]
-                ],
-                dom: "<'dt-toolbar row mb-3'<'col-12 col-md-6 d-flex align-items-center gap-2'B><'col-12 col-md-6 text-md-end mt-2 mt-md-0'f>>" +
-                    "<'row'<'col-sm-12 table-responsive'tr>>" +
-                    "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+                pageLength: 10,
+                lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
+                dom: "lBrt<'row align-items-center mt-3'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 d-flex justify-content-md-end'p>>",
                 buttons: [
-                    {
-                        extend: 'excelHtml5',
-                        className: 'btn btn-sm btn-success rounded-pill me-1 mb-1',
-                        text: '<i class="fa fa-file-excel me-1"></i> Excel',
-                        exportOptions: { columns: ':not(:last-child)' }
-                    },
-                    {
-                        extend: 'pdfHtml5',
-                        className: 'btn btn-sm btn-danger rounded-pill me-1 mb-1',
-                        text: '<i class="fa fa-file-pdf me-1"></i> PDF',
-                        orientation: 'landscape',
-                        pageSize: 'A4',
-                        exportOptions: { columns: ':not(:last-child)' }
-                    },
-                    {
-                        extend: 'print',
-                        className: 'btn btn-sm btn-info rounded-pill mb-1',
-                        text: '<i class="fa fa-print me-1"></i> Cetak',
-                        exportOptions: { columns: ':not(:last-child)' }
-                    }
-                ]
+                    { extend: 'excelHtml5', className: 'btn btn-sm', text: '<i class="fa fa-file-excel text-success me-1"></i> Excel', exportOptions: { columns: [1, 2, 3, 4, 5, 6] } },
+                    { extend: 'pdfHtml5', className: 'btn btn-sm', text: '<i class="fa fa-file-pdf text-danger me-1"></i> PDF', orientation: 'landscape', pageSize: 'A4', exportOptions: { columns: [1, 2, 3, 4, 5, 6] } },
+                    { extend: 'print', className: 'btn btn-sm', text: '<i class="fa fa-print text-secondary me-1"></i> Cetak', exportOptions: { columns: [1, 2, 3, 4, 5, 6] } }
+                ],
+                columnDefs: [
+                    { orderable: false, targets: [0, 7] }
+                ],
+                order: [[1, 'asc']],
+                language: {
+                    lengthMenu: 'Tampilkan _MENU_ data',
+                    info: 'Menampilkan _START_ sampai _END_ dari _TOTAL_ data',
+                    infoEmpty: 'Tidak ada data tersedia',
+                    zeroRecords: 'Tidak ada data yang cocok.',
+                    emptyTable: 'Belum ada data salinan tracer pengguna.',
+                    paginate: { first: '&laquo;', last: '&raquo;', next: '&rsaquo;', previous: '&lsaquo;' }
+                },
+                initComplete: function () {
+                    $('#entries-container').empty().append($('.dataTables_length').detach());
+                    $('#export-buttons-container').empty().append(table.buttons().container());
+                }
             });
 
-            // SweetAlert2 konfirmasi hapus
+            $('.akila-filter-row th').on('click mousedown', function (e) {
+                e.stopPropagation();
+            });
+
+            $(document).on('keyup change', '#tabel-salinan-pengguna .col-filter', function () {
+                const colIdx = $(this).data('col');
+                if (table.column(colIdx).search() !== this.value) {
+                    table.column(colIdx).search(this.value).draw();
+                }
+            });
+
+            $(document).on('change', '#tabel-salinan-pengguna .col-filter-select', function () {
+                const colIdx = $(this).data('col');
+                table.column(colIdx).search(this.value).draw();
+            });
+
+            $('#check-all-sp').on('change', function () {
+                $('#tabel-salinan-pengguna .row-check').prop('checked', this.checked);
+            });
+
             $(document).on('click', '.btn-hapus', function (e) {
                 e.preventDefault();
-                var id = $(this).data('id');
-                var nama = $(this).data('nama');
+                const id = $(this).data('id');
+                const nama = $(this).data('nama');
                 Swal.fire({
                     title: 'Hapus Data?',
-                    html: `Yakin ingin menghapus <b>${nama}</b> dari daftar salinan tracer? <br><span class="text-danger small">Data yang dihapus <b>tidak dapat dikembalikan</b>.</span>`,
+                    html: `Yakin ingin menghapus <b>${nama}</b> dari daftar salinan tracer?`,
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonText: '<i class="fa fa-trash-alt me-1"></i> Ya, hapus!',
+                    confirmButtonText: 'Ya, Hapus',
                     cancelButtonText: 'Batal',
                     customClass: {
                         popup: 'swal-modern',
                         confirmButton: 'btn-modern btn-modern-danger',
                         cancelButton: 'btn-modern btn-modern-secondary'
                     },
-                    buttonsStyling: false,
-                    focusCancel: true
+                    buttonsStyling: false
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        // Set form action
-                        var url = "{{ route('listtracerpengguna.destroy', ':id') }}";
-                        url = url.replace(':id', id);
+                        let url = "{{ route('listtracerpengguna.destroy', ':id') }}".replace(':id', id);
                         $('#form-hapus').attr('action', url).submit();
                     }
                 });
             });
         });
     </script>
-    <style>
-        .bg-gradient-primary {
-            background: linear-gradient(92deg, #31c7ef 40%, #38d9c3 100%) !important;
-        }
-
-        .bg-gradient-success {
-            background: linear-gradient(92deg, #32d484 30%, #75e095 100%) !important;
-        }
-
-        .bg-gradient-warning {
-            background: linear-gradient(92deg, #ffed85 30%, #ffc371 100%) !important;
-        }
-
-        .card {
-            min-height: 85px;
-            border-radius: 1.3rem;
-        }
-
-        .block-title {
-            font-size: 1.13rem;
-        }
-
-        .dropdown-toggle::after {
-            display: none;
-        }
-
-        .btn-hapus,
-        .btn-hapus:focus {
-            background: transparent;
-        }
-
-        /* Modern Table styling */
-        .table-responsive {
-            border-radius: 0.75rem;
-            overflow: hidden;
-            border: 1px solid #e2e8f0;
-        }
-
-        .js-dataTable-full {
-            border-collapse: separate !important;
-            border-spacing: 0 !important;
-            width: 100% !important;
-        }
-
-        .js-dataTable-full thead th {
-            background-color: #f8fafc !important;
-            color: #475569 !important;
-            font-size: 0.75rem !important;
-            font-weight: 700 !important;
-            text-transform: uppercase !important;
-            letter-spacing: 0.05em !important;
-            padding: 14px 16px !important;
-            border-bottom: 2px solid #e2e8f0 !important;
-            border-top: none !important;
-            white-space: nowrap;
-        }
-
-        .js-dataTable-full tbody tr {
-            transition: all 0.2s ease-in-out;
-        }
-
-        .js-dataTable-full tbody tr:hover {
-            background-color: rgba(241, 245, 249, 0.4) !important;
-        }
-
-        .js-dataTable-full tbody td {
-            padding: 14px 16px !important;
-            border-bottom: 1px solid #f1f5f9 !important;
-            color: #334155;
-            font-size: 0.875rem;
-        }
-
-        /* Modern Pagination styling */
-        .dataTables_wrapper .dataTables_paginate {
-            margin-top: 1.5rem !important;
-            margin-bottom: 0.5rem !important;
-        }
-
-        .dataTables_wrapper .dataTables_paginate .paginate_button {
-            border: 1px solid #e2e8f0 !important;
-            background: #fff !important;
-            color: #475569 !important;
-            border-radius: 8px !important;
-            padding: 6px 12px !important;
-            margin: 0 3px !important;
-            font-weight: 600 !important;
-            font-size: 0.85rem !important;
-            transition: all 0.2s !important;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
-        }
-
-        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-            background: #f1f5f9 !important;
-            color: #0f172a !important;
-            border-color: #cbd5e1 !important;
-        }
-
-        .dataTables_wrapper .dataTables_paginate .paginate_button.current,
-        .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
-            background: #4f46e5 !important;
-            /* Indigo for Alumni/Pengguna */
-            color: #fff !important;
-            border-color: #4f46e5 !important;
-        }
-
-        /* Modern Status Badges */
-        .status-badge-aktif {
-            background-color: #ecfdf5 !important;
-            color: #059669 !important;
-            border: 1px solid #a7f3d0 !important;
-            font-weight: 600 !important;
-            font-size: 0.725rem !important;
-            border-radius: 9999px !important;
-        }
-
-        .status-badge-cuti {
-            background-color: #fffbeb !important;
-            color: #d97706 !important;
-            border: 1px solid #fde68a !important;
-            font-weight: 600 !important;
-            font-size: 0.725rem !important;
-            border-radius: 9999px !important;
-        }
-
-        /* View Button modern circle style */
-        .btn-view-circle {
-            transition: all 0.2s ease-in-out !important;
-            border: 1px solid #e2e8f0 !important;
-            background-color: #fff !important;
-            width: 34px !important;
-            height: 34px !important;
-            display: inline-flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            border-radius: 50% !important;
-            padding: 0 !important;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
-        }
-
-        .btn-view-circle:hover {
-            background-color: #f8fafc !important;
-            border-color: #cbd5e1 !important;
-            transform: scale(1.05);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03) !important;
-        }
-    </style>
 @endsection

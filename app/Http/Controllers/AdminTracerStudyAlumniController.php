@@ -66,7 +66,7 @@ class AdminTracerStudyAlumniController extends Controller
                     $deleteUrl = route('listtraceralumni.destroy', $row->id);
                     return '
                     <div class="dropdown">
-                        <button class="btn btn-sm btn-outline-primary shadow-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        <button class="shadow-sm btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
                             <i class="fa fa-cog"></i>
                         </button>
                         <ul class="dropdown-menu">
@@ -255,20 +255,17 @@ class AdminTracerStudyAlumniController extends Controller
         switch ($data['status_pekerjaan']) {
             case 'bekerja_full':
                 $this->updatePekerjaanDetail($tracerStudy, $data);
-                $this->updateKompetensiDetail($tracerStudy, $data);
-
                 break;
             case 'wirausaha':
                 $this->updateWirausahaDetail($tracerStudy, $data);
-                $this->updateKompetensiDetail($tracerStudy, $data);
-
                 break;
             case 'lanjutstudy':
                 $this->updatePendidikanDetail($tracerStudy, $data);
                 break;
         }
 
-        // Update kompetensi (semua status memiliki kompetensi)
+        // Update kompetensi untuk semua status alumni
+        $this->updateKompetensiDetail($tracerStudy, $data);
     }
 
     private function cleanupOldDetails($tracerStudy, $newStatus)
@@ -289,10 +286,10 @@ class AdminTracerStudyAlumniController extends Controller
         $tracerStudy->pekerjaan()->updateOrCreate(
             ['tracer_study_id' => $tracerStudy->id],
             [
-                'nama_perusahaan' => $data['nama_perusahaan'],
-                'jabatan' => $data['jabatan'],
-                'alamat_pekerjaan' => $data['alamat_pekerjaan'],
-                'pendapatan' => $data['pendapatan'],
+                'nama_perusahaan' => $data['nama_perusahaan'] ?? null,
+                'jabatan' => $data['jabatan'] ?? null,
+                'alamat_pekerjaan' => $data['alamat_pekerjaan'] ?? null,
+                'pendapatan' => $data['pendapatan'] ?? null,
             ]
         );
     }
@@ -302,11 +299,11 @@ class AdminTracerStudyAlumniController extends Controller
         $tracerStudy->wirausaha()->updateOrCreate(
             ['tracer_study_id' => $tracerStudy->id],
             [
-                'nama_usaha' => $data['nama_usaha'],
-                'posisi_usaha' => $data['posisi_usaha'],
-                'tingkat_usaha' => $data['tingkat_usaha'],
-                'alamat_usaha' => $data['alamat_usaha'],
-                'pendapatan_usaha' => $data['pendapatan_usaha'],
+                'nama_usaha' => $data['nama_usaha'] ?? null,
+                'posisi_usaha' => $data['posisi_usaha'] ?? null,
+                'tingkat_usaha' => $data['tingkat_usaha'] ?? null,
+                'alamat_usaha' => $data['alamat_usaha'] ?? null,
+                'pendapatan_usaha' => $data['pendapatan_usaha'] ?? null,
             ]
         );
     }
@@ -316,11 +313,11 @@ class AdminTracerStudyAlumniController extends Controller
         $tracerStudy->pendidikan()->updateOrCreate(
             ['tracer_study_id' => $tracerStudy->id],
             [
-                'universitas' => $data['nama_universitas'],
-                'program_studi' => $data['program_studi'],
-                'sumber_biaya' => $data['sumber_biaya'],
-                'tanggal_masuk' => $data['tanggal_masuk'],
-                'lokasi_universitas' => $data['lokasi_universitas'],
+                'universitas' => $data['nama_universitas'] ?? null,
+                'program_studi' => $data['program_studi'] ?? null,
+                'sumber_biaya' => $data['sumber_biaya'] ?? null,
+                'tanggal_masuk' => $data['tanggal_masuk'] ?? null,
+                'lokasi_universitas' => $data['lokasi_universitas'] ?? null,
             ]
         );
     }
@@ -330,19 +327,19 @@ class AdminTracerStudyAlumniController extends Controller
         $tracerStudy->kompetensi()->updateOrCreate(
             ['tracer_study_id' => $tracerStudy->id],
             [
-                'etika_awal' => $data['etika_awal'],
-                'keahlian_awal' => $data['keahlian_awal'],
-                'komunikasi_awal' => $data['komunikasi_awal'],
-                'kerjasama_awal' => $data['kerjasama_awal'],
-                'teknologi_awal' => $data['teknologi_awal'],
-                'bahasa_inggris_awal' => $data['bahasa_inggris_awal'],
+                'etika_awal' => $data['etika_awal'] ?? null,
+                'keahlian_awal' => $data['keahlian_awal'] ?? null,
+                'komunikasi_awal' => $data['komunikasi_awal'] ?? null,
+                'kerjasama_awal' => $data['kerjasama_awal'] ?? null,
+                'teknologi_awal' => $data['teknologi_awal'] ?? null,
+                'bahasa_inggris_awal' => $data['bahasa_inggris_awal'] ?? null,
 
-                'etika_sekarang' => $data['etika_sekarang'],
-                'keahlian_sekarang' => $data['keahlian_sekarang'],
-                'komunikasi_sekarang' => $data['komunikasi_sekarang'],
-                'kerjasama_sekarang' => $data['kerjasama_sekarang'],
-                'teknologi_sekarang' => $data['teknologi_sekarang'],
-                'bahasa_inggris_sekarang' => $data['bahasa_inggris_sekarang'],
+                'etika_sekarang' => $data['etika_sekarang'] ?? null,
+                'keahlian_sekarang' => $data['keahlian_sekarang'] ?? null,
+                'komunikasi_sekarang' => $data['komunikasi_sekarang'] ?? null,
+                'kerjasama_sekarang' => $data['kerjasama_sekarang'] ?? null,
+                'teknologi_sekarang' => $data['teknologi_sekarang'] ?? null,
+                'bahasa_inggris_sekarang' => $data['bahasa_inggris_sekarang'] ?? null,
             ]
         );
     }

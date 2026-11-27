@@ -4,9 +4,6 @@
 
 @section('content')
     <main id="main-container">
-        <!-- Navbar untuk Alumni -->
-        @include('components.navbar')
-
         <div class="container py-4 mb-5">
         <!-- Action Header (Hide on Print) -->
         <div class="d-flex justify-content-between align-items-center mb-4 no-print">

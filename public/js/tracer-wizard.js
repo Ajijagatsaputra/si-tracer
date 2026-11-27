@@ -53,6 +53,10 @@ class TracerWizard {
             }
         });
 
+        const scrollViewport = document.getElementById('alumni-scroll-viewport');
+        if (scrollViewport) {
+            scrollViewport.scrollTo({ top: 0, behavior: 'smooth' });
+        }
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 

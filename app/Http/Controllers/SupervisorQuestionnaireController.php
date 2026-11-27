@@ -149,6 +149,35 @@ class SupervisorQuestionnaireController extends Controller
     }
 
     /**
+     * Halaman Evaluasi Atasan untuk Alumni yang sedang login
+     */
+    public function myEvaluation()
+    {
+        $user = auth()->user();
+        $alumni = $user->alumni ?? \App\Models\Alumni::where('id_users', $user->id)->first();
+        $tracerStudy = $alumni
+            ? TracerStudy::where('alumni_id', $alumni->id)->first()
+            : TracerStudy::where('user_id', $user->id)->first();
+
+        $tracerPengguna = $tracerStudy
+            ? TracerPengguna::where('tracer_study_id', $tracerStudy->id)->with('tracerStudy')->first()
+            : null;
+
+        if ($tracerPengguna && empty($tracerPengguna->token_akses)) {
+            $tracerPengguna->token_akses = \Illuminate\Support\Str::random(32);
+            if (empty($tracerPengguna->expires_at)) {
+                $tracerPengguna->expires_at = now()->addDays(30);
+            }
+            if (empty($tracerPengguna->expired_at)) {
+                $tracerPengguna->expired_at = now()->addDays(30);
+            }
+            $tracerPengguna->save();
+        }
+
+        return view('supervisor.questionnaire.hasil-view-alumni', compact('tracerPengguna', 'tracerStudy'));
+    }
+
+    /**
      * Menampilkan hasil data pengisian kuesioner supervisor berdasarkan token
      */
     public function hasil($token)
@@ -158,30 +187,30 @@ class SupervisorQuestionnaireController extends Controller
                 ->with('tracerStudy')
                 ->firstOrFail();
 
-            // Pastikan status pengisian sudah completed
-            if ($tracerPengguna->status_pengisian !== 'completed') {
-                if (auth()->check() && auth()->user()->role === 'admin') {
-                    return redirect()->route('home')->with('error', 'Kuesioner belum diisi oleh supervisor.');
-                } else {
-                    return back()->with('error', 'Kuesioner belum diisi oleh supervisor.');
-                }
+            // Jika user sedang login (Alumni / Admin), langsung tampilkan halaman status & hasil evaluasi
+            if (auth()->check()) {
+                $tracerStudy = $tracerPengguna->tracerStudy;
+                return view('supervisor.questionnaire.hasil-view-alumni', compact('tracerPengguna', 'tracerStudy'));
             }
 
-            if (auth()->check()) {
-                return view('supervisor.questionnaire.hasil-view-alumni', compact('tracerPengguna'));
-            } else {
-                return view('supervisor.questionnaire.hasil', compact('tracerPengguna'));
+            // Untuk akses publik tanpa login, pastikan status pengisian sudah completed
+            if ($tracerPengguna->status_pengisian !== 'completed') {
+                return redirect()->route('supervisor.questionnaire', ['token' => $token]);
             }
+
+            return view('supervisor.questionnaire.hasil', compact('tracerPengguna'));
         } catch (\Exception $e) {
             \Log::error('Error fetching supervisor questionnaire result: ' . $e->getMessage(), [
                 'token' => $token,
                 'error' => $e->getMessage()
             ]);
-            if (auth()->check() && auth()->user()->role === 'admin') {
-                return redirect()->route('home')->with('error', 'Data hasil kuesioner tidak ditemukan atau terjadi kesalahan.');
-            } else {
-                return back()->withErrors(['error' => 'Data hasil kuesioner tidak ditemukan atau terjadi kesalahan.']);
+            if (auth()->check() && in_array(auth()->user()->role, ['admin', 'superadmin'])) {
+                return redirect()->route('admin.dashboard')->with('error', 'Data hasil kuesioner tidak ditemukan atau terjadi kesalahan.');
             }
+            if (auth()->check()) {
+                return redirect()->route('alumni.evaluasi-atasan');
+            }
+            return redirect()->route('home')->with('error', 'Data hasil kuesioner tidak ditemukan.');
         }
     }
 

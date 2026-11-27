@@ -79,7 +79,6 @@ Route::middleware(['auth', 'cekrole:admin,superadmin'])->group(function () {
     // Admin Job Applications Management
     Route::get('/admin/loker/applications', [\App\Http\Controllers\JobVacancyController::class, 'adminApplications'])->name('admin.loker.applications');
     Route::put('/admin/loker/applications/{id}/status', [\App\Http\Controllers\JobVacancyController::class, 'adminUpdateApplicationStatus'])->name('admin.loker.application.update-status');
-
 });
 
 // Alumni-only routes
@@ -98,8 +97,9 @@ Route::middleware(['auth', 'cekrole:alumni'])->group(function () {
         Route::get('/check-existing', [TracerStudyController::class, 'checkExisting'])->name('new-tracer.check-existing');
     });
 
-    // Alumni CV routes
+    // Alumni CV & Evaluasi Atasan routes
     Route::get('/profil/cv', [AlumniCvController::class, 'index'])->name('profile.cv');
+    Route::get('/evaluasi-atasan', [\App\Http\Controllers\SupervisorQuestionnaireController::class, 'myEvaluation'])->name('alumni.evaluasi-atasan');
 
     // Alumni Job Board routes (riwayat lamaran)
     Route::get('/alumni/loker', [\App\Http\Controllers\JobVacancyController::class, 'alumniIndex'])->name('alumni.loker.index');
@@ -154,8 +154,6 @@ Route::get('/api/kota/{provinceCode}', [WilayahController::class, 'getKota']);
 Route::match(['get', 'post'], '/prediksi', [PrediksiController::class, 'predictOutcome'])->name('predictOutcome');
 Route::get('/prediksi', [PrediksiController::class, 'showForm'])->name('predictOutcome');
 Route::post('/prediksi', [PrediksiController::class, 'predictOutcome']);
-
-// (migrated to controller routes above)
 
 // OCR API endpoint
 Route::post('/api/ocr-pdf', [OcrController::class, 'processPdf'])->name('api.ocr-pdf');

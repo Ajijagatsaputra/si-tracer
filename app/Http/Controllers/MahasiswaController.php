@@ -5,52 +5,87 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class MahasiswaController extends Controller
 {
     /**
-     * Mendapatkan data mahasiswa berdasarkan tahun angkatan.
-     * Data di-cache per tahun angkatan selama 30 menit untuk menghindari
-     * hit berulang ke API OASE eksternal pada setiap request DataTables.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
+     * Mendapatkan data mahasiswa berdasarkan tahun angkatan dari API OASE.
+     * Hanya menyimpan ke cache jika respons berhasil (mencegah negative caching saat API timeout).
      */
     public function getData(Request $request)
     {
         $tahun = $request->input('tahun_angkatan');
+        $forceRefresh = $request->boolean('refresh');
 
-        if (Cache::has('oase:is_offline')) {
-            return response()->json(['status' => false, 'data' => []]);
+        $cacheKey = 'oase:mahasiswa_list:' . ($tahun ?: 'all');
+
+        if ($forceRefresh) {
+            Cache::forget('oase:is_offline');
+            Cache::forget($cacheKey);
         }
 
-        // Buat cache key unik per tahun angkatan
-        // Jika tidak ada filter tahun, gunakan key 'all'
-        $cacheKey = 'oase:mahasiswa_list:' . ($tahun ?? 'all');
+        // Gunakan cache yang valid bila sudah tersimpan sebelumnya
+        $cached = Cache::get($cacheKey);
+        if (is_array($cached) && !empty($cached['status']) && !empty($cached['data'])) {
+            return response()->json($cached);
+        }
 
-        // TTL 30 menit (1800 detik) — konsisten dengan OaseClient::ttlDosen
-        $ttl = 1800;
+        if (Cache::has('oase:is_offline') && !$forceRefresh) {
+            return response()->json([
+                'status' => false,
+                'offline' => true,
+                'message' => 'Server API OASE (api.oase.poltektegal.ac.id) sedang tidak merespons / offline.',
+                'data' => [],
+            ]);
+        }
 
-        $data = Cache::remember($cacheKey, $ttl, function () use ($tahun) {
-            try {
-                $response = Http::timeout(15)
-                    ->get('https://api.oase.poltektegal.ac.id/api/web/mahasiswa', [
-                        'key' => config('services.oase.key', env('OASE_API_KEY')),
-                        'tahun_angkatan' => $tahun,
-                    ]);
+        try {
+            $baseUrl = rtrim(config('services.oase.url', 'https://api.oase.poltektegal.ac.id/api/web'), '/');
+            $apiKey = config('services.oase.key') ?: env('OASE_API_KEY');
 
-                // Jika API gagal, kembalikan struktur kosong agar tidak crash
-                if (!$response->successful()) {
-                    return ['status' => false, 'data' => []];
-                }
+            $response = Http::connectTimeout(8)
+                ->timeout(15)
+                ->withoutVerifying()
+                ->get("{$baseUrl}/mahasiswa", [
+                    'key' => $apiKey,
+                    'tahun_angkatan' => $tahun,
+                ]);
 
-                return $response->json();
-            } catch (\Exception $e) {
-                Cache::put('oase:is_offline', true, 300);
-                return ['status' => false, 'data' => []];
+            if (!$response->successful()) {
+                Log::warning('OASE Mahasiswa API HTTP ' . $response->status());
+                return response()->json([
+                    'status' => false,
+                    'offline' => true,
+                    'message' => 'Server API OASE mengembalikan status HTTP ' . $response->status() . '.',
+                    'data' => [],
+                ]);
             }
-        });
 
-        return response()->json($data);
+            $json = $response->json();
+
+            // Hanya simpan ke cache (30 menit) bila data valid & berhasil
+            if (is_array($json) && !empty($json['status']) && isset($json['data']) && is_array($json['data'])) {
+                Cache::forget('oase:is_offline');
+                Cache::put($cacheKey, $json, 1800);
+                return response()->json($json);
+            }
+
+            return response()->json([
+                'status' => false,
+                'message' => $json['message'] ?? 'Tidak ada data mahasiswa untuk tahun angkatan tersebut.',
+                'data' => [],
+            ]);
+        } catch (\Throwable $e) {
+            Log::warning('OASE Mahasiswa API Timeout/Error: ' . $e->getMessage());
+            Cache::put('oase:is_offline', true, 120);
+
+            return response()->json([
+                'status' => false,
+                'offline' => true,
+                'message' => 'Koneksi ke server API OASE (api.oase.poltektegal.ac.id) timeout / sedang gangguan.',
+                'data' => [],
+            ]);
+        }
     }
 }

@@ -120,7 +120,7 @@ class JobVacancyController extends Controller
             });
         }
 
-        $applications = $query->paginate(10);
+        $applications = $query->get();
 
         // Stats
         $stats = [
@@ -235,7 +235,7 @@ class JobVacancyController extends Controller
             });
         }
 
-        $jobs = $query->latest()->paginate(15);
+        $jobs = $query->latest()->get();
 
         return view('admin.loker.manage-loker', compact('jobs'));
     }
@@ -316,7 +316,7 @@ class JobVacancyController extends Controller
             });
         }
 
-        $applications = $query->paginate(15);
+        $applications = $query->get();
 
         // Stats
         $stats = [

@@ -108,7 +108,12 @@ class AdminCurriculumAnalysisController extends Controller
 
         // Validasi ketersediaan data
         if (\App\Models\TracerKompetensi::count() == 0 && \App\Models\TracerPengguna::where('status_pengisian', 'completed')->count() == 0) {
-            return redirect()->back()->with('error', 'Data Tracer Study belum mencukupi untuk dianalisis oleh AI.');
+            $emptyError = 'Data Tracer Study belum mencukupi untuk dianalisis oleh AI.';
+            if ($request->expectsJson()) {
+                session()->flash('error', $emptyError);
+                return response()->json(['success' => false, 'error' => $emptyError], 422);
+            }
+            return redirect()->back()->with('error', $emptyError);
         }
 
         // Susun prompt untuk AI
@@ -137,9 +142,19 @@ class AdminCurriculumAnalysisController extends Controller
         if ($result['success']) {
             // Simpan di Cache selama 24 jam
             Cache::put('curriculum_gap_analysis', $result['text'], now()->addHours(24));
-            return redirect()->back()->with('success', 'Analisis kurikulum berhasil diperbarui oleh Jagat AI.');
+            $successMsg = 'Analisis kurikulum berhasil diperbarui oleh Jagat AI.';
+            if ($request->expectsJson()) {
+                session()->flash('success', $successMsg);
+                return response()->json(['success' => true, 'message' => $successMsg]);
+            }
+            return redirect()->back()->with('success', $successMsg);
         } else {
-            return redirect()->back()->with('error', 'Gagal memanggil Jagat AI: ' . ($result['error'] ?? 'Terjadi kesalahan sistem pada API AI.'));
+            $errorMsg = 'Gagal memanggil Jagat AI: ' . ($result['error'] ?? 'Terjadi kesalahan sistem pada API AI.');
+            if ($request->expectsJson()) {
+                session()->flash('error', $errorMsg);
+                return response()->json(['success' => false, 'error' => $errorMsg], 502);
+            }
+            return redirect()->back()->with('error', $errorMsg);
         }
     }
 

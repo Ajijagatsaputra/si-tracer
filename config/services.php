@@ -71,4 +71,9 @@ return [
         'url' => env('DEEPSEEK_API_URL', 'https://router.huggingface.co/v1/chat/completions'),
         'model' => env('DEEPSEEK_MODEL', 'deepseek-ai/DeepSeek-V4.1-Flash-1017'),
     ],
+
+    'oase' => [
+        'key' => env('OASE_API_KEY'),
+        'url' => env('OASE_API_URL', 'https://api.oase.poltektegal.ac.id/api/web'),
+    ],
 ];

@@ -59,12 +59,37 @@ class HomeController extends Controller
             ));
         }
 
-        // Alumni
+        // Alumni / Mahasiswa
         $alumni = $user->alumni ?? Alumni::where('id_users', $user->id)->first();
-        $hasFilledTracer = $alumni ? TracerStudy::where('alumni_id', $alumni->id)->exists() : false;
+        $existingTracer = $alumni
+            ? TracerStudy::where('alumni_id', $alumni->id)->first()
+            : TracerStudy::where('user_id', $user->id)->first();
+        $hasFilledTracer = (bool) $existingTracer;
         $statusTracer = $hasFilledTracer ? 'sudah' : 'belum';
 
-        return view('alumni.main', compact('tahun', 'alumniData', 'kuisonerData', 'statusTracer'));
+        $countAlumni = $this->getAlumniCount();
+        $statistikAlumni = $this->getStatistikBekerja();
+        $tracerPengguna = $existingTracer
+            ? TracerPengguna::where('tracer_study_id', $existingTracer->id)->first()
+            : null;
+        $lamaranCount = $alumni
+            ? \App\Models\JobApplication::where('alumni_id', $alumni->id)->count()
+            : 0;
+        $activeLokerCount = \App\Models\JobVacancy::where('status', 'active')->count();
+
+        return view('alumni.main', compact(
+            'tahun',
+            'alumniData',
+            'kuisonerData',
+            'statusTracer',
+            'selectedTA',
+            'countAlumni',
+            'statistikAlumni',
+            'existingTracer',
+            'tracerPengguna',
+            'lamaranCount',
+            'activeLokerCount'
+        ));
     }
 
     private function getAlumniCount()

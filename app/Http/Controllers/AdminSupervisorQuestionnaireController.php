@@ -36,7 +36,7 @@ class AdminSupervisorQuestionnaireController extends Controller
             $query->whereDate('created_at', '<=', $request->date_to);
         }
 
-        $data = $query->latest()->paginate(10);
+        $data = $query->latest()->get();
 
         // Statistik untuk dashboard
         $totalQuestionnaires = TracerPengguna::count();
@@ -176,35 +176,52 @@ class AdminSupervisorQuestionnaireController extends Controller
         try {
             $questionnaire = TracerPengguna::findOrFail($id);
 
-            $request->validate([
+            $validated = $request->validate([
+                'nama_alumni' => 'required|string|max:255',
+                'jabatan_alumni' => 'required|string|max:255',
+                'tanggal_mulai_kerja' => 'nullable|date',
                 'nama_atasan' => 'required|string|max:255',
                 'jabatan_atasan' => 'required|string|max:255',
                 'nama_perusahaan' => 'required|string|max:255',
                 'email_atasan' => 'nullable|email|max:255',
                 'wa_atasan' => 'nullable|string|max:20',
-                'status_pengisian' => 'required|in:pending,completed,expired',
+                'status_pengisian' => 'required|in:pending,sent,completed,expired',
                 'expires_at' => 'required|date',
+                'integritas' => 'nullable|in:1,2,3,4,5',
+                'keahlian' => 'nullable|in:1,2,3,4,5',
+                'kemampuan' => 'nullable|in:1,2,3,4,5',
+                'penguasaan' => 'nullable|in:1,2,3,4,5',
+                'komunikasi' => 'nullable|in:1,2,3,4,5',
+                'kerja_tim' => 'nullable|in:1,2,3,4,5',
+                'pengembangan' => 'nullable|in:1,2,3,4,5',
+                'kesesuaian_pendidikan_pekerjaan' => 'nullable|in:sangat_sesuai,sesuai,cukup_sesuai,kurang_sesuai,tidak_sesuai',
+                'kualitas_lulusan' => 'nullable|in:sangat_baik,baik,cukup,kurang,sangat_kurang',
+                'saran_perbaikan' => 'nullable|string|max:1000',
             ]);
 
-            $inputStatus = $request->input('status_pengisian');
-            $currentStatus = $questionnaire->status_pengisian;
+            $scoreKeys = ['integritas', 'keahlian', 'kemampuan', 'penguasaan', 'komunikasi', 'kerja_tim', 'pengembangan'];
+            $filledScores = collect($scoreKeys)->filter(fn($k) => !empty($validated[$k]))->count();
 
-            // Jika status saat ini sudah completed, tidak boleh diubah ke selain completed
-            if ($currentStatus === 'completed' && $inputStatus !== 'completed') {
+            // Jika seluruh 7 indikator diisi, otomatis tandai completed
+            if ($filledScores === 7) {
+                $validated['status_pengisian'] = 'completed';
+                if (!$questionnaire->tanggal_isi) {
+                    $validated['tanggal_isi'] = now();
+                }
+            } elseif ($validated['status_pengisian'] === 'completed' && $filledScores === 0) {
                 return redirect()->route('admin.supervisor-questionnaire.edit', $id)
-                    ->with('error', 'Status pengisian yang sudah completed tidak dapat diubah ke status lain.');
+                    ->withInput()
+                    ->with('error', 'Untuk mengubah status menjadi Selesai (Completed), silakan isi ke-7 skor indikator kompetensi terlebih dahulu.');
             }
 
-            // Jika status saat ini belum completed, tidak boleh diubah ke completed oleh admin
-            if ($currentStatus !== 'completed' && $inputStatus === 'completed') {
-                return redirect()->route('admin.supervisor-questionnaire.edit', $id)
-                    ->with('error', 'Status pengisian hanya dapat diubah menjadi completed oleh supervisor, bukan oleh admin.');
-            }
+            $validated['expired_at'] = \Carbon\Carbon::parse($validated['expires_at']);
 
-            $questionnaire->update($request->all());
+            $questionnaire->update($validated);
 
             return redirect()->route('admin.supervisor-questionnaire.show', $id)
-                ->with('success', 'Data supervisor questionnaire berhasil diperbarui.');
+                ->with('success', 'Data survei pengguna berhasil diperbarui.');
+        } catch (\Illuminate\Validation\ValidationException $ve) {
+            throw $ve;
         } catch (\Exception $e) {
             \Log::error('Error updating supervisor questionnaire: ' . $e->getMessage(), [
                 'id' => $id,
@@ -212,7 +229,8 @@ class AdminSupervisorQuestionnaireController extends Controller
             ]);
 
             return redirect()->route('admin.supervisor-questionnaire.edit', $id)
-                ->withErrors(['error' => 'Gagal memperbarui data: ' . $e->getMessage()]);
+                ->withInput()
+                ->with('error', 'Gagal memperbarui data: ' . $e->getMessage());
         }
     }
 
@@ -351,20 +369,22 @@ class AdminSupervisorQuestionnaireController extends Controller
     {
         try {
             $questionnaire = TracerPengguna::findOrFail($id);
+            $newExpiry = now()->addDays(7);
 
-            $questionnaire->update([
-                'expires_at' => now()->addDays(7),
-                'status_pengisian' => 'pending'
-            ]);
-
-            if (method_exists($questionnaire, 'generateToken')) {
-                $questionnaire->generateToken();
+            $questionnaire->expires_at = $newExpiry;
+            $questionnaire->expired_at = $newExpiry;
+            if ($questionnaire->status_pengisian !== 'completed') {
+                $questionnaire->status_pengisian = 'sent';
             }
+            if (empty($questionnaire->token_akses)) {
+                $questionnaire->token_akses = \Illuminate\Support\Str::random(32);
+            }
+            $questionnaire->save();
 
             return response()->json([
                 'success' => true,
-                'message' => 'Masa berlaku berhasil diperpanjang 7 hari.',
-                'new_expiry' => $questionnaire->expires_at->format('d/m/Y H:i')
+                'message' => 'Masa berlaku link kuesioner berhasil diperpanjang 7 hari.',
+                'new_expiry' => $newExpiry->format('d/m/Y H:i')
             ]);
         } catch (\Exception $e) {
             \Log::error('Error extending expiry: ' . $e->getMessage(), [

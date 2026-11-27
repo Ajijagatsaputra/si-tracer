@@ -48,42 +48,38 @@ class TracerStudyService
                 }
             }
 
-            // 2. Simpan kompetensi (hanya untuk yang bekerja dan wiraswasta)
-            if (in_array($data['bekerja'], ['bekerja_full', 'wirausaha'])) {
-                TracerKompetensi::create([
-                    'tracer_study_id' => $tracerStudy->id,
-                    // Kompetensi awal (Point A)
-                    'etika_awal' => $data['etika_awal'] ?? null,
-                    'keahlian_awal' => $data['keahlian_awal'] ?? null,
-                    'bahasa_inggris_awal' => $data['bahasa_inggris_awal'] ?? null,
-                    'teknologi_awal' => $data['teknologi_awal'] ?? null,
-                    'kerjasama_awal' => $data['kerjasama_awal'] ?? null,
-                    'komunikasi_awal' => $data['komunikasi_awal'] ?? null,
-                    'pengembangan_awal' => $data['pengembangan_awal'] ?? null,
-                    // Kompetensi sekarang (Point B)
-                    'etika_sekarang' => $data['etika_sekarang'] ?? null,
-                    'keahlian_sekarang' => $data['keahlian_sekarang'] ?? null,
-                    'bahasa_inggris_sekarang' => $data['bahasa_inggris_sekarang'] ?? null,
-                    'teknologi_sekarang' => $data['teknologi_sekarang'] ?? null,
-                    'kerjasama_sekarang' => $data['kerjasama_sekarang'] ?? null,
-                    'komunikasi_sekarang' => $data['komunikasi_sekarang'] ?? null,
-                    'pengembangan_sekarang' => $data['pengembangan_sekarang'] ?? null,
-                ]);
-            }
+            // 2. Simpan kompetensi (untuk semua status alumni)
+            TracerKompetensi::create([
+                'tracer_study_id' => $tracerStudy->id,
+                // Kompetensi awal (Point A)
+                'etika_awal' => $data['etika_awal'] ?? null,
+                'keahlian_awal' => $data['keahlian_awal'] ?? null,
+                'bahasa_inggris_awal' => $data['bahasa_inggris_awal'] ?? null,
+                'teknologi_awal' => $data['teknologi_awal'] ?? null,
+                'kerjasama_awal' => $data['kerjasama_awal'] ?? null,
+                'komunikasi_awal' => $data['komunikasi_awal'] ?? null,
+                'pengembangan_awal' => $data['pengembangan_awal'] ?? null,
+                // Kompetensi sekarang (Point B)
+                'etika_sekarang' => $data['etika_sekarang'] ?? null,
+                'keahlian_sekarang' => $data['keahlian_sekarang'] ?? null,
+                'bahasa_inggris_sekarang' => $data['bahasa_inggris_sekarang'] ?? null,
+                'teknologi_sekarang' => $data['teknologi_sekarang'] ?? null,
+                'kerjasama_sekarang' => $data['kerjasama_sekarang'] ?? null,
+                'komunikasi_sekarang' => $data['komunikasi_sekarang'] ?? null,
+                'pengembangan_sekarang' => $data['pengembangan_sekarang'] ?? null,
+            ]);
 
-            // 3. Simpan evaluasi pendidikan (hanya untuk yang bekerja dan wiraswasta)
-            if (in_array($data['bekerja'], ['bekerja_full', 'wirausaha'])) {
-                TracerEvaluasiPendidikan::create([
-                    'tracer_study_id' => $tracerStudy->id,
-                    'perkuliahan' => $data['perkuliahan'] ?? null,
-                    'praktikum' => $data['praktikum'] ?? null,
-                    'demonstrasi' => $data['demonstrasi'] ?? null,
-                    'riset' => $data['riset'] ?? null,
-                    'magang' => $data['magang'] ?? null,
-                    'kerja_lapangan' => $data['kerja_lapangan'] ?? null,
-                    'diskusi' => $data['diskusi'] ?? null,
-                ]);
-            }
+            // 3. Simpan evaluasi pendidikan (untuk semua status alumni)
+            TracerEvaluasiPendidikan::create([
+                'tracer_study_id' => $tracerStudy->id,
+                'perkuliahan' => $data['perkuliahan'] ?? null,
+                'praktikum' => $data['praktikum'] ?? null,
+                'demonstrasi' => $data['demonstrasi'] ?? null,
+                'riset' => $data['riset'] ?? null,
+                'magang' => $data['magang'] ?? null,
+                'kerja_lapangan' => $data['kerja_lapangan'] ?? null,
+                'diskusi' => $data['diskusi'] ?? null,
+            ]);
 
             // 4. Simpan detail berdasarkan status pekerjaan
             switch ($data['bekerja']) {

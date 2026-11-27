@@ -1,230 +1,234 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="content py-4">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <div>
-                <h1 class="h3 fw-bold text-dark mb-1">Detail Data Tracer Pengguna Alumni</h1>
-                <p class="text-muted mb-0">Menampilkan informasi detail tracer study alumni</p>
+    @php
+        $konversiNilai = [
+            '5' => ['label' => 'Sangat Baik', 'rating' => 5],
+            '4' => ['label' => 'Baik', 'rating' => 4],
+            '3' => ['label' => 'Cukup', 'rating' => 3],
+            '2' => ['label' => 'Kurang', 'rating' => 2],
+            '1' => ['label' => 'Tidak Baik', 'rating' => 1],
+            'sangat_baik' => ['label' => 'Sangat Baik', 'rating' => 5],
+            'baik' => ['label' => 'Baik', 'rating' => 4],
+            'cukup' => ['label' => 'Cukup', 'rating' => 3],
+            'kurang' => ['label' => 'Kurang', 'rating' => 2],
+            'kurang_baik' => ['label' => 'Kurang Baik', 'rating' => 2],
+            'tidak_baik' => ['label' => 'Tidak Baik', 'rating' => 1],
+        ];
+
+        $kompetensiAll = [
+            'Integritas (Etika)' => $data->integritas,
+            'Keahlian Bidang Ilmu' => $data->keahlian,
+            'Kemampuan Bahasa Asing' => $data->kemampuan,
+            'Penguasaan TIK' => $data->penguasaan,
+            'Komunikasi' => $data->komunikasi,
+            'Kerjasama Tim' => $data->kerja_tim,
+            'Pengembangan Diri' => $data->pengembangan,
+        ];
+
+        $namaTampil = $data->nama ?: ($data->nama_alumni ?: 'Data Tracer Pengguna');
+        $atasanTampil = $data->nama_atasan ?: '-';
+        $jabatanAtasanTampil = $data->posisi_jabatan_atasan ?: ($data->jabatan_atasan ?: '-');
+        $saranTampil = $data->saran ?: ($data->saran_perbaikan ?: null);
+    @endphp
+
+    <div class="akila-page-wrap">
+        <!-- Breadcrumb -->
+        <div class="akila-breadcrumb">
+            <a href="{{ route('admin.dashboard') }}"><i class="fa fa-home me-1"></i> Home</a>
+            <span class="sep">&rsaquo;</span>
+            <span>Kelola Tracer</span>
+            <span class="sep">&rsaquo;</span>
+            <a href="{{ route('listtracerpengguna.index') }}">Salinan Pengguna</a>
+            <span class="sep">&rsaquo;</span>
+            <span class="active">{{ $namaTampil }}</span>
+        </div>
+
+        <!-- Top Summary Card -->
+        <div class="akila-detail-card">
+            <div class="akila-detail-top">
+                <div class="akila-detail-identity">
+                    <div class="akila-detail-icon">
+                        <i class="fa fa-clipboard-check"></i>
+                    </div>
+                    <div>
+                        <div class="akila-detail-title-row">
+                            <h1 class="akila-detail-title">{{ $namaTampil }}</h1>
+                            <span class="akila-status-dot-badge {{ $data->created_at ? 'st-green' : 'st-amber' }}">
+                                <span class="dot"></span> {{ $data->created_at ? 'Sudah Mengisi' : 'Belum Mengisi' }}
+                            </span>
+                        </div>
+                        <p class="akila-subtitle">
+                            Data rekapan kuesioner pengguna lulusan pada <strong>{{ $data->nama_perusahaan ?: '-' }}</strong>.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="akila-header-actions">
+                    @if(Auth::user() && Auth::user()->role !== 'superadmin')
+                        <a href="{{ route('listtracerpengguna.edit', $data->id) }}" class="btn-akila-outline">
+                            <i class="far fa-edit"></i> Edit Data
+                        </a>
+                    @endif
+                    <a href="{{ route('listtracerpengguna.index') }}" class="btn-akila-dark">
+                        <i class="fa fa-arrow-left"></i> Daftar Salinan Pengguna
+                    </a>
+                </div>
             </div>
-            <div class="d-flex gap-2">
-                <a href="{{ route('listtracerpengguna.index') }}" class="btn btn-outline-secondary">
-                    Kembali
-                </a>
+
+            <!-- Meta Info Boxes -->
+            <div class="akila-meta-grid">
+                <div class="akila-meta-box">
+                    <div class="akila-meta-label">Nama Atasan / Penilai</div>
+                    <div class="akila-meta-value">
+                        <i class="fa fa-user text-warning"></i>
+                        <span>{{ $atasanTampil }}</span>
+                    </div>
+                </div>
+                <div class="akila-meta-box">
+                    <div class="akila-meta-label">Perusahaan</div>
+                    <div class="akila-meta-value">
+                        <i class="fa fa-building text-primary"></i>
+                        <span>{{ $data->nama_perusahaan ?: '-' }}</span>
+                    </div>
+                </div>
+                <div class="akila-meta-box">
+                    <div class="akila-meta-label">Program Studi</div>
+                    <div class="akila-meta-value">
+                        <i class="fa fa-graduation-cap text-success"></i>
+                        <span>{{ $data->prodi_name ?: 'Teknik Informatika' }}</span>
+                    </div>
+                </div>
+                <div class="akila-meta-box">
+                    <div class="akila-meta-label">Tanggal Tercatat</div>
+                    <div class="akila-meta-value">
+                        <i class="far fa-calendar-alt text-secondary"></i>
+                        <span>{{ optional($data->created_at)->format('d M Y') ?? '-' }}</span>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Main Content -->
-        <div class="row g-4">
-            <!-- Informasi Personal -->
-            <div class="col-md-6">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-white border-0 pb-0">
-                        <h5 class="card-title mb-0 fw-semibold">Informasi Personal</h5>
+        <!-- Bottom Tabbed Detail Card -->
+        <div class="akila-tabs-card">
+            <div class="akila-tabs-nav" role="tablist">
+                <button type="button" class="akila-tab-btn active" data-tab="tab-info-sp">
+                    <i class="fa fa-info-circle"></i> Informasi Personal & Perusahaan
+                </button>
+                <button type="button" class="akila-tab-btn" data-tab="tab-komp-sp">
+                    <i class="fa fa-star"></i> Penilaian Kompetensi (7)
+                </button>
+            </div>
+
+            <!-- TAB 1 -->
+            <div class="akila-tab-pane active" id="tab-info-sp">
+                <div class="row g-4">
+                    <div class="col-lg-6">
+                        <div class="akila-field-group">
+                            <div class="akila-field-label">Nama & Jabatan</div>
+                            <div class="akila-field-value">{{ $namaTampil }}</div>
+                            <small class="text-muted">Jabatan: {{ $data->jabatan ?: ($data->jabatan_alumni ?: '-') }}</small>
+                        </div>
+                        <div class="akila-field-group">
+                            <div class="akila-field-label">Alamat Lengkap</div>
+                            <div class="akila-field-text">{{ $data->alamat ?: '-' }}</div>
+                        </div>
+                        <div class="mb-0 akila-field-group">
+                            <div class="akila-field-label">Saran & Komentar Industri</div>
+                            <div class="akila-field-text">{{ $saranTampil ?: 'Tidak ada saran tertulis.' }}</div>
+                        </div>
                     </div>
-                    <div class="card-body pt-3">
+
+                    <div class="col-lg-6">
+                        <div class="akila-competency-panel">
+                            <div class="mb-1 akila-field-label">Ringkasan Penilaian Kompetensi</div>
+                            <div class="akila-comp-grid">
+                                @foreach($kompetensiAll as $label => $val)
+                                    @php $disp = $konversiNilai[(string) $val] ?? ['label' => '-', 'rating' => 0]; @endphp
+                                    <span class="akila-comp-chip">
+                                        <i class="fa fa-check"></i> {{ $label }} ({{ $disp['label'] }})
+                                    </span>
+                                @endforeach
+                            </div>
+                        </div>
+
                         <div class="row g-3">
-                            <div class="col-12">
-                                <div class="mb-3">
-                                    <label class="form-label text-muted small">Nama</label>
-                                    <p class="mb-0 fw-medium">{{ $data->nama ?? '-' }}</p>
-                                </div>
+                            <div class="col-sm-6">
+                                <div class="akila-field-label">Atasan Penilai</div>
+                                <div class="mb-0 akila-field-value">{{ $atasanTampil }}</div>
+                                <small class="text-muted">{{ $jabatanAtasanTampil }} {{ $data->nip_atasan ? '• NIP: ' . $data->nip_atasan : '' }}</small>
                             </div>
-                            <div class="col-12">
-                                <div class="mb-3">
-                                    <label class="form-label text-muted small">Program Studi</label>
-                                    <p class="mb-0 fw-medium">{{ $data->prodi_name ?? '-' }}</p>
-                                </div>
+                            <div class="col-sm-6">
+                                <div class="akila-field-label">Alamat Perusahaan</div>
+                                <div class="akila-field-text">{{ $data->alamat_perusahaan ?: '-' }}</div>
                             </div>
-                            <div class="col-12">
-                                <div class="mb-3">
-                                    <label class="form-label text-muted small">Alamat</label>
-                                    <p class="mb-0 fw-medium">{{ $data->alamat ?? '-' }}</p>
-                                </div>
+                        </div>
+
+                        <div class="akila-audit-grid">
+                            <div class="akila-audit-item">
+                                <small>Dibuat Pada</small>
+                                <span>{{ optional($data->created_at)->format('d/m/Y H:i') ?? '-' }}</span>
                             </div>
-                            <div class="col-12">
-                                <div class="mb-0">
-                                    <label class="form-label text-muted small">Jabatan</label>
-                                    <p class="mb-0 fw-medium">{{ $data->jabatan ?? '-' }}</p>
-                                </div>
+                            <div class="akila-audit-item">
+                                <small>Terakhir Diperbarui</small>
+                                <span>{{ optional($data->updated_at)->format('d/m/Y H:i') ?? '-' }}</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Informasi Perusahaan -->
-            <div class="col-md-6">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-white border-0 pb-0">
-                        <h5 class="card-title mb-0 fw-semibold">Informasi Perusahaan</h5>
-                    </div>
-                    <div class="card-body pt-3">
-                        <div class="row g-3">
-                            <div class="col-12">
-                                <div class="mb-3">
-                                    <label class="form-label text-muted small">Nama Perusahaan</label>
-                                    <p class="mb-0 fw-medium">{{ $data->nama_perusahaan ?? '-' }}</p>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="mb-3">
-                                    <label class="form-label text-muted small">Alamat Perusahaan</label>
-                                    <p class="mb-0 fw-medium">{{ $data->alamat_perusahaan ?? '-' }}</p>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="mb-3">
-                                    <label class="form-label text-muted small">Nama Atasan</label>
-                                    <p class="mb-0 fw-medium">{{ $data->nama_atasan ?? '-' }}</p>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="mb-3">
-                                    <label class="form-label text-muted small">NIP Atasan</label>
-                                    <p class="mb-0 fw-medium">{{ $data->nip_atasan ?? '-' }}</p>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="mb-0">
-                                    <label class="form-label text-muted small">Posisi Atasan</label>
-                                    <p class="mb-0 fw-medium">{{ $data->posisi_jabatan_atasan ?? '-' }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Penilaian Kompetensi -->
-            <div class="col-12">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-white border-0 pb-0">
-                        <h5 class="card-title mb-0 fw-semibold">Penilaian Kompetensi</h5>
-                    </div>
-                    <div class="card-body pt-3">
-                        <div class="row g-4">
-                            @php
-                                $konversiNilai = [
-                                    'sangat_baik' => ['label' => 'Sangat Bagus', 'rating' => 5],
-                                    'baik' => ['label' => 'Bagus', 'rating' => 4],
-                                    'cukup' => ['label' => 'Cukup', 'rating' => 3],
-                                    'kurang' => ['label' => 'Kurang', 'rating' => 2],
-                                    'kurang_baik' => ['label' => 'Kurang Baik', 'rating' => 1],
-                                ];
-
-                                $kompetensiAll = [
-                                    'Integritas' => $data->integritas,
-                                    'Keahlian Bidang Ilmu' => $data->keahlian,
-                                    'Kemampuan Etika' => $data->kemampuan,
-                                    'Penguasaan TIK' => $data->penguasaan,
-                                    'Komunikasi' => $data->komunikasi,
-                                    'Kerja Tim' => $data->kerja_tim,
-                                    'Pengembangan Diri' => $data->pengembangan,
-                                ];
-                            @endphp
-
+            <!-- TAB 2 -->
+            <div class="akila-tab-pane" id="tab-komp-sp">
+                <div class="akila-table-wrapper">
+                    <table class="table mb-0 align-middle akila-table">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="width: 56px;">No.</th>
+                                <th>Indikator Kompetensi</th>
+                                <th class="text-center">Rating</th>
+                                <th class="text-center">Kategori Nilai</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php $idx = 1; @endphp
                             @foreach ($kompetensiAll as $label => $value)
-                                @php
-                                    $display = $konversiNilai[$value] ?? ['label' => '-', 'rating' => 0];
-                                @endphp
-                                <div class="col-sm-6 col-lg-4">
-                                    <div class="d-flex justify-content-between align-items-center py-2">
-                                        <div>
-                                            <p class="mb-1 fw-medium">{{ $label }}</p>
-                                            <div class="d-flex">
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    @if ($i <= $display['rating'])
-                                                        <i class="fas fa-star text-warning me-1"></i>
-                                                    @else
-                                                        <i class="far fa-star text-muted me-1"></i>
-                                                    @endif
-                                                @endfor
-                                            </div>
-                                        </div>
-                                        <div class="text-end">
-                                            <span class="badge bg-light text-dark">{{ $display['label'] }}
-                                                ({{ $display['rating'] }}/5)</span>
-                                        </div>
-                                    </div>
-                                </div>
+                                @php $display = $konversiNilai[(string) $value] ?? ['label' => 'Belum Diisi', 'rating' => 0]; @endphp
+                                <tr>
+                                    <td class="text-center text-muted fw-semibold">{{ $idx++ }}</td>
+                                    <td class="akila-cell-title">{{ $label }}</td>
+                                    <td class="text-center">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            <i class="fa fa-star {{ $i <= $display['rating'] ? 'text-warning' : 'text-muted opacity-25' }}" style="font-size: 0.78rem;"></i>
+                                        @endfor
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="akila-badge {{ $display['rating'] >= 4 ? 'akila-badge-green' : ($display['rating'] >= 3 ? 'akila-badge-blue' : 'akila-badge-slate') }}">
+                                            {{ $display['label'] }} ({{ $display['rating'] }}/5)
+                                        </span>
+                                    </td>
+                                </tr>
                             @endforeach
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            @if ($data->saran)
-                <!-- Saran & Komentar -->
-                <div class="col-12">
-                    <div class="card border-0 shadow-sm">
-                        <div class="card-header bg-white border-0 pb-0">
-                            <h5 class="card-title mb-0 fw-semibold">Saran & Komentar</h5>
-                        </div>
-                        <div class="card-body pt-3">
-                            <p class="mb-0 text-muted fst-italic">"{{ $data->saran }}"</p>
-                        </div>
-                    </div>
-                </div>
-            @endif
-
-            <!-- Info Timestamp -->
-            <div class="col-12">
-                <div class="card border-0 bg-light">
-                    <div class="card-body py-3">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <small class="text-muted">
-                                Dibuat: {{ $data->created_at->format('d F Y, H:i') }}
-                            </small>
-                            <small class="text-muted">
-                                Diperbarui: {{ $data->updated_at->format('d F Y, H:i') }}
-                            </small>
-                        </div>
-                    </div>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
-    </main>
-    </div>
+@endsection
 
-
-    <style>
-        .card {
-            transition: all 0.2s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-1px);
-        }
-
-        .fa-star {
-            font-size: 14px;
-        }
-
-        .form-label {
-            font-weight: 500;
-            margin-bottom: 0.25rem;
-        }
-
-        .card-header {
-            padding: 1.5rem 1.5rem 0.5rem;
-        }
-
-        .card-body {
-            padding: 1rem 1.5rem 1.5rem;
-        }
-
-        .shadow-sm {
-            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
-        }
-    </style>
-
-
-    <!-- JS -->
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="{{ asset('assets/css/oneui.min.css') }}">
-    <script src="{{ asset('assets/js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/js/plugins/datatables-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+@section('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.akila-tab-btn').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    const targetId = this.getAttribute('data-tab');
+                    document.querySelectorAll('.akila-tab-btn').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.akila-tab-pane').forEach(p => p.classList.remove('active'));
+                    this.classList.add('active');
+                    document.getElementById(targetId)?.classList.add('active');
+                });
+            });
+        });
+    </script>
 @endsection

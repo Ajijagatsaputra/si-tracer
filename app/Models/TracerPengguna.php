@@ -45,7 +45,8 @@ class TracerPengguna extends Model
 
     protected $casts = [
         'tanggal_mulai_kerja' => 'date',
-        'tanggal_isi' => 'date',
+        'tanggal_isi' => 'datetime',
+        'expires_at' => 'datetime',
         'expired_at' => 'datetime',
     ];
 
@@ -131,11 +132,10 @@ class TracerPengguna extends Model
         return $encrypted;
     }
 
-    // Method untuk get questionnaire URL
+    // Method untuk get questionnaire URL (otomatis mengikuti host & port aktif, mis. 127.0.0.1:8090)
     public function getQuestionnaireUrl()
     {
-        $baseUrl = config('app.url');
-        return $baseUrl . '/supervisor/questionnaire/' . $this->token_akses;
+        return url('/supervisor/questionnaire/' . $this->token_akses);
     }
 
     // Method untuk menghitung skor rata-rata evaluasi

@@ -80,9 +80,8 @@ class AdminPrediksiController extends Controller
         $jobTitleLabels = array_keys($jobTitleCounts);
         $jobTitleCounts = array_values($jobTitleCounts);
 
-        // Riwayat terbaru dengan extracted job titles (paginated)
-        $histories = HistoryPrediksi::with('alumni')->latest()->paginate(15);
-        $histories->getCollection()->transform(function ($h) {
+        // Riwayat terbaru dengan extracted job titles
+        $histories = HistoryPrediksi::with('alumni')->latest()->get()->map(function ($h) {
             $h->extracted_job_titles = $this->extractJobTitlesFromText($h->hasil ?? '');
             return $h;
         });
@@ -106,7 +105,7 @@ class AdminPrediksiController extends Controller
     public function detail($id)
     {
         try {
-            $history = HistoryPrediksi::with('alumni')->findOrFail($id);
+            $history = HistoryPrediksi::with(['alumni.users'])->findOrFail($id);
 
             // Extract job titles dari hasil
             $extractedJobTitles = $this->extractJobTitlesFromText($history->hasil ?? '');
@@ -117,7 +116,10 @@ class AdminPrediksiController extends Controller
                 'alumni' => [
                     'nama_lengkap' => $history->alumni->nama_lengkap ?? null,
                     'nim' => $history->alumni->nim ?? null,
-                    'email' => $history->alumni->email ?? null,
+                    'prodi' => $history->alumni->prodi ?? 'Teknik Informatika',
+                    'tahun_masuk' => $history->alumni->tahun_masuk ?? null,
+                    'tahun_lulus' => $history->alumni->tahun_lulus ?? null,
+                    'email' => $history->alumni->users->email ?? null,
                 ],
                 'hasil' => $history->hasil,
                 'extracted_job_titles' => $extractedJobTitles,

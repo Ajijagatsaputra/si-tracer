@@ -25,6 +25,10 @@ class JobVacancyController extends Controller
      */
     public function mitraCreate()
     {
+        if (!Auth::check() || !in_array(Auth::user()->role, ['admin', 'superadmin'])) {
+            abort(403);
+        }
+
         return view('mitra.create-loker');
     }
 
@@ -33,6 +37,10 @@ class JobVacancyController extends Controller
      */
     public function mitraStore(Request $request)
     {
+        if (!Auth::check() || !in_array(Auth::user()->role, ['admin', 'superadmin'])) {
+            abort(403);
+        }
+
         $request->validate([
             'company_name' => 'required|string|max:255',
             'position' => 'required|string|max:255',

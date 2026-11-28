@@ -44,7 +44,7 @@ class MahasiswaController extends Controller
             $baseUrl = rtrim(config('services.oase.url', 'https://api.oase.poltektegal.ac.id/api/web'), '/');
             $apiKey = config('services.oase.key') ?: env('OASE_API_KEY');
 
-            $response = Http::connectTimeout(8)
+            $response = Http::connectTimeout(15)
                 ->timeout(15)
                 ->withoutVerifying()
                 ->get("{$baseUrl}/mahasiswa", [

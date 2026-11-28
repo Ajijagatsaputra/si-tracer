@@ -106,9 +106,11 @@ Route::middleware(['auth', 'cekrole:alumni'])->group(function () {
     Route::post('/alumni/loker/{id}/apply', [\App\Http\Controllers\JobVacancyController::class, 'applyJob'])->name('alumni.loker.apply');
 });
 
-// Public Mitra & Job details routes
-Route::get('/mitra/loker/buat', [\App\Http\Controllers\JobVacancyController::class, 'mitraCreate'])->name('mitra.loker.create');
-Route::post('/mitra/loker', [\App\Http\Controllers\JobVacancyController::class, 'mitraStore'])->name('mitra.loker.store');
+// Admin/superadmin lowongan upload and public job details routes
+Route::middleware(['auth', 'cekrole:admin,superadmin'])->group(function () {
+    Route::get('/mitra/loker/buat', [\App\Http\Controllers\JobVacancyController::class, 'mitraCreate'])->name('mitra.loker.create');
+    Route::post('/mitra/loker', [\App\Http\Controllers\JobVacancyController::class, 'mitraStore'])->name('mitra.loker.store');
+});
 Route::get('/alumni/loker/{id}', [\App\Http\Controllers\JobVacancyController::class, 'alumniShow'])->name('alumni.loker.show');
 
 Route::middleware(['auth', 'cekrole:admin,superadmin'])->group(function () {

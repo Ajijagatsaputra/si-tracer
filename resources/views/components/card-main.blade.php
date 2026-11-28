@@ -523,7 +523,7 @@
                     <div class="metric-label">Riwayat Lamaran Kerja Saya</div>
                     <div class="metric-footer">
                         <a href="{{ route('alumni.loker.index') }}" class="metric-link">
-                            Riwayat Lamaran <i class="fa fa-arrow-right ms-1"></i>
+                            Lihat Riwayat Saya <i class="fa fa-arrow-right ms-1"></i>
                         </a>
                     </div>
                 </div>

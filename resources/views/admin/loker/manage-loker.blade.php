@@ -32,7 +32,7 @@
 
             <!-- Table -->
             <div class="akila-table-wrapper">
-                <table class="table akila-table align-middle w-100" id="tabel-loker">
+                <table class="table align-middle akila-table w-100" id="tabel-loker">
                     <thead>
                         <tr>
                             <th class="text-center" style="width: 38px;">
@@ -108,7 +108,7 @@
                                     <div class="akila-cell-desc">{{ $descExcerpt ?: 'Tidak ada deskripsi singkat.' }}</div>
                                 </td>
                                 <td>
-                                    <div class="d-flex flex-wrap gap-1">
+                                    <div class="flex-wrap gap-1 d-flex">
                                         <span class="akila-badge akila-badge-outline">{{ $job->category ?: 'Umum' }}</span>
                                         @if($job->location)
                                             <span class="akila-badge akila-badge-orange">{{ $job->location }}</span>
@@ -192,46 +192,46 @@
     <!-- Job Detail Modal (Admin) -->
     <div class="modal fade" id="modalAdminDetailLoker" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content border-0 overflow-hidden rounded-4">
-                <div class="modal-header bg-dark text-white p-3">
-                    <h5 class="modal-title fw-bold text-white"><i class="fa fa-briefcase me-2"></i> Detail Lowongan Pekerjaan</h5>
+            <div class="overflow-hidden border-0 modal-content rounded-4">
+                <div class="p-3 text-white modal-header bg-dark">
+                    <h5 class="text-white modal-title fw-bold"><i class="fa fa-briefcase me-2"></i> Detail Lowongan Pekerjaan</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body p-4 bg-light">
+                <div class="p-4 modal-body bg-light">
                     <div class="row g-3">
                         <div class="col-md-6">
                             <div class="p-3 bg-white border rounded-3">
-                                <span class="text-muted text-uppercase fw-bold d-block mb-1" style="font-size: 0.65rem;">Nama Perusahaan</span>
+                                <span class="mb-1 text-muted text-uppercase fw-bold d-block" style="font-size: 0.65rem;">Nama Perusahaan</span>
                                 <span class="fw-bold text-dark" id="modal-company-name">-</span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="p-3 bg-white border rounded-3">
-                                <span class="text-muted text-uppercase fw-bold d-block mb-1" style="font-size: 0.65rem;">Posisi Jabatan</span>
+                                <span class="mb-1 text-muted text-uppercase fw-bold d-block" style="font-size: 0.65rem;">Posisi Jabatan</span>
                                 <span class="fw-bold text-dark" id="modal-position">-</span>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="p-3 bg-white border rounded-3">
-                                <span class="text-muted text-uppercase fw-bold d-block mb-1" style="font-size: 0.65rem;">Kategori</span>
+                                <span class="mb-1 text-muted text-uppercase fw-bold d-block" style="font-size: 0.65rem;">Kategori</span>
                                 <span class="fw-bold text-dark" id="modal-category">-</span>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="p-3 bg-white border rounded-3">
-                                <span class="text-muted text-uppercase fw-bold d-block mb-1" style="font-size: 0.65rem;">Lokasi</span>
+                                <span class="mb-1 text-muted text-uppercase fw-bold d-block" style="font-size: 0.65rem;">Lokasi</span>
                                 <span class="fw-bold text-dark" id="modal-location">-</span>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="p-3 bg-white border rounded-3">
-                                <span class="text-muted text-uppercase fw-bold d-block mb-1" style="font-size: 0.65rem;">Gaji</span>
+                                <span class="mb-1 text-muted text-uppercase fw-bold d-block" style="font-size: 0.65rem;">Gaji</span>
                                 <span class="fw-bold text-dark" id="modal-salary">-</span>
                             </div>
                         </div>
                         <div class="col-12" id="modal-pic-container" style="display: none;">
-                            <div class="p-3 bg-warning-light border border-warning rounded-3">
-                                <span class="text-muted text-uppercase fw-bold d-block mb-2" style="font-size: 0.65rem;">
+                            <div class="p-3 border bg-warning-light border-warning rounded-3">
+                                <span class="mb-2 text-muted text-uppercase fw-bold d-block" style="font-size: 0.65rem;">
                                     <i class="fa fa-user-tie me-1"></i> Penanggung Jawab (PIC Pengunggah)
                                 </span>
                                 <div class="row g-2">
@@ -244,19 +244,19 @@
                         </div>
                         <div class="col-12">
                             <div class="p-3 bg-white border rounded-3">
-                                <span class="text-muted text-uppercase fw-bold d-block mb-2" style="font-size: 0.65rem;">Deskripsi Pekerjaan</span>
+                                <span class="mb-2 text-muted text-uppercase fw-bold d-block" style="font-size: 0.65rem;">Deskripsi Pekerjaan</span>
                                 <div class="text-dark fs-sm" id="modal-description" style="white-space: pre-line; line-height: 1.6;">-</div>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="p-3 bg-white border rounded-3">
-                                <span class="text-muted text-uppercase fw-bold d-block mb-2" style="font-size: 0.65rem;">Kualifikasi / Persyaratan</span>
+                                <span class="mb-2 text-muted text-uppercase fw-bold d-block" style="font-size: 0.65rem;">Kualifikasi / Persyaratan</span>
                                 <div class="text-dark fs-sm" id="modal-requirements" style="white-space: pre-line; line-height: 1.6;">-</div>
                             </div>
                         </div>
                         <div class="col-12" id="modal-poster-container" style="display: none;">
-                            <div class="p-3 bg-white border rounded-3 text-center">
-                                <span class="text-muted text-uppercase fw-bold d-block mb-2 text-start" style="font-size: 0.65rem;">Poster / Brosur Lowongan</span>
+                            <div class="p-3 text-center bg-white border rounded-3">
+                                <span class="mb-2 text-muted text-uppercase fw-bold d-block text-start" style="font-size: 0.65rem;">Poster / Brosur Lowongan</span>
                                 <div id="carouselAdminPosters" class="carousel slide carousel-dark" data-bs-ride="carousel">
                                     <div class="carousel-indicators" id="carousel-admin-indicators"></div>
                                     <div class="carousel-inner rounded-3 bg-light" id="carousel-admin-inner" style="max-height: 460px;"></div>
@@ -271,7 +271,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer bg-white border-top p-3">
+                <div class="p-3 bg-white modal-footer border-top">
                     <button type="button" class="btn-akila-outline" data-bs-dismiss="modal">Tutup</button>
                 </div>
             </div>
@@ -280,6 +280,50 @@
 @endsection
 
 @section('scripts')
+    <style>
+        #modalAdminDetailLoker .modal-dialog { max-width: 860px; }
+        #modalAdminDetailLoker .modal-content { border-radius: 20px !important; box-shadow: 0 24px 70px rgba(15, 23, 42, .28); }
+        #modalAdminDetailLoker .modal-header { padding: 1.35rem 1.6rem; background: linear-gradient(120deg, #172033, #263b5a) !important; }
+        #modalAdminDetailLoker .modal-header::after { content: ""; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, #d7ad55, #f0d898, transparent); }
+        #modalAdminDetailLoker .modal-header { position: relative; }
+        #modalAdminDetailLoker .modal-body { max-height: 70vh; overflow-y: auto; padding: 1.5rem; background: #f5f7fb !important; }
+        #modalAdminDetailLoker .modal-body .row > div > div { border: 1px solid #e6ebf2 !important; border-radius: 14px !important; box-shadow: 0 4px 14px rgba(15, 23, 42, .035); }
+        #modalAdminDetailLoker .modal-body [class*="text-uppercase"] { letter-spacing: .07em; }
+        #modalAdminDetailLoker .modal-footer { padding: 1rem 1.5rem; }
+        .swal2-popup.swal-modern { border: 1px solid #e8edf4; border-radius: 22px; padding: 1.75rem; box-shadow: 0 24px 70px rgba(15, 23, 42, .2); }
+        .swal-modern .swal2-title { color: #172033; font-size: 1.35rem; font-weight: 800; }
+        .swal-modern .swal2-html-container { color: #64748b; font-size: .95rem; }
+        .swal-modern .swal2-icon { border-width: 3px; }
+        .swal-modern .btn-modern { min-width: 118px; margin: .25rem; padding: .7rem 1.1rem; border: 0; border-radius: 12px; font-weight: 700; transition: transform .18s ease, box-shadow .18s ease; }
+        .swal-modern .btn-modern:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(15, 23, 42, .15); }
+        .swal-modern .btn-modern-danger { color: #fff; background: #d63e4b; }
+        .swal-modern .btn-modern-secondary { color: #334155; background: #edf1f6; }
+        .akila-page-wrap { min-width: 0; }
+        .akila-table-wrapper { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        #tabel-loker { min-width: 1050px; }
+        #modalAdminDetailLoker .modal-body .row > div, #modalAdminDetailLoker .modal-body [id^="modal-"] { min-width: 0; overflow-wrap: anywhere; }
+        #modalAdminDetailLoker #carousel-admin-inner { display: flex; align-items: center; justify-content: center; }
+        #modalAdminDetailLoker #carousel-admin-inner img { max-width: 100%; max-height: min(55vh, 460px); object-fit: contain; }
+        @media (max-width: 767.98px) {
+            .akila-page-wrap { padding-inline: .75rem; }
+            .akila-list-card { padding: 1rem !important; }
+            .akila-header-actions { width: 100%; }
+            .akila-header-actions > * { max-width: 100%; }
+            #modalAdminDetailLoker .modal-dialog { width: auto; max-width: none; margin: .5rem; }
+            #modalAdminDetailLoker .modal-body .col-md-4, #modalAdminDetailLoker .modal-body .col-md-6 { width: 100%; }
+            #modalAdminDetailLoker .modal-body { max-height: calc(100dvh - 145px); padding: .85rem; }
+            #modalAdminDetailLoker .modal-header { padding: 1rem; }
+            #modalAdminDetailLoker .modal-title { font-size: 1rem; }
+            #modalAdminDetailLoker .modal-footer { padding: .75rem 1rem; }
+            #modalAdminDetailLoker .modal-body .p-3 { padding: .85rem !important; }
+            .swal2-popup.swal-modern { width: calc(100% - 2rem); padding: 1.25rem; }
+        }
+        @media (max-width: 420px) {
+            #modalAdminDetailLoker .modal-dialog { margin: .35rem; }
+            #modalAdminDetailLoker .modal-body { max-height: calc(100dvh - 125px); }
+            #modalAdminDetailLoker .modal-header .btn-close { margin-left: .5rem; }
+        }
+    </style>
     <script>
         jQuery(document).ready(function ($) {
             $.ajaxSetup({

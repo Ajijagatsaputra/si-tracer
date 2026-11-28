@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal Tracer Study & Bursa Kerja - Universitas Harkat Negeri</title>
-    
+
     <script>
         // Check local storage or system preference immediately to prevent theme flashing
         (function() {
@@ -17,22 +17,22 @@
             }
         })();
     </script>
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
+
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- FontAwesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- Icons -->
     <link rel="shortcut icon" href="{{ asset('assets/media/favicons/logo_harkatnegeri.png') }}">
     <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('assets/media/favicons/logo_harkatnegeri.png') }}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/media/favicons/logo_harkatnegeri.png') }}">
-    
+
     <style>
         :root {
             --primary: #5a121b;
@@ -42,7 +42,7 @@
             --dark-light: #1e293b;
             --gray-light: #f8fafc;
             --accent: #b89635;
-            
+
             --card-bg: #ffffff;
             --card-border: rgba(0, 0, 0, 0.03);
             --card-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
@@ -60,7 +60,7 @@
             --dark-light: #cbd5e1;
             --gray-light: #0b0f19;
             --accent: #d9af3f;
-            
+
             --card-bg: #1e293b;
             --card-border: rgba(255, 255, 255, 0.06);
             --card-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
@@ -95,7 +95,7 @@
         [data-bs-theme="dark"] .navbar-brand-text {
             color: #ffffff !important;
         }
-        
+
         [data-bs-theme="dark"] .navbar-brand-text span.fw-bold {
             color: #fca5a5 !important;
         }
@@ -108,7 +108,7 @@
         .navbar-modern .nav-link:hover {
             color: var(--primary) !important;
         }
-        
+
         [data-bs-theme="dark"] .navbar-modern .nav-link.text-dark {
             color: var(--text-main) !important;
         }
@@ -437,10 +437,126 @@
             color: var(--text-muted) !important;
         }
 
+        #modalJobDetail .modal-dialog {
+            max-width: 820px;
+            padding: 1rem;
+        }
+
+        #modalJobDetail .modal-content {
+            max-height: min(88vh, 820px);
+            border: 1px solid rgba(15, 23, 42, 0.08) !important;
+            border-radius: 1.25rem !important;
+            box-shadow: 0 28px 80px rgba(15, 23, 42, 0.24) !important;
+        }
+
+        #modalJobDetail .modal-header {
+            position: relative;
+            padding: 1.5rem 1.75rem;
+            background: linear-gradient(120deg, #4a1019, #761d2b) !important;
+        }
+
+        #modalJobDetail .modal-header::after {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            content: "";
+            background: linear-gradient(90deg, #d6b65d, #f1dfaa, transparent);
+        }
+
+        #modalJobDetail .modal-header #detail-company-logo-container > * {
+            display: flex;
+            width: 54px;
+            height: 54px;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(255, 255, 255, 0.55);
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff !important;
+            object-fit: contain;
+        }
+
+        #modalJobDetail .modal-title {
+            line-height: 1.3;
+        }
+
+        #modalJobDetail .modal-body {
+            overflow-y: auto;
+            padding: 1.5rem 1.75rem;
+        }
+
+        #modalJobDetail .modal-body .row > div > div {
+            height: 100%;
+            border-radius: 14px !important;
+            box-shadow: 0 5px 18px rgba(15, 23, 42, 0.035);
+        }
+
+        #modalJobDetail .modal-body .row > div > div > span:first-child {
+            letter-spacing: 0.06em;
+            color: #64748b !important;
+        }
+
+        #modalJobDetail #detail-job-description,
+        #modalJobDetail #detail-job-requirements {
+            white-space: pre-line;
+            line-height: 1.75;
+        }
+
+        #modalJobDetail .modal-footer {
+            padding: 1rem 1.75rem 1.5rem;
+            background: var(--card-bg);
+        }
+
+        #modalJobDetail .modal-footer .btn {
+            min-width: 130px;
+            padding: 0.65rem 1.25rem;
+            font-weight: 700;
+        }
+
+        @media (max-width: 575.98px) {
+            #modalJobDetail .modal-dialog {
+                margin: 0.5rem;
+                padding: 0;
+            }
+
+            #modalJobDetail .modal-content {
+                max-height: calc(100vh - 1rem);
+                border-radius: 1rem !important;
+            }
+
+            #modalJobDetail .modal-header,
+            #modalJobDetail .modal-body {
+                padding: 1.1rem;
+            }
+
+            #modalJobDetail .modal-footer {
+                padding: 0.75rem 1.1rem 1.1rem;
+            }
+
+            #modalJobDetail .modal-footer .btn {
+                flex: 1 1 auto;
+                min-width: 0;
+            }
+        }
+
         [data-bs-theme="dark"] .modal-content {
             background-color: #1e293b !important;
             color: #cbd5e1 !important;
             border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        }
+
+        [data-bs-theme="dark"] #modalJobDetail .modal-header {
+            background: linear-gradient(120deg, #111827, #273449) !important;
+        }
+
+        [data-bs-theme="dark"] #modalJobDetail .modal-body .row > div > div {
+            box-shadow: none;
+        }
+
+        [data-bs-theme="dark"] #modalJobDetail .modal-footer {
+            background: #1e293b;
         }
 
         [data-bs-theme="dark"] .modal-header {
@@ -506,40 +622,72 @@
         [data-bs-theme="dark"] .btn-light:hover {
             background-color: rgba(255, 255, 255, 0.1) !important;
         }
+
+        .apply-modal .modal-dialog { max-width: 560px; margin-inline: auto; }
+        .apply-modal .modal-content { border-radius: 22px !important; box-shadow: 0 28px 80px rgba(15, 23, 42, .28) !important; }
+        .apply-modal-header { display: flex; align-items: center; gap: 1rem; padding: 1.4rem 1.5rem; color: #fff; background: radial-gradient(circle at 100% 0, rgba(255,255,255,.13), transparent 40%), linear-gradient(135deg, #451019, #761b2a); }
+        .apply-modal-mark { display: grid; width: 48px; height: 48px; flex: 0 0 48px; place-items: center; border: 1px solid rgba(255,255,255,.2); border-radius: 15px; background: rgba(255,255,255,.12); font-size: 1.1rem; }
+        .apply-modal-eyebrow { display: block; margin-bottom: .25rem; color: #f2c6cb; font-size: .67rem; font-weight: 800; letter-spacing: .13em; }
+        .apply-modal-job { color: rgba(255,255,255,.72); font-size: .87rem; line-height: 1.45; overflow-wrap: anywhere; }
+        .apply-modal .modal-body { padding: 1.4rem 1.5rem !important; }
+        .apply-modal-note { display: flex; gap: .65rem; align-items: flex-start; margin-bottom: 1.25rem; padding: .8rem .9rem; border: 1px solid #f0e1d5; border-radius: 12px; background: #fffaf5; color: #765333; font-size: .82rem; line-height: 1.45; }
+        .apply-modal-note i { margin-top: .1rem; color: #a24d3a; }
+        .apply-field { margin-bottom: 1.1rem; }
+        .apply-field .form-label { margin-bottom: .45rem; color: #263449; font-size: .83rem; font-weight: 700; }
+        .apply-modal .form-control { min-height: 45px; border: 1px solid #dce3ed; border-radius: 11px !important; box-shadow: none; }
+        .apply-modal textarea.form-control { min-height: 110px; resize: vertical; }
+        .apply-modal .form-control:focus { border-color: #8b1a28; box-shadow: 0 0 0 3px rgba(139,26,40,.1); }
+        .apply-modal .form-text { margin-top: .4rem; color: #8490a1; font-size: .75rem; }
+        .apply-modal .apply-file-input { padding: .4rem; }
+        .apply-modal .apply-file-input::file-selector-button { margin: -.4rem .7rem -.4rem -.4rem; padding: .7rem .85rem; border: 0; border-right: 1px solid #dce3ed; background: #f4f6f9; color: #344256; }
+        .apply-modal-footer { gap: .65rem; border-top: 1px solid #edf0f4; }
+        .apply-modal-footer .btn { min-height: 44px; padding-inline: 1.2rem; border-radius: 11px; font-weight: 700; }
+        .apply-modal-footer .apply-cancel-btn { border: 1px solid #dce3ed; color: #526174; }
+        .apply-modal-footer .apply-submit-btn { border: 0; background: linear-gradient(135deg, #8b1a28, #681521); box-shadow: 0 6px 15px rgba(104,21,33,.2); }
+        .apply-modal-footer .apply-submit-btn:hover { background: linear-gradient(135deg, #741622, #55111b); transform: translateY(-1px); }
+        @media (max-width: 575.98px) {
+            .apply-modal .modal-dialog { margin: .6rem; min-height: calc(100% - 1.2rem); }
+            .apply-modal .modal-content { border-radius: 18px !important; }
+            .apply-modal-header { gap: .75rem; padding: 1.1rem; }
+            .apply-modal-mark { width: 42px; height: 42px; flex-basis: 42px; border-radius: 13px; }
+            .apply-modal .modal-body { padding: 1.1rem !important; }
+            .apply-modal-footer { display: grid; grid-template-columns: 1fr 1.5fr; padding: .85rem 1.1rem !important; }
+            .apply-modal-footer .btn { padding-inline: .6rem; }
+        }
     </style>
 </head>
 <body>
 
     <!-- Header Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-modern fixed-top py-3">
+    <nav class="py-3 navbar navbar-expand-lg navbar-modern fixed-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="#">
                 <img src="{{ asset('assets/media/favicons/logo_harkatnegeri.png') }}" alt="Logo" class="me-2" style="width: 38px; height: 38px; object-fit: contain;">
                 <span class="navbar-brand-text fs-4"><span class="fw-normal">Tracer</span> <span class="fw-bold">Study TI UHN</span></span>
             </a>
-            <button class="navbar-expand-lg navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+            <button class="border-0 shadow-none navbar-expand-lg navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarContent">
-                <ul class="navbar-nav ms-auto align-items-center gap-2 mt-3 mt-lg-0">
+                <ul class="gap-2 mt-3 navbar-nav ms-auto align-items-center mt-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link fw-semibold text-dark px-3" href="#statistik">Statistik</a>
+                        <a class="px-3 nav-link fw-semibold text-dark" href="#statistik">Statistik</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link fw-semibold text-dark px-3" href="#mitra">Untuk Mitra</a>
+                        <a class="px-3 nav-link fw-semibold text-dark" href="#mitra">Untuk Mitra</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link fw-semibold text-dark px-3" href="#loker">Lowongan Kerja</a>
+                        <a class="px-3 nav-link fw-semibold text-dark" href="#loker">Lowongan Kerja</a>
                     </li>
                     @auth
                         <li class="nav-item dropdown ms-lg-2">
-                            <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="{{ Auth::user()->avatar ? asset('storage/avatars/' . Auth::user()->avatar) : asset('assets/media/avatars/avatar10.jpg') }}" alt="Avatar" class="rounded-circle border border-secondary" style="width: 38px; height: 38px; object-fit: cover;">
+                            <a class="gap-2 nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="{{ Auth::user()->avatar ? asset('storage/avatars/' . Auth::user()->avatar) : asset('assets/media/avatars/avatar10.jpg') }}" alt="Avatar" class="border rounded-circle border-secondary" style="width: 38px; height: 38px; object-fit: cover;">
                                 <span class="fw-semibold text-dark">{{ Auth::user()->username }}</span>
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 mt-2">
+                            <ul class="mt-2 border-0 shadow dropdown-menu dropdown-menu-end rounded-3">
                                 <li>
-                                    <a class="dropdown-item py-2" href="{{ route('dashboard') }}">
+                                    <a class="py-2 dropdown-item" href="{{ route('dashboard') }}">
                                         <i class="fa fa-gauge me-2 text-primary"></i> Dashboard Alumni
                                     </a>
                                 </li>
@@ -547,7 +695,7 @@
                                 <li>
                                     <form method="POST" action="{{ route('logout') }}" class="mb-0">
                                         @csrf
-                                        <button type="submit" class="dropdown-item py-2 text-danger border-0 bg-transparent w-100 text-start">
+                                        <button type="submit" class="py-2 bg-transparent border-0 dropdown-item text-danger w-100 text-start">
                                             <i class="fa fa-right-from-bracket me-2"></i> Keluar
                                         </button>
                                     </form>
@@ -556,12 +704,12 @@
                         </li>
                     @else
                         <li class="nav-item ms-lg-2">
-                            <a href="{{ route('login') }}" class="btn btn-outline-primary rounded-pill px-4 fw-bold">Masuk</a>
+                            <a href="{{ route('login') }}" class="px-4 btn btn-outline-primary rounded-pill fw-bold">Masuk</a>
                         </li>
                     @endauth
-                    
+
                     <!-- Theme Toggle Button -->
-                    <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                    <li class="mt-2 nav-item ms-lg-2 mt-lg-0">
                         <button id="theme-toggle" class="theme-toggle-btn" aria-label="Ubah Tema">
                             <i id="theme-icon" class="fa fa-moon"></i>
                         </button>
@@ -576,55 +724,54 @@
         <div class="container">
             <div class="row align-items-center g-5">
                 <div class="col-lg-6 z-1">
-                    <div class="hero-badge mb-3">
+                    <div class="mb-3 hero-badge">
                         <i class="fa fa-circle-nodes text-accent me-1 animate-pulse"></i> Integrasi Tracer Study & Bursa Kerja
                     </div>
-                    <h1 class="hero-title mb-4">Membangun Jembatan Karir <span>Masa Depan</span></h1>
-                    <p class="text-white/80 fs-5 mb-5 fw-medium" style="line-height: 1.6;">
+                    <h1 class="mb-4 hero-title">Membangun Jembatan Karir <span>Masa Depan</span></h1>
+                    <p class="mb-5 text-white/80 fs-5 fw-medium" style="line-height: 1.6;">
                         Portal Tracer Study Program Studi Teknik Informatika Universitas Harkat Negeri. Kami menghubungkan keselarasan kurikulum akademik dengan kebutuhan nyata industry kerja.
                     </p>
-                    <div class="d-flex flex-wrap gap-3">
+                    <div class="flex-wrap gap-3 d-flex">
                         @auth
-                            <a href="{{ route('dashboard') }}" class="btn btn-modern-primary shadow-lg px-4 py-3"><i class="fa fa-gauge me-2"></i> Ke Dashboard Alumni</a>
+                            <a href="{{ route('dashboard') }}" class="px-4 py-3 shadow-lg btn btn-modern-primary"><i class="fa fa-gauge me-2"></i> Ke Dashboard Alumni</a>
                         @else
-                            <a href="{{ route('login') }}" class="btn btn-modern-primary shadow-lg px-4 py-3"><i class="fa fa-right-to-bracket me-2"></i> Masuk Sebagai Alumni</a>
+                            <a href="{{ route('login') }}" class="px-4 py-3 shadow-lg btn btn-modern-primary"><i class="fa fa-right-to-bracket me-2"></i> Masuk Sebagai Alumni</a>
                         @endauth
-                        <a href="{{ route('mitra.loker.create') }}" class="btn btn-modern-outline px-4 py-3"><i class="fa fa-briefcase me-2"></i> Unggah Loker Mitra</a>
                     </div>
                 </div>
-                
+
                 <!-- Hero Visual Statistics Grid -->
                 <div class="col-lg-6 z-1">
                     <div class="row g-4">
                         <div class="col-sm-6">
-                            <div class="stat-card-glow p-4 text-center">
-                                <div class="bg-primary/20 text-indigo-200 rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 56px; height: 56px;">
-                                    <i class="fa fa-users fs-4 text-white"></i>
+                            <div class="p-4 text-center stat-card-glow">
+                                <div class="mx-auto mb-3 text-indigo-200 bg-primary/20 rounded-circle d-flex align-items-center justify-content-center" style="width: 56px; height: 56px;">
+                                    <i class="text-white fa fa-users fs-4"></i>
                                 </div>
-                                <h2 class="fw-extrabold text-white mb-1">{{ $totalAlumni }}</h2>
-                                <p class="text-white/60 small mb-0 fw-semibold text-uppercase letter-spacing-1">Total Alumni</p>
+                                <h2 class="mb-1 text-white fw-extrabold">{{ $totalAlumni }}</h2>
+                                <p class="mb-0 text-white/60 small fw-semibold text-uppercase letter-spacing-1">Total Alumni</p>
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <div class="stat-card-glow p-4 text-center">
-                                <div class="bg-success/20 text-success rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 56px; height: 56px;">
-                                    <i class="fa fa-check-circle fs-4 text-white"></i>
+                            <div class="p-4 text-center stat-card-glow">
+                                <div class="mx-auto mb-3 bg-success/20 text-success rounded-circle d-flex align-items-center justify-content-center" style="width: 56px; height: 56px;">
+                                    <i class="text-white fa fa-check-circle fs-4"></i>
                                 </div>
-                                <h2 class="fw-extrabold text-white mb-1">{{ $totalTracer }}</h2>
-                                <p class="text-white/60 small mb-0 fw-semibold text-uppercase letter-spacing-1">Alumni Terlacak</p>
+                                <h2 class="mb-1 text-white fw-extrabold">{{ $totalTracer }}</h2>
+                                <p class="mb-0 text-white/60 small fw-semibold text-uppercase letter-spacing-1">Alumni Terlacak</p>
                             </div>
                         </div>
                         <div class="col-sm-12">
-                            <div class="stat-card-glow p-4 text-center d-flex flex-column flex-md-row align-items-center justify-content-center gap-4">
+                            <div class="gap-4 p-4 text-center stat-card-glow d-flex flex-column flex-md-row align-items-center justify-content-center">
                                 <div class="position-relative d-inline-flex">
                                     <!-- Simple CSS Progress Circle -->
-                                    <div class="d-flex align-items-center justify-content-center bg-white/10 rounded-circle text-white fw-bold" style="width: 80px; height: 80px; font-size: 1.1rem; border: 4px solid var(--accent);">
+                                    <div class="text-white d-flex align-items-center justify-content-center bg-white/10 rounded-circle fw-bold" style="width: 80px; height: 80px; font-size: 1.1rem; border: 4px solid var(--accent);">
                                         {{ $workingPercentage }}%
                                     </div>
                                 </div>
-                                <div class="text-md-start text-center">
-                                    <h4 class="text-white fw-bold mb-1">Tingkat Keterserapan Industri</h4>
-                                    <p class="text-white/70 small mb-0 fw-medium">Alumni Teknik Informatika yang telah berhasil bekerja atau berwirausaha secara profesional.</p>
+                                <div class="text-center text-md-start">
+                                    <h4 class="mb-1 text-white fw-bold">Tingkat Keterserapan Industri</h4>
+                                    <p class="mb-0 text-white/70 small fw-medium">Alumni Teknik Informatika yang telah berhasil bekerja atau berwirausaha secara profesional.</p>
                                 </div>
                             </div>
                         </div>
@@ -637,64 +784,44 @@
     <!-- Info Metrics Section -->
     <section class="py-5" id="statistik">
         <div class="container py-5">
-            <div class="text-center max-w-2xl mx-auto mb-5">
+            <div class="max-w-2xl mx-auto mb-5 text-center">
                 <span class="section-tag">Statistik Karir</span>
                 <h2 class="section-title">Hasil Penelusuran Alumni</h2>
-                <p class="text-muted fw-medium mt-2">Gambaran sebaran profesional karir alumni Teknik Informatika Universitas Harkat Negeri.</p>
+                <p class="mt-2 text-muted fw-medium">Gambaran sebaran profesional karir alumni Teknik Informatika Universitas Harkat Negeri.</p>
             </div>
-            
+
             <div class="row g-4 justify-content-center">
                 <!-- Card Bekerja -->
                 <div class="col-md-4 col-sm-6">
-                    <div class="feature-card p-4 text-center h-100">
-                        <div class="icon-box-primary mx-auto mb-3" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+                    <div class="p-4 text-center feature-card h-100">
+                        <div class="mx-auto mb-3 icon-box-primary" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
                             <i class="fa fa-briefcase"></i>
                         </div>
-                        <h3 class="fw-bold text-dark mb-1">{{ $employed }}</h3>
-                        <h5 class="fw-semibold text-muted mb-2">Bekerja Profesional</h5>
-                        <p class="text-muted small mb-0">Alumni yang bekerja sebagai staf IT, engineer, manager, atau profesional di perusahaan nasional & global.</p>
+                        <h3 class="mb-1 fw-bold text-dark">{{ $employed }}</h3>
+                        <h5 class="mb-2 fw-semibold text-muted">Bekerja Profesional</h5>
+                        <p class="mb-0 text-muted small">Alumni yang bekerja sebagai staf IT, engineer, manager, atau profesional di perusahaan nasional & global.</p>
                     </div>
                 </div>
                 <!-- Card Wirausaha -->
                 <div class="col-md-4 col-sm-6">
-                    <div class="feature-card p-4 text-center h-100">
-                        <div class="icon-box-primary mx-auto mb-3" style="background: rgba(6, 182, 212, 0.1); color: #06b6d4;">
+                    <div class="p-4 text-center feature-card h-100">
+                        <div class="mx-auto mb-3 icon-box-primary" style="background: rgba(6, 182, 212, 0.1); color: #06b6d4;">
                             <i class="fa fa-lightbulb"></i>
                         </div>
-                        <h3 class="fw-bold text-dark mb-1">{{ $entrepreneur }}</h3>
-                        <h5 class="fw-semibold text-muted mb-2">Wirausaha / Startup</h5>
-                        <p class="text-muted small mb-0">Alumni yang mendirikan unit usaha sendiri, konsultan IT, startup teknologi, atau agensi kreatif digital.</p>
+                        <h3 class="mb-1 fw-bold text-dark">{{ $entrepreneur }}</h3>
+                        <h5 class="mb-2 fw-semibold text-muted">Wirausaha / Startup</h5>
+                        <p class="mb-0 text-muted small">Alumni yang mendirikan unit usaha sendiri, konsultan IT, startup teknologi, atau agensi kreatif digital.</p>
                     </div>
                 </div>
                 <!-- Card Lanjut Studi -->
                 <div class="col-md-4 col-sm-6">
-                    <div class="feature-card p-4 text-center h-100">
-                        <div class="icon-box-primary mx-auto mb-3">
+                    <div class="p-4 text-center feature-card h-100">
+                        <div class="mx-auto mb-3 icon-box-primary">
                             <i class="fa fa-book-open"></i>
                         </div>
-                        <h3 class="fw-bold text-dark mb-1">{{ $continuing }}</h3>
-                        <h5 class="fw-semibold text-muted mb-2">Melanjutkan Pendidikan</h5>
-                        <p class="text-muted small mb-0">Alumni yang menempuh pendidikan Master (S2) baik di dalam negeri maupun universitas luar negeri.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Partner CTA Card Section -->
-    <section class="pb-5" id="mitra">
-        <div class="container">
-            <div class="partner-cta-section p-4 p-md-5 shadow-lg">
-                <div class="row align-items-center g-4">
-                    <div class="col-lg-8">
-                        <div class="badge bg-white/20 text-white rounded-pill px-3 py-1 mb-3 fw-bold fs-xs text-uppercase letter-spacing-1">Kolaborasi Industri</div>
-                        <h2 class="fw-extrabold text-white mb-3 fs-1">Bagi Perusahaan Mitra & Atasan Alumni</h2>
-                        <p class="text-white/80 fs-5 mb-0 fw-medium">
-                            Bantu kami menyelaraskan kualitas pembelajaran kurikulum dengan mengisi survei kepuasan atasan. Dapatkan juga akses langsung membagikan lowongan pekerjaan kepada talenta terbaik program studi kami.
-                        </p>
-                    </div>
-                    <div class="col-lg-4 text-lg-end">
-                        <a href="{{ route('mitra.loker.create') }}" class="btn btn-light text-primary rounded-pill px-4 py-3 fw-extrabold shadow-sm"><i class="fa fa-plus-circle me-1"></i> Mulai Posting Loker</a>
+                        <h3 class="mb-1 fw-bold text-dark">{{ $continuing }}</h3>
+                        <h5 class="mb-2 fw-semibold text-muted">Melanjutkan Pendidikan</h5>
+                        <p class="mb-0 text-muted small">Alumni yang menempuh pendidikan Master (S2) baik di dalam negeri maupun universitas luar negeri.</p>
                     </div>
                 </div>
             </div>
@@ -704,50 +831,52 @@
     <!-- Recent Jobs Board -->
     <section class="py-5" id="loker">
         <div class="container py-4">
-            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-5 border-bottom pb-4">
+            <div class="pb-4 mb-5 d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center border-bottom">
                 <div>
                     <span class="section-tag">Bursa Karir</span>
                     <h2 class="section-title">Lowongan Kerja Terbaru</h2>
-                    <p class="text-muted fw-medium mb-0">Raih kesempatan berkarir di berbagai perusahaan mitra terbaik kami.</p>
+                    <p class="mb-0 text-muted fw-medium">Raih kesempatan berkarir di berbagai perusahaan mitra terbaik kami.</p>
                 </div>
                 @auth
-                    <a href="{{ route('alumni.loker.index') }}" class="btn btn-outline-primary rounded-pill px-4 mt-3 mt-md-0 fw-bold">Riwayat Lamaran Saya <i class="fa fa-arrow-right ms-1"></i></a>
+                    @if(auth()->user()->role === 'alumni')
+                        <a href="{{ route('alumni.loker.index') }}" class="px-4 mt-3 btn btn-outline-primary rounded-pill mt-md-0 fw-bold">Riwayat Lamaran Saya <i class="fa fa-arrow-right ms-1"></i></a>
+                    @endif
                 @else
-                    <a href="{{ route('login') }}" class="btn btn-outline-primary rounded-pill px-4 mt-3 mt-md-0 fw-bold">Masuk untuk Melamar <i class="fa fa-arrow-right ms-1"></i></a>
+                    <a href="{{ route('login') }}" class="px-4 mt-3 btn btn-outline-primary rounded-pill mt-md-0 fw-bold">Masuk untuk Melamar <i class="fa fa-arrow-right ms-1"></i></a>
                 @endauth
             </div>
 
             <div class="row g-4">
                 @forelse($recentJobs as $job)
                     <div class="col-lg-4 col-md-6">
-                        <div class="job-card p-4 d-flex flex-column justify-content-between h-100">
+                        <div class="p-4 job-card d-flex flex-column justify-content-between h-100">
                             <div>
-                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                <div class="mb-3 d-flex align-items-center justify-content-between">
                                     <span class="badge bg-primary-light text-primary rounded-pill px-2.5 py-1.5 fs-xs fw-bold">{{ $job->category }}</span>
                                     <small class="text-muted"><i class="fa fa-calendar-alt me-1"></i> {{ $job->created_at->diffForHumans() }}</small>
                                 </div>
-                                <h4 class="fw-bold text-dark mb-1">{{ $job->position }}</h4>
-                                <h6 class="text-muted fw-semibold mb-3"><i class="fa fa-building me-1"></i> {{ $job->company_name }}</h6>
-                                
-                                <div class="d-flex flex-wrap gap-3 mb-4 text-muted small">
+                                <h4 class="mb-1 fw-bold text-dark">{{ $job->position }}</h4>
+                                <h6 class="mb-3 text-muted fw-semibold"><i class="fa fa-building me-1"></i> {{ $job->company_name }}</h6>
+
+                                <div class="flex-wrap gap-3 mb-4 d-flex text-muted small">
                                     <span><i class="fa fa-map-marker-alt text-danger me-1"></i> {{ $job->location }}</span>
                                     @if($job->salary_range)
                                         <span><i class="fa fa-money-bill-wave text-success me-1"></i> {{ $job->salary_range }}</span>
                                     @endif
                                 </div>
                             </div>
-                            
-                            <div class="d-flex gap-2">
-                                <button class="btn btn-outline-secondary btn-sm rounded-pill px-3 fw-semibold btn-detail-landing" data-id="{{ $job->id }}">
+
+                            <div class="gap-2 d-flex">
+                                <button class="px-3 btn btn-outline-secondary btn-sm rounded-pill fw-semibold btn-detail-landing" data-id="{{ $job->id }}">
                                     <i class="fa fa-eye me-1"></i> Detail
                                 </button>
                                 @auth
                                     @if(in_array($job->id, $appliedJobIds ?? []))
-                                        <button class="btn btn-light btn-sm rounded-pill py-2 flex-grow-1 fw-bold border text-success" disabled>
+                                        <button class="py-2 border btn btn-light btn-sm rounded-pill flex-grow-1 fw-bold text-success" disabled>
                                             <i class="fa fa-check-circle me-1"></i> Sudah Dilamar
                                         </button>
                                     @else
-                                        <button class="btn btn-primary btn-sm rounded-pill py-2 flex-grow-1 fw-bold btn-apply-landing"
+                                        <button class="py-2 btn btn-primary btn-sm rounded-pill flex-grow-1 fw-bold btn-apply-landing"
                                             data-id="{{ $job->id }}"
                                             data-position="{{ $job->position }}"
                                             data-company="{{ $job->company_name }}">
@@ -755,16 +884,16 @@
                                         </button>
                                     @endif
                                 @else
-                                    <a href="{{ route('login') }}" class="btn btn-light btn-sm rounded-pill py-2 flex-grow-1 fw-bold border text-primary text-center">Lamar</a>
+                                    <a href="{{ route('login') }}" class="py-2 text-center border btn btn-light btn-sm rounded-pill flex-grow-1 fw-bold text-primary">Lamar</a>
                                 @endauth
                             </div>
                         </div>
                     </div>
                 @empty
-                    <div class="col-12 text-center py-5">
+                    <div class="py-5 text-center col-12">
                         <div class="text-muted">
-                            <i class="fa fa-briefcase fs-1 mb-3"></i>
-                            <p class="fw-semibold mb-0">Belum ada lowongan pekerjaan aktif saat ini.</p>
+                            <i class="mb-3 fa fa-briefcase fs-1"></i>
+                            <p class="mb-0 fw-semibold">Belum ada lowongan pekerjaan aktif saat ini.</p>
                         </div>
                     </div>
                 @endforelse
@@ -774,49 +903,46 @@
 
     @auth
     <!-- Apply Job Modal -->
-    <div class="modal fade" id="modalApplyJob" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 rounded-4 overflow-hidden">
-                <div class="modal-header bg-dark text-white border-0 p-4">
-                    <div>
-                        <h5 class="modal-title fw-bold text-white mb-1">Lamar Posisi</h5>
-                        <p class="mb-0 text-white-50 fs-sm" id="apply-job-info">-</p>
+    <div class="modal fade apply-modal" id="modalApplyJob" tabindex="-1" aria-labelledby="apply-modal-title" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="overflow-hidden border-0 shadow-lg modal-content rounded-4">
+                <div class="apply-modal-header">
+                    <div class="apply-modal-mark"><i class="fa fa-paper-plane"></i></div>
+                    <div class="min-w-0 flex-grow-1">
+                        <span class="apply-modal-eyebrow">LAMARAN KERJA</span>
+                        <h5 class="mb-1 text-white modal-title fw-bold" id="apply-modal-title">Kirim Lamaran</h5>
+                        <p class="mb-0 apply-modal-job" id="apply-job-info">-</p>
                     </div>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Tutup"></button>
                 </div>
-                <div class="modal-body p-4 text-start">
+                <div class="p-4 modal-body text-start">
                     <input type="hidden" id="apply-job-id">
-                    
-                    <div class="mb-3">
-                        <label class="form-label fw-bold text-muted small text-uppercase">Nomor WhatsApp / Telepon Aktif <span class="text-danger">*</span></label>
-                        <input type="text" id="apply-phone" class="form-control" placeholder="Contoh: 081234567890" required style="border-radius: 12px;" value="{{ Auth::check() && Auth::user()->alumni ? Auth::user()->alumni->no_hp : '' }}">
-                        <div class="form-text">Nomor telepon yang bisa dihubungi oleh perusahaan.</div>
-                    </div>
+                    <div class="apply-modal-note"><i class="fa fa-shield-alt"></i><span>Pastikan informasi kontak dan CV Anda sudah benar sebelum mengirim.</span></div>
 
-                    <div class="mb-3">
-                        <label class="form-label fw-bold text-muted small text-uppercase">Gaji yang Diharapkan (Opsional)</label>
-                        <input type="text" id="apply-expected-salary" class="form-control" placeholder="Contoh: Rp 5.000.000" style="border-radius: 12px;">
+                    <div class="apply-field">
+                        <label for="apply-phone" class="form-label">Nomor WhatsApp / Telepon <span class="text-danger">*</span></label>
+                        <input type="text" id="apply-phone" class="form-control" placeholder="Contoh: 081234567890" required value="{{ Auth::check() && Auth::user()->alumni ? Auth::user()->alumni->no_hp : '' }}">
+                        <div class="form-text">Nomor aktif yang dapat dihubungi perusahaan.</div>
+                    </div>
+                    <div class="apply-field">
+                        <label for="apply-expected-salary" class="form-label">Gaji yang Diharapkan <span class="text-muted fw-normal">(Opsional)</span></label>
+                        <input type="text" id="apply-expected-salary" class="form-control" placeholder="Contoh: Rp 5.000.000">
                         <div class="form-text">Masukkan perkiraan atau rentang gaji yang Anda harapkan.</div>
                     </div>
-
-                    <div class="mb-3">
-                        <label class="form-label fw-bold text-muted small text-uppercase">Unggah CV / Resume <span class="text-danger">*</span></label>
-                        <input type="file" id="apply-cv" class="form-control" accept=".pdf,.doc,.docx" required style="border-radius: 12px;">
-                        <div class="form-text">Format yang diperbolehkan: PDF, DOC, DOCX. Maksimal 2MB.</div>
+                    <div class="apply-field">
+                        <label for="apply-cv" class="form-label">CV / Resume <span class="text-danger">*</span></label>
+                        <input type="file" id="apply-cv" class="form-control apply-file-input" accept=".pdf,.doc,.docx" required>
+                        <div class="form-text">PDF, DOC, atau DOCX · Maksimal 2 MB.</div>
                     </div>
-
-                    <div class="mb-3">
-                        <label class="form-label fw-bold text-muted small text-uppercase">Pesan Singkat / Cover Letter (Opsional)</label>
-                        <textarea id="apply-cover-letter" class="form-control" rows="4" maxlength="1000"
-                            placeholder="Tuliskan pesan singkat atau motivasi Anda melamar posisi ini..." style="border-radius: 12px;"></textarea>
-                        <div class="form-text">Maksimal 1000 karakter</div>
+                    <div class="mb-0 apply-field">
+                        <label for="apply-cover-letter" class="form-label">Pesan Pengantar <span class="text-muted fw-normal">(Opsional)</span></label>
+                        <textarea id="apply-cover-letter" class="form-control" rows="4" maxlength="1000" placeholder="Ceritakan secara singkat alasan Anda tertarik dengan posisi ini..."></textarea>
+                        <div class="form-text d-flex justify-content-between"><span>Tambahkan pesan untuk perekrut.</span><span>Maks. 1000 karakter</span></div>
                     </div>
                 </div>
-                <div class="modal-footer border-0 p-3">
-                    <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Batal</button>
-                    <button type="button" class="btn btn-primary rounded-pill px-4 fw-bold" id="btn-submit-apply">
-                        <i class="fa fa-paper-plane me-1"></i> Kirim Lamaran
-                    </button>
+                <div class="px-4 py-3 modal-footer apply-modal-footer">
+                    <button type="button" class="btn btn-light apply-cancel-btn" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary apply-submit-btn" id="btn-submit-apply"><i class="fa fa-paper-plane me-2"></i>Kirim Lamaran</button>
                 </div>
             </div>
         </div>
@@ -828,36 +954,36 @@
     {{-- Tampil ketika alumni yang belum isi kuesioner klik tombol Lamar --}}
     <div class="modal fade" id="modalTracerGate" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 rounded-4 overflow-hidden shadow-xl">
-                <div class="modal-header border-0 p-0">
-                    <div class="w-100 text-center p-4" style="background: linear-gradient(135deg, #5a121b 0%, #8b1a28 100%);">
-                        <div class="d-flex align-items-center justify-content-center mb-3" style="width: 72px; height: 72px; background: rgba(255,255,255,0.15); border-radius: 50%; margin: 0 auto;">
-                            <i class="fa fa-clipboard-list text-white" style="font-size: 2rem;"></i>
+            <div class="overflow-hidden border-0 shadow-xl modal-content rounded-4">
+                <div class="p-0 border-0 modal-header">
+                    <div class="p-4 text-center w-100" style="background: linear-gradient(135deg, #5a121b 0%, #8b1a28 100%);">
+                        <div class="mb-3 d-flex align-items-center justify-content-center" style="width: 72px; height: 72px; background: rgba(255,255,255,0.15); border-radius: 50%; margin: 0 auto;">
+                            <i class="text-white fa fa-clipboard-list" style="font-size: 2rem;"></i>
                         </div>
-                        <h5 class="fw-extrabold text-white mb-1">Satu Langkah Lagi!</h5>
-                        <p class="text-white-50 mb-0 fs-sm">Lengkapi profil Tracer Study Anda</p>
+                        <h5 class="mb-1 text-white fw-extrabold">Satu Langkah Lagi!</h5>
+                        <p class="mb-0 text-white-50 fs-sm">Lengkapi profil Tracer Study Anda</p>
                     </div>
                 </div>
-                <div class="modal-body p-4 text-center">
-                    <p class="fw-semibold text-dark mb-2">Untuk dapat melamar lowongan kerja,</p>
-                    <p class="text-muted mb-4">
+                <div class="p-4 text-center modal-body">
+                    <p class="mb-2 fw-semibold text-dark">Untuk dapat melamar lowongan kerja,</p>
+                    <p class="mb-4 text-muted">
                         Anda perlu mengisi <strong>Kuesioner Tracer Study</strong> terlebih dahulu.<br>
                         Hanya membutuhkan <strong>±5 menit</strong> dan membantu kampus
                         meningkatkan kualitas pendidikan untuk adik angkatan Anda.
                     </p>
-                    <div class="d-flex align-items-center gap-3 p-3 rounded-3 mb-4 text-start" style="background: rgba(90, 18, 27, 0.06); border: 1px solid rgba(90, 18, 27, 0.12);">
-                        <i class="fa fa-circle-check text-success fs-4 flex-shrink-0"></i>
+                    <div class="gap-3 p-3 mb-4 d-flex align-items-center rounded-3 text-start" style="background: rgba(90, 18, 27, 0.06); border: 1px solid rgba(90, 18, 27, 0.12);">
+                        <i class="flex-shrink-0 fa fa-circle-check text-success fs-4"></i>
                         <div>
                             <div class="fw-bold text-dark small">Setelah mengisi, Anda bisa:</div>
                             <div class="text-muted small">Melamar semua lowongan yang tersedia di platform ini</div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer border-0 pt-0 px-4 pb-4 d-flex gap-2">
-                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4 flex-fill" data-bs-dismiss="modal">
+                <div class="gap-2 px-4 pt-0 pb-4 border-0 modal-footer d-flex">
+                    <button type="button" class="px-4 btn btn-outline-secondary rounded-pill flex-fill" data-bs-dismiss="modal">
                         Nanti Saja
                     </button>
-                    <a href="{{ route('new-tracer.index') }}" class="btn btn-primary rounded-pill px-4 fw-bold flex-fill" style="background: #5a121b; border-color: #5a121b;">
+                    <a href="{{ route('new-tracer.index') }}" class="px-4 btn btn-primary rounded-pill fw-bold flex-fill" style="background: #5a121b; border-color: #5a121b;">
                         <i class="fa fa-pencil-alt me-1"></i> Isi Sekarang
                     </a>
                 </div>
@@ -869,74 +995,74 @@
     <!-- Job Detail Modal (Landing) -->
     <div class="modal fade" id="modalJobDetail" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content border-0 rounded-4 overflow-hidden shadow-lg">
-                <div class="modal-header bg-dark text-white border-0 p-4">
-                    <div class="d-flex align-items-center gap-3">
+            <div class="overflow-hidden border-0 shadow-lg modal-content rounded-4">
+                <div class="p-4 text-white border-0 modal-header bg-dark">
+                    <div class="gap-3 d-flex align-items-center">
                         <div id="detail-company-logo-container"></div>
                         <div>
-                            <h5 class="modal-title fw-bold text-white mb-1" id="detail-job-position">-</h5>
+                            <h5 class="mb-1 text-white modal-title fw-bold" id="detail-job-position">-</h5>
                             <p class="mb-0 text-white-50 fs-sm" id="detail-company-name">-</p>
                         </div>
                     </div>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-body p-4 bg-light/30">
+                <div class="p-4 modal-body bg-light/30">
                     <div class="row g-3">
                         <div class="col-md-4">
-                            <div class="p-3 bg-white border border-light shadow-xs rounded-3">
-                                <span class="text-muted text-uppercase fw-bold d-block mb-1" style="font-size: 0.65rem;">Kategori Bidang</span>
+                            <div class="p-3 bg-white border shadow-xs border-light rounded-3">
+                                <span class="mb-1 text-muted text-uppercase fw-bold d-block" style="font-size: 0.65rem;">Kategori Bidang</span>
                                 <span class="fw-bold text-dark" id="detail-job-category">-</span>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="p-3 bg-white border border-light shadow-xs rounded-3">
-                                <span class="text-muted text-uppercase fw-bold d-block mb-1" style="font-size: 0.65rem;">Lokasi</span>
+                            <div class="p-3 bg-white border shadow-xs border-light rounded-3">
+                                <span class="mb-1 text-muted text-uppercase fw-bold d-block" style="font-size: 0.65rem;">Lokasi</span>
                                 <span class="fw-bold text-dark" id="detail-job-location">-</span>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="p-3 bg-white border border-light shadow-xs rounded-3">
-                                <span class="text-muted text-uppercase fw-bold d-block mb-1" style="font-size: 0.65rem;">Gaji</span>
+                            <div class="p-3 bg-white border shadow-xs border-light rounded-3">
+                                <span class="mb-1 text-muted text-uppercase fw-bold d-block" style="font-size: 0.65rem;">Gaji</span>
                                 <span class="fw-bold text-dark" id="detail-job-salary">-</span>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="p-3 bg-white border border-light shadow-xs rounded-3">
-                                <span class="text-muted text-uppercase fw-bold d-block mb-1" style="font-size: 0.65rem;">Email Pendaftaran</span>
+                            <div class="p-3 bg-white border shadow-xs border-light rounded-3">
+                                <span class="mb-1 text-muted text-uppercase fw-bold d-block" style="font-size: 0.65rem;">Email Pendaftaran</span>
                                 <span class="fw-bold text-dark" id="detail-job-contact-email">-</span>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="p-3 bg-white border border-light shadow-xs rounded-3">
-                                <span class="text-muted text-uppercase fw-bold d-block mb-1" style="font-size: 0.65rem;">Link Pendaftaran</span>
+                            <div class="p-3 bg-white border shadow-xs border-light rounded-3">
+                                <span class="mb-1 text-muted text-uppercase fw-bold d-block" style="font-size: 0.65rem;">Link Pendaftaran</span>
                                 <span class="fw-bold text-dark" id="detail-job-contact-link">-</span>
                             </div>
                         </div>
 
                         <div class="col-12">
-                            <div class="p-3 bg-white border border-light shadow-xs rounded-3">
-                                <span class="text-muted text-uppercase fw-bold d-block mb-2" style="font-size: 0.65rem;">Deskripsi Pekerjaan</span>
+                            <div class="p-3 bg-white border shadow-xs border-light rounded-3">
+                                <span class="mb-2 text-muted text-uppercase fw-bold d-block" style="font-size: 0.65rem;">Deskripsi Pekerjaan</span>
                                 <div class="text-dark fs-sm" id="detail-job-description" style="white-space: pre-line; line-height: 1.6;">-</div>
                             </div>
                         </div>
 
                         <div class="col-12">
-                            <div class="p-3 bg-white border border-light shadow-xs rounded-3">
-                                <span class="text-muted text-uppercase fw-bold d-block mb-2" style="font-size: 0.65rem;">Kualifikasi / Persyaratan</span>
+                            <div class="p-3 bg-white border shadow-xs border-light rounded-3">
+                                <span class="mb-2 text-muted text-uppercase fw-bold d-block" style="font-size: 0.65rem;">Kualifikasi / Persyaratan</span>
                                 <div class="text-dark fs-sm" id="detail-job-requirements" style="white-space: pre-line; line-height: 1.6;">-</div>
                             </div>
                         </div>
 
                         <!-- Poster display -->
                         <div class="col-12" id="detail-poster-container" style="display: none;">
-                            <div class="p-3 bg-white border border-light shadow-xs rounded-3 text-center">
-                                <span class="text-muted text-uppercase fw-bold d-block mb-2 text-start" style="font-size: 0.65rem;">Poster / Brosur Lowongan</span>
-                                
+                            <div class="p-3 text-center bg-white border shadow-xs border-light rounded-3">
+                                <span class="mb-2 text-muted text-uppercase fw-bold d-block text-start" style="font-size: 0.65rem;">Poster / Brosur Lowongan</span>
+
                                 <div id="carouselLandingPosters" class="carousel slide carousel-dark" data-bs-ride="carousel">
                                     <div class="carousel-indicators" id="carousel-landing-indicators">
                                         <!-- Indicators populated by JS -->
                                     </div>
-                                    <div class="carousel-inner rounded-3 shadow-sm bg-light" id="carousel-landing-inner" style="max-height: 480px;">
+                                    <div class="shadow-sm carousel-inner rounded-3 bg-light" id="carousel-landing-inner" style="max-height: 480px;">
                                         <!-- Slides populated by JS -->
                                     </div>
                                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselLandingPosters" data-bs-slide="prev">
@@ -952,8 +1078,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer border-0 p-3 bg-light/50">
-                    <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Tutup</button>
+                <div class="p-3 border-0 modal-footer bg-light/50">
+                    <button type="button" class="px-4 btn btn-secondary rounded-pill" data-bs-dismiss="modal">Tutup</button>
                     <div id="detail-action-container">
                         <!-- Action button populated dynamically by JS -->
                     </div>
@@ -1029,7 +1155,7 @@
         document.querySelectorAll('.btn-detail-landing').forEach(function(btn) {
             btn.addEventListener('click', function() {
                 var jobId = this.dataset.id;
-                
+
                 fetch('/alumni/loker/' + jobId)
                     .then(function(res) { return res.json(); })
                     .then(function(job) {
@@ -1051,7 +1177,7 @@
                         // Logo
                         var logoContainer = document.getElementById('detail-company-logo-container');
                         if (job.logo_path) {
-                            logoContainer.innerHTML = '<img src="' + job.logo_path + '" alt="Logo" class="rounded-3 shadow-xs" style="width: 48px; height: 48px; object-fit: cover;">';
+                            logoContainer.innerHTML = '<img src="' + job.logo_path + '" alt="Logo" class="shadow-xs rounded-3" style="width: 48px; height: 48px; object-fit: cover;">';
                         } else {
                             logoContainer.innerHTML = '<div class="bg-primary-light text-primary rounded-3 fw-bold d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; font-size: 1.1rem;">' + job.company_name.substring(0, 2).toUpperCase() + '</div>';
                         }
@@ -1060,7 +1186,7 @@
                         var posterContainer = document.getElementById('detail-poster-container');
                         var indicators = document.getElementById('carousel-landing-indicators');
                         var inner = document.getElementById('carousel-landing-inner');
-                        
+
                         indicators.innerHTML = '';
                         inner.innerHTML = '';
 
@@ -1069,18 +1195,18 @@
                             posters.forEach(function(path, index) {
                                 var activeClass = index === 0 ? 'active' : '';
                                 var ariaCurrent = index === 0 ? 'aria-current="true"' : '';
-                                
+
                                 indicators.innerHTML += '<button type="button" data-bs-target="#carouselLandingPosters" data-bs-slide-to="' + index + '" class="' + activeClass + '" ' + ariaCurrent + ' aria-label="Slide ' + (index + 1) + '"></button>';
-                                
-                                inner.innerHTML += 
+
+                                inner.innerHTML +=
                                     '<div class="carousel-item ' + activeClass + '">' +
-                                        '<img src="' + path + '" class="d-block w-100 rounded-3 shadow-sm" style="max-height: 450px; object-fit: contain;" alt="Poster Lowongan">' +
+                                        '<img src="' + path + '" class="shadow-sm d-block w-100 rounded-3" style="max-height: 450px; object-fit: contain;" alt="Poster Lowongan">' +
                                     '</div>';
                             });
 
                             var prevControl = document.querySelector('#carouselLandingPosters .carousel-control-prev');
                             var nextControl = document.querySelector('#carouselLandingPosters .carousel-control-next');
-                            
+
                             if (posters.length <= 1) {
                                 indicators.style.display = 'none';
                                 if (prevControl) prevControl.style.display = 'none';
@@ -1092,7 +1218,7 @@
                             }
 
                             posterContainer.style.display = 'block';
-                            
+
                             var carouselEl = document.getElementById('carouselLandingPosters');
                             var carousel = bootstrap.Carousel.getOrCreateInstance(carouselEl);
                             carousel.to(0);
@@ -1103,11 +1229,11 @@
                         // Action Button in detail modal
                         var actionContainer = document.getElementById('detail-action-container');
                         if (!isAuthenticated) {
-                            actionContainer.innerHTML = '<a href="/login" class="btn btn-primary rounded-pill px-4 fw-bold">Masuk untuk Melamar <i class="fa fa-arrow-right ms-1"></i></a>';
+                            actionContainer.innerHTML = '<a href="/login" class="px-4 btn btn-primary rounded-pill fw-bold">Masuk untuk Melamar <i class="fa fa-arrow-right ms-1"></i></a>';
                         } else if (job.already_applied) {
-                            actionContainer.innerHTML = '<button class="btn btn-light rounded-pill px-4 fw-bold border text-success" disabled><i class="fa fa-check-circle me-1"></i> Sudah Dilamar</button>';
+                            actionContainer.innerHTML = '<button class="px-4 border btn btn-light rounded-pill fw-bold text-success" disabled><i class="fa fa-check-circle me-1"></i> Sudah Dilamar</button>';
                         } else {
-                            actionContainer.innerHTML = '<button class="btn btn-primary rounded-pill px-4 fw-bold btn-apply-from-detail" data-id="' + job.id + '" data-position="' + job.position + '" data-company="' + job.company_name + '"><i class="fa fa-paper-plane me-1"></i> Lamar Sekarang</button>';
+                            actionContainer.innerHTML = '<button class="px-4 btn btn-primary rounded-pill fw-bold btn-apply-from-detail" data-id="' + job.id + '" data-position="' + job.position + '" data-company="' + job.company_name + '"><i class="fa fa-paper-plane me-1"></i> Lamar Sekarang</button>';
 
                             // Bind click event for the dynamically generated button
                             actionContainer.querySelector('.btn-apply-from-detail').addEventListener('click', function() {
@@ -1159,7 +1285,7 @@
             var phone = document.getElementById('apply-phone').value.trim();
             var expectedSalary = document.getElementById('apply-expected-salary').value.trim();
             var cvInput = document.getElementById('apply-cv');
-            
+
             if (!phone) {
                 Swal.fire({
                     icon: 'warning',
@@ -1212,7 +1338,7 @@
             .then(function(data) {
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fa fa-paper-plane me-1"></i> Kirim Lamaran';
-                
+
                 var modalEl = document.getElementById('modalApplyJob');
                 var applyModalInstance = bootstrap.Modal.getInstance(modalEl);
                 if (applyModalInstance) {
@@ -1223,9 +1349,9 @@
                     // Update button to "Sudah Dilamar" on the card
                     var applyBtn = document.querySelector('.btn-apply-landing[data-id="' + jobId + '"]');
                     if (applyBtn) {
-                        applyBtn.outerHTML = '<button class="btn btn-light btn-sm rounded-pill py-2 flex-grow-1 fw-bold border text-success" disabled><i class="fa fa-check-circle me-1"></i> Sudah Dilamar</button>';
+                        applyBtn.outerHTML = '<button class="py-2 border btn btn-light btn-sm rounded-pill flex-grow-1 fw-bold text-success" disabled><i class="fa fa-check-circle me-1"></i> Sudah Dilamar</button>';
                     }
-                    
+
                     Swal.fire({
                         icon: 'success',
                         title: 'Berhasil!',
@@ -1262,7 +1388,7 @@
     </script>
 
     <!-- Footer -->
-    <footer class="footer-uhn py-5 mt-5">
+    <footer class="py-5 mt-5 footer-uhn">
         <div class="container">
             <div class="row g-4 justify-content-between">
                 <div class="col-lg-5">
@@ -1273,14 +1399,14 @@
                 </div>
                 <div class="col-lg-4 text-lg-end">
                     <h5 class="mb-3">Hubungi Kami</h5>
-                    <p class="text-muted-uhn small mb-1"><i class="fa fa-envelope me-2"></i> info@harkatnegeri.ac.id</p>
+                    <p class="mb-1 text-muted-uhn small"><i class="fa fa-envelope me-2"></i> info@harkatnegeri.ac.id</p>
                     <p class="text-muted-uhn small"><i class="fa fa-map-marker-alt me-2"></i> Kampus Terpadu Univ Harkat Negeri</p>
                 </div>
             </div>
             <hr class="my-4">
             <div class="row align-items-center justify-content-between">
-                <div class="col-md-6 text-center text-md-start">
-                    <p class="small text-muted-uhn mb-0">&copy; 2026 Universitas Harkat Negeri. Hak Cipta Dilindungi.</p>
+                <div class="text-center col-md-6 text-md-start">
+                    <p class="mb-0 small text-muted-uhn">&copy; 2026 Universitas Harkat Negeri. Hak Cipta Dilindungi.</p>
                 </div>
             </div>
         </div>

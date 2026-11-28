@@ -1,68 +1,82 @@
 @extends('layouts.admin')
 
 @section('content')
-    <!-- Hero -->
-    <div class="bg-white">
-        <div class="content content-full">
-            <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center py-2">
-                <div class="flex-grow-1">
-                    <h1 class="h3 fw-bold mb-2">
-                        <span class="bg-warning-light p-2 rounded-3 me-2">
-                            <i class="fa fa-pencil-alt text-warning"></i>
-                        </span>
-                        Edit Lowongan Kerja
-                    </h1>
-                    <p class="fs-sm fw-medium text-muted mb-0">
-                        Perbarui informasi lowongan pekerjaan. Perubahan akan langsung aktif.
-                    </p>
-                </div>
-                <nav class="flex-shrink-0 mt-3 mt-sm-0 ms-sm-3" aria-label="breadcrumb">
-                    <ol class="breadcrumb breadcrumb-alt">
-                        <li class="breadcrumb-item">
-                            <a class="link-fx" href="{{ route('admin.dashboard') }}">Dashboard</a>
-                        </li>
-                        <li class="breadcrumb-item">
-                            <a class="link-fx" href="{{ route('admin.loker.index') }}">Kelola Loker</a>
-                        </li>
-                        <li class="breadcrumb-item active" aria-current="page">Edit Loker</li>
-                    </ol>
-                </nav>
-            </div>
+    <style>
+        .loker-edit-page { max-width: 1440px; margin-inline: auto; }
+        .loker-edit-form-card { max-width: 1080px; margin: 0 auto 2rem; }
+        .loker-edit-card-header { flex-wrap: wrap; gap: 1rem; }
+        .loker-edit-form-card .akila-form-section { padding: clamp(1rem, 2.4vw, 1.5rem); }
+        .loker-edit-form-card .form-control, .loker-edit-form-card .form-select { min-width: 0; min-height: 46px; border-color: #dce3ed; border-radius: 10px; box-shadow: none; }
+        .loker-edit-form-card textarea.form-control { min-height: auto; }
+        .loker-edit-form-card .form-control:focus, .loker-edit-form-card .form-select:focus { border-color: #5478a8; box-shadow: 0 0 0 3px rgba(84, 120, 168, .13); }
+        .loker-edit-form-card .form-label { margin-bottom: .5rem; color: #475569 !important; }
+        .loker-edit-form-card #poster-dropzone { min-height: 135px; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 14px !important; background: #f8fafc !important; }
+        .loker-edit-form-card .form-control[type=file] { padding: .45rem; }
+        .loker-edit-form-card .form-control[type=file]::file-selector-button { margin: -.45rem .75rem -.45rem -.45rem; padding: .7rem .85rem; border: 0; border-right: 1px solid #dce3ed; background: #f1f5f9; color: #334155; }
+        .loker-edit-form-card .btn-primary, .loker-edit-form-card .btn-alt-secondary, .loker-edit-form-card .btn-akila-outline { min-height: 44px; padding: .7rem 1.1rem; border-radius: 11px; font-weight: 700; transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease; }
+        .loker-edit-form-card .akila-form-footer { display: flex; justify-content: flex-end; align-items: center; gap: .75rem; margin-top: 1.25rem; padding: 1rem clamp(1rem, 2.4vw, 1.5rem); border-top: 1px solid #e8edf4; }
+        .loker-edit-form-card .akila-form-footer .btn-primary { border: 0; background: linear-gradient(135deg, #5478e8, #4167d5); box-shadow: 0 6px 16px rgba(65, 103, 213, .24); }
+        .loker-edit-form-card .akila-form-footer .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 9px 20px rgba(65, 103, 213, .3); }
+        .loker-edit-form-card .akila-form-footer .btn-akila-outline:hover { transform: translateY(-1px); box-shadow: 0 5px 14px rgba(15, 23, 42, .08); }
+        @media (max-width: 767.98px) {
+            .loker-edit-page { padding-inline: .75rem; }
+            .loker-edit-form-card { margin-bottom: 1.25rem; }
+            .loker-edit-card-header { align-items: flex-start; }
+            .loker-edit-form-card .akila-form-section { margin-inline: 0; }
+            .loker-edit-form-card .akila-form-footer { justify-content: stretch; }
+            .loker-edit-form-card .akila-form-footer > * { flex: 1 1 0; text-align: center; }
+        }
+        @media (max-width: 480px) {
+            .loker-edit-page { padding-inline: .5rem; }
+            .loker-edit-form-card .akila-section-header { align-items: flex-start; }
+            .loker-edit-form-card .akila-section-hint { width: 100%; margin-left: 2.8rem; }
+            .loker-edit-form-card .akila-form-footer { flex-direction: column-reverse; align-items: stretch; }
+            .loker-edit-form-card .akila-form-footer > * { width: 100%; text-align: center; }
+            .loker-edit-form-card #poster-dropzone { padding: 1rem !important; }
+        }
+    </style>
+    <div class="akila-page-wrap loker-edit-page">
+        <div class="akila-breadcrumb">
+            <a href="{{ route('admin.dashboard') }}"><i class="fa fa-home me-1"></i>Home</a>
+            <span class="sep">›</span>
+            <a href="{{ route('admin.loker.index') }}">Bursa Kerja</a>
+            <span class="sep">›</span>
+            <a href="{{ route('admin.loker.index') }}">Kelola Loker</a>
+            <span class="sep">›</span>
+            <span class="active">Edit Lowongan</span>
         </div>
-    </div>
 
-    <!-- Form -->
-    <div class="content">
-        @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <i class="fa fa-check-circle me-1"></i> {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <div class="akila-list-card loker-edit-form-card">
+            <div class="akila-card-header loker-edit-card-header">
+                <div>
+                    <h1 class="akila-title"><i class="far fa-edit text-primary me-2"></i>Edit Lowongan Kerja</h1>
+                    <p class="akila-subtitle">Perbarui informasi <strong>{{ $job->position }}</strong> · Perubahan akan langsung aktif.</p>
+                </div>
+                <div class="akila-header-actions">
+                    <a href="{{ route('admin.loker.index') }}" class="btn-akila-outline"><i class="fa fa-arrow-left"></i> Kembali ke Daftar</a>
+                </div>
             </div>
-        @endif
 
-        @if($errors->any())
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="fa fa-times-circle me-1"></i>
-                <ul class="mb-0">
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        @endif
-
-        <div class="block block-rounded shadow-sm">
-            <div class="block-content block-content-full p-4">
-                <form action="{{ route('admin.loker.update', $job->id) }}" method="POST" enctype="multipart/form-data">
+            @if(session('success'))
+                <div class="mb-4 alert alert-success alert-dismissible fade show" role="alert"><i class="fa fa-check-circle me-1"></i> {{ session('success') }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+            @endif
+            @if($errors->any())
+                <div class="mb-4 akila-alert-banner" style="background:#fef2f2;border-color:#fecaca;color:#991b1b">
+                    <div class="akila-alert-body"><div class="akila-alert-icon" style="background:#fee2e2;color:#dc2626"><i class="fa fa-exclamation-circle"></i></div>
+                        <div class="akila-alert-content"><div class="akila-alert-title" style="color:#7f1d1d">Terdapat Kesalahan Input</div><ul class="mb-0 ps-3 small">@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>
+                    </div>
+                </div>
+            @endif
+            <form action="{{ route('admin.loker.update', $job->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
-                    <h5 class="fw-bold text-primary mb-3 border-bottom pb-2">
-                        <i class="fa fa-building me-1"></i> Profil Perusahaan & Posisi
-                    </h5>
-
-                    <div class="row g-3 mb-4">
+                    <div class="akila-form-section">
+                        <div class="akila-section-header">
+                            <div class="akila-section-title-wrap"><span class="akila-step-badge">1</span><h2 class="akila-section-title">Profil Perusahaan & Posisi</h2></div>
+                            <span class="akila-section-hint">Identitas perusahaan, posisi, dan materi promosi</span>
+                        </div>
+                        <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label fw-bold text-muted small">Nama Perusahaan <span
                                     class="text-danger">*</span></label>
@@ -92,10 +106,10 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold text-muted small">Logo Perusahaan (Opsional)</label>
-                            <div class="d-flex align-items-center gap-3">
+                            <div class="gap-3 d-flex align-items-center">
                                 @if($job->logo_path)
                                     <div class="position-relative">
-                                        <img src="{{ $job->logo_path }}" alt="Logo Saat Ini" class="rounded border p-1 bg-light"
+                                        <img src="{{ $job->logo_path }}" alt="Logo Saat Ini" class="p-1 border rounded bg-light"
                                             style="width: 50px; height: 50px; object-fit: cover;">
                                     </div>
                                 @endif
@@ -114,23 +128,23 @@
                             <!-- Existing Posters -->
                             @if(is_array($job->poster_paths) && count($job->poster_paths) > 0)
                                 <div class="mb-3">
-                                    <div class="fw-bold text-dark small mb-2"><i class="fa fa-images me-1"></i> Poster Saat Ini
+                                    <div class="mb-2 fw-bold text-dark small"><i class="fa fa-images me-1"></i> Poster Saat Ini
                                         (Centang untuk mempertahankan atau klik hapus):</div>
                                     <div class="row g-2" id="existing-posters-container">
                                         @foreach($job->poster_paths as $idx => $path)
                                             <div class="col-4 col-sm-3 position-relative existing-poster-card"
                                                 id="existing-poster-{{ $idx }}">
                                                 <input type="hidden" name="keep_posters[]" value="{{ $path }}">
-                                                <div class="card border rounded-3 overflow-hidden shadow-xs h-100 bg-light">
+                                                <div class="overflow-hidden border shadow-xs card rounded-3 h-100 bg-light">
                                                     <img src="{{ $path }}" class="card-img-top img-fluid"
                                                         style="height: 100px; object-fit: contain;" alt="Poster">
-                                                    <div class="card-body p-1 text-center bg-white border-top">
+                                                    <div class="p-1 text-center bg-white card-body border-top">
                                                         <span class="text-truncate d-block small text-muted"
                                                             style="max-width: 100%; font-size: 0.7rem;">Poster {{ $idx + 1 }}</span>
                                                     </div>
                                                 </div>
                                                 <button type="button"
-                                                    class="btn btn-danger btn-xs rounded-circle position-absolute top-0 end-0 m-1 btn-delete-existing"
+                                                    class="top-0 m-1 btn btn-danger btn-xs rounded-circle position-absolute end-0 btn-delete-existing"
                                                     data-target="existing-poster-{{ $idx }}"
                                                     style="width: 20px; height: 20px; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; border: none; outline: none;">
                                                     <i class="fa fa-times"></i>
@@ -142,25 +156,27 @@
                             @endif
 
                             <!-- Drag & Drop Zone for New Posters -->
-                            <div id="poster-dropzone" class="border rounded-3 p-3 text-center bg-light"
+                            <div id="poster-dropzone" class="p-3 text-center border rounded-3 bg-light"
                                 style="border-style: dashed !important; border-width: 2px !important; border-color: #cbd5e1 !important; cursor: pointer; transition: all 0.2s ease-in-out;">
-                                <i class="fa fa-cloud-upload-alt text-muted fa-2x mb-2"></i>
+                                <i class="mb-2 fa fa-cloud-upload-alt text-muted fa-2x"></i>
                                 <div class="fw-bold text-dark small">Pilih atau Tarik Gambar Poster Baru</div>
-                                <div class="text-muted fs-xs mt-1">Maksimal 10 gambar (gabungan lama + baru). Format: JPG,
+                                <div class="mt-1 text-muted fs-xs">Maksimal 10 gambar (gabungan lama + baru). Format: JPG,
                                     JPEG, PNG. Max 2MB per gambar.</div>
                             </div>
                             <input type="file" id="posters-input" name="posters[]" class="d-none" accept="image/*" multiple>
 
                             <!-- Preview Container for New Posters -->
-                            <div id="poster-previews" class="row g-2 mt-2" style="display: none;"></div>
+                            <div id="poster-previews" class="mt-2 row g-2" style="display: none;"></div>
+                        </div>
                         </div>
                     </div>
 
-                    <h5 class="fw-bold text-primary mb-3 border-bottom pb-2">
-                        <i class="fa fa-file-invoice me-1"></i> Detail & Persyaratan Kerja
-                    </h5>
-
-                    <div class="row g-3 mb-4">
+                    <div class="akila-form-section">
+                        <div class="akila-section-header">
+                            <div class="akila-section-title-wrap"><span class="akila-step-badge">2</span><h2 class="akila-section-title">Detail & Persyaratan Kerja</h2></div>
+                            <span class="akila-section-hint">Uraian pekerjaan dan kriteria kandidat</span>
+                        </div>
+                        <div class="row g-3">
                         <div class="col-12">
                             <label class="form-label fw-bold text-muted small">Deskripsi Pekerjaan (Opsional)</label>
                             <textarea name="description" rows="4" class="form-control"
@@ -171,13 +187,15 @@
                             <textarea name="requirements" rows="4" class="form-control"
                                 placeholder="Tuliskan kualifikasi (contoh: Pendidikan minimal, skill yang wajib dikuasai)...">{{ old('requirements', $job->requirements) }}</textarea>
                         </div>
+                        </div>
                     </div>
 
-                    <h5 class="fw-bold text-primary mb-3 border-bottom pb-2">
-                        <i class="fa fa-map-marker-alt me-1"></i> Lokasi, Gaji, & Kontak
-                    </h5>
-
-                    <div class="row g-3 mb-4">
+                    <div class="akila-form-section">
+                        <div class="akila-section-header">
+                            <div class="akila-section-title-wrap"><span class="akila-step-badge">3</span><h2 class="akila-section-title">Lokasi, Gaji, & Kontak</h2></div>
+                            <span class="akila-section-hint">Informasi penempatan dan cara melamar</span>
+                        </div>
+                        <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label fw-bold text-muted small">Lokasi Penempatan (Opsional)</label>
                             <input type="text" name="location" class="form-control"
@@ -201,18 +219,13 @@
                                 placeholder="Contoh: https://careers.company.com"
                                 value="{{ old('contact_link', $job->contact_link) }}">
                         </div>
+                        </div>
                     </div>
-
-                    <div class="d-flex justify-content-between align-items-center pt-3 border-top">
-                        <a href="{{ route('admin.loker.index') }}" class="btn btn-alt-secondary">
-                            <i class="fa fa-arrow-left me-1"></i> Kembali
-                        </a>
-                        <button type="submit" class="btn btn-primary px-4">
-                            <i class="fa fa-save me-1"></i> Simpan Perubahan
-                        </button>
+                    <div class="akila-form-footer">
+                        <a href="{{ route('admin.loker.index') }}" class="btn-akila-outline"><i class="fa fa-arrow-left"></i> Kembali</a>
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-save me-1"></i> Simpan Perubahan</button>
                     </div>
                 </form>
-            </div>
         </div>
     </div>
 @endsection
@@ -334,13 +347,13 @@
                     col.className = 'col-4 col-sm-3 position-relative mt-2';
 
                     col.innerHTML = `
-                                        <div class="card border rounded-3 overflow-hidden shadow-xs h-100 bg-light">
+                                        <div class="overflow-hidden border shadow-xs card rounded-3 h-100 bg-light">
                                             <img src="${url}" class="card-img-top img-fluid" style="height: 100px; object-fit: contain;" alt="Poster preview">
-                                            <div class="card-body p-1 text-center bg-white border-top">
+                                            <div class="p-1 text-center bg-white card-body border-top">
                                                 <span class="text-truncate d-block small text-muted" style="max-width: 100%; font-size: 0.7rem;">${file.name}</span>
                                             </div>
                                         </div>
-                                        <button type="button" class="btn btn-danger btn-xs rounded-circle position-absolute top-0 end-0 m-1 btn-delete-preview" data-index="${index}" style="width: 20px; height: 20px; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; border: none; outline: none;">
+                                        <button type="button" class="top-0 m-1 btn btn-danger btn-xs rounded-circle position-absolute end-0 btn-delete-preview" data-index="${index}" style="width: 20px; height: 20px; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; border: none; outline: none;">
                                             <i class="fa fa-times"></i>
                                         </button>
                                     `;
